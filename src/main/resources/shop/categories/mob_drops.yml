@@ -1,0 +1,149 @@
+# EzShops category configuration for "mob_drops".
+categories:
+  mob_drops:
+    name: '&cMob Drops & Combat'
+    slot: 23
+    icon:
+      material: PHANTOM_MEMBRANE
+      display-name: '&cMob Drops & Combat'
+      lore:
+      - '&7Mob drops and combat gear.'
+    menu:
+      title: '&cMob Drops & Combat'
+      size: 54
+      fill:
+        material: LIGHT_GRAY_STAINED_GLASS_PANE
+        display-name: '&7 '
+    items:
+      bone:
+        material: BONE
+        slot: 10
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Favored by hunters and warriors.'
+        buy: 24.0
+        sell: 8.4
+      string:
+        material: STRING
+        slot: 11
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Favored by hunters and warriors.'
+        buy: 22.0
+        sell: 7.7
+      gunpowder:
+        material: GUNPOWDER
+        slot: 12
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Favored by hunters and warriors.'
+        buy: 60.0
+        sell: 21.0
+        required-island-level: 4
+      ender_pearl:
+        material: ENDER_PEARL
+        slot: 19
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Favored by hunters and warriors.'
+        buy: 120.0
+        sell: 42.0
+        required-island-level: 6
+      blaze_rod:
+        material: BLAZE_ROD
+        slot: 20
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Favored by hunters and warriors.'
+        buy: 130.0
+        sell: 45.5
+        required-island-level: 7
+      slime_ball:
+        material: SLIME_BALL
+        slot: 21
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Favored by hunters and warriors.'
+        buy: 90.0
+        sell: 31.5
+        required-island-level: 5
+      rotten_flesh:
+        material: ROTTEN_FLESH
+        slot: 13
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Favored by hunters and warriors.'
+        buy: 18.0
+        sell: 6.3
+      ghast_tear:
+        material: GHAST_TEAR
+        slot: 14
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Favored by hunters and warriors.'
+        buy: 180.0
+        sell: 63.0
+        required-island-level: 8
+      phantom_membrane:
+        material: PHANTOM_MEMBRANE
+        slot: 22
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Favored by hunters and warriors.'
+        buy: 140.0
+        sell: 49.0
+        required-island-level: 7

@@ -1,0 +1,417 @@
+# EzShops category configuration for "mining".
+categories:
+  mining:
+    name: '&bMining Resources'
+    slot: 12
+    icon:
+      material: NETHERITE_PICKAXE
+      display-name: '&bMining Resources'
+      lore:
+      - '&7Ores, ingots, and stone.'
+    menu:
+      title: '&bMining Resources'
+      size: 54
+      fill:
+        material: LIGHT_GRAY_STAINED_GLASS_PANE
+        display-name: '&7 '
+    items:
+      cobblestone:
+        material: COBBLESTONE
+        slot: 10
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 8.0
+        sell: 2.8
+      stone:
+        material: STONE
+        slot: 11
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 10.0
+        sell: 3.5
+      andesite:
+        material: ANDESITE
+        slot: 12
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 22.0
+        sell: 8.0
+      diorite:
+        material: DIORITE
+        slot: 13
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 22.0
+        sell: 8.0
+      granite:
+        material: GRANITE
+        slot: 14
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 22.0
+        sell: 8.0
+      deepslate:
+        material: DEEPSLATE
+        slot: 15
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 26.0
+        sell: 9.5
+      tuff:
+        material: TUFF
+        slot: 16
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 42.0
+        sell: 21.0
+      calcite:
+        material: CALCITE
+        slot: 19
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 48.0
+        sell: 24.0
+      dripstone_block:
+        material: DRIPSTONE_BLOCK
+        slot: 20
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 34.0
+        sell: 14.5
+      basalt:
+        material: BASALT
+        slot: 21
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 30.0
+        sell: 11.5
+      blackstone:
+        material: BLACKSTONE
+        slot: 22
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 30.0
+        sell: 11.5
+      netherrack:
+        material: NETHERRACK
+        slot: 23
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 20.0
+        sell: 7.0
+      end_stone:
+        material: END_STONE
+        slot: 24
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 44.0
+        sell: 18.5
+      obsidian:
+        material: OBSIDIAN
+        slot: 25
+        amount: 8
+        bulk-amount: 64
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 150.0
+        sell: 70.0
+      coal:
+        material: COAL
+        slot: 28
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 32.0
+        sell: 11.2
+      raw_copper:
+        material: RAW_COPPER
+        slot: 29
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 28.0
+        sell: 9.8
+      raw_iron:
+        material: RAW_IRON
+        slot: 30
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 52.0
+        sell: 18.2
+        required-island-level: 3
+      raw_gold:
+        material: RAW_GOLD
+        slot: 31
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 72.0
+        sell: 25.2
+        required-island-level: 4
+      copper_ingot:
+        material: COPPER_INGOT
+        slot: 32
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 40.0
+        sell: 14.0
+      iron_ingot:
+        material: IRON_INGOT
+        slot: 33
+        amount: 8
+        bulk-amount: 64
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 80.0
+        sell: 28.0
+        required-island-level: 3
+      gold_ingot:
+        material: GOLD_INGOT
+        slot: 34
+        amount: 8
+        bulk-amount: 64
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 110.0
+        sell: 38.5
+        required-island-level: 4
+      redstone:
+        material: REDSTONE
+        slot: 37
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 44.0
+        sell: 15.4
+      lapis_lazuli:
+        material: LAPIS_LAZULI
+        slot: 38
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 42.0
+        sell: 14.7
+      diamond:
+        material: DIAMOND
+        slot: 39
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 520.0
+        sell: 182.0
+        required-island-level: 6
+      emerald:
+        material: EMERALD
+        slot: 40
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 360.0
+        sell: 126.0
+        required-island-level: 7
+      quartz:
+        material: QUARTZ
+        slot: 41
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 70.0
+        sell: 24.5
+      amethyst_shard:
+        material: AMETHYST_SHARD
+        slot: 42
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 52.0
+        sell: 18.2
+        required-island-level: 6
+      amethyst_block:
+        material: AMETHYST_BLOCK
+        slot: 43
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Trusted by miners everywhere.'
+        buy: 64.0
+        sell: 22.4
+        required-island-level: 6

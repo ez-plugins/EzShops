@@ -1,0 +1,205 @@
+commands:
+  shop:
+    players-only: "&cSolo los jugadores pueden usar la tienda."
+    menu-disabled: "&cEl menú de la tienda está deshabilitado en este servidor."
+    usage:
+      - "&eUso: /{label} - Abre el menú de la tienda"
+      - "&eUso: /{label} buy <artículo> [cantidad]"
+      - "&eUso: /{label} sell <artículo> [cantidad]"
+    unknown-item: "&cArtículo desconocido: {item}"
+    invalid-amount: "&cCantidad inválida: {amount}"
+    amount-positive: "&cLa cantidad debe ser positiva."
+  sell-hand:
+    players-only: "&cSolo los jugadores pueden vender artículos."
+    must-hold-item: "&cDebes tener un artículo en la mano para usar este comando."
+  sell-inventory:
+    players-only: "&cSolo los jugadores pueden vender artículos."
+  price:
+    usage: "&eUso: /{label} <artículo>"
+    unknown-item: "&cArtículo desconocido: {item}"
+    not-configured: "&cEse artículo no está configurado en la tienda."
+    header: "&6Precios de &b{item}&6:"
+    buy-line: "&a Comprar: &6{price}"
+    buy-unavailable: "&a Comprar: &7No disponible"
+    sell-line: "&c Vender: &6{price}"
+    sell-unavailable: "&c Vender: &7No disponible"
+
+sign-shop-scan:
+  players-only: "&cSolo los jugadores pueden escanear carteles de tienda."
+  no-permission: "&cNo tienes permiso para escanear carteles de tienda."
+  scanner-unavailable: "&cEl escaneo de carteles no está disponible actualmente."
+  invalid-radius: "&cEl radio debe estar entre {min} y {max}."
+  no-signs: "&eNo se encontraron carteles de tienda heredados en un radio de &b{radius}&e bloques."
+  pending-replaced: "&eSe reemplazó tu conversión pendiente anterior con el nuevo escaneo."
+  found: "&aSe encontraron &b{count}&a cartel(es) de tienda heredados dentro de &b{radius}&a bloques."
+  entry: "&7- {action} &b{amount}&7x &b{item}&7 en &f{x}&7, &f{y}&7, &f{z}"
+  more: "&7...y &b{remaining}&7 cartel(es) más."
+  limit: "&eSolo se muestran los primeros &b{limit}&e carteles. Escanea con un radio menor para revisar el resto."
+  confirm-hint: "&eUsa &b/{label} confirm &epara convertirlos o &b/{label} cancel &epara descartarlos."
+  no-pending: "&eNo tienes conversiones de carteles pendientes."
+  expired: "&cTu conversión pendiente ha expirado. Ejecuta el escaneo de nuevo."
+  converted: "&aSe convirtieron &b{success}&a cartel(es) correctamente."
+  converted-partial: "&eSe convirtieron &b{success}&e cartel(es), pero &c{failed}&e no se pudieron convertir."
+  converted-none: "&cNo se convirtió ningún cartel. Puede que se hayan eliminado o ya no sean válidos."
+  cancelled: "&eSe canceló la conversión pendiente."
+  unknown: "&cSubcomando desconocido. Usa /{label} scan, /{label} confirm o /{label} cancel."
+
+
+transactions:
+  errors:
+    no-economy: "&cLa tienda no está disponible porque no hay un proveedor de economía configurado."
+    no-buy-permission: "&cNo tienes permiso para comprar artículos."
+    no-sell-permission: "&cNo tienes permiso para vender artículos."
+    amount-positive: "&cLa cantidad debe ser positiva."
+    not-configured: "&cEse artículo no está configurado en la tienda."
+    not-buyable: "&cEse artículo no se puede comprar en la tienda."
+    not-sellable: "&cEse artículo no se puede vender a la tienda."
+    invalid-buy-price: "&cEste artículo no tiene un precio de compra válido."
+    invalid-sell-price: "&cEste artículo no tiene un precio de venta válido."
+    invalid-spawner: "&cEste generador no está configurado correctamente."
+    invalid-custom-price: "&cEste artículo no tiene un precio válido."
+    no-inventory-space: "&cNo tienes suficiente espacio en el inventario."
+    cannot-afford: "&cNo puedes permitirte esta compra."
+    insufficient-items: "&cNo tienes suficientes artículos para vender."
+    no-sellable-items: "&cNo tienes artículos vendibles en tu inventario."
+    no-sellable-prices: "&cTu inventario no contiene artículos con precios de venta válidos."
+    transaction-failed: "&cLa transacción falló: {error}"
+  success:
+    purchase: "&aCompraste &b{amount}&ax &b{item}&a por &6{price}&a."
+    sale: "&aVendiste &b{amount}&ax &b{item}&a por &6{price}&a."
+    sell-inventory: "&aVendiste {items}&a por &6{price}&a."
+    spawner-purchase: "&aCompraste &b{amount}&ax generador de &b{item}&a por &6{price}&a."
+  notifications:
+    inventory-leftovers: "&eAlgunos artículos se dejaron caer a tus pies porque tu inventario está lleno."
+  custom-items:
+    minion-crate:
+      name: "&dLlave de Caja de Esbirros"
+      lore: "&7Una llave misteriosa que desbloquea tecnología de esbirros."
+    vote-crate:
+      name: "&bLlave de Caja de Votos"
+      lore: "&7Canjeable en cualquier estación de cajas de votos."
+    spawner-display-name: "&6Generador de {entity}"
+  restrictions:
+    minion-head: "&cLas cabezas de esbirros solo se obtienen en las cajas."
+    spawner-menu: "&cLos generadores solo se compran mediante el menú de la tienda."
+
+gui:
+  common:
+    category-unavailable: "&cEsa categoría de la tienda ya no está disponible."
+    entry-unavailable: "&cEsa entrada de la tienda no se encontró. Vuelve a abrir el menú."
+    island-level-required: "&cDebes alcanzar nivel de isla &e{level}&c para usar este artículo."
+    cannot-purchase: "&cEste artículo no se puede comprar en la tienda."
+    cannot-sell: "&cEste artículo no se puede vender a la tienda."
+    price-unavailable: "&cNo disp."
+    actions:
+      buy: "comprar"
+      sell: "vender"
+      buy-label: "Comprar"
+      sell-label: "Vender"
+  custom-input:
+    prompt: "&eIntroduce la cantidad a {action} &een el chat.&7 (escribe 'cancel' para abortar)"
+    cancelled: "&7Cantidad personalizada cancelada."
+    invalid-number: "&cIntroduce un número válido."
+    amount-positive: "&cLa cantidad debe ser positiva."
+  menus:
+    main:
+      empty-title: "&cTienda no disponible"
+      empty-lore:
+        - "&7No hay categorías configuradas."
+    flat:
+      empty-title: "&cTienda no disponible"
+      empty-lore:
+        - "&7No hay artículos configurados."
+      previous-title: "&e\u2190 Página anterior"
+      previous-lore:
+        - "&7Ir a la página {page}"
+      next-title: "&eSiguiente página \u2192"
+      next-lore:
+        - "&7Ir a la página {page}"
+      page-indicator-title: "&bPágina {current} / {total}"
+      page-indicator-lore:
+        - "&7Revisa todos los artículos de la tienda."
+    category:
+      empty-title: "&cSin artículos"
+      empty-lore:
+        - "&7Esta categoría no tiene artículos configurados."
+      back-title: "&e\u2190 Volver a la tienda"
+      back-lore:
+        - "&7Regresa al menú principal de la tienda."
+    quantity:
+      title-buy: "&aComprar "
+      title-sell: "&6Vender "
+      instructions: "&eClic izquierdo para comprar, clic derecho para vender."
+      buy-line: "&7Compra unidad: &a{price}"
+      buy-stack-line: "&7Compra {amount}: &a{price}"
+      buy-unavailable: "&cCompra no disponible."
+      sell-line: "&7Venta unidad: &c{price}"
+      sell-stack-line: "&7Vende {amount}: &c{price}"
+      sell-unavailable: "&cNo se puede vender a la tienda."
+      option-title: "&e{amount}x"
+      option-buy-lore:
+        - "&7Compra {amount}: &a{price}"
+        - "&eHaz clic para {action} esta cantidad."
+      option-sell-lore:
+        - "&7Vende {amount}: &c{price}"
+        - "&eHaz clic para {action} esta cantidad."
+      custom-title: "&bCantidad personalizada"
+      custom-lore:
+        - "&7Introduce una cantidad para {action}."
+        - "&8Escribe la cantidad en el chat."
+        - "&8Escribe 'cancel' para volver."
+      back-title: "&e\u2190 Volver a la tienda"
+      back-lore:
+        - "&7Regresa al menú principal de la tienda."
+      level-requirement: "&cRequiere nivel de isla {level}."
+
+signs:
+  no-permission: "&cNo tienes permiso para crear letreros de tienda."
+  invalid-action: "&cLa segunda línea debe ser 'buy' o 'sell'."
+  unknown-item: "&cArtículo desconocido: {item}"
+  invalid-amount: "&cLa cuarta línea debe ser una cantidad positiva."
+  not-configured: "&cEse artículo no está configurado en la tienda."
+  not-available: "&cEse artículo no se puede {action} mediante el letrero."
+  ready: "&aLetrero listo: {action} &b{amount}&ax &b{item}&a."
+  malformed: "&cEste letrero de tienda no está configurado correctamente."
+  actions:
+    buy-verb: "comprar"
+    sell-verb: "vender"
+    buy-label: "&aComprar"
+    sell-label: "&cVender"
+
+player-shops:
+  messages:
+    menu:
+      inventory-title: "&2Player Shop Setup"
+      confirm-button:
+        name: "&aSave Settings"
+        lore:
+          - "&7Apply these values to your next shop."
+      select-item:
+        name: "&eSelect Item"
+        lore:
+          - "&7Click an item in your inventory to choose it."
+          - "&7Current: None"
+          - "&7Click this slot to clear the selection."
+      item-selected-clear-hint: "&7Click to clear this selection."
+      quantity-display:
+        name: "&bQuantity"
+        value-format: "&ex{amount}"
+      price-display:
+        name: "&6Price"
+        value-format: "&e{price}"
+      quantity-adjust:
+        minus-one: "&c-1"
+        minus-sixteen: "&c-16"
+        plus-sixteen: "&a+16"
+        plus-one: "&a+1"
+      price-adjust:
+        minus-one: "&c-1"
+        minus-ten: "&c-10"
+        plus-ten: "&a+10"
+        plus-one: "&a+1"
+      item-description-format: "&b{amount}&7x {item}"
+      unknown-item:
+        singular: "&bItem"
+        plural: "&bItems"

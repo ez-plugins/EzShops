@@ -1,0 +1,42 @@
+# Java
+/target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven
+/logs/
+*.log
+/.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Misc
+*.swp
+*.swo
+*.bak
+
+# Ignore generated sources
+/generated-sources/
+
+# Ignore local config
+*.local.yml

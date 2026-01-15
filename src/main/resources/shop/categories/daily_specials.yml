@@ -1,0 +1,72 @@
+# Example category wired to the bundled daily-specials rotation group.
+#
+# Any category can opt into a rotation by setting rotation-group to the ID from
+# shop/rotations/*.yml. The menu pulls shared defaults from rotation-defaults
+# (icon, title, and baseline items) and each option in the rotation can override
+# those values. When no overrides are supplied the defaults are displayed.
+categories:
+  daily_specials:
+    name: '&dDaily Specials'
+    slot: 28
+    icon:
+      material: ENDER_CHEST
+      display-name: '&dDaily Specials'
+      lore:
+      - '&7Hand-picked deals that change throughout the day.'
+    menu:
+      title: '&dDaily Specials'
+      size: 54
+      fill:
+        material: WHITE_STAINED_GLASS_PANE
+        display-name: '&7 '
+      back-button-slot: 49
+    # Link this category to the rotation defined in shop/rotations/daily-specials.yml.
+    rotation-group: daily-specials
+    rotation-defaults:
+      icon:
+        material: ENDER_CHEST
+        display-name: '&dDaily Specials'
+        lore:
+        - '&7Visit often to catch the featured option.'
+        - '&7Admins can swap options manually by editing shop-rotations.yml.'
+      menu-title: '&dDaily Specials'
+      items:
+        harvest_bundle:
+          material: CARROT
+          slot: 20
+          amount: 32
+          bulk-amount: 64
+          icon-amount: 32
+          display-name: '&f{material}'
+          lore:
+          - '&7Buy {amount}: &a{buy_total}'
+          - '&7Sell {amount}: &c{sell_total}'
+          - '&7A hearty haul to feed an army.'
+          buy: 160.0
+          sell: 64.0
+        seasonal_treats:
+          material: HONEY_BOTTLE
+          slot: 21
+          amount: 12
+          bulk-amount: 24
+          icon-amount: 12
+          display-name: '&f{material}'
+          lore:
+          - '&7Buy {amount}: &a{buy_total}'
+          - '&7Sell {amount}: &c{sell_total}'
+          - '&7Sweet deals refreshed each rotation.'
+          buy: 180.0
+          sell: 72.0
+        premium_pick:
+          material: BONE_MEAL
+          slot: 24
+          amount: 16
+          bulk-amount: 32
+          icon-amount: 16
+          display-name: '&f{material}'
+          lore:
+          - '&7Buy {amount}: &a{buy_total}'
+          - '&7Sell {amount}: &c{sell_total}'
+          - '&7A limited-time premium offer.'
+          buy: 64.0
+          sell: 24.0

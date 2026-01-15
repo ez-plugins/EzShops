@@ -1,0 +1,134 @@
+# EzShops category configuration for "wood".
+categories:
+  wood:
+    name: '&aWood & Nature'
+    slot: 16
+    icon:
+      material: OAK_LOG
+      display-name: '&aWood & Nature'
+      lore:
+      - '&7Raw lumber and forestry goods.'
+    menu:
+      title: '&aWood & Nature'
+      size: 54
+      fill:
+        material: LIGHT_GRAY_STAINED_GLASS_PANE
+        display-name: '&7 '
+    items:
+      oak_log:
+        material: OAK_LOG
+        slot: 10
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 24.0
+        sell: 10.0
+      spruce_log:
+        material: SPRUCE_LOG
+        slot: 11
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 26.0
+        sell: 11.0
+      birch_log:
+        material: BIRCH_LOG
+        slot: 12
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 26.0
+        sell: 11.0
+      jungle_log:
+        material: JUNGLE_LOG
+        slot: 13
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 27.0
+        sell: 11.5
+      acacia_log:
+        material: ACACIA_LOG
+        slot: 14
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 27.0
+        sell: 11.5
+      dark_oak_log:
+        material: DARK_OAK_LOG
+        slot: 15
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 28.0
+        sell: 12.0
+      mangrove_log:
+        material: MANGROVE_LOG
+        slot: 16
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 28.0
+        sell: 12.0
+      pale_oak_log:
+        material: PALE_OAK_LOG
+        slot: 17
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 32.0
+        sell: 13.5
+      cherry_log:
+        material: CHERRY_LOG
+        slot: 19
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 30.0
+        sell: 13.0

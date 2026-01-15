@@ -1,0 +1,108 @@
+# EzShops category configuration for "decorations".
+categories:
+  decorations:
+    name: '&dDecorations & Lighting'
+    slot: 34
+    icon:
+      material: FLOWER_POT
+      display-name: '&dDecorations & Lighting'
+      lore:
+      - '&7Ornamental blocks and lighting.'
+    menu:
+      title: '&dDecorations & Lighting'
+      size: 54
+      fill:
+        material: LIGHT_GRAY_STAINED_GLASS_PANE
+        display-name: '&7 '
+    items:
+      flower_pot:
+        material: FLOWER_POT
+        slot: 10
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 45.0
+        sell: 20.0
+      lantern:
+        material: LANTERN
+        slot: 11
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 60.0
+        sell: 25.0
+      soul_lantern:
+        material: SOUL_LANTERN
+        slot: 12
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 70.0
+        sell: 30.0
+      painting:
+        material: PAINTING
+        slot: 19
+        amount: 4
+        bulk-amount: 16
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 55.0
+        sell: 22.0
+      item_frame:
+        material: ITEM_FRAME
+        slot: 20
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 48.0
+        sell: 20.0
+      glowstone:
+        material: GLOWSTONE
+        slot: 21
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 65.0
+        sell: 28.0
+      sea_lantern:
+        material: SEA_LANTERN
+        slot: 22
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 95.0
+        sell: 45.0

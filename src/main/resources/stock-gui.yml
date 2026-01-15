@@ -1,0 +1,86 @@
+# Stock Overview GUI configuration
+# Supports filtering, permissions, and localization
+layout:
+  rows: 6
+  title: "&6Stock Market Overview"
+  filter-bar-row: 1
+  pagination-row: 6
+filters:
+  - id: "all"
+    display: "All Stocks"
+  - id: "category"
+    display: "By Category"
+  - id: "price"
+    display: "By Price"
+localization:
+  next-page: "&aNext Page"
+  prev-page: "&cPrevious Page"
+  filter-label: "&eFilter: {filter}"
+  no-stocks: "&cNo tradable stocks found."
+  item-format: "&e{item} &7- &6{price}"
+permissions:
+  view: "ezshops.stock.view"
+  advanced: "ezshops.stock.gui.advanced"
+
+# Configurable 'See All Stocks' GUI item
+see-all-stocks:
+  enabled: true
+  slot: 53  # Last slot in a 6-row chest (0-based)
+  material: "BOOK"
+  display-name: "&bSee All Stocks"
+  lore:
+    - "&7View all available stocks in the market."
+    - "&eClick to browse everything!"
+
+# All Stocks GUI configuration
+# This is the comprehensive stock browser opened from the main overview
+all-stocks-gui:
+  layout:
+    rows: 6
+    title: "&bAll Stocks"
+  
+  # Back button to return to the main stock overview
+  back-button:
+    enabled: true
+    slot: 45  # First slot of last row (0-based)
+    material: "BARRIER"
+    display-name: "&cBack to My Stocks"
+    lore:
+      - "&7Return to your stock overview"
+  
+  # Filter cycling button
+  filter-button:
+    enabled: true
+    slot: 46  # Second slot of last row (0-based)
+    material: "HOPPER"
+    display-name: "&aFilter: {filter}"
+    lore:
+      - "&7Click to cycle filters"
+      - "&eCurrent: {filter}"
+  
+  # Available filters for the All Stocks GUI
+  filters:
+    - id: "all"
+      display: "All Items"
+    - id: "blocks"
+      display: "Blocks"
+    - id: "items"
+      display: "Items"
+  
+  # Pagination buttons
+  pagination:
+    previous:
+      slot: 47  # Third slot of last row (0-based)
+      material: "ARROW"
+      display-name: "&aPrevious Page"
+    next:
+      slot: 52  # Second-to-last slot of last row (0-based)
+      material: "ARROW"
+      display-name: "&aNext Page"
+  
+  # Localization for All Stocks GUI
+  localization:
+    item-price-format: "&7Current Price: &6{price}"
+    item-blocked: "&cBlocked"
+    item-frozen: "&bFrozen"
+    no-items: "&cNo items match the current filter."

@@ -1,0 +1,115 @@
+# EzShops category configuration for "fishing".
+categories:
+  fishing:
+    name: '&bFishing Gear'
+    slot: 21
+    icon:
+      material: FISHING_ROD
+      display-name: '&bFishing Gear'
+      lore:
+      - '&7Fishing essentials and bait.'
+    menu:
+      title: '&bFishing Gear'
+      size: 54
+      fill:
+        material: LIGHT_GRAY_STAINED_GLASS_PANE
+        display-name: '&7 '
+    items:
+      cod:
+        material: COD
+        slot: 10
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Freshly stocked for anglers.'
+        buy: 24.0
+        sell: 9.6
+      salmon:
+        material: SALMON
+        slot: 11
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Freshly stocked for anglers.'
+        buy: 28.0
+        sell: 11.2
+      tropical_fish:
+        material: TROPICAL_FISH
+        slot: 12
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Freshly stocked for anglers.'
+        buy: 36.0
+        sell: 14.4
+      pufferfish:
+        material: PUFFERFISH
+        slot: 13
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Freshly stocked for anglers.'
+        buy: 38.0
+        sell: 15.2
+      ink_sac:
+        material: INK_SAC
+        slot: 14
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Freshly stocked for anglers.'
+        buy: 26.0
+        sell: 10.4
+      glow_ink_sac:
+        material: GLOW_INK_SAC
+        slot: 15
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Freshly stocked for anglers.'
+        buy: 38.0
+        sell: 15.2
+      nautilus_shell:
+        material: NAUTILUS_SHELL
+        slot: 16
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Freshly stocked for anglers.'
+        buy: 280.0
+        sell: 98.0

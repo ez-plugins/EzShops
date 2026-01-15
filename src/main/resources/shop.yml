@@ -1,0 +1,5 @@
+# EzShops configuration has been split into multiple files.
+# Main menu and shared settings live in shop/menu.yml.
+# Category definitions live in shop/categories/*.yml.
+# Legacy single-file configurations are still supported; you can move everything
+# back into this file if you prefer the old layout.

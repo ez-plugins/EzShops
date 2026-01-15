@@ -1,0 +1,98 @@
+name: EzShops
+version: ${project.version}
+main: com.skyblockexp.ezshops.EzShopsPlugin
+author: Shadow48402
+description: Standalone plugin providing the Skyblock shop command, sign shops, and player chest shops.
+api-version: 1.13
+depend: [Vault]
+softdepend: [SkyblockExperience, EzScoreboard, SkyblockExperienceCommon, EzEconomy]
+commands:
+  shop:
+    description: Access the Skyblock shop to buy or sell items.
+    usage: /<command>
+    permission: ezshops.shop
+  sellhand:
+    description: Sell the item currently in your hand to the shop.
+    usage: /<command>
+    permission: ezshops.shop.sell
+  sellinventory:
+    description: Sell all sellable items from your inventory to the shop.
+    usage: /<command>
+    permission: ezshops.shop.sell
+  price:
+    description: Check the shop price of a material.
+    usage: /<command> <material>
+    permission: ezshops.shop
+  playershop:
+    description: Configure your player shop sign before placing it.
+    usage: /<command>
+    permission: ezshops.playershop.create
+  signshop:
+    description: Configure and generate shop signs with custom backings.
+    usage: /<command>
+    permission: ezshops.shop.sign.setup
+  stock:
+    description: View and manage the EzShops stock market
+    usage: |
+      /stock buy <item> <amount>
+      /stock sell <item> <amount>
+      /stock overview
+    permission: ezshops.stock.view
+    aliases: [stk]
+  stocks:
+    description: Quick overview of cached stock quotes
+    usage: /stocks [page]
+    permission: ezshops.stock.view
+    aliases: [stks]
+  stockadmin:
+    description: Admin commands for EzShops stock market
+    usage: |
+      /stockadmin set <item> <price>
+      /stockadmin reset <item>
+      /stockadmin freeze <item>
+      /stockadmin unfreeze <item>
+      /stockadmin reload
+      /stockadmin listfrozen [page]
+      /stockadmin listoverrides [page]
+    permission: ezshops.stock.admin
+  
+permissions:
+  ezshops.shop:
+    description: Allows players to access the /shop command.
+    default: true
+  ezshops.shop.buy:
+    description: Allows players to purchase items from the shop.
+    default: true
+  ezshops.shop.sell:
+    description: Allows players to sell items to the shop.
+    default: true
+  ezshops.shop.sign.create:
+    description: Allows players to create shop signs.
+    default: op
+  ezshops.shop.admin.minionhead:
+    description: Allows administrators to buy minion heads directly.
+    default: op
+  ezshops.playershop.create:
+    description: Allows players to create sign-based chest shops.
+    default: true
+  ezshops.playershop.buy:
+    description: Allows players to purchase from player shops.
+    default: true
+  ezshops.playershop.admin:
+    description: Allows administrators to manage any player shop.
+    default: op
+  ezshops.shop.sign.setup:
+    description: Allows players to open the /signshop setup GUI.
+    default: op
+  ezshops.shop.sign.scan:
+    description: Allows players to scan and convert legacy shop signs.
+    default: op
+  ezshops.stock.view:
+    description: View stock quotes
+    default: true
+  ezshops.stock.refresh:
+    description: Refresh stock quotes
+    default: op
+  ezshops.stock.admin:
+    description: Admin functions for stock market
+    default: op

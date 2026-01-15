@@ -1,0 +1,104 @@
+# Sample rotation definitions that drive the bundled Daily Specials category.
+#
+# Each group runs its own timer. EzShops understands ISO-8601 durations such as
+# "PT12H" as well as compact expressions like "12h", "45m", or "30 minutes".
+# When the configured interval elapses the rotation advances to the next option.
+rotations:
+  daily-specials:
+    # Rotate twice per day so the shop always has something fresh. Use "sequential"
+    # to advance in the listed order or "random" to pick a weighted option.
+    interval: 12h
+    mode: random
+    # The option to display when no previous selection exists (for example on first
+    # launch or after deleting shop-rotations.yml).
+    default-option: farming-frenzy
+    options:
+      farming-frenzy:
+        weight: 4
+        icon:
+          material: GOLDEN_HOE
+          display-name: '&aDaily Special: Farming Frenzy'
+          lore:
+          - '&7Staple crops on sale for islands stocking up.'
+        menu-title: '&aDaily Special: Farming Frenzy'
+        # Leaving the items block empty means the rotation defaults are used as-is.
+      monster-madness:
+        weight: 2
+        icon:
+          material: ROTTEN_FLESH
+          display-name: '&cDaily Special: Monster Madness'
+          lore:
+          - '&7Overstocked mob drops priced to move.'
+        menu-title: '&cDaily Special: Monster Madness'
+        items:
+          harvest_bundle:
+            material: ROTTEN_FLESH
+            display-name: '&cRotten Flesh Bundle'
+            lore:
+            - '&7Buy {amount}: &a{buy_total}'
+            - '&7Sell {amount}: &c{sell_total}'
+            - '&7Fresh from tonight''s mob farm cleanup.'
+            buy: 24.0
+            sell: 9.5
+          seasonal_treats:
+            material: GUNPOWDER
+            amount: 24
+            icon-amount: 24
+            display-name: '&cExplosive Care Package'
+            lore:
+            - '&7Buy {amount}: &a{buy_total}'
+            - '&7Sell {amount}: &c{sell_total}'
+            - '&7Perfect for crafting rockets or TNT.'
+            buy: 180.0
+            sell: 74.0
+          premium_pick:
+            material: BLAZE_ROD
+            display-name: '&cBlaze Rod Stash'
+            lore:
+            - '&7Buy {amount}: &a{buy_total}'
+            - '&7Sell {amount}: &c{sell_total}'
+            - '&7Stockpile rods for brewing stands and fuel.'
+            buy: 96.0
+            sell: 48.0
+      miner-mania:
+        weight: 1
+        icon:
+          material: DIAMOND_PICKAXE
+          display-name: '&bDaily Special: Miner Mania'
+          lore:
+          - '&7Premium ore shipments delivered overnight.'
+        menu-title: '&bDaily Special: Miner Mania'
+        items:
+          harvest_bundle:
+            material: IRON_INGOT
+            amount: 32
+            icon-amount: 32
+            display-name: '&bBulk Iron Ingot Shipment'
+            lore:
+            - '&7Buy {amount}: &a{buy_total}'
+            - '&7Sell {amount}: &c{sell_total}'
+            - '&7Perfect for hoppers, anvils, and tools.'
+            buy: 384.0
+            sell: 144.0
+          seasonal_treats:
+            material: GOLD_INGOT
+            amount: 24
+            icon-amount: 24
+            display-name: '&bRefined Gold Ingot Batch'
+            lore:
+            - '&7Buy {amount}: &a{buy_total}'
+            - '&7Sell {amount}: &c{sell_total}'
+            - '&7Ideal for beacons, apples, and rails.'
+            buy: 432.0
+            sell: 168.0
+          premium_pick:
+            material: DIAMOND
+            amount: 8
+            icon-amount: 8
+            display-name: '&bShimmering Diamond Parcel'
+            lore:
+            - '&7Buy {amount}: &a{buy_total}'
+            - '&7Sell {amount}: &c{sell_total}'
+            - '&7Treat yourself or resell at a premium.'
+            buy: 960.0
+            sell: 320.0

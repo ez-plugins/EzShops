@@ -1,0 +1,647 @@
+# EzShops category configuration for "farming".
+categories:
+  farming:
+    name: '&aFarming Supplies'
+    slot: 10
+    icon:
+      material: WHEAT
+      display-name: '&aFarming Supplies'
+      lore:
+      - '&7Common crops and farming goods.'
+    menu:
+      title: '&aFarming Supplies'
+      size: 54
+      fill:
+        material: LIGHT_GRAY_STAINED_GLASS_PANE
+        display-name: '&7 '
+    items:
+      wheat_seeds:
+        material: WHEAT_SEEDS
+        slot: 10
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 15.0
+        sell: 3.8
+        dynamic-pricing:
+          enabled: true
+          starting-multiplier: 1.0
+          min-multiplier: 0.7
+          max-multiplier: 2.1
+          buy-change: 0.018
+          sell-change: 0.012
+      carrot:
+        material: CARROT
+        slot: 11
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 24.0
+        sell: 5.5
+        dynamic-pricing:
+          enabled: true
+          starting-multiplier: 1.0
+          min-multiplier: 0.8
+          max-multiplier: 1.9
+          buy-change: 0.012
+          sell-change: 0.01
+      potato:
+        material: POTATO
+        slot: 12
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 22.0
+        sell: 5.2
+      beetroot_seeds:
+        material: BEETROOT_SEEDS
+        slot: 13
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 24.0
+        sell: 5.8
+      sugar_cane:
+        material: SUGAR_CANE
+        slot: 14
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 44.0
+        sell: 10.0
+      cocoa_beans:
+        material: COCOA_BEANS
+        slot: 15
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 32.0
+        sell: 7.4
+      cactus:
+        material: CACTUS
+        slot: 16
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 28.0
+        sell: 6.1
+      brown_mushroom:
+        material: BROWN_MUSHROOM
+        slot: 17
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 36.0
+        sell: 8.4
+      red_mushroom:
+        material: RED_MUSHROOM
+        slot: 18
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 36.0
+        sell: 8.4
+      melon_seeds:
+        material: MELON_SEEDS
+        slot: 19
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 25.0
+        sell: 6.0
+      pumpkin_seeds:
+        material: PUMPKIN_SEEDS
+        slot: 20
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 22.0
+        sell: 5.1
+      nether_wart:
+        material: NETHER_WART
+        slot: 21
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 42.0
+        sell: 9.2
+      oak_sapling:
+        material: OAK_SAPLING
+        slot: 22
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 32.0
+        sell: 7.6
+      spruce_sapling:
+        material: SPRUCE_SAPLING
+        slot: 23
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 32.0
+        sell: 7.6
+      birch_sapling:
+        material: BIRCH_SAPLING
+        slot: 24
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 32.0
+        sell: 7.6
+      jungle_sapling:
+        material: JUNGLE_SAPLING
+        slot: 25
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 32.0
+        sell: 7.6
+      moss_block:
+        material: MOSS_BLOCK
+        slot: 26
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 26.0
+        sell: 6.2
+      moss_carpet:
+        material: MOSS_CARPET
+        slot: 27
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 24.0
+        sell: 5.6
+      acacia_sapling:
+        material: ACACIA_SAPLING
+        slot: 28
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 32.0
+        sell: 7.6
+      dark_oak_sapling:
+        material: DARK_OAK_SAPLING
+        slot: 29
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 32.0
+        sell: 7.6
+      mangrove_propagule:
+        material: MANGROVE_PROPAGULE
+        slot: 30
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 34.0
+        sell: 8.0
+      cherry_sapling:
+        material: CHERRY_SAPLING
+        slot: 31
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 38.0
+        sell: 9.0
+      bamboo:
+        material: BAMBOO
+        slot: 32
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 36.0
+        sell: 8.0
+      kelp:
+        material: KELP
+        slot: 33
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 24.0
+        sell: 4.8
+      glow_berries:
+        material: GLOW_BERRIES
+        slot: 34
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 52.0
+        sell: 11.0
+      azalea:
+        material: AZALEA
+        slot: 35
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 34.0
+        sell: 7.8
+      flowering_azalea:
+        material: FLOWERING_AZALEA
+        slot: 36
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 40.0
+        sell: 9.6
+      torchflower_seeds:
+        material: TORCHFLOWER_SEEDS
+        slot: 37
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 58.0
+        sell: 13.5
+      torchflower:
+        material: TORCHFLOWER
+        slot: 38
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 66.0
+        sell: 15.5
+      pitcher_pod:
+        material: PITCHER_POD
+        slot: 39
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 62.0
+        sell: 14.0
+      pitcher_plant:
+        material: PITCHER_PLANT
+        slot: 40
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 72.0
+        sell: 16.2
+      pink_petals:
+        material: PINK_PETALS
+        slot: 41
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 30.0
+        sell: 6.8
+      big_dripleaf:
+        material: BIG_DRIPLEAF
+        slot: 42
+        amount: 12
+        bulk-amount: 48
+        icon-amount: 12
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 48.0
+        sell: 11.2
+      small_dripleaf:
+        material: SMALL_DRIPLEAF
+        slot: 43
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 36.0
+        sell: 8.6
+      hanging_roots:
+        material: HANGING_ROOTS
+        slot: 44
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 32.0
+        sell: 7.2
+      spore_blossom:
+        material: SPORE_BLOSSOM
+        slot: 45
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 80.0
+        sell: 18.0
+      vine:
+        material: VINE
+        slot: 46
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 24.0
+        sell: 5.4
+      lily_pad:
+        material: LILY_PAD
+        slot: 47
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 28.0
+        sell: 6.4
+      sea_pickle:
+        material: SEA_PICKLE
+        slot: 48
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 20.0
+        sell: 4.6
+      seagrass:
+        material: SEAGRASS
+        slot: 49
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 18.0
+        sell: 4.0
+      glow_lichen:
+        material: GLOW_LICHEN
+        slot: 50
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 38.0
+        sell: 8.8
+      weeping_vines:
+        material: WEEPING_VINES
+        slot: 51
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 36.0
+        sell: 8.2
+      twisting_vines:
+        material: TWISTING_VINES
+        slot: 52
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 36.0
+        sell: 8.2
+      nether_sprouts:
+        material: NETHER_SPROUTS
+        slot: 53
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Prices may change over time.'
+        buy: 24.0
+        sell: 5.4

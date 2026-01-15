@@ -1,0 +1,255 @@
+# EzShops category configuration for "food".
+categories:
+  food:
+    name: '&eFood & Meals'
+    slot: 19
+    icon:
+      material: COOKED_BEEF
+      display-name: '&eFood & Meals'
+      lore:
+      - '&7Everyday meals and snacks.'
+    menu:
+      title: '&eFood & Meals'
+      size: 54
+      fill:
+        material: LIGHT_GRAY_STAINED_GLASS_PANE
+        display-name: '&7 '
+    items:
+      bread:
+        material: BREAD
+        slot: 10
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 20.0
+        sell: 8.0
+      cooked_beef:
+        material: COOKED_BEEF
+        slot: 11
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 44.0
+        sell: 17.5
+      cooked_porkchop:
+        material: COOKED_PORKCHOP
+        slot: 12
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 40.0
+        sell: 16.0
+      cooked_chicken:
+        material: COOKED_CHICKEN
+        slot: 13
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 30.0
+        sell: 12.0
+      cooked_mutton:
+        material: COOKED_MUTTON
+        slot: 14
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 36.0
+        sell: 14.4
+      cooked_cod:
+        material: COOKED_COD
+        slot: 15
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 32.0
+        sell: 12.8
+      cooked_salmon:
+        material: COOKED_SALMON
+        slot: 16
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 38.0
+        sell: 15.2
+      baked_potato:
+        material: BAKED_POTATO
+        slot: 19
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 22.0
+        sell: 8.8
+      carrot:
+        material: CARROT
+        slot: 20
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 18.0
+        sell: 6.3
+      potato:
+        material: POTATO
+        slot: 21
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 18.0
+        sell: 6.3
+      beetroot:
+        material: BEETROOT
+        slot: 22
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 18.0
+        sell: 6.3
+      melon_slice:
+        material: MELON_SLICE
+        slot: 23
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 12.0
+        sell: 4.2
+      sweet_berries:
+        material: SWEET_BERRIES
+        slot: 24
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 16.0
+        sell: 5.6
+      pumpkin_pie:
+        material: PUMPKIN_PIE
+        slot: 25
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 34.0
+        sell: 11.9
+      cookie:
+        material: COOKIE
+        slot: 28
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 16.0
+        sell: 5.6
+      honey_bottle:
+        material: HONEY_BOTTLE
+        slot: 29
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 28.0
+        sell: 9.8
+      golden_carrot:
+        material: GOLDEN_CARROT
+        slot: 30
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Restores plenty of hunger.'
+        buy: 60.0
+        sell: 21.0

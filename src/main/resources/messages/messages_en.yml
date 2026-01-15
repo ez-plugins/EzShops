@@ -1,0 +1,255 @@
+commands:
+  shop:
+    players-only: "&cOnly players can use the shop."
+    menu-disabled: "&cThe shop menu is disabled on this server."
+    usage:
+      - "&eUsage: /{label} - Open the shop menu"
+      - "&eUsage: /{label} buy <item> [amount]"
+      - "&eUsage: /{label} sell <item> [amount]"
+    unknown-item: "&cUnknown item: {item}"
+    invalid-amount: "&cInvalid amount: {amount}"
+    amount-positive: "&cAmount must be positive."
+  sell-hand:
+    players-only: "&cOnly players can sell items."
+    must-hold-item: "&cYou must hold an item to use this command."
+  sell-inventory:
+    players-only: "&cOnly players can sell items."
+  price:
+    usage: "&eUsage: /{label} <item>"
+    unknown-item: "&cUnknown item: {item}"
+    not-configured: "&cThat item is not configured in the shop."
+    header: "&6Prices for &b{item}&6:"
+    buy-line: "&a Buy: &6{price}"
+    buy-unavailable: "&a Buy: &7Unavailable"
+    sell-line: "&c Sell: &6{price}"
+    sell-unavailable: "&c Sell: &7Unavailable"
+
+sign-shop-scan:
+  players-only: "&cOnly players can scan for shop signs."
+  no-permission: "&cYou do not have permission to scan for shop signs."
+  scanner-unavailable: "&cSign scanning is currently unavailable."
+  invalid-radius: "&cRadius must be between {min} and {max}."
+  no-signs: "&eNo legacy shop signs found within &b{radius}&e blocks."
+  pending-replaced: "&eReplaced your previous pending sign conversion with the new scan."
+  found: "&aFound &b{count}&a legacy shop sign(s) within &b{radius}&a blocks."
+  entry: "&7- {action} &b{amount}&7x &b{item}&7 at &f{x}&7, &f{y}&7, &f{z}"
+  more: "&7...and &b{remaining}&7 more sign(s)."
+  limit: "&eOnly the first &b{limit}&e signs are shown. Scan with a smaller radius to review the rest."
+  confirm-hint: "&eRun &b/{label} confirm &eto convert them or &b/{label} cancel &eto discard."
+  no-pending: "&eYou do not have any pending sign conversions."
+  expired: "&cYour pending sign conversion has expired. Run the scan again."
+  converted: "&aConverted &b{success}&a sign(s) successfully."
+  converted-partial: "&eConverted &b{success}&e sign(s), but &c{failed}&e could not be converted."
+  converted-none: "&cNo signs were converted. They may have been removed or are no longer valid."
+  cancelled: "&eCancelled the pending sign conversion."
+  unknown: "&cUnknown subcommand. Use /{label} scan, /{label} confirm, or /{label} cancel."
+
+
+transactions:
+  errors:
+    no-economy: "&cThe shop is currently unavailable because no economy provider is configured."
+    no-buy-permission: "&cYou do not have permission to buy items."
+    no-sell-permission: "&cYou do not have permission to sell items."
+    amount-positive: "&cAmount must be positive."
+    not-configured: "&cThat item is not configured in the shop."
+    not-buyable: "&cThat item cannot be purchased from the shop."
+    not-sellable: "&cThat item cannot be sold to the shop."
+    invalid-buy-price: "&cThis item does not have a valid buy price."
+    invalid-sell-price: "&cThis item does not have a valid sell price."
+    invalid-spawner: "&cThis spawner is not configured correctly."
+    invalid-custom-price: "&cThis item does not have a valid price."
+    no-inventory-space: "&cYou do not have enough inventory space."
+    cannot-afford: "&cYou cannot afford this purchase."
+    insufficient-items: "&cYou do not have enough of that item to sell."
+    no-sellable-items: "&cYou do not have any sellable items in your inventory."
+    no-sellable-prices: "&cYour inventory does not contain items with valid sell prices."
+    transaction-failed: "&cTransaction failed: {error}"
+  success:
+    purchase: "&aPurchased &b{amount}&ax &b{item}&a for &6{price}&a."
+    sale: "&aSold &b{amount}&ax &b{item}&a for &6{price}&a."
+    sell-inventory: "&aSold {items}&a for &6{price}&a."
+    spawner-purchase: "&aPurchased &b{amount}&ax &b{item}&a spawner for &6{price}&a."
+  notifications:
+    inventory-leftovers: "&eSome items were dropped at your feet because your inventory is full."
+  custom-items:
+    minion-crate:
+      name: "&dMinion Crate Key"
+      lore: "&7A mysterious key said to unlock minion technology."
+    vote-crate:
+      name: "&bVote Crate Key"
+      lore: "&7Redeemable at any vote crate station."
+    spawner-display-name: "&6{entity} &eSpawner"
+  restrictions:
+    minion-head: "&cMinion heads can only be obtained from crates."
+    spawner-menu: "&cSpawners can only be purchased through the shop menu."
+
+gui:
+  common:
+    category-unavailable: "&cThat shop category is no longer available."
+    entry-unavailable: "&cThat shop entry could not be found. Please reopen the menu."
+    island-level-required: "&cYou must reach island level &e{level}&c to use this shop item."
+    cannot-purchase: "&cThis item cannot be purchased from the shop."
+    cannot-sell: "&cThis item cannot be sold to the shop."
+    price-unavailable: "&cN/A"
+    actions:
+      buy: "buy"
+      sell: "sell"
+      buy-label: "Buy"
+      sell-label: "Sell"
+  custom-input:
+    prompt: "&eEnter the amount to {action} &ein chat.&7 (type 'cancel' to abort)"
+    cancelled: "&7Cancelled custom amount."
+    invalid-number: "&cPlease enter a valid number."
+    amount-positive: "&cAmount must be positive."
+  menus:
+    main:
+      empty-title: "&cShop Unavailable"
+      empty-lore:
+        - "&7No shop categories are configured."
+    flat:
+      empty-title: "&cShop Unavailable"
+      empty-lore:
+        - "&7No shop items are configured."
+      previous-title: "&e\u2190 Previous Page"
+      previous-lore:
+        - "&7Go to page {page}"
+      next-title: "&eNext Page \u2192"
+      next-lore:
+        - "&7Go to page {page}"
+      page-indicator-title: "&bPage {current} / {total}"
+      page-indicator-lore:
+        - "&7Browse all shop items."
+    category:
+      empty-title: "&cNo Items"
+      empty-lore:
+        - "&7This category has no items configured."
+      back-title: "&e\u2190 Back to Shop"
+      back-lore:
+        - "&7Return to the main shop menu."
+    quantity:
+      title-buy: "&aBuy "
+      title-sell: "&6Sell "
+      instructions: "&eLeft-click to buy, right-click to sell."
+      buy-line: "&7Buy each: &a{price}"
+      buy-stack-line: "&7Buy {amount}: &a{price}"
+      buy-unavailable: "&cBuying unavailable."
+      sell-line: "&7Sell each: &c{price}"
+      sell-stack-line: "&7Sell {amount}: &c{price}"
+      sell-unavailable: "&cCannot sell to the shop."
+      option-title: "&e{amount}x"
+      option-buy-lore:
+        - "&7Buy {amount}: &a{price}"
+        - "&eClick to {action} this amount."
+      option-sell-lore:
+        - "&7Sell {amount}: &c{price}"
+        - "&eClick to {action} this amount."
+      custom-title: "&bCustom Amount"
+      custom-lore:
+        - "&7Enter a custom amount to {action}."
+        - "&8Type the amount in chat."
+        - "&8Type 'cancel' to go back."
+      back-title: "&e\u2190 Back to Shop"
+      back-lore:
+        - "&7Return to the main shop menu."
+      level-requirement: "&cRequires Island Level {level}."
+
+signs:
+  no-permission: "&cYou do not have permission to create shop signs."
+  invalid-action: "&cSecond line must be either 'buy' or 'sell'."
+  unknown-item: "&cUnknown item: {item}"
+  invalid-amount: "&cFourth line must be a positive amount."
+  not-configured: "&cThat item is not configured in the shop."
+  not-available: "&cThat item cannot be {action} through the shop."
+  ready: "&aShop sign ready: {action} &b{amount}&ax &b{item}&a."
+  malformed: "&cThis shop sign is not configured correctly."
+  actions:
+    buy-verb: "purchased"
+    sell-verb: "sold"
+    buy-label: "&aBuy"
+    sell-label: "&cSell"
+
+player-shops:
+  messages:
+    menu:
+      inventory-title: "&2Player Shop Setup"
+      confirm-button:
+        name: "&aSave Settings"
+        lore:
+          - "&7Apply these values to your next shop."
+      select-item:
+        name: "&eSelect Item"
+        lore:
+          - "&7Click an item in your inventory to choose it."
+          - "&7Current: None"
+          - "&7Click this slot to clear the selection."
+      item-selected-clear-hint: "&7Click to clear this selection."
+      quantity-display:
+        name: "&bQuantity"
+        value-format: "&ex{amount}"
+      price-display:
+        name: "&6Price"
+        value-format: "&e{price}"
+      quantity-adjust:
+        minus-one: "&c-1"
+        minus-sixteen: "&c-16"
+        plus-sixteen: "&a+16"
+        plus-one: "&a+1"
+      price-adjust:
+        minus-one: "&c-1"
+        minus-ten: "&c-10"
+        plus-ten: "&a+10"
+        plus-one: "&a+1"
+      item-description-format: "&b{amount}&7x {item}"
+      unknown-item:
+        singular: "&bItem"
+        plural: "&bItems"
+    # Player shop message keys
+    no-permission-create: "&cYou do not have permission to create shops."
+    sign-requires-chest: "&cShop signs must be attached to a chest."
+    enter-quantity: "&cEnter the quantity to sell on the second line."
+    quantity-prompt: "&cQty?"
+    enter-price: "&cEnter the price on the third line."
+    price-prompt: "&cPrice?"
+    using-saved-settings: "&aUsing your saved /playershop settings."
+    chest-access-denied: "&cYou cannot open another player's shop chest."
+    break-denied: "&cYou cannot break someone else's shop."
+    shop-removed: "&eShop removed."
+    creation-invalid-configuration: "&cInvalid shop configuration."
+    creation-quantity-positive: "&cQuantity must be greater than zero."
+    creation-quantity-min: "&cQuantity must be at least &b{min}&c."
+    creation-quantity-max: "&cQuantity cannot exceed &b{max}&c."
+    creation-price-positive: "&cPrice must be greater than zero."
+    creation-price-min: "&cPrice must be at least &6{min}&c."
+    creation-price-max: "&cPrice cannot exceed &6{max}&c."
+    creation-sign-in-use: "&cThere is already a shop on this sign."
+    creation-chest-unresolved: "&cShop chests could not be resolved."
+    creation-chest-in-use: "&cA shop already uses that chest."
+    creation-chest-inaccessible: "&cUnable to access the chest inventory."
+    creation-selected-item-missing: "&cThe chest does not contain the item you selected in /playershop."
+    creation-item-missing: "&cPlace the item you want to sell inside the chest."
+    creation-insufficient-stock: "&cThe chest does not contain enough items to start the shop."
+    creation-success: "&aShop created successfully!"
+    purchase-invalid: "&cInvalid shop purchase attempt."
+    purchase-no-permission: "&cYou do not have permission to buy from shops."
+    purchase-no-economy: "&cThe shop is currently unavailable because no economy provider is configured."
+    purchase-own-shop: "&cYou cannot buy from your own shop."
+    purchase-missing-chest: "&cThe shop chest is missing. The listing has been removed."
+    purchase-out-of-stock: "&cThis shop is currently out of stock."
+    purchase-no-space: "&cYou do not have enough inventory space."
+    purchase-transaction-failed: "&cTransaction failed: {error}"
+    purchase-owner-notify: "&b{buyer} &abought &b{item}&a for &6{price}&a."
+    purchase-buyer-success: "&aPurchased &b{item}&a from &b{seller}&a for &6{price}&a."
+    unknown-seller-name: "the seller"
+    setup-open: "&aConfigure your player shop settings, then confirm to save them."
+    setup-item-selected: "&aSelected &b{item}&a to sell."
+    setup-item-cleared: "&eCleared the selected item. The chest contents will decide what the shop sells."
+    setup-select-item: "&eClick an item in your inventory to choose what to sell."
+    setup-saved: "&aSaved your player shop settings. Place a [playershop] sign on a chest to use them."
+    setup-quantity-chat-prompt: "&eType the quantity to sell in chat, or type cancel to abort."
+    setup-price-chat-prompt: "&eType the price in chat, or type cancel to abort."
+    setup-chat-cancelled: "&eInput cancelled. Keeping the previous value."
+    setup-chat-invalid-number: "&cPlease enter a valid number."
+    setup-quantity-updated: "&aQuantity set to &b{amount}&a."
+    setup-price-updated: "&aPrice set to &6{price}&a."
+    command-players-only: "&cOnly players can use this command."
+    command-disabled: "&cPlayer shops are currently disabled."

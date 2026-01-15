@@ -1,0 +1,152 @@
+# EzShops category configuration for "enchantments".
+categories:
+  enchantments:
+    name: '&5Enchantment Books'
+    slot: 33
+    icon:
+      material: ENCHANTED_BOOK
+      display-name: '&5Enchantment Books'
+      lore:
+      - '&7Powerful books for upgrading your gear.'
+    menu:
+      title: '&5Enchantment Books'
+      size: 54
+      fill:
+        material: LIGHT_GRAY_STAINED_GLASS_PANE
+        display-name: '&7 '
+    items:
+      sharpness_v:
+        type: ENCHANTED_BOOK
+        material: ENCHANTED_BOOK
+        slot: 10
+        amount: 1
+        bulk-amount: 1
+        icon-amount: 1
+        display-name: '&d{enchantments} Book'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Contains: &b{enchantments}'
+        buy: 18000.0
+        enchantments:
+          sharpness: 5
+        required-island-level: 7
+      fortune_iii:
+        type: ENCHANTED_BOOK
+        material: ENCHANTED_BOOK
+        slot: 11
+        amount: 1
+        bulk-amount: 1
+        icon-amount: 1
+        display-name: '&d{enchantments} Book'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Contains: &b{enchantments}'
+        buy: 22000.0
+        enchantments:
+          fortune: 3
+        required-island-level: 8
+      silk_touch:
+        type: ENCHANTED_BOOK
+        material: ENCHANTED_BOOK
+        slot: 12
+        amount: 1
+        bulk-amount: 1
+        icon-amount: 1
+        display-name: '&d{enchantments} Book'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Contains: &b{enchantments}'
+        buy: 20000.0
+        enchantments:
+          silk_touch: 1
+        required-island-level: 7
+      efficiency_v:
+        type: ENCHANTED_BOOK
+        material: ENCHANTED_BOOK
+        slot: 19
+        amount: 1
+        bulk-amount: 1
+        icon-amount: 1
+        display-name: '&d{enchantments} Book'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Contains: &b{enchantments}'
+        buy: 21000.0
+        enchantments:
+          efficiency: 5
+        required-island-level: 7
+      protection_iv:
+        type: ENCHANTED_BOOK
+        material: ENCHANTED_BOOK
+        slot: 20
+        amount: 1
+        bulk-amount: 1
+        icon-amount: 1
+        display-name: '&d{enchantments} Book'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Contains: &b{enchantments}'
+        buy: 17000.0
+        enchantments:
+          protection: 4
+        required-island-level: 6
+      unbreaking_iii:
+        type: ENCHANTED_BOOK
+        material: ENCHANTED_BOOK
+        slot: 21
+        amount: 1
+        bulk-amount: 1
+        icon-amount: 1
+        display-name: '&d{enchantments} Book'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Contains: &b{enchantments}'
+        buy: 16000.0
+        enchantments:
+          unbreaking: 3
+        required-island-level: 6
+      mending:
+        type: ENCHANTED_BOOK
+        material: ENCHANTED_BOOK
+        slot: 28
+        amount: 1
+        bulk-amount: 1
+        icon-amount: 1
+        display-name: '&d{enchantments} Book'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Contains: &b{enchantments}'
+        buy: 32000.0
+        enchantments:
+          mending: 1
+        required-island-level: 9
+      looting_iii:
+        type: ENCHANTED_BOOK
+        material: ENCHANTED_BOOK
+        slot: 29
+        amount: 1
+        bulk-amount: 1
+        icon-amount: 1
+        display-name: '&d{enchantments} Book'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Contains: &b{enchantments}'
+        buy: 19000.0
+        enchantments:
+          looting: 3
+        required-island-level: 7
+      power_v:
+        type: ENCHANTED_BOOK
+        material: ENCHANTED_BOOK
+        slot: 30
+        amount: 1
+        bulk-amount: 1
+        icon-amount: 1
+        display-name: '&d{enchantments} Book'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Contains: &b{enchantments}'
+        buy: 15000.0
+        enchantments:
+          power: 5
+        required-island-level: 6

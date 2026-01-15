@@ -1,0 +1,255 @@
+# EzShops category configuration for "valuables".
+categories:
+  valuables:
+    name: '&bValuables & Rares'
+    slot: 30
+    icon:
+      material: HEART_OF_THE_SEA
+      display-name: '&bValuables & Rares'
+      lore:
+      - '&7Rare and valuable items.'
+    menu:
+      title: '&bValuables & Rares'
+      size: 54
+      fill:
+        material: LIGHT_GRAY_STAINED_GLASS_PANE
+        display-name: '&7 '
+    items:
+      emerald:
+        material: EMERALD
+        slot: 10
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Guaranteed by the shopkeeper.'
+        buy: 400.0
+        sell: 140.0
+        required-island-level: 5
+      lapis_lazuli:
+        material: LAPIS_LAZULI
+        slot: 11
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Guaranteed by the shopkeeper.'
+        buy: 40.0
+        sell: 14.0
+        required-island-level: 3
+      experience_bottle:
+        material: EXPERIENCE_BOTTLE
+        slot: 12
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&2Experience Bottle'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &cN/A'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total}'
+        - '&7Guaranteed by the shopkeeper.'
+        buy: 110.0
+        sell: -1.0
+        required-island-level: 6
+      ancient_debris:
+        material: ANCIENT_DEBRIS
+        slot: 13
+        amount: 2
+        bulk-amount: 16
+        icon-amount: 2
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Guaranteed by the shopkeeper.'
+        buy: 1100.0
+        sell: 385.0
+        required-island-level: 10
+      heart_of_the_sea:
+        material: HEART_OF_THE_SEA
+        slot: 14
+        amount: 1
+        bulk-amount: 8
+        icon-amount: 1
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Guaranteed by the shopkeeper.'
+        buy: 2400.0
+        sell: 840.0
+        required-island-level: 12
+      breeze_rod:
+        material: BREEZE_ROD
+        slot: 15
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Guaranteed by the shopkeeper.'
+        buy: 900.0
+        sell: 310.0
+        required-island-level: 11
+      wind_charge:
+        material: WIND_CHARGE
+        slot: 16
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Guaranteed by the shopkeeper.'
+        buy: 280.0
+        sell: 100.0
+        required-island-level: 12
+      enchanted_golden_apple:
+        material: ENCHANTED_GOLDEN_APPLE
+        slot: 19
+        amount: 1
+        bulk-amount: 8
+        icon-amount: 1
+        display-name: '&2Enchanted Golden Apple'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7This item cannot be sold.'
+        - '&7Guaranteed by the shopkeeper.'
+        buy: 3200.0
+        sell: -1.0
+        required-island-level: 14
+      netherite_scrap:
+        material: NETHERITE_SCRAP
+        slot: 20
+        amount: 2
+        bulk-amount: 16
+        icon-amount: 2
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Guaranteed by the shopkeeper.'
+        buy: 960.0
+        sell: 336.0
+        required-island-level: 8
+      beacon:
+        material: BEACON
+        slot: 21
+        amount: 1
+        bulk-amount: 8
+        icon-amount: 1
+        display-name: '&2Beacon'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7This item cannot be sold.'
+        - '&7Guaranteed by the shopkeeper.'
+        buy: 5200.0
+        sell: -1.0
+        required-island-level: 15
+      heavy_core:
+        material: HEAVY_CORE
+        slot: 22
+        amount: 1
+        bulk-amount: 4
+        icon-amount: 1
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Guaranteed by the shopkeeper.'
+        buy: 18000.0
+        sell: 5400.0
+        required-island-level: 18
+      mace:
+        material: MACE
+        slot: 23
+        amount: 1
+        bulk-amount: 4
+        icon-amount: 1
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Guaranteed by the shopkeeper.'
+        buy: 26000.0
+        sell: 7800.0
+        required-island-level: 19
+      trial_key:
+        material: TRIAL_KEY
+        slot: 24
+        amount: 1
+        bulk-amount: 16
+        icon-amount: 1
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Guaranteed by the shopkeeper.'
+        buy: 4600.0
+        sell: 1500.0
+        required-island-level: 14
+      ominous_trial_key:
+        material: OMINOUS_TRIAL_KEY
+        slot: 25
+        amount: 1
+        bulk-amount: 16
+        icon-amount: 1
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Guaranteed by the shopkeeper.'
+        buy: 8600.0
+        sell: 2800.0
+        required-island-level: 17
+      wolf_armor:
+        material: WOLF_ARMOR
+        slot: 28
+        amount: 1
+        bulk-amount: 8
+        icon-amount: 1
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Guaranteed by the shopkeeper.'
+        buy: 2200.0
+        sell: 720.0
+        required-island-level: 10
+      armadillo_scute:
+        material: ARMADILLO_SCUTE
+        slot: 29
+        amount: 8
+        bulk-amount: 64
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - '&7Guaranteed by the shopkeeper.'
+        buy: 320.0
+        sell: 112.0
+        required-island-level: 7

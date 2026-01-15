@@ -1,0 +1,152 @@
+# EzShops category configuration for "spawners".
+categories:
+  spawners:
+    name: '&6Mob Spawners'
+    slot: 32
+    icon:
+      material: SPAWNER
+      display-name: '&6Mob Spawners'
+      lore:
+      - '&7Purchase mob spawners to power your island grinders.'
+    menu:
+      title: '&6Mob Spawners'
+      size: 54
+      fill:
+        material: LIGHT_GRAY_STAINED_GLASS_PANE
+        display-name: '&7 '
+    items:
+      chicken_spawner:
+        type: SPAWNER
+        material: SPAWNER
+        slot: 10
+        amount: 1
+        bulk-amount: 1
+        icon: CHICKEN_SPAWN_EGG
+        icon-amount: 1
+        display-name: '&f{spawner}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Spawns: &b{spawner_name}'
+        buy: 55000.0
+        spawner-entity: CHICKEN
+        required-island-level: 5
+      cow_spawner:
+        type: SPAWNER
+        material: SPAWNER
+        slot: 11
+        amount: 1
+        bulk-amount: 1
+        icon: COW_SPAWN_EGG
+        icon-amount: 1
+        display-name: '&f{spawner}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Spawns: &b{spawner_name}'
+        buy: 64000.0
+        spawner-entity: COW
+        required-island-level: 6
+      pig_spawner:
+        type: SPAWNER
+        material: SPAWNER
+        slot: 12
+        amount: 1
+        bulk-amount: 1
+        icon: PIG_SPAWN_EGG
+        icon-amount: 1
+        display-name: '&f{spawner}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Spawns: &b{spawner_name}'
+        buy: 61000.0
+        spawner-entity: PIG
+        required-island-level: 6
+      zombie_spawner:
+        type: SPAWNER
+        material: SPAWNER
+        slot: 19
+        amount: 1
+        bulk-amount: 1
+        icon: ZOMBIE_SPAWN_EGG
+        icon-amount: 1
+        display-name: '&f{spawner}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Spawns: &b{spawner_name}'
+        buy: 78000.0
+        spawner-entity: ZOMBIE
+        required-island-level: 7
+      skeleton_spawner:
+        type: SPAWNER
+        material: SPAWNER
+        slot: 20
+        amount: 1
+        bulk-amount: 1
+        icon: SKELETON_SPAWN_EGG
+        icon-amount: 1
+        display-name: '&f{spawner}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Spawns: &b{spawner_name}'
+        buy: 82000.0
+        spawner-entity: SKELETON
+        required-island-level: 7
+      spider_spawner:
+        type: SPAWNER
+        material: SPAWNER
+        slot: 21
+        amount: 1
+        bulk-amount: 1
+        icon: SPIDER_SPAWN_EGG
+        icon-amount: 1
+        display-name: '&f{spawner}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Spawns: &b{spawner_name}'
+        buy: 76000.0
+        spawner-entity: SPIDER
+        required-island-level: 7
+      blaze_spawner:
+        type: SPAWNER
+        material: SPAWNER
+        slot: 28
+        amount: 1
+        bulk-amount: 1
+        icon: BLAZE_SPAWN_EGG
+        icon-amount: 1
+        display-name: '&f{spawner}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Spawns: &b{spawner_name}'
+        buy: 110000.0
+        spawner-entity: BLAZE
+        required-island-level: 9
+      witch_spawner:
+        type: SPAWNER
+        material: SPAWNER
+        slot: 29
+        amount: 1
+        bulk-amount: 1
+        icon: WITCH_SPAWN_EGG
+        icon-amount: 1
+        display-name: '&f{spawner}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Spawns: &b{spawner_name}'
+        buy: 135000.0
+        spawner-entity: WITCH
+        required-island-level: 10
+      guardian_spawner:
+        type: SPAWNER
+        material: SPAWNER
+        slot: 30
+        amount: 1
+        bulk-amount: 1
+        icon: GUARDIAN_SPAWN_EGG
+        icon-amount: 1
+        display-name: '&f{spawner}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Spawns: &b{spawner_name}'
+        buy: 150000.0
+        spawner-entity: GUARDIAN
+        required-island-level: 11

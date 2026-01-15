@@ -1,0 +1,357 @@
+# EzShops category configuration for "redstone".
+categories:
+  redstone:
+    name: '&cRedstone & Utility'
+    slot: 25
+    icon:
+      material: REDSTONE
+      display-name: '&cRedstone & Utility'
+      lore:
+      - '&7Automation components and wiring.'
+    menu:
+      title: '&cRedstone & Utility'
+      size: 54
+      fill:
+        material: LIGHT_GRAY_STAINED_GLASS_PANE
+        display-name: '&7 '
+      back-button-slot: 45
+    items:
+      redstone_dust:
+        material: REDSTONE
+        slot: 10
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 25.0
+        sell: 10.0
+      redstone_torch:
+        material: REDSTONE_TORCH
+        slot: 11
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 32.0
+        sell: 16.0
+      repeater:
+        material: REPEATER
+        slot: 12
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 90.0
+        sell: 40.0
+      comparator:
+        material: COMPARATOR
+        slot: 13
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 120.0
+        sell: 55.0
+      observer:
+        material: OBSERVER
+        slot: 14
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 140.0
+        sell: 65.0
+      piston:
+        material: PISTON
+        slot: 15
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 110.0
+        sell: 48.0
+      sticky_piston:
+        material: STICKY_PISTON
+        slot: 16
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 170.0
+        sell: 66.0
+      dropper:
+        material: DROPPER
+        slot: 19
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 70.0
+        sell: 28.0
+      dispenser:
+        material: DISPENSER
+        slot: 20
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 90.0
+        sell: 34.0
+      hopper:
+        material: HOPPER
+        slot: 21
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 200.0
+        sell: 95.0
+      target:
+        material: TARGET
+        slot: 22
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 130.0
+        sell: 58.0
+      daylight_detector:
+        material: DAYLIGHT_DETECTOR
+        slot: 23
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 120.0
+        sell: 52.0
+      crafter:
+        material: CRAFTER
+        slot: 24
+        amount: 4
+        bulk-amount: 16
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 420.0
+        sell: 180.0
+        required-island-level: 9
+      redstone_lamp:
+        material: REDSTONE_LAMP
+        slot: 25
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 150.0
+        sell: 60.0
+      copper_bulb:
+        material: COPPER_BULB
+        slot: 28
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 260.0
+        sell: 95.0
+      exposed_copper_bulb:
+        material: EXPOSED_COPPER_BULB
+        slot: 29
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 260.0
+        sell: 95.0
+      weathered_copper_bulb:
+        material: WEATHERED_COPPER_BULB
+        slot: 30
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 260.0
+        sell: 95.0
+      oxidized_copper_bulb:
+        material: OXIDIZED_COPPER_BULB
+        slot: 31
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 260.0
+        sell: 95.0
+      waxed_copper_bulb:
+        material: WAXED_COPPER_BULB
+        slot: 32
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 260.0
+        sell: 95.0
+      waxed_exposed_copper_bulb:
+        material: WAXED_EXPOSED_COPPER_BULB
+        slot: 33
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 260.0
+        sell: 95.0
+      waxed_weathered_copper_bulb:
+        material: WAXED_WEATHERED_COPPER_BULB
+        slot: 34
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 260.0
+        sell: 95.0
+      waxed_oxidized_copper_bulb:
+        material: WAXED_OXIDIZED_COPPER_BULB
+        slot: 37
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 260.0
+        sell: 95.0
+      copper_door:
+        material: COPPER_DOOR
+        slot: 38
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 120.0
+        sell: 44.0
+      copper_trapdoor:
+        material: COPPER_TRAPDOOR
+        slot: 39
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 110.0
+        sell: 42.0
+      copper_grate:
+        material: COPPER_GRATE
+        slot: 40
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 90.0
+        sell: 32.0
+      sell_portal:
+        material: END_PORTAL_FRAME
+        slot: 43
+        amount: 1
+        bulk-amount: 1
+        icon-amount: 1
+        display-name: '&6Sell Portal'
+        lore:
+        - '&7Automatically sells items that touch the portal.'
+        - '&7Price: &a{buy}'
+        - '&7Only items with a shop sell price are converted.'
+        buy: 500000.0
+        sell: -1

@@ -1,0 +1,316 @@
+# EzShops category configuration for "building".
+categories:
+  building:
+    name: '&eBuilding Blocks'
+    slot: 14
+    icon:
+      material: BRICKS
+      display-name: '&eBuilding Blocks'
+      lore:
+      - '&7Blocks for construction projects.'
+    menu:
+      title: '&eBuilding Blocks'
+      size: 54
+      fill:
+        material: LIGHT_GRAY_STAINED_GLASS_PANE
+        display-name: '&7 '
+    items:
+      dirt:
+        material: DIRT
+        slot: 10
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 64.0
+        sell: 32.0
+      glass:
+        material: GLASS
+        slot: 11
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 18.0
+        sell: 7.5
+      bricks:
+        material: BRICKS
+        slot: 12
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 30.0
+        sell: 12.0
+      quartz_block:
+        material: QUARTZ_BLOCK
+        slot: 13
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 80.0
+        sell: 35.0
+      obsidian:
+        material: OBSIDIAN
+        slot: 14
+        amount: 8
+        bulk-amount: 64
+        icon-amount: 8
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 150.0
+        sell: 70.0
+      stone:
+        material: STONE
+        slot: 15
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 40.0
+        sell: 20.0
+      bucket:
+        material: BUCKET
+        slot: 16
+        amount: 1
+        bulk-amount: 16
+        icon-amount: 1
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7This item cannot be sold.'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total}'
+        buy: 55.0
+        sell: -1.0
+      water_bucket:
+        material: WATER_BUCKET
+        slot: 17
+        amount: 1
+        bulk-amount: 16
+        icon-amount: 1
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7This item cannot be sold.'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total}'
+        buy: 75.0
+        sell: -1.0
+      cobblestone:
+        material: COBBLESTONE
+        slot: 19
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 30.0
+        sell: 15.0
+      stone_bricks:
+        material: STONE_BRICKS
+        slot: 20
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 48.0
+        sell: 24.0
+      sand:
+        material: SAND
+        slot: 21
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 24.0
+        sell: 12.0
+      gravel:
+        material: GRAVEL
+        slot: 22
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 24.0
+        sell: 12.0
+      clay:
+        material: CLAY
+        slot: 23
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 36.0
+        sell: 18.0
+      terracotta:
+        material: TERRACOTTA
+        slot: 24
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 44.0
+        sell: 22.0
+      lava_bucket:
+        material: LAVA_BUCKET
+        slot: 25
+        amount: 1
+        bulk-amount: 16
+        icon-amount: 1
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7This item cannot be sold.'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total}'
+        buy: 95.0
+        sell: -1.0
+      magma_block:
+        material: MAGMA_BLOCK
+        slot: 26
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 80.0
+        sell: 40.0
+      tuff:
+        material: TUFF
+        slot: 28
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 42.0
+        sell: 21.0
+      polished_tuff:
+        material: POLISHED_TUFF
+        slot: 29
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 48.0
+        sell: 23.0
+      tuff_bricks:
+        material: TUFF_BRICKS
+        slot: 30
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 52.0
+        sell: 24.0
+      chiseled_tuff:
+        material: CHISELED_TUFF
+        slot: 31
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 52.0
+        sell: 24.0
+      chiseled_tuff_bricks:
+        material: CHISELED_TUFF_BRICKS
+        slot: 32
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 56.0
+        sell: 26.0
+      polished_tuff_stairs:
+        material: POLISHED_TUFF_STAIRS
+        slot: 33
+        amount: 16
+        bulk-amount: 32
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 50.0
+        sell: 23.0
+      tuff_brick_stairs:
+        material: TUFF_BRICK_STAIRS
+        slot: 34
+        amount: 16
+        bulk-amount: 32
+        icon-amount: 16
+        display-name: '&f{material}'
+        lore:
+        - '&7Buy {amount}: &a{buy_total}'
+        - '&7Sell {amount}: &c{sell_total}'
+        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        buy: 56.0
+        sell: 26.0
