@@ -23,7 +23,7 @@ Set to `false` to disable the integration entirely.
 
 ## Creating Sell Price Boosts
 
-In EzBoost's `boosts.yml` config, create boosts with the `sellprice` effect type:
+In EzBoost's `boosts.yml` config, create boosts with the `ezshops_sellprice` effect type:
 
 ```yaml
 sellboost:
