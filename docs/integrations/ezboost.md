@@ -30,7 +30,7 @@ sellboost:
   display-name: "Sell Price Boost"
   icon: EMERALD
   effects:
-    - type: sellprice
+    - type: ezshops_sellprice
       amplifier: 50  # 50% increase in sell prices
   duration: 300     # 5 minutes
   cooldown: 3600    # 1 hour cooldown
@@ -41,7 +41,7 @@ sellboost:
 
 ## How It Works
 
-- When a player activates a boost containing the `sellprice` effect, their sell prices in EzShops are multiplied
+- When a player activates a boost containing the `ezshops_sellprice` effect, their sell prices in EzShops are multiplied
 - The multiplier is calculated as `1 + (amplifier / 100)`
 - Multiple active boosts stack additively
 - The boost applies to both individual item sales and bulk inventory sales
@@ -58,6 +58,6 @@ With `amplifier: 50`, sell prices increase by 50%. A item that normally sells fo
 
 ## Compatibility
 
-- Requires EzBoost 1.5.1 or later
+- Requires [EzBoost](https://modrinth.com/plugin/ezboost) 1.5.3 or later
 - Fully optional - EzShops works normally without EzBoost
 - No performance impact when EzBoost is not present
