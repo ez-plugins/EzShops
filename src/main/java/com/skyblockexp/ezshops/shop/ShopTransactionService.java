@@ -2,14 +2,26 @@ package com.skyblockexp.ezshops.shop;
 
 import com.skyblockexp.ezshops.common.EconomyUtils;
 import com.skyblockexp.ezshops.config.ShopMessageConfiguration;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.function.IntFunction;
 import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.block.CreatureSpawner;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.BlockStateMeta;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.text.NumberFormat;
+import java.util.*;
+import java.util.function.IntFunction;
+import java.util.stream.Collectors;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -52,6 +64,61 @@ public class ShopTransactionService {
         this.successMessages = transactionMessages.success();
         this.notificationMessages = transactionMessages.notifications();
         this.customItemMessages = transactionMessages.customItems();
+    }
+
+    private double getSellPriceMultiplier(Player player) {
+        try {
+            // Get the EzBoost plugin instance to access its class loader
+            org.bukkit.plugin.Plugin ezBoostPlugin = org.bukkit.Bukkit.getPluginManager().getPlugin("EzBoost");
+            if (ezBoostPlugin == null) {
+                return 1.0;
+            }
+            ClassLoader ezBoostClassLoader = ezBoostPlugin.getClass().getClassLoader();
+
+            // Check if EzBoost classes are available using the plugin's class loader
+            Class<?> ezBoostAPIClass = Class.forName("com.skyblockexp.ezboost.api.EzBoostAPI", true, ezBoostClassLoader);
+
+            java.lang.reflect.Method getBoostManagerMethod = ezBoostAPIClass.getMethod("getBoostManager");
+            Object boostManager = getBoostManagerMethod.invoke(null);
+            if (boostManager == null) {
+                return 1.0;
+            }
+
+            java.lang.reflect.Method getBoostsMethod = boostManager.getClass().getMethod("getBoosts", Player.class);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> boosts = (Map<String, Object>) getBoostsMethod.invoke(boostManager, player);
+            double multiplier = 1.0;
+
+            for (Object boost : boosts.values()) {
+                java.lang.reflect.Method isActiveMethod = boostManager.getClass().getMethod("isActive", Player.class, String.class);
+                java.lang.reflect.Method getKeyMethod = boost.getClass().getMethod("key");
+                String key = (String) getKeyMethod.invoke(boost);
+
+                Boolean isActive = (Boolean) isActiveMethod.invoke(boostManager, player, key);
+                if (isActive) {
+                    java.lang.reflect.Method getEffectsMethod = boost.getClass().getMethod("effects");
+                    @SuppressWarnings("unchecked")
+                    java.util.Collection<Object> effects = (java.util.Collection<Object>) getEffectsMethod.invoke(boost);
+
+                    for (Object effect : effects) {
+                        java.lang.reflect.Method getCustomNameMethod = effect.getClass().getMethod("customName");
+                        String customName = (String) getCustomNameMethod.invoke(effect);
+                        if ("ezshops_sellprice".equals(customName)) {
+                            java.lang.reflect.Method getAmplifierMethod = effect.getClass().getMethod("amplifier");
+                            Number amplifier = (Number) getAmplifierMethod.invoke(effect);
+                            multiplier += amplifier.doubleValue() / 100.0;
+                        }
+                    }
+                }
+            }
+            return multiplier;
+        } catch (ClassNotFoundException e) {
+            // EzBoost not available, return default multiplier
+            return 1.0;
+        } catch (Exception e) {
+            // EzBoost integration failed, return default multiplier
+            return 1.0;
+        }
     }
 
     public ShopTransactionResult buy(Player player, Material material, int amount) {
@@ -123,7 +190,7 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.notSellable());
         }
 
-        double totalGain = EconomyUtils.normalizeCurrency(price.sellPrice() * amount);
+        double totalGain = EconomyUtils.normalizeCurrency(price.sellPrice() * amount * getSellPriceMultiplier(player));
         if (totalGain <= 0) {
             return ShopTransactionResult.failure(errorMessages.invalidSellPrice());
         }
@@ -189,6 +256,7 @@ public class ShopTransactionService {
         }
 
         totalGain = EconomyUtils.normalizeCurrency(totalGain);
+        totalGain *= getSellPriceMultiplier(player);
         if (totalGain <= 0) {
             return ShopTransactionResult.failure(errorMessages.noSellablePrices());
         }

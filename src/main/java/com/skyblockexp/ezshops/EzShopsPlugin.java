@@ -7,6 +7,7 @@ import com.skyblockexp.ezshops.bootstrap.PluginComponent;
 import com.skyblockexp.ezshops.bootstrap.SignShopComponent;
 import com.skyblockexp.ezshops.bootstrap.StockComponent;
 import com.skyblockexp.ezshops.bootstrap.PlayerShopComponent;
+import com.skyblockexp.ezshops.boost.SellPriceBoostEffect;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,9 +64,6 @@ public final class EzShopsPlugin extends JavaPlugin {
         saveDefaultConfig();
 
         debugMode = getConfig().getBoolean("debug", false);
-        if (debugMode) {
-            getLogger().info("Debug mode is enabled. Verbose logging will be shown.");
-        }
 
         coreComponent = new CoreShopComponent(economy);
         PlayerShopComponent playerShopComponent = new PlayerShopComponent(economy, getConfig());
@@ -92,6 +90,34 @@ public final class EzShopsPlugin extends JavaPlugin {
             getLogger().info("EzShops API initialized successfully.");
         } catch (Exception ex) {
             getLogger().log(Level.WARNING, "Failed to initialize EzShops API", ex);
+        }
+
+        // Register EzBoost integration if EzBoost is present and integration is enabled
+        boolean ezboostIntegration = getConfig().getBoolean("ezboost-integration", true);
+        if (ezboostIntegration && getServer().getPluginManager().getPlugin("EzBoost") != null) {
+            try {
+                // Get the EzBoost plugin instance to access its class loader
+                org.bukkit.plugin.Plugin ezBoostPlugin = getServer().getPluginManager().getPlugin("EzBoost");
+
+                ClassLoader ezBoostClassLoader = ezBoostPlugin.getClass().getClassLoader();
+
+                // Check if EzBoost classes are available using the plugin's class loader
+                Class<?> ezBoostAPIClass = Class.forName("com.skyblockexp.ezboost.api.EzBoostAPI", true, ezBoostClassLoader);
+                Class<?> customBoostEffectClass = Class.forName("com.skyblockexp.ezboost.boost.CustomBoostEffect", true, ezBoostClassLoader);
+
+                Object boostEffect = SellPriceBoostEffect.create();
+                if (boostEffect != null) {
+                    java.lang.reflect.Method registerMethod = ezBoostAPIClass.getMethod("registerCustomBoostEffect", customBoostEffectClass);
+                    registerMethod.invoke(null, boostEffect);
+                    getLogger().info("EzBoost sell price boost integration enabled.");
+                }
+            } catch (ClassNotFoundException e) {
+                getLogger().info("EzBoost classes not found, integration disabled: " + e.getMessage());
+            } catch (Exception ex) {
+                getLogger().log(Level.WARNING, "Failed to register EzBoost sell price boost effect", ex);
+            }
+        } else if (!ezboostIntegration) {
+            getLogger().info("EzBoost integration is disabled in config.");
         }
 
         getLogger().info("EzShops plugin enabled.");
