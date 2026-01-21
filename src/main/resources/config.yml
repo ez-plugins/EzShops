@@ -5,6 +5,11 @@
 # Default: false
 debug: false
 
+# Enable integration with EzBoost for sell price boosts.
+# Requires EzBoost plugin to be installed.
+# Default: true
+ezboost-integration: true
+
 language: en
 
 signs:

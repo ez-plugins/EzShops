@@ -5,7 +5,7 @@ author: Shadow48402
 description: Standalone plugin providing the Skyblock shop command, sign shops, and player chest shops.
 api-version: 1.13
 depend: [Vault]
-softdepend: [SkyblockExperience, EzScoreboard, SkyblockExperienceCommon, EzEconomy]
+softdepend: [SkyblockExperience, EzScoreboard, SkyblockExperienceCommon, EzEconomy, EzBoost]
 commands:
   shop:
     description: Access the Skyblock shop to buy or sell items.
