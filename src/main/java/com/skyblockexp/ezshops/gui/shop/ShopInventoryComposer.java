@@ -376,7 +376,10 @@ public class ShopInventoryComposer {
         if (buyPrice >= 0.0D) {
             lore.add(quantityMenuMessages.buyLine(formatPrice(buyPrice)));
             if (stackAmount > 1) {
-                lore.add(quantityMenuMessages.buyStackLine(stackAmount, formatPrice(totalPrice(buyPrice, stackAmount))));
+                double buyStackTotal = item.type() == ShopMenuLayout.ItemType.MATERIAL && item.material() != null
+                        ? pricingManager.estimateBulkTotal(item.material(), stackAmount, ShopTransactionType.BUY)
+                        : totalPrice(buyPrice, stackAmount);
+                lore.add(quantityMenuMessages.buyStackLine(stackAmount, formatPrice(buyStackTotal)));
             }
         } else {
             lore.add(quantityMenuMessages.buyUnavailable());
@@ -388,8 +391,10 @@ public class ShopInventoryComposer {
             }
             lore.add(quantityMenuMessages.sellLine(formatPrice(sellPrice)));
             if (stackAmount > 1) {
-                lore.add(quantityMenuMessages.sellStackLine(stackAmount,
-                        formatPrice(totalPrice(sellPrice, stackAmount))));
+                double sellStackTotal = item.type() == ShopMenuLayout.ItemType.MATERIAL && item.material() != null
+                        ? pricingManager.estimateBulkTotal(item.material(), stackAmount, ShopTransactionType.SELL)
+                        : totalPrice(sellPrice, stackAmount);
+                lore.add(quantityMenuMessages.sellStackLine(stackAmount, formatPrice(sellStackTotal)));
             }
         } else {
             lore.add(quantityMenuMessages.sellUnavailable());
@@ -503,12 +508,28 @@ public class ShopInventoryComposer {
         placeholders.put("{sell_price}", formatPrice(price.sellPrice()));
         placeholders.put("{buy}", formatPrice(price.buyPrice()));
         placeholders.put("{sell}", formatPrice(price.sellPrice()));
-        placeholders.put("{buy_total}", formatPrice(totalPrice(price.buyPrice(), item.amount())));
-        placeholders.put("{sell_total}", formatPrice(totalPrice(price.sellPrice(), item.amount())));
-        placeholders.put("{buy_bulk_total}", formatPrice(totalPrice(price.buyPrice(), item.bulkAmount())));
-        placeholders.put("{sell_bulk_total}", formatPrice(totalPrice(price.sellPrice(), item.bulkAmount())));
-        placeholders.put("{buy_stack_total}", formatPrice(totalPrice(price.buyPrice(), stackAmount)));
-        placeholders.put("{sell_stack_total}", formatPrice(totalPrice(price.sellPrice(), stackAmount)));
+        // Use pricing manager estimator for material-backed items with dynamic pricing
+        if (item.type() == ShopMenuLayout.ItemType.MATERIAL && item.material() != null) {
+            double buyAmountTotal = pricingManager.estimateBulkTotal(item.material(), item.amount(), ShopTransactionType.BUY);
+            double sellAmountTotal = pricingManager.estimateBulkTotal(item.material(), item.amount(), ShopTransactionType.SELL);
+            double buyBulkTotal = pricingManager.estimateBulkTotal(item.material(), item.bulkAmount(), ShopTransactionType.BUY);
+            double sellBulkTotal = pricingManager.estimateBulkTotal(item.material(), item.bulkAmount(), ShopTransactionType.SELL);
+            double buyStackTotal = pricingManager.estimateBulkTotal(item.material(), stackAmount, ShopTransactionType.BUY);
+            double sellStackTotal = pricingManager.estimateBulkTotal(item.material(), stackAmount, ShopTransactionType.SELL);
+            placeholders.put("{buy_total}", formatPrice(buyAmountTotal));
+            placeholders.put("{sell_total}", formatPrice(sellAmountTotal));
+            placeholders.put("{buy_bulk_total}", formatPrice(buyBulkTotal));
+            placeholders.put("{sell_bulk_total}", formatPrice(sellBulkTotal));
+            placeholders.put("{buy_stack_total}", formatPrice(buyStackTotal));
+            placeholders.put("{sell_stack_total}", formatPrice(sellStackTotal));
+        } else {
+            placeholders.put("{buy_total}", formatPrice(totalPrice(price.buyPrice(), item.amount())));
+            placeholders.put("{sell_total}", formatPrice(totalPrice(price.sellPrice(), item.amount())));
+            placeholders.put("{buy_bulk_total}", formatPrice(totalPrice(price.buyPrice(), item.bulkAmount())));
+            placeholders.put("{sell_bulk_total}", formatPrice(totalPrice(price.sellPrice(), item.bulkAmount())));
+            placeholders.put("{buy_stack_total}", formatPrice(totalPrice(price.buyPrice(), stackAmount)));
+            placeholders.put("{sell_stack_total}", formatPrice(totalPrice(price.sellPrice(), stackAmount)));
+        }
         return placeholders;
     }
 
@@ -577,9 +598,14 @@ public class ShopInventoryComposer {
 
         List<String> lore = new ArrayList<>();
         ShopPrice currentPrice = resolveDisplayPrice(item);
-        double unitPrice = type == ShopTransactionType.BUY ? currentPrice.buyPrice() : currentPrice.sellPrice();
-        String totalFormatted = unitPrice >= 0 ? formatPrice(totalPrice(unitPrice, quantity))
-                : commonMessages.priceUnavailable();
+        double totalValue;
+        if (item.type() == ShopMenuLayout.ItemType.MATERIAL && item.material() != null) {
+            totalValue = pricingManager.estimateBulkTotal(item.material(), quantity, type);
+        } else {
+            double unitPrice = type == ShopTransactionType.BUY ? currentPrice.buyPrice() : currentPrice.sellPrice();
+            totalValue = unitPrice >= 0 ? totalPrice(unitPrice, quantity) : -1.0D;
+        }
+        String totalFormatted = totalValue >= 0 ? formatPrice(totalValue) : commonMessages.priceUnavailable();
         lore.addAll(quantityMenuMessages.optionLore(type, totalFormatted, quantity));
         meta.setLore(lore);
         option.setItemMeta(meta);
