@@ -59,7 +59,7 @@ public class AllStocksGuiListener implements Listener {
         // Parse current page from title (format: ... (page/total))
         int page = 1;
         int idx1 = title.lastIndexOf('(');
-        int idx2 = title.lastIndexOf('/') - 1;
+        int idx2 = title.lastIndexOf('/');
         if (idx1 >= 0 && idx2 > idx1) {
             try {
                 String pageStr = title.substring(idx1 + 1, idx2).trim();
