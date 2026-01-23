@@ -277,6 +277,15 @@ public class AllStocksGui {
             List<String> lore = new ArrayList<>();
             String priceFormat = localization.get("item-price-format");
             lore.add(priceFormat.replace("{price}", String.format("%.2f", price)));
+            // Show bulk totals (preview) for a sensible default amount (64)
+            try {
+                int bulkAmount = 64;
+                double buyTotal = stockMarketManager.estimateBulkTotal(id, bulkAmount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY);
+                double sellTotal = stockMarketManager.estimateBulkTotal(id, bulkAmount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.SELL);
+                if (buyTotal >= 0 || sellTotal >= 0) {
+                    lore.add(ChatColor.GRAY + "Bulk (" + bulkAmount + "): " + ChatColor.GREEN + String.format("%.2f", buyTotal) + ChatColor.GRAY + " / " + ChatColor.RED + String.format("%.2f", sellTotal));
+                }
+            } catch (Exception ignored) {}
             
             if (stockMarketConfig.isBlocked(id)) {
                 lore.add(localization.get("item-blocked"));
