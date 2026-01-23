@@ -1,0 +1,53 @@
+name: Discord Issues & Comments
+
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send issue or comment to Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          if [[ "${{ github.event_name }}" == "issues" ]]; then
+            curl -X POST "$DISCORD_WEBHOOK" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "thread_name": "Issue #'${{ github.event.issue.number }}' – '${{ github.event.issue.title }}'",
+              "embeds": [
+                {
+                  "title": "🐛 New Issue Opened",
+                  "description": "**'${{ github.event.issue.title }}'**",
+                  "url": "${{ github.event.issue.html_url }}",
+                  "color": 15158332,
+                  "fields": [
+                    {
+                      "name": "Author",
+                      "value": "'${{ github.event.issue.user.login }}'",
+                      "inline": true
+                    },
+                    {
+                      "name": "Repository",
+                      "value": "'${{ github.repository }}'",
+                      "inline": true
+                    }
+                  ],
+                  "footer": {
+                    "text": "GitHub Issues"
+                  }
+                }
+              ]
+            }'
+          else
+            curl -X POST "$DISCORD_WEBHOOK" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "content": "💬 **New comment on Issue #'${{ github.event.issue.number }}'**\n**'${{ github.event.comment.user.login }}'**:\n${{ github.event.comment.body }}\n🔗 ${{ github.event.comment.html_url }}"
+            }'
+          fi
