@@ -28,6 +28,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.java.JavaPlugin;
+import com.skyblockexp.ezshops.gui.shop.ShopTransactionType;
 
 /**
  * Handles loading and exposing shop pricing and menu information from the plugin configuration.
@@ -108,6 +109,21 @@ public class ShopPricingManager {
             return Optional.of(new ShopPrice(stockPrice, stockPrice));
         }
         return Optional.of(entry.currentPrice());
+    }
+
+    /**
+     * Estimate the total price for purchasing/selling a given amount of a material taking
+     * dynamic pricing into account. This does not mutate stored dynamic state.
+     */
+    public double estimateBulkTotal(Material material, int amount, ShopTransactionType type) {
+        if (material == null || amount <= 0) {
+            return -1.0D;
+        }
+        PriceEntry entry = priceMap.get(material);
+        if (entry == null) {
+            return -1.0D;
+        }
+        return entry.estimateBulkTotal(amount, type);
     }
 
     public boolean isConfigured(Material material) {
@@ -1232,16 +1248,22 @@ public class ShopPricingManager {
             if (!hasDynamicPricing() || amount <= 0) {
                 return false;
             }
-            double change = settings.buyChange() * amount;
-            return applyChange(change);
+            // Apply multiplicative change per unit: multiplier *= (1 + buyChange) ^ amount
+            double factor = Math.pow(1.0 + settings.buyChange(), amount);
+            double previous = multiplier;
+            multiplier = settings.clamp(multiplier * factor);
+            return Double.compare(previous, multiplier) != 0;
         }
 
         private boolean adjustAfterSale(int amount) {
             if (!hasDynamicPricing() || amount <= 0) {
                 return false;
             }
-            double change = -(settings.sellChange() * amount);
-            return applyChange(change);
+            // Apply multiplicative decrease per unit: multiplier *= (1 - sellChange) ^ amount
+            double factor = Math.pow(1.0 - settings.sellChange(), amount);
+            double previous = multiplier;
+            multiplier = settings.clamp(multiplier * factor);
+            return Double.compare(previous, multiplier) != 0;
         }
 
         private boolean applyChange(double delta) {
@@ -1251,6 +1273,31 @@ public class ShopPricingManager {
             double previous = multiplier;
             multiplier = settings.clamp(multiplier + delta);
             return Double.compare(previous, multiplier) != 0;
+        }
+
+        private double estimateBulkTotal(int amount, ShopTransactionType type) {
+            if (!hasDynamicPricing() || amount <= 0) {
+                // fall back to static per-unit pricing
+                double unit = type == ShopTransactionType.BUY ? basePrice.buyPrice() : basePrice.sellPrice();
+                return unit < 0.0D ? -1.0D : EconomyUtils.normalizeCurrency(unit * amount);
+            }
+            boolean isBuy = type == ShopTransactionType.BUY;
+            double baseUnit = isBuy ? basePrice.buyPrice() : basePrice.sellPrice();
+            if (baseUnit < 0.0D) {
+                return -1.0D;
+            }
+            double simMultiplier = multiplier;
+            double total = 0.0D;
+            for (int i = 0; i < amount; i++) {
+                double unitPrice = EconomyUtils.normalizeCurrency(baseUnit * simMultiplier);
+                total += unitPrice;
+                if (isBuy) {
+                    simMultiplier = settings.clamp(simMultiplier * (1.0 + settings.buyChange()));
+                } else {
+                    simMultiplier = settings.clamp(simMultiplier * (1.0 - settings.sellChange()));
+                }
+            }
+            return EconomyUtils.normalizeCurrency(total);
         }
     }
 

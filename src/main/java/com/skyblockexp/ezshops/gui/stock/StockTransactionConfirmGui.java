@@ -83,7 +83,8 @@ public class StockTransactionConfirmGui {
         
         for (int i = 0; i < amounts.length; i++) {
             int amount = amounts[i];
-            double totalCost = price * amount;
+            double totalCost = stockMarketManager.estimateBulkTotal(productId, amount,
+                    type == TransactionType.BUY ? com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY : com.skyblockexp.ezshops.gui.shop.ShopTransactionType.SELL);
             
             // Skip if selling more than owned
             if (type == TransactionType.SELL && amount > ownedAmount) {
@@ -175,8 +176,8 @@ public class StockTransactionConfirmGui {
     
     private static void processTransaction(Player player, String productId, int amount, 
                                           TransactionType type, StockMarketManager stockMarketManager) {
-        double price = stockMarketManager.getPrice(productId);
-        double totalCost = price * amount;
+        double totalCost = stockMarketManager.estimateBulkTotal(productId, amount,
+            type == TransactionType.BUY ? com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY : com.skyblockexp.ezshops.gui.shop.ShopTransactionType.SELL);
         
         RegisteredServiceProvider<Economy> rsp = player.getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
@@ -185,20 +186,21 @@ public class StockTransactionConfirmGui {
         }
         Economy econ = rsp.getProvider();
         
-        if (type == TransactionType.BUY) {
-            // Check if player has enough money
-            if (econ.getBalance(player) < totalCost) {
-                player.sendMessage(ChatColor.RED + "Insufficient funds! You need " + String.format("%.2f", totalCost) + " but only have " + String.format("%.2f", econ.getBalance(player)));
-                return;
-            }
-            
-            // Deduct money and add stock
-            econ.withdrawPlayer(player, totalCost);
-            StockManager.addPlayerStock(player, productId, amount);
-            stockMarketManager.updatePrice(productId, amount);
-            
-            player.sendMessage(ChatColor.GREEN + "Successfully bought " + amount + " " + productId + " for " + String.format("%.2f", totalCost));
-        } else {
+            if (type == TransactionType.BUY) {
+                // Check if player has enough money
+                if (econ.getBalance(player) < totalCost) {
+                    player.sendMessage(ChatColor.RED + "Insufficient funds! You need " + String.format("%.2f", totalCost) + " but only have " + String.format("%.2f", econ.getBalance(player)));
+                    return;
+                }
+
+                // Deduct money and add stock
+                econ.withdrawPlayer(player, totalCost);
+                StockManager.addPlayerStock(player, productId, amount);
+                // Apply actual per-unit updates to market price
+                stockMarketManager.updatePrice(productId, amount);
+
+                player.sendMessage(ChatColor.GREEN + "Successfully bought " + amount + " " + productId + " for " + String.format("%.2f", totalCost));
+            } else {
             // Check if player has enough stock
             int owned = StockManager.getPlayerStockAmount(player, productId);
             if (owned < amount) {
@@ -206,16 +208,17 @@ public class StockTransactionConfirmGui {
                 return;
             }
             
-            // Remove stock and add money
-            boolean removed = StockManager.removePlayerStock(player, productId, amount);
-            if (removed) {
-                econ.depositPlayer(player, totalCost);
-                stockMarketManager.updatePrice(productId, -amount);
-                
-                player.sendMessage(ChatColor.GREEN + "Successfully sold " + amount + " " + productId + " for " + String.format("%.2f", totalCost));
-            } else {
-                player.sendMessage(ChatColor.RED + "Failed to sell stock. Please try again.");
-            }
+                // Remove stock and add money
+                boolean removed = StockManager.removePlayerStock(player, productId, amount);
+                if (removed) {
+                    econ.depositPlayer(player, totalCost);
+                    // Apply actual per-unit updates to market price
+                    stockMarketManager.updatePrice(productId, -amount);
+
+                    player.sendMessage(ChatColor.GREEN + "Successfully sold " + amount + " " + productId + " for " + String.format("%.2f", totalCost));
+                } else {
+                    player.sendMessage(ChatColor.RED + "Failed to sell stock. Please try again.");
+                }
         }
     }
 }
