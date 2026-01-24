@@ -143,7 +143,8 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.notBuyable());
         }
 
-        double totalCost = EconomyUtils.normalizeCurrency(price.buyPrice() * amount);
+        double totalCost = pricingManager.estimateBulkTotal(material, amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY);
+        totalCost = EconomyUtils.normalizeCurrency(totalCost);
         if (totalCost <= 0) {
             return ShopTransactionResult.failure(errorMessages.invalidBuyPrice());
         }
@@ -190,7 +191,9 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.notSellable());
         }
 
-        double totalGain = EconomyUtils.normalizeCurrency(price.sellPrice() * amount * getSellPriceMultiplier(player));
+        double totalGain = pricingManager.estimateBulkTotal(material, amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.SELL);
+        totalGain = EconomyUtils.normalizeCurrency(totalGain);
+        totalGain *= getSellPriceMultiplier(player);
         if (totalGain <= 0) {
             return ShopTransactionResult.failure(errorMessages.invalidSellPrice());
         }
@@ -248,7 +251,8 @@ public class ShopTransactionService {
             }
 
             soldAmounts.merge(material, amount, Integer::sum);
-            totalGain += unitPrice * amount;
+            // use estimator so progressive dynamic pricing is accounted for per material
+            totalGain += pricingManager.estimateBulkTotal(material, amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.SELL);
         }
 
         if (soldAmounts.isEmpty()) {
