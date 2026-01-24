@@ -14,40 +14,46 @@ jobs:
       - name: Send issue or comment to Discord
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DEVELOPER_ROLE_ID: "1435040917575700571"
+          EVENT_NAME: ${{ github.event_name }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPO: ${{ github.repository }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          COMMENT_USER: ${{ github.event.comment.user.login }}
+          COMMENT_URL: ${{ github.event.comment.html_url }}
         run: |
-          if [[ "${{ github.event_name }}" == "issues" ]]; then
-            curl -X POST "$DISCORD_WEBHOOK" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "thread_name": "Issue #'${{ github.event.issue.number }}' – '${{ github.event.issue.title }}'",
-              "embeds": [
-                {
-                  "title": "🐛 New Issue Opened",
-                  "description": "**'${{ github.event.issue.title }}'**",
-                  "url": "${{ github.event.issue.html_url }}",
-                  "color": 15158332,
-                  "fields": [
-                    {
-                      "name": "Author",
-                      "value": "'${{ github.event.issue.user.login }}'",
-                      "inline": true
-                    },
-                    {
-                      "name": "Repository",
-                      "value": "'${{ github.repository }}'",
-                      "inline": true
-                    }
+          if [[ "$EVENT_NAME" == "issues" ]]; then
+            jq -n \
+              --arg role "<@&$DEVELOPER_ROLE_ID>" \
+              --arg title "$ISSUE_TITLE" \
+              --arg url "$ISSUE_URL" \
+              --arg author "$ISSUE_AUTHOR" \
+              --arg repo "$REPO" \
+              --arg number "$ISSUE_NUMBER" \
+              '{
+                content: ($role + " ⚠️ **New Issue Opened**"),
+                embeds: [{
+                  title: "🐛 #\($number) – \($title)",
+                  url: $url,
+                  color: 15158332,
+                  fields: [
+                    {name: "Author", value: $author, inline: true},
+                    {name: "Repository", value: $repo, inline: true}
                   ],
-                  "footer": {
-                    "text": "GitHub Issues"
-                  }
-                }
-              ]
-            }'
+                  footer: { text: "GitHub Issues" }
+                }]
+              }' | curl -fsSL -X POST "$DISCORD_WEBHOOK" -H "Content-Type: application/json" -d @-
           else
-            curl -X POST "$DISCORD_WEBHOOK" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "content": "💬 **New comment on Issue #'${{ github.event.issue.number }}'**\n**'${{ github.event.comment.user.login }}'**:\n${{ github.event.comment.body }}\n🔗 ${{ github.event.comment.html_url }}"
-            }'
+            TRIMMED_BODY=$(echo "${COMMENT_BODY:-[No text body]}" | head -c 1900)
+            jq -n \
+              --arg number "$ISSUE_NUMBER" \
+              --arg user "$COMMENT_USER" \
+              --arg body "$TRIMMED_BODY" \
+              --arg url "$COMMENT_URL" \
+              '{
+                content: "💬 **New comment on Issue #\($number)**\n**\($user)**: \($body)\n🔗 \($url)"
+              }' | curl -fsSL -X POST "$DISCORD_WEBHOOK" -H "Content-Type: application/json" -d @-
           fi
