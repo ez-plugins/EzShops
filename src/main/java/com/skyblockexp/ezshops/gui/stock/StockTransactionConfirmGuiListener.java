@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -47,5 +48,17 @@ public class StockTransactionConfirmGuiListener implements Listener {
         // Try to handle the click
         StockTransactionConfirmGui.handleClick(player, event.getInventory(), slot, productId, type, 
             stockMarketManager, allStocksGui, 1, "all");
+    }
+
+    @EventHandler
+    public void onInventoryDrag(InventoryDragEvent event) {
+        if (!(event.getWhoClicked() instanceof Player)) return;
+        String title = event.getView().getTitle();
+        String strippedTitle = ChatColor.stripColor(title);
+        
+        // Only handle if this is a transaction confirmation GUI
+        if (!strippedTitle.equals("Buy Stock") && !strippedTitle.equals("Sell Stock")) return;
+        
+        event.setCancelled(true);
     }
 }

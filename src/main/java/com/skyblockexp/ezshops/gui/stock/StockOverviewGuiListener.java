@@ -5,6 +5,7 @@ import com.skyblockexp.ezshops.stock.StockManager;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.ChatColor;
@@ -68,5 +69,14 @@ public class StockOverviewGuiListener implements Listener {
                     stockMarketManager, stockOverviewGui);
             }
         }
+    }
+
+    @EventHandler
+    public void onInventoryDrag(InventoryDragEvent event) {
+        if (!(event.getWhoClicked() instanceof Player)) return;
+        if (!event.getView().getTitle().contains(stockOverviewGui.getTitle())) return;
+
+        // Cancel all drag events in the stock overview GUI to prevent item theft
+        event.setCancelled(true);
     }
 }

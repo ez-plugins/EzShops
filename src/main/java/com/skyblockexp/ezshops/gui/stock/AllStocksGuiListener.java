@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
@@ -128,5 +129,18 @@ public class AllStocksGuiListener implements Listener {
             StockTransactionConfirmGui.open(player, productId, StockTransactionConfirmGui.TransactionType.SELL,
                 stockMarketManager, tempGui, page, currentFilter);
         }
+    }
+
+    @EventHandler
+    public void onInventoryDrag(InventoryDragEvent event) {
+        if (!(event.getWhoClicked() instanceof Player)) return;
+        String title = event.getView().getTitle();
+        
+        // Check if this is an AllStocksGui by title pattern
+        String strippedTitle = ChatColor.stripColor(title);
+        if (!strippedTitle.startsWith(ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', "&bAll Stocks")))) return;
+        
+        // Cancel all drag events in the AllStocksGui to prevent item theft
+        event.setCancelled(true);
     }
 }
