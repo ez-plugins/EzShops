@@ -13,6 +13,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import java.io.File;
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class AllStocksGuiListener implements Listener {
     private final StockMarketFrozenStore frozenStore;
     private final File configFile;
     private final StockOverviewGui stockOverviewGui;
+    private final String allStocksTitle;
 
     public AllStocksGuiListener(StockMarketManager stockMarketManager, 
                                 StockMarketConfig stockMarketConfig,
@@ -36,6 +39,9 @@ public class AllStocksGuiListener implements Listener {
         this.frozenStore = frozenStore;
         this.configFile = configFile;
         this.stockOverviewGui = stockOverviewGui;
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+        this.allStocksTitle = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', 
+            config.getString("all-stocks-gui.layout.title", "&bAll Stocks")));
     }
 
     @EventHandler
@@ -52,7 +58,7 @@ public class AllStocksGuiListener implements Listener {
         
         // Check if this is an AllStocksGui by title pattern
         String strippedTitle = ChatColor.stripColor(title);
-        if (!strippedTitle.startsWith(ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', "&bAll Stocks")))) return;
+        if (!strippedTitle.startsWith(allStocksTitle)) return;
         
         // Cancel all clicks in the GUI to prevent item duplication/theft
         event.setCancelled(true);
@@ -138,7 +144,7 @@ public class AllStocksGuiListener implements Listener {
         
         // Check if this is an AllStocksGui by title pattern
         String strippedTitle = ChatColor.stripColor(title);
-        if (!strippedTitle.startsWith(ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', "&bAll Stocks")))) return;
+        if (!strippedTitle.startsWith(allStocksTitle)) return;
         
         // Cancel all drag events in the AllStocksGui to prevent item theft
         event.setCancelled(true);
