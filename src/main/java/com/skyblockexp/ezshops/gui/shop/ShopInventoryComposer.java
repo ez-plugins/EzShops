@@ -219,6 +219,11 @@ public class ShopInventoryComposer {
 
     public void openCategoryMenu(Player player, ShopMenuLayout.Category category, int islandLevel,
             boolean ignoreIslandRequirements) {
+        openCategoryMenu(player, category, 0, islandLevel, ignoreIslandRequirements);
+    }
+
+    public void openCategoryMenu(Player player, ShopMenuLayout.Category category, int page, int islandLevel,
+            boolean ignoreIslandRequirements) {
         if (player == null || category == null) {
             return;
         }
@@ -231,41 +236,86 @@ public class ShopInventoryComposer {
         ShopMenuLayout.ItemDecoration fill = category.menuFill() != null ? category.menuFill() : layout.mainFill();
         applyFill(inventory, fill);
 
-        if (category.items().isEmpty()) {
+        holder.clearEntries();
+
+        List<ShopMenuLayout.Item> sortedItems = new ArrayList<>(category.items());
+        sortedItems.sort(Comparator.comparingInt(ShopMenuLayout.Item::slot));
+
+        int totalPages = Math.max(1, holder.totalPages());
+        int normalizedPage = Math.max(0, Math.min(page, totalPages - 1));
+        holder.setPage(normalizedPage);
+
+        int perPage = holder.itemsPerPage();
+        int startIndex = normalizedPage * perPage;
+        List<Integer> itemSlots = holder.itemSlots();
+
+        if (sortedItems.isEmpty()) {
             inventory.setItem(Math.min(13, inventory.getSize() - 1),
                     createPlaceholderItem(Material.BARRIER, categoryMenuMessages.emptyTitle(),
                             categoryMenuMessages.emptyLore()));
         } else {
-            for (ShopMenuLayout.Item item : category.items()) {
-                if (item.slot() < 0 || item.slot() >= inventory.getSize()) {
-                    plugin.getLogger().warning("Item '" + item.id() + "' in category '" + category.id()
-                            + "' has an invalid slot " + item.slot() + ".");
-                    continue;
+            for (int i = 0; i < itemSlots.size(); i++) {
+                int entryIndex = startIndex + i;
+                if (entryIndex >= sortedItems.size()) {
+                    break;
                 }
 
+                int slot = itemSlots.get(i);
+                ShopMenuLayout.Item item = sortedItems.get(entryIndex);
                 ItemStack stack = createShopMenuItem(category, item, islandLevel);
                 if (stack == null) {
                     continue;
                 }
-                stack = applyLevelRequirement(stack, item.requiredIslandLevel(), islandLevel, ignoreIslandRequirements);
+                stack = applyLevelRequirement(stack, item.requiredIslandLevel(), islandLevel,
+                        ignoreIslandRequirements);
                 setPersistent(stack, itemKey, item.id());
-                inventory.setItem(item.slot(), stack);
+                setPersistent(stack, categoryKey, category.id());
+                inventory.setItem(slot, stack);
+                holder.setEntry(slot, item);
+            }
+        }
+
+        if (holder.previousSlot() >= 0 && holder.hasPreviousPage()) {
+            ItemStack previous = createPlaceholderItem(Material.ARROW, flatMenuMessages.previousTitle(),
+                    flatMenuMessages.previousLore(normalizedPage));
+            if (previous != null) {
+                setPersistent(previous, actionKey, ACTION_PREVIOUS);
+                inventory.setItem(holder.previousSlot(), previous);
+            }
+        }
+
+        if (holder.nextSlot() >= 0 && holder.hasNextPage()) {
+            ItemStack next = createPlaceholderItem(Material.ARROW, flatMenuMessages.nextTitle(),
+                    flatMenuMessages.nextLore(normalizedPage + 2));
+            if (next != null) {
+                setPersistent(next, actionKey, ACTION_NEXT);
+                inventory.setItem(holder.nextSlot(), next);
+            }
+        }
+
+        if (holder.nextSlot() >= 0 && holder.previousSlot() >= 0) {
+            int indicatorSlot = holder.previousSlot() + (holder.nextSlot() - holder.previousSlot()) / 2;
+            if (indicatorSlot >= 0 && indicatorSlot < inventory.getSize()) {
+                ItemStack indicator = createPlaceholderItem(Material.PAPER,
+                        flatMenuMessages.pageIndicatorTitle(normalizedPage + 1, totalPages),
+                        flatMenuMessages.pageIndicatorLore());
+                if (indicator != null) {
+                    inventory.setItem(indicatorSlot, indicator);
+                }
             }
         }
 
         ShopMenuLayout.ItemDecoration backButtonDecoration = category.backButton() != null ? category.backButton()
                 : layout.defaultBackButton();
+        int backSlot = category.backButtonSlot() != null ? category.backButtonSlot()
+                : clampSlot(layout.defaultBackButtonSlot(), inventory.getSize());
         if (backButtonDecoration != null) {
-            int backSlot = category.backButtonSlot() != null ? category.backButtonSlot()
-                    : clampSlot(layout.defaultBackButtonSlot(), inventory.getSize());
             ItemStack backButton = createItem(backButtonDecoration, Map.of("{category}", category.displayName()));
             if (backButton != null) {
                 setPersistent(backButton, actionKey, ACTION_BACK);
                 inventory.setItem(backSlot, backButton);
             }
         } else {
-            int backSlot = category.backButtonSlot() != null ? category.backButtonSlot()
-                    : clampSlot(layout.defaultBackButtonSlot(), inventory.getSize());
             ItemStack backButton = createPlaceholderItem(Material.ARROW, categoryMenuMessages.defaultBackTitle(),
                     categoryMenuMessages.defaultBackLore(category.displayName()));
             if (backButton != null) {

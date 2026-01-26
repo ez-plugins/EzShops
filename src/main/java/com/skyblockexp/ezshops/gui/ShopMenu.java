@@ -132,7 +132,8 @@ public class ShopMenu implements Listener {
                     ShopMenuLayout.Category category = findCategoryById(layout, categoryHolder.category().id());
                     if (category != null) {
                         int islandLevel = resolvePlayerIslandLevel(player);
-                        inventoryComposer.openCategoryMenu(player, category, islandLevel, ignoreIslandRequirements);
+                        inventoryComposer.openCategoryMenu(player, category, categoryHolder.page(), islandLevel,
+                                ignoreIslandRequirements);
                     } else {
                         openMainMenu(player);
                     }
@@ -228,6 +229,24 @@ public class ShopMenu implements Listener {
         String action = CompatibilityUtil.get(container, actionKey, PersistentDataType.STRING);
         if (ShopInventoryComposer.ACTION_BACK.equalsIgnoreCase(action)) {
             plugin.getServer().getScheduler().runTask(plugin, () -> openMainMenu((Player) event.getWhoClicked()));
+            return;
+        }
+
+        if (ShopInventoryComposer.ACTION_PREVIOUS.equalsIgnoreCase(action)) {
+            if (categoryHolder.hasPreviousPage()) {
+                plugin.getServer().getScheduler().runTask(plugin, () -> inventoryComposer.openCategoryMenu(
+                        player, categoryHolder.category(), categoryHolder.page() - 1, resolvePlayerIslandLevel(player),
+                        ignoreIslandRequirements));
+            }
+            return;
+        }
+
+        if (ShopInventoryComposer.ACTION_NEXT.equalsIgnoreCase(action)) {
+            if (categoryHolder.hasNextPage()) {
+                plugin.getServer().getScheduler().runTask(plugin, () -> inventoryComposer.openCategoryMenu(
+                        player, categoryHolder.category(), categoryHolder.page() + 1, resolvePlayerIslandLevel(player),
+                        ignoreIslandRequirements));
+            }
             return;
         }
 
