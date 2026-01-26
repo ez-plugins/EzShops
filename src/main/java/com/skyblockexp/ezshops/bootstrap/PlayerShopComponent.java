@@ -50,7 +50,7 @@ public final class PlayerShopComponent implements PluginComponent {
     public void enable(EzShopsPlugin plugin) {
         this.plugin = plugin;
 
-        configuration = PlayerShopConfiguration.from(configurationSource, plugin.getLogger());
+        configuration = PlayerShopConfiguration.from(configurationSource, plugin.getLogger(), ((EzShopsPlugin) plugin).getCoreShopComponent().messageConfiguration());
         PlayerShopMessages messages = configuration.messages();
         disabledMessage = messages.commandDisabled();
 

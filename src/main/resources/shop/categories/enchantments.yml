@@ -1,19 +1,19 @@
 # EzShops category configuration for "enchantments".
 categories:
   enchantments:
-    name: '&5Enchantment Books'
+    name: "{translate:shop.categories.enchantments.name}"
     slot: 33
     icon:
       material: ENCHANTED_BOOK
-      display-name: '&5Enchantment Books'
+      display-name: "{translate:shop.categories.enchantments.icon-display-name}"
       lore:
-      - '&7Powerful books for upgrading your gear.'
+      - "{translate:shop.categories.enchantments.icon-lore}"
     menu:
-      title: '&5Enchantment Books'
+      title: "{translate:shop.categories.enchantments.menu.title}"
       size: 54
       fill:
         material: LIGHT_GRAY_STAINED_GLASS_PANE
-        display-name: '&7 '
+        display-name: "{translate:shop.common.menu.fill-display-name}"
     items:
       sharpness_v:
         type: ENCHANTED_BOOK
@@ -22,10 +22,10 @@ categories:
         amount: 1
         bulk-amount: 1
         icon-amount: 1
-        display-name: '&d{enchantments} Book'
+        display-name: "{translate:shop.categories.enchantments.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Contains: &b{enchantments}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.enchantments.contains-line}"
         buy: 18000.0
         enchantments:
           sharpness: 5
@@ -37,10 +37,10 @@ categories:
         amount: 1
         bulk-amount: 1
         icon-amount: 1
-        display-name: '&d{enchantments} Book'
+        display-name: "{translate:shop.categories.enchantments.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Contains: &b{enchantments}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.enchantments.contains-line}"
         buy: 22000.0
         enchantments:
           fortune: 3
@@ -52,10 +52,10 @@ categories:
         amount: 1
         bulk-amount: 1
         icon-amount: 1
-        display-name: '&d{enchantments} Book'
+        display-name: "{translate:shop.categories.enchantments.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Contains: &b{enchantments}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.enchantments.contains-line}"
         buy: 20000.0
         enchantments:
           silk_touch: 1
@@ -67,10 +67,10 @@ categories:
         amount: 1
         bulk-amount: 1
         icon-amount: 1
-        display-name: '&d{enchantments} Book'
+        display-name: "{translate:shop.categories.enchantments.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Contains: &b{enchantments}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.enchantments.contains-line}"
         buy: 21000.0
         enchantments:
           efficiency: 5
@@ -82,10 +82,10 @@ categories:
         amount: 1
         bulk-amount: 1
         icon-amount: 1
-        display-name: '&d{enchantments} Book'
+        display-name: "{translate:shop.categories.enchantments.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Contains: &b{enchantments}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.enchantments.contains-line}"
         buy: 17000.0
         enchantments:
           protection: 4
@@ -97,10 +97,10 @@ categories:
         amount: 1
         bulk-amount: 1
         icon-amount: 1
-        display-name: '&d{enchantments} Book'
+        display-name: "{translate:shop.categories.enchantments.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Contains: &b{enchantments}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.enchantments.contains-line}"
         buy: 16000.0
         enchantments:
           unbreaking: 3
@@ -112,10 +112,10 @@ categories:
         amount: 1
         bulk-amount: 1
         icon-amount: 1
-        display-name: '&d{enchantments} Book'
+        display-name: "{translate:shop.categories.enchantments.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Contains: &b{enchantments}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.enchantments.contains-line}"
         buy: 32000.0
         enchantments:
           mending: 1
@@ -127,10 +127,10 @@ categories:
         amount: 1
         bulk-amount: 1
         icon-amount: 1
-        display-name: '&d{enchantments} Book'
+        display-name: "{translate:shop.categories.enchantments.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Contains: &b{enchantments}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.enchantments.contains-line}"
         buy: 19000.0
         enchantments:
           looting: 3
@@ -142,10 +142,10 @@ categories:
         amount: 1
         bulk-amount: 1
         icon-amount: 1
-        display-name: '&d{enchantments} Book'
+        display-name: "{translate:shop.categories.enchantments.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Contains: &b{enchantments}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.enchantments.contains-line}"
         buy: 15000.0
         enchantments:
           power: 5

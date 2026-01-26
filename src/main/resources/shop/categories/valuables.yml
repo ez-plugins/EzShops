@@ -1,19 +1,19 @@
 # EzShops category configuration for "valuables".
 categories:
   valuables:
-    name: '&bValuables & Rares'
+    name: "{translate:shop.categories.valuables.name}"
     slot: 30
     icon:
       material: HEART_OF_THE_SEA
-      display-name: '&bValuables & Rares'
+      display-name: "{translate:shop.categories.valuables.icon-display-name}"
       lore:
-      - '&7Rare and valuable items.'
+      - "{translate:shop.categories.valuables.icon-lore}"
     menu:
-      title: '&bValuables & Rares'
+      title: "{translate:shop.categories.valuables.menu.title}"
       size: 54
       fill:
         material: LIGHT_GRAY_STAINED_GLASS_PANE
-        display-name: '&7 '
+        display-name: "{translate:shop.common.menu.fill-display-name}"
     items:
       emerald:
         material: EMERALD
@@ -21,12 +21,12 @@ categories:
         amount: 4
         bulk-amount: 32
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Guaranteed by the shopkeeper.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
         buy: 400.0
         sell: 140.0
         required-island-level: 5
@@ -36,12 +36,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Guaranteed by the shopkeeper.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
         buy: 40.0
         sell: 14.0
         required-island-level: 3
@@ -51,12 +51,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&2Experience Bottle'
+        display-name: "{translate:shop.categories.valuables.experience-bottle-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &cN/A'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total}'
-        - '&7Guaranteed by the shopkeeper.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.cannot-sell-line}"
+        - "{translate:shop.common.buy-only-shift-line}"
+        - "{translate:shop.categories.valuables.item-note}"
         buy: 110.0
         sell: -1.0
         required-island-level: 6
@@ -66,12 +66,12 @@ categories:
         amount: 2
         bulk-amount: 16
         icon-amount: 2
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Guaranteed by the shopkeeper.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
         buy: 1100.0
         sell: 385.0
         required-island-level: 10
@@ -81,12 +81,12 @@ categories:
         amount: 1
         bulk-amount: 8
         icon-amount: 1
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Guaranteed by the shopkeeper.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
         buy: 2400.0
         sell: 840.0
         required-island-level: 12
@@ -96,12 +96,12 @@ categories:
         amount: 4
         bulk-amount: 32
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Guaranteed by the shopkeeper.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
         buy: 900.0
         sell: 310.0
         required-island-level: 11
@@ -111,12 +111,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Guaranteed by the shopkeeper.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
         buy: 280.0
         sell: 100.0
         required-island-level: 12
@@ -126,11 +126,11 @@ categories:
         amount: 1
         bulk-amount: 8
         icon-amount: 1
-        display-name: '&2Enchanted Golden Apple'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7This item cannot be sold.'
-        - '&7Guaranteed by the shopkeeper.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.cannot-sell-line}"
+        - "{translate:shop.categories.valuables.item-note}"
         buy: 3200.0
         sell: -1.0
         required-island-level: 14
@@ -140,12 +140,12 @@ categories:
         amount: 2
         bulk-amount: 16
         icon-amount: 2
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Guaranteed by the shopkeeper.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
         buy: 960.0
         sell: 336.0
         required-island-level: 8
@@ -155,11 +155,11 @@ categories:
         amount: 1
         bulk-amount: 8
         icon-amount: 1
-        display-name: '&2Beacon'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7This item cannot be sold.'
-        - '&7Guaranteed by the shopkeeper.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.cannot-sell-line}"
+        - "{translate:shop.categories.valuables.item-note}"
         buy: 5200.0
         sell: -1.0
         required-island-level: 15
@@ -169,12 +169,12 @@ categories:
         amount: 1
         bulk-amount: 4
         icon-amount: 1
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Guaranteed by the shopkeeper.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
         buy: 18000.0
         sell: 5400.0
         required-island-level: 18
@@ -184,12 +184,12 @@ categories:
         amount: 1
         bulk-amount: 4
         icon-amount: 1
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Guaranteed by the shopkeeper.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
         buy: 26000.0
         sell: 7800.0
         required-island-level: 19
@@ -199,12 +199,12 @@ categories:
         amount: 1
         bulk-amount: 16
         icon-amount: 1
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Guaranteed by the shopkeeper.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
         buy: 4600.0
         sell: 1500.0
         required-island-level: 14
@@ -214,12 +214,12 @@ categories:
         amount: 1
         bulk-amount: 16
         icon-amount: 1
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Guaranteed by the shopkeeper.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
         buy: 8600.0
         sell: 2800.0
         required-island-level: 17
@@ -229,12 +229,12 @@ categories:
         amount: 1
         bulk-amount: 8
         icon-amount: 1
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Guaranteed by the shopkeeper.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
         buy: 2200.0
         sell: 720.0
         required-island-level: 10
@@ -244,12 +244,12 @@ categories:
         amount: 8
         bulk-amount: 64
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Guaranteed by the shopkeeper.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
         buy: 320.0
         sell: 112.0
         required-island-level: 7

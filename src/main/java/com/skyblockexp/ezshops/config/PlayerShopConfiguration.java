@@ -14,6 +14,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.skyblockexp.ezshops.playershop.PlayerShopMessages;
+import com.skyblockexp.ezshops.playershop.SignFormat;
 
 /**
  * Configuration values that control how player-created shops behave.
@@ -53,13 +54,7 @@ public final class PlayerShopConfiguration {
         this.messages = Objects.requireNonNull(messages, "messages");
     }
 
-    public static PlayerShopConfiguration from(FileConfiguration configuration, Logger logger) {
-        // Determine language from config
-        String lang = configuration.getString("language", "en");
-        String langFile = "messages/messages_" + lang + ".yml";
-        org.bukkit.configuration.file.YamlConfiguration langYaml = org.bukkit.configuration.file.YamlConfiguration.loadConfiguration(
-            new java.io.File(org.bukkit.Bukkit.getPluginManager().getPlugin("EzShops").getDataFolder(), langFile)
-        );
+    public static PlayerShopConfiguration from(FileConfiguration configuration, Logger logger, ShopMessageConfiguration messages) {
 
         ConfigurationSection section = configuration.getConfigurationSection("player-shops");
         if (section == null) {
@@ -107,19 +102,12 @@ public final class PlayerShopConfiguration {
             maxPrice = minPrice;
         }
 
-        SignFormat signFormat = SignFormat.from(section.getConfigurationSection("sign-format"));
+        SignFormat signFormat = SignFormat.from(section.getConfigurationSection("sign-format"), messages);
 
-        // Use messages from the language YAML if present, else fallback to config
-        org.bukkit.configuration.ConfigurationSection langMessages = langYaml.getConfigurationSection("player-shops.messages");
-        PlayerShopMessages messages;
-        if (langMessages != null) {
-            messages = PlayerShopMessages.from(langMessages);
-        } else {
-            messages = PlayerShopMessages.from(section.getConfigurationSection("messages"));
-        }
+        PlayerShopMessages playerMessages = PlayerShopMessages.from(section.getConfigurationSection("messages"));
 
         return new PlayerShopConfiguration(enabled, normalizedHeaders, requireStock, minQuantity, maxQuantity, minPrice,
-                maxPrice, signFormat, messages);
+                maxPrice, signFormat, playerMessages);
     }
 
     public static PlayerShopConfiguration defaults() {
@@ -167,95 +155,5 @@ public final class PlayerShopConfiguration {
         return messages;
     }
 
-    /**
-     * Configurable text that controls how shop signs are displayed.
-     */
-    public static final class SignFormat {
-
-        private final String availableHeader;
-        private final String outOfStockHeader;
-        private final String ownerFormat;
-        private final String unknownOwnerName;
-        private final String itemFormat;
-        private final String priceFormat;
-        private final String outOfStockLine;
-
-        private SignFormat(String availableHeader, String outOfStockHeader, String ownerFormat,
-                String unknownOwnerName, String itemFormat, String priceFormat, String outOfStockLine) {
-            this.availableHeader = availableHeader;
-            this.outOfStockHeader = outOfStockHeader;
-            this.ownerFormat = ownerFormat;
-            this.unknownOwnerName = unknownOwnerName;
-            this.itemFormat = itemFormat;
-            this.priceFormat = priceFormat;
-            this.outOfStockLine = outOfStockLine;
-        }
-
-        public static SignFormat from(ConfigurationSection section) {
-            if (section == null) {
-                return defaults();
-            }
-            String availableHeader = translate(section.getString("available-header", DEFAULT_AVAILABLE_HEADER));
-            String outOfStockHeader = translate(section.getString("out-of-stock-header", DEFAULT_OUT_OF_STOCK_HEADER));
-            String ownerFormat = translate(section.getString("owner-format", DEFAULT_OWNER_FORMAT));
-            String unknownOwner = section.getString("unknown-owner-name", DEFAULT_UNKNOWN_OWNER);
-            if (unknownOwner == null || unknownOwner.isBlank()) {
-                unknownOwner = DEFAULT_UNKNOWN_OWNER;
-            }
-            String itemFormat = translate(section.getString("item-format", DEFAULT_ITEM_FORMAT));
-            String priceFormat = translate(section.getString("price-format", DEFAULT_PRICE_FORMAT));
-            String outOfStockLine = translate(section.getString("out-of-stock-line", DEFAULT_OUT_OF_STOCK_LINE));
-            return new SignFormat(availableHeader, outOfStockHeader, ownerFormat, unknownOwner, itemFormat, priceFormat,
-                    outOfStockLine);
-        }
-
-        public static SignFormat defaults() {
-            return new SignFormat(translate(DEFAULT_AVAILABLE_HEADER), translate(DEFAULT_OUT_OF_STOCK_HEADER),
-                    translate(DEFAULT_OWNER_FORMAT), DEFAULT_UNKNOWN_OWNER, translate(DEFAULT_ITEM_FORMAT),
-                    translate(DEFAULT_PRICE_FORMAT), translate(DEFAULT_OUT_OF_STOCK_LINE));
-        }
-
-        public String availableHeader() {
-            return availableHeader;
-        }
-
-        public String outOfStockHeader() {
-            return outOfStockHeader;
-        }
-
-        public String unknownOwnerName() {
-            return unknownOwnerName;
-        }
-
-        public String[] formatLines(String ownerName, int amount, String itemName, String priceText, boolean hasStock) {
-            Objects.requireNonNull(ownerName, "ownerName");
-            String resolvedOwner = replace(ownerFormat, ownerName, amount, itemName, priceText);
-            String resolvedItem = replace(itemFormat, ownerName, amount, itemName, priceText);
-            String resolvedPrice = replace(priceFormat, ownerName, amount, itemName, priceText);
-            String resolvedOutOfStock = replace(outOfStockLine, ownerName, amount, itemName, priceText);
-
-            String[] lines = new String[4];
-            lines[0] = hasStock ? availableHeader : outOfStockHeader;
-            lines[1] = resolvedOwner;
-            lines[2] = resolvedItem;
-            lines[3] = hasStock ? resolvedPrice : resolvedOutOfStock;
-            return lines;
-        }
-
-        private static String replace(String template, String ownerName, int amount, String itemName, String priceText) {
-            String result = template;
-            result = result.replace("{owner}", ownerName);
-            result = result.replace("{amount}", Integer.toString(amount));
-            result = result.replace("{item}", itemName);
-            result = result.replace("{price}", priceText);
-            return result;
-        }
-
-        private static String translate(String value) {
-            if (value == null) {
-                return "";
-            }
-            return MessageUtil.translateColors(value);
-        }
-    }
+    // SignFormat moved to com.skyblockexp.ezshops.playershop.SignFormat
 }

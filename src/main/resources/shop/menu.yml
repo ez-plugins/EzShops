@@ -3,15 +3,15 @@
 # Rotating menus live under shop/rotations/*.yml; set rotation-group in a category
 # file to bind it to one of those definitions (see categories/daily_specials.yml).
 main-menu:
-  title: '&aServer Shop'
+  title: "{translate:shop.menu.main.title}"
   size: 54
   fill:
     material: LIGHT_GRAY_STAINED_GLASS_PANE
-    display-name: '&7 '
+    display-name: "{translate:shop.common.menu.fill-display-name}"
 category-menu:
   back-button-slot: 49
   back-button:
     material: ARROW
-    display-name: '&eBack'
+    display-name: "{translate:shop.menu.category.back-display-name}"
     lore:
-    - '&7Return to the main shop menu.'
+    - "{translate:shop.menu.category.back-lore}"

@@ -1,19 +1,19 @@
 # EzShops category configuration for "mob_drops".
 categories:
   mob_drops:
-    name: '&cMob Drops & Combat'
+    name: "{translate:shop.categories.mob_drops.name}"
     slot: 23
     icon:
       material: PHANTOM_MEMBRANE
-      display-name: '&cMob Drops & Combat'
+      display-name: "{translate:shop.categories.mob_drops.icon-display-name}"
       lore:
-      - '&7Mob drops and combat gear.'
+      - "{translate:shop.categories.mob_drops.icon-lore}"
     menu:
-      title: '&cMob Drops & Combat'
+      title: "{translate:shop.categories.mob_drops.menu.title}"
       size: 54
       fill:
         material: LIGHT_GRAY_STAINED_GLASS_PANE
-        display-name: '&7 '
+        display-name: "{translate:shop.common.menu.fill-display-name}"
     items:
       bone:
         material: BONE
@@ -21,12 +21,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Favored by hunters and warriors.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
         buy: 24.0
         sell: 8.4
       string:
@@ -35,12 +35,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Favored by hunters and warriors.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
         buy: 22.0
         sell: 7.7
       gunpowder:
@@ -49,12 +49,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Favored by hunters and warriors.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
         buy: 60.0
         sell: 21.0
         required-island-level: 4
@@ -64,12 +64,12 @@ categories:
         amount: 8
         bulk-amount: 32
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Favored by hunters and warriors.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
         buy: 120.0
         sell: 42.0
         required-island-level: 6
@@ -79,12 +79,12 @@ categories:
         amount: 8
         bulk-amount: 32
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Favored by hunters and warriors.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
         buy: 130.0
         sell: 45.5
         required-island-level: 7
@@ -94,12 +94,12 @@ categories:
         amount: 8
         bulk-amount: 32
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Favored by hunters and warriors.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
         buy: 90.0
         sell: 31.5
         required-island-level: 5
@@ -109,12 +109,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Favored by hunters and warriors.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
         buy: 18.0
         sell: 6.3
       ghast_tear:
@@ -123,12 +123,12 @@ categories:
         amount: 8
         bulk-amount: 32
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Favored by hunters and warriors.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
         buy: 180.0
         sell: 63.0
         required-island-level: 8
@@ -138,12 +138,12 @@ categories:
         amount: 8
         bulk-amount: 32
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Favored by hunters and warriors.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
         buy: 140.0
         sell: 49.0
         required-island-level: 7

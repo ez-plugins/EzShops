@@ -1,6 +1,7 @@
 package com.skyblockexp.ezshops.gui.stock;
 
 import com.skyblockexp.ezshops.common.MessageUtil;
+import com.skyblockexp.ezshops.config.ConfigTranslator;
 import com.skyblockexp.ezshops.stock.StockMarketManager;
 import com.skyblockexp.ezshops.config.StockMarketConfig;
 import com.skyblockexp.ezshops.stock.StockMarketFrozenStore;
@@ -41,7 +42,7 @@ public class StockOverviewGui {
         this.debugMode = debugMode;
         this.guiConfig = YamlConfiguration.loadConfiguration(configFile);
         this.rows = guiConfig.getInt("layout.rows", 6);
-        this.title = MessageUtil.translateColors(guiConfig.getString("layout.title", "Stock Market Overview"));
+        this.title = ConfigTranslator.resolve(guiConfig.getString("layout.title", "Stock Market Overview"), null);
         this.filters = new ArrayList<>();
         List<?> filterList = guiConfig.getList("filters");
         if (filterList != null) {
@@ -59,7 +60,7 @@ public class StockOverviewGui {
         if (guiConfig.isConfigurationSection("localization")) {
             Set<String> keys = guiConfig.getConfigurationSection("localization").getKeys(false);
             for (String key : keys) {
-                localization.put(key, MessageUtil.translateColors(guiConfig.getString("localization." + key)));
+                localization.put(key, ConfigTranslator.resolve(guiConfig.getString("localization." + key), null));
             }
         }
         // Ensure 'item-format' is present with a default if missing
@@ -81,20 +82,20 @@ public class StockOverviewGui {
             String matName = section.getString("material", "BOOK");
             Material mat = Material.matchMaterial(matName);
             this.seeAllStocksMaterial = mat != null ? mat : Material.BOOK;
-            this.seeAllStocksDisplayName = MessageUtil.translateColors(section.getString("display-name", "&bSee All Stocks"));
+            this.seeAllStocksDisplayName = ConfigTranslator.resolve(section.getString("display-name", "&bSee All Stocks"), null);
             List<String> loreList = section.getStringList("lore");
             if (loreList == null || loreList.isEmpty()) {
                 this.seeAllStocksLore = Collections.singletonList(ChatColor.GRAY + "View all available stocks");
             } else {
                 List<String> colored = new ArrayList<>();
-                for (String l : loreList) colored.add(MessageUtil.translateColors(l));
+                for (String l : loreList) colored.add(ConfigTranslator.resolve(l, null));
                 this.seeAllStocksLore = colored;
             }
         } else {
             this.seeAllStocksEnabled = false;
             this.seeAllStocksSlot = (rows * 9) - 1;
             this.seeAllStocksMaterial = Material.BOOK;
-            this.seeAllStocksDisplayName = MessageUtil.translateColors("&bSee All Stocks");
+            this.seeAllStocksDisplayName = ConfigTranslator.resolve("&bSee All Stocks", null);
             this.seeAllStocksLore = Collections.singletonList(ChatColor.GRAY + "View all available stocks");
         }
     }
@@ -125,7 +126,7 @@ public class StockOverviewGui {
             String displayName;
             double price = stockMarketManager.getPrice(id);
             if (override != null) {
-                displayName = override.display != null ? MessageUtil.translateColors(override.display) : id;
+                displayName = override.display != null ? ConfigTranslator.resolve(override.display, null) : id;
             } else {
                 displayName = id.charAt(0) + id.substring(1).toLowerCase().replace('_', ' ');
             }
@@ -136,7 +137,7 @@ public class StockOverviewGui {
             var meta = item.getItemMeta();
             String itemFormat = localize("item-format");
             // No need to warn the player, always present due to default above
-            String guiDisplayName = MessageUtil.translateColors(itemFormat)
+            String guiDisplayName = ConfigTranslator.resolve(itemFormat, null)
                 .replace("{item}", displayName)
                 .replace("{price}", String.format("%.2f", price));
             meta.setDisplayName(guiDisplayName);

@@ -1,6 +1,7 @@
 package com.skyblockexp.ezshops.gui.stock;
 
 import com.skyblockexp.ezshops.common.MessageUtil;
+import com.skyblockexp.ezshops.config.ConfigTranslator;
 import com.skyblockexp.ezshops.stock.StockMarketManager;
 import com.skyblockexp.ezshops.config.StockMarketConfig;
 import com.skyblockexp.ezshops.stock.StockMarketFrozenStore;
@@ -72,8 +73,8 @@ public class AllStocksGui {
         
         // Load layout configuration
         this.rows = guiConfig.getInt("all-stocks-gui.layout.rows", 6);
-        this.title = MessageUtil.translateColors(
-            guiConfig.getString("all-stocks-gui.layout.title", "&bAll Stocks"));
+        this.title = ConfigTranslator.resolve(
+            guiConfig.getString("all-stocks-gui.layout.title", "&bAll Stocks"), null);
         
         // Load back button configuration
         var backSection = guiConfig.getConfigurationSection("all-stocks-gui.back-button");
@@ -83,12 +84,12 @@ public class AllStocksGui {
             String matName = backSection.getString("material", "BARRIER");
             Material mat = Material.matchMaterial(matName);
             this.backButtonMaterial = mat != null ? mat : Material.BARRIER;
-            this.backButtonDisplayName = MessageUtil.translateColors(
-                backSection.getString("display-name", "&cBack to My Stocks"));
+            this.backButtonDisplayName = ConfigTranslator.resolve(
+                backSection.getString("display-name", "&cBack to My Stocks"), null);
             List<String> lore = backSection.getStringList("lore");
             this.backButtonLore = new ArrayList<>();
             for (String l : lore) {
-                this.backButtonLore.add(MessageUtil.translateColors(l));
+                this.backButtonLore.add(ConfigTranslator.resolve(l, null));
             }
         } else {
             this.backButtonEnabled = true;
@@ -106,12 +107,12 @@ public class AllStocksGui {
             String matName = filterSection.getString("material", "HOPPER");
             Material mat = Material.matchMaterial(matName);
             this.filterButtonMaterial = mat != null ? mat : Material.HOPPER;
-            this.filterButtonDisplayName = MessageUtil.translateColors(
-                filterSection.getString("display-name", "&aFilter: {filter}"));
+            this.filterButtonDisplayName = ConfigTranslator.resolve(
+                filterSection.getString("display-name", "&aFilter: {filter}"), null);
             List<String> lore = filterSection.getStringList("lore");
             this.filterButtonLore = new ArrayList<>();
             for (String l : lore) {
-                this.filterButtonLore.add(MessageUtil.translateColors(l));
+                this.filterButtonLore.add(ConfigTranslator.resolve(l, null));
             }
         } else {
             this.filterButtonEnabled = true;
@@ -128,8 +129,8 @@ public class AllStocksGui {
             String matName = prevSection.getString("material", "ARROW");
             Material mat = Material.matchMaterial(matName);
             this.previousPageMaterial = mat != null ? mat : Material.ARROW;
-            this.previousPageDisplayName = MessageUtil.translateColors(
-                prevSection.getString("display-name", "&aPrevious Page"));
+            this.previousPageDisplayName = ConfigTranslator.resolve(
+                prevSection.getString("display-name", "&aPrevious Page"), null);
         } else {
             this.previousPageSlot = (rows * 9) - 7;
             this.previousPageMaterial = Material.ARROW;
@@ -142,8 +143,8 @@ public class AllStocksGui {
             String matName = nextSection.getString("material", "ARROW");
             Material mat = Material.matchMaterial(matName);
             this.nextPageMaterial = mat != null ? mat : Material.ARROW;
-            this.nextPageDisplayName = MessageUtil.translateColors(
-                nextSection.getString("display-name", "&aNext Page"));
+            this.nextPageDisplayName = ConfigTranslator.resolve(
+                nextSection.getString("display-name", "&aNext Page"), null);
         } else {
             this.nextPageSlot = (rows * 9) - 1;
             this.nextPageMaterial = Material.ARROW;
@@ -187,8 +188,8 @@ public class AllStocksGui {
         var locSection = guiConfig.getConfigurationSection("all-stocks-gui.localization");
         if (locSection != null) {
             for (String key : locSection.getKeys(false)) {
-                localization.put(key, MessageUtil.translateColors(
-                    locSection.getString(key)));
+                localization.put(key, ConfigTranslator.resolve(
+                    locSection.getString(key), null));
             }
         }
         // Defaults
@@ -246,7 +247,7 @@ public class AllStocksGui {
         int totalPages = Math.max(1, (allIds.size() + pageSize - 1) / pageSize);
         page = Math.max(1, Math.min(page, totalPages));
         
-        String displayTitle = MessageUtil.translateColors(title) + " (" + page + "/" + totalPages + ")";
+        String displayTitle = ConfigTranslator.resolve(title, null) + " (" + page + "/" + totalPages + ")";
         Inventory inv = Bukkit.createInventory(player, rows * 9, displayTitle);
         
         int start = (page - 1) * pageSize;
@@ -263,7 +264,7 @@ public class AllStocksGui {
             String displayName;
             double price;
             if (override != null) {
-                displayName = override.display != null ? MessageUtil.translateColors(override.display) : id;
+                displayName = override.display != null ? ConfigTranslator.resolve(override.display, null) : id;
                 price = override.basePrice;
             } else {
                 displayName = id.charAt(0) + id.substring(1).toLowerCase().replace('_', ' ');

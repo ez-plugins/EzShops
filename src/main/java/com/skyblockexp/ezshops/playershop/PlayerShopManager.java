@@ -2,7 +2,7 @@ package com.skyblockexp.ezshops.playershop;
 
 import com.skyblockexp.ezshops.repository.PlayerShopRepository;
 import com.skyblockexp.ezshops.config.PlayerShopConfiguration;
-import com.skyblockexp.ezshops.config.PlayerShopConfiguration.SignFormat;
+import com.skyblockexp.ezshops.playershop.SignFormat;
 import com.skyblockexp.ezshops.shop.ShopTransactionResult;
 import java.text.NumberFormat;
 import java.util.ArrayList;

@@ -86,6 +86,14 @@ public final class ShopMessageConfiguration {
         return signs;
     }
 
+    /**
+     * Lookup a translation by path from the loaded primary messages, falling back to English.
+     * Returns colorized text and falls back to the provided default when missing.
+     */
+    public String lookup(String path, String def) {
+        return string(path, def);
+    }
+
     private static String languageFileName(String language) {
         return BASE_PATH + '_' + language + ".yml";
     }

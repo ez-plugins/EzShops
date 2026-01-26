@@ -1,19 +1,19 @@
 # EzShops category configuration for "spawners".
 categories:
   spawners:
-    name: '&6Mob Spawners'
+    name: "{translate:shop.categories.spawners.name}"
     slot: 32
     icon:
       material: SPAWNER
-      display-name: '&6Mob Spawners'
+      display-name: "{translate:shop.categories.spawners.icon-display-name}"
       lore:
-      - '&7Purchase mob spawners to power your island grinders.'
+      - "{translate:shop.categories.spawners.icon-lore}"
     menu:
-      title: '&6Mob Spawners'
+      title: "{translate:shop.categories.spawners.menu.title}"
       size: 54
       fill:
         material: LIGHT_GRAY_STAINED_GLASS_PANE
-        display-name: '&7 '
+        display-name: "{translate:shop.common.menu.fill-display-name}"
     items:
       chicken_spawner:
         type: SPAWNER
@@ -23,10 +23,10 @@ categories:
         bulk-amount: 1
         icon: CHICKEN_SPAWN_EGG
         icon-amount: 1
-        display-name: '&f{spawner}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Spawns: &b{spawner_name}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.spawners.spawns-line}"
         buy: 55000.0
         spawner-entity: CHICKEN
         required-island-level: 5
@@ -38,10 +38,10 @@ categories:
         bulk-amount: 1
         icon: COW_SPAWN_EGG
         icon-amount: 1
-        display-name: '&f{spawner}'
+        display-name: "{translate:shop.common.spawner-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Spawns: &b{spawner_name}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.spawners.spawns-line}"
         buy: 64000.0
         spawner-entity: COW
         required-island-level: 6
@@ -53,10 +53,10 @@ categories:
         bulk-amount: 1
         icon: PIG_SPAWN_EGG
         icon-amount: 1
-        display-name: '&f{spawner}'
+        display-name: "{translate:shop.common.spawner-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Spawns: &b{spawner_name}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.spawners.spawns-line}"
         buy: 61000.0
         spawner-entity: PIG
         required-island-level: 6
@@ -68,10 +68,10 @@ categories:
         bulk-amount: 1
         icon: ZOMBIE_SPAWN_EGG
         icon-amount: 1
-        display-name: '&f{spawner}'
+        display-name: "{translate:shop.common.spawner-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Spawns: &b{spawner_name}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.spawners.spawns-line}"
         buy: 78000.0
         spawner-entity: ZOMBIE
         required-island-level: 7
@@ -83,10 +83,10 @@ categories:
         bulk-amount: 1
         icon: SKELETON_SPAWN_EGG
         icon-amount: 1
-        display-name: '&f{spawner}'
+        display-name: "{translate:shop.common.spawner-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Spawns: &b{spawner_name}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.spawners.spawns-line}"
         buy: 82000.0
         spawner-entity: SKELETON
         required-island-level: 7
@@ -98,10 +98,10 @@ categories:
         bulk-amount: 1
         icon: SPIDER_SPAWN_EGG
         icon-amount: 1
-        display-name: '&f{spawner}'
+        display-name: "{translate:shop.common.spawner-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Spawns: &b{spawner_name}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.spawners.spawns-line}"
         buy: 76000.0
         spawner-entity: SPIDER
         required-island-level: 7
@@ -113,10 +113,10 @@ categories:
         bulk-amount: 1
         icon: BLAZE_SPAWN_EGG
         icon-amount: 1
-        display-name: '&f{spawner}'
+        display-name: "{translate:shop.common.spawner-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Spawns: &b{spawner_name}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.spawners.spawns-line}"
         buy: 110000.0
         spawner-entity: BLAZE
         required-island-level: 9
@@ -128,10 +128,10 @@ categories:
         bulk-amount: 1
         icon: WITCH_SPAWN_EGG
         icon-amount: 1
-        display-name: '&f{spawner}'
+        display-name: "{translate:shop.common.spawner-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Spawns: &b{spawner_name}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.spawners.spawns-line}"
         buy: 135000.0
         spawner-entity: WITCH
         required-island-level: 10
@@ -143,10 +143,10 @@ categories:
         bulk-amount: 1
         icon: GUARDIAN_SPAWN_EGG
         icon-amount: 1
-        display-name: '&f{spawner}'
+        display-name: "{translate:shop.common.spawner-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Spawns: &b{spawner_name}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.categories.spawners.spawns-line}"
         buy: 150000.0
         spawner-entity: GUARDIAN
         required-island-level: 11

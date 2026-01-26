@@ -47,7 +47,7 @@ public final class ShopSignConfiguration {
         this.unavailableFormat = unavailableFormat;
     }
 
-    public static ShopSignConfiguration from(FileConfiguration configuration, Logger logger) {
+    public static ShopSignConfiguration from(FileConfiguration configuration, Logger logger, ShopMessageConfiguration messages) {
         Objects.requireNonNull(configuration, "configuration");
         Objects.requireNonNull(logger, "logger");
 
@@ -75,12 +75,12 @@ public final class ShopSignConfiguration {
             return defaultsWithHeaders(headerTokens);
         }
 
-        String headerText = colorize(display.getString("header", DEFAULT_HEADER));
-        String buyFormat = colorize(display.getString("buy-format", DEFAULT_BUY_FORMAT));
-        String sellFormat = colorize(display.getString("sell-format", DEFAULT_SELL_FORMAT));
-        String itemFormat = colorize(display.getString("item-format", DEFAULT_ITEM_FORMAT));
-        String priceFormat = colorize(display.getString("price-format", DEFAULT_PRICE_FORMAT));
-        String unavailableFormat = colorize(display.getString("unavailable-format", DEFAULT_UNAVAILABLE_FORMAT));
+        String headerText = ConfigTranslator.resolve(display.getString("header", DEFAULT_HEADER), messages);
+        String buyFormat = ConfigTranslator.resolve(display.getString("buy-format", DEFAULT_BUY_FORMAT), messages);
+        String sellFormat = ConfigTranslator.resolve(display.getString("sell-format", DEFAULT_SELL_FORMAT), messages);
+        String itemFormat = ConfigTranslator.resolve(display.getString("item-format", DEFAULT_ITEM_FORMAT), messages);
+        String priceFormat = ConfigTranslator.resolve(display.getString("price-format", DEFAULT_PRICE_FORMAT), messages);
+        String unavailableFormat = ConfigTranslator.resolve(display.getString("unavailable-format", DEFAULT_UNAVAILABLE_FORMAT), messages);
 
         String normalizedHeader = normalizeHeader(headerText);
         if (normalizedHeader != null) {

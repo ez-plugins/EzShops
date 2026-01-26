@@ -2,22 +2,22 @@
 # Supports filtering, permissions, and localization
 layout:
   rows: 6
-  title: "&6Stock Market Overview"
+  title: "{translate:stock.gui.overview.title}"
   filter-bar-row: 1
   pagination-row: 6
 filters:
   - id: "all"
-    display: "All Stocks"
+    display: "{translate:stock.gui.filter.all}"
   - id: "category"
-    display: "By Category"
+    display: "{translate:stock.gui.filter.category}"
   - id: "price"
-    display: "By Price"
+    display: "{translate:stock.gui.filter.price}"
 localization:
-  next-page: "&aNext Page"
-  prev-page: "&cPrevious Page"
-  filter-label: "&eFilter: {filter}"
-  no-stocks: "&cNo tradable stocks found."
-  item-format: "&e{item} &7- &6{price}"
+  next-page: "{translate:stock.gui.localization.next-page}"
+  prev-page: "{translate:stock.gui.localization.prev-page}"
+  filter-label: "{translate:stock.gui.localization.filter-label}"
+  no-stocks: "{translate:stock.gui.localization.no-stocks}"
+  item-format: "{translate:stock.gui.localization.item-format}"
 permissions:
   view: "ezshops.stock.view"
   advanced: "ezshops.stock.gui.advanced"
@@ -27,60 +27,60 @@ see-all-stocks:
   enabled: true
   slot: 53  # Last slot in a 6-row chest (0-based)
   material: "BOOK"
-  display-name: "&bSee All Stocks"
+  display-name: "{translate:stock.gui.see-all.display-name}"
   lore:
-    - "&7View all available stocks in the market."
-    - "&eClick to browse everything!"
+    - "{translate:stock.gui.see-all.lore.line1}"
+    - "{translate:stock.gui.see-all.lore.line2}"
 
 # All Stocks GUI configuration
 # This is the comprehensive stock browser opened from the main overview
 all-stocks-gui:
   layout:
     rows: 6
-    title: "&bAll Stocks"
+    title: "{translate:stock.gui.all-stocks.title}"
   
   # Back button to return to the main stock overview
   back-button:
     enabled: true
     slot: 45  # First slot of last row (0-based)
     material: "BARRIER"
-    display-name: "&cBack to My Stocks"
+    display-name: "{translate:stock.gui.all-stocks.back-display-name}"
     lore:
-      - "&7Return to your stock overview"
+      - "{translate:stock.gui.all-stocks.back-lore}"
   
   # Filter cycling button
   filter-button:
     enabled: true
     slot: 46  # Second slot of last row (0-based)
     material: "HOPPER"
-    display-name: "&aFilter: {filter}"
+    display-name: "{translate:stock.gui.all-stocks.filter-button-display}"
     lore:
-      - "&7Click to cycle filters"
-      - "&eCurrent: {filter}"
+      - "{translate:stock.gui.all-stocks.filter-button.lore.click}"
+      - "{translate:stock.gui.all-stocks.filter-button.lore.current}"
   
   # Available filters for the All Stocks GUI
   filters:
     - id: "all"
-      display: "All Items"
+      display: "{translate:stock.gui.filters.all}"
     - id: "blocks"
-      display: "Blocks"
+      display: "{translate:stock.gui.filters.blocks}"
     - id: "items"
-      display: "Items"
+      display: "{translate:stock.gui.filters.items}"
   
   # Pagination buttons
   pagination:
     previous:
       slot: 47  # Third slot of last row (0-based)
       material: "ARROW"
-      display-name: "&aPrevious Page"
+      display-name: "{translate:stock.gui.pagination.previous}"
     next:
       slot: 52  # Second-to-last slot of last row (0-based)
       material: "ARROW"
-      display-name: "&aNext Page"
+      display-name: "{translate:stock.gui.pagination.next}"
   
   # Localization for All Stocks GUI
   localization:
-    item-price-format: "&7Current Price: &6{price}"
-    item-blocked: "&cBlocked"
-    item-frozen: "&bFrozen"
-    no-items: "&cNo items match the current filter."
+    item-price-format: "{translate:stock.gui.localization.item-price-format}"
+    item-blocked: "{translate:stock.gui.localization.item-blocked}"
+    item-frozen: "{translate:stock.gui.localization.item-frozen}"
+    no-items: "{translate:stock.gui.localization.no-items}"
