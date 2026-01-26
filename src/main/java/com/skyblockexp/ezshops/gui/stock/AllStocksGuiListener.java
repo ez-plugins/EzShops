@@ -1,6 +1,7 @@
 package com.skyblockexp.ezshops.gui.stock;
 
 import com.skyblockexp.ezshops.common.MessageUtil;
+import com.skyblockexp.ezshops.config.ConfigTranslator;
 import com.skyblockexp.ezshops.stock.StockMarketManager;
 import com.skyblockexp.ezshops.config.StockMarketConfig;
 import com.skyblockexp.ezshops.stock.StockMarketFrozenStore;
@@ -40,8 +41,8 @@ public class AllStocksGuiListener implements Listener {
         this.configFile = configFile;
         this.stockOverviewGui = stockOverviewGui;
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
-        this.allStocksTitle = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', 
-            config.getString("all-stocks-gui.layout.title", "&bAll Stocks")));
+        this.allStocksTitle = org.bukkit.ChatColor.stripColor(ConfigTranslator.resolve(
+            config.getString("all-stocks-gui.layout.title", "&bAll Stocks"), null));
     }
 
     @EventHandler

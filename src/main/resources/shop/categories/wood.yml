@@ -1,19 +1,19 @@
 # EzShops category configuration for "wood".
 categories:
   wood:
-    name: '&aWood & Nature'
+    name: "{translate:shop.categories.wood.name}"
     slot: 16
     icon:
       material: OAK_LOG
-      display-name: '&aWood & Nature'
+      display-name: "{translate:shop.categories.wood.icon-display-name}"
       lore:
-      - '&7Raw lumber and forestry goods.'
+      - "{translate:shop.categories.wood.icon-lore}"
     menu:
-      title: '&aWood & Nature'
+      title: "{translate:shop.categories.wood.menu.title}"
       size: 54
       fill:
         material: LIGHT_GRAY_STAINED_GLASS_PANE
-        display-name: '&7 '
+        display-name: "{translate:shop.common.menu.fill-display-name}"
     items:
       oak_log:
         material: OAK_LOG
@@ -21,11 +21,11 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 24.0
         sell: 10.0
       spruce_log:
@@ -34,11 +34,11 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 26.0
         sell: 11.0
       birch_log:
@@ -47,11 +47,11 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 26.0
         sell: 11.0
       jungle_log:
@@ -60,11 +60,11 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 27.0
         sell: 11.5
       acacia_log:
@@ -73,11 +73,11 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 27.0
         sell: 11.5
       dark_oak_log:
@@ -86,11 +86,11 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 28.0
         sell: 12.0
       mangrove_log:
@@ -99,11 +99,11 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 28.0
         sell: 12.0
       pale_oak_log:
@@ -112,11 +112,11 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 32.0
         sell: 13.5
       cherry_log:
@@ -125,10 +125,10 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 30.0
         sell: 13.0

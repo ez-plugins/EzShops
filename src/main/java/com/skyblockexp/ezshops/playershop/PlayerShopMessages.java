@@ -523,7 +523,7 @@ public final class PlayerShopMessages {
         if (text == null || text.isEmpty()) {
             return "";
         }
-        return MessageUtil.translateColors(text);
+        return com.skyblockexp.ezshops.config.ConfigTranslator.resolve(text, null);
     }
 
     private static List<String> translateList(List<String> lines, List<String> defaults) {

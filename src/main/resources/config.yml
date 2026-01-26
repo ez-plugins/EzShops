@@ -18,12 +18,12 @@ signs:
   headers:
     - "[shop]"
   display:
-    header: "&2[Shop]"
-    buy-format: "&aBuy &7x{amount}"
-    sell-format: "&cSell &7x{amount}"
-    item-format: "&b{item}"
-    price-format: "&6{price}"
-    unavailable-format: "&cUnavailable"
+    header: "{translate:signs.display.header}"
+    buy-format: "{translate:signs.display.buy-prefix}{amount}{translate:signs.display.buy-suffix}"
+    sell-format: "{translate:signs.display.sell-prefix}{amount}{translate:signs.display.sell-suffix}"
+    item-format: "{translate:signs.display.item-format}"
+    price-format: "{translate:signs.display.price-format}"
+    unavailable-format: "{translate:signs.display.unavailable-format}"
 
 player-shops:
   # Toggle the entire player shop system on or off.
@@ -42,13 +42,13 @@ player-shops:
   min-price: 0.0
   max-price: 0.0
   sign-format:
-    available-header: "&2[PlayerShop]"
-    out-of-stock-header: "&c[PlayerShop]"
-    owner-format: "&7{owner}"
-    unknown-owner-name: "Owner"
-    item-format: "&b{amount}&7x &b{item}"
-    price-format: "&6{price}"
-    out-of-stock-line: "&cOut of Stock"
+    available-header: "{translate:player-shops.sign-format.available-header}"
+    out-of-stock-header: "{translate:player-shops.sign-format.out-of-stock-header}"
+    owner-format: "{translate:player-shops.sign-format.owner-prefix}{owner}{translate:player-shops.sign-format.owner-suffix}"
+    unknown-owner-name: "{translate:player-shops.sign-format.unknown-owner-name}"
+    item-format: "{translate:player-shops.sign-format.item-prefix}{amount}{translate:player-shops.sign-format.item-middle}{item}{translate:player-shops.sign-format.item-suffix}"
+    price-format: "{translate:player-shops.sign-format.price-prefix}{price}{translate:player-shops.sign-format.price-suffix}"
+    out-of-stock-line: "{translate:player-shops.sign-format.out-of-stock-line}"
 
 categories:
   # Toggle whether the category-based /shop GUI is enabled. When disabled,
@@ -109,6 +109,6 @@ stock:
   # List of override items to add to the stock market (must specify all fields)
   overrides:
     - id: "DIAMOND"
-      display: "&bDiamond"
+      display: "{translate:stock.overrides.diamond.display}"
       base-price: 100.0
     # Add more overrides as needed

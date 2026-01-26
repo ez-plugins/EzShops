@@ -1,19 +1,19 @@
 # EzShops category configuration for "mining".
 categories:
   mining:
-    name: '&bMining Resources'
+    name: "{translate:shop.categories.mining.name}"
     slot: 12
     icon:
       material: NETHERITE_PICKAXE
-      display-name: '&bMining Resources'
+      display-name: "{translate:shop.categories.mining.icon-display-name}"
       lore:
-      - '&7Ores, ingots, and stone.'
+      - "{translate:shop.categories.mining.icon-lore}"
     menu:
-      title: '&bMining Resources'
+      title: "{translate:shop.categories.mining.menu.title}"
       size: 54
       fill:
         material: LIGHT_GRAY_STAINED_GLASS_PANE
-        display-name: '&7 '
+        display-name: "{translate:shop.common.menu.fill-display-name}"
     items:
       cobblestone:
         material: COBBLESTONE
@@ -21,12 +21,12 @@ categories:
         amount: 32
         bulk-amount: 64
         icon-amount: 32
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 8.0
         sell: 2.8
       stone:
@@ -35,12 +35,12 @@ categories:
         amount: 32
         bulk-amount: 64
         icon-amount: 32
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 10.0
         sell: 3.5
       andesite:
@@ -49,12 +49,12 @@ categories:
         amount: 32
         bulk-amount: 64
         icon-amount: 32
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 22.0
         sell: 8.0
       diorite:
@@ -63,12 +63,12 @@ categories:
         amount: 32
         bulk-amount: 64
         icon-amount: 32
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 22.0
         sell: 8.0
       granite:
@@ -77,12 +77,12 @@ categories:
         amount: 32
         bulk-amount: 64
         icon-amount: 32
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 22.0
         sell: 8.0
       deepslate:
@@ -91,12 +91,12 @@ categories:
         amount: 32
         bulk-amount: 64
         icon-amount: 32
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 26.0
         sell: 9.5
       tuff:
@@ -105,12 +105,12 @@ categories:
         amount: 32
         bulk-amount: 64
         icon-amount: 32
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 42.0
         sell: 21.0
       calcite:
@@ -119,12 +119,12 @@ categories:
         amount: 32
         bulk-amount: 64
         icon-amount: 32
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 48.0
         sell: 24.0
       dripstone_block:
@@ -133,12 +133,12 @@ categories:
         amount: 32
         bulk-amount: 64
         icon-amount: 32
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 34.0
         sell: 14.5
       basalt:
@@ -147,12 +147,12 @@ categories:
         amount: 32
         bulk-amount: 64
         icon-amount: 32
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 30.0
         sell: 11.5
       blackstone:
@@ -161,12 +161,12 @@ categories:
         amount: 32
         bulk-amount: 64
         icon-amount: 32
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 30.0
         sell: 11.5
       netherrack:
@@ -175,12 +175,12 @@ categories:
         amount: 32
         bulk-amount: 64
         icon-amount: 32
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 20.0
         sell: 7.0
       end_stone:
@@ -189,12 +189,12 @@ categories:
         amount: 32
         bulk-amount: 64
         icon-amount: 32
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 44.0
         sell: 18.5
       obsidian:
@@ -203,12 +203,12 @@ categories:
         amount: 8
         bulk-amount: 64
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 150.0
         sell: 70.0
       coal:
@@ -217,12 +217,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 32.0
         sell: 11.2
       raw_copper:
@@ -231,12 +231,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 28.0
         sell: 9.8
       raw_iron:
@@ -245,12 +245,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 52.0
         sell: 18.2
         required-island-level: 3
@@ -260,12 +260,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 72.0
         sell: 25.2
         required-island-level: 4
@@ -275,12 +275,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 40.0
         sell: 14.0
       iron_ingot:
@@ -289,12 +289,12 @@ categories:
         amount: 8
         bulk-amount: 64
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 80.0
         sell: 28.0
         required-island-level: 3
@@ -304,12 +304,12 @@ categories:
         amount: 8
         bulk-amount: 64
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 110.0
         sell: 38.5
         required-island-level: 4
@@ -319,12 +319,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 44.0
         sell: 15.4
       lapis_lazuli:
@@ -333,12 +333,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 42.0
         sell: 14.7
       diamond:
@@ -347,12 +347,12 @@ categories:
         amount: 4
         bulk-amount: 32
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 520.0
         sell: 182.0
         required-island-level: 6
@@ -362,12 +362,12 @@ categories:
         amount: 4
         bulk-amount: 32
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 360.0
         sell: 126.0
         required-island-level: 7
@@ -377,12 +377,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 70.0
         sell: 24.5
       amethyst_shard:
@@ -391,12 +391,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 52.0
         sell: 18.2
         required-island-level: 6
@@ -406,12 +406,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Trusted by miners everywhere.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mining.item-note}"
         buy: 64.0
         sell: 22.4
         required-island-level: 6

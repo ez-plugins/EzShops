@@ -203,3 +203,196 @@ player-shops:
       unknown-item:
         singular: "&bItem"
         plural: "&bItems"
+
+# English fallback keys added from messages_en.yml to ensure full key coverage
+# (keep existing translations above; these are used when a translation is missing)
+shop:
+  common:
+    menu:
+      fill-display-name: "&7 "
+    item-display-name: "&f{material}"
+    buy-line: "&7Buy {amount}: &a{buy_total}"
+    sell-line: "&7Sell {amount}: &c{sell_total}"
+    shift-click-line: "&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}"
+    cannot-sell-line: "&7This item cannot be sold."
+    buy-only-shift-line: "&7Shift-click {bulk_amount}: &a{buy_bulk_total}"
+    spawner-display-name: "&f{spawner}"
+  categories:
+    building:
+      name: "&eBuilding Blocks"
+      icon-display-name: "&eBuilding Blocks"
+      icon-lore: "&7Blocks for construction projects."
+      menu:
+        title: "&eBuilding Blocks"
+    farming:
+      name: "&aFarming Supplies"
+      icon-display-name: "&aFarming Supplies"
+      icon-lore: "&7Common crops and farming goods."
+      menu:
+        title: "&aFarming Supplies"
+    food:
+      name: "&eFood & Meals"
+      icon-display-name: "&eFood & Meals"
+      icon-lore: "&7Everyday meals and snacks."
+      menu:
+        title: "&eFood & Meals"
+    daily_specials:
+      name: "&dDaily Specials"
+      icon-display-name: "&dDaily Specials"
+      icon-lore: "&7Hand-picked deals that change throughout the day."
+      menu:
+        title: "&dDaily Specials"
+      rotation-defaults:
+        visit-lore: "&7Visit often to catch the featured option."
+        admin-hint: "&7Admins can swap options manually by editing shop-rotations.yml."
+      item-note: "&7Limited-time special - grab it while it lasts!"
+    decorations:
+      name: "&dDecorations & Lighting"
+      icon-display-name: "&dDecorations & Lighting"
+      icon-lore: "&7Ornamental blocks and lighting."
+      menu:
+        title: "&dDecorations & Lighting"
+    enchantments:
+      name: "&5Enchantment Books"
+      icon-display-name: "&5Enchantment Books"
+      icon-lore: "&7Powerful books for upgrading your gear."
+      menu:
+        title: "&5Enchantment Books"
+      item-display-name: "&d{enchantments} Book"
+      contains-line: "&7Contains: &b{enchantments}"
+    fishing:
+      name: "&bFishing Gear"
+      icon-display-name: "&bFishing Gear"
+      icon-lore: "&7Fishing essentials and bait."
+      menu:
+        title: "&bFishing Gear"
+      item-note: "&7Freshly stocked for anglers."
+    mining:
+      name: "&bMining Resources"
+      icon-display-name: "&bMining Resources"
+      icon-lore: "&7Ores, ingots, and stone."
+      menu:
+        title: "&bMining Resources"
+      item-note: "&7Trusted by miners everywhere."
+    mob_drops:
+      name: "&cMob Drops & Combat"
+      icon-display-name: "&cMob Drops & Combat"
+      icon-lore: "&7Mob drops and combat gear."
+      menu:
+        title: "&cMob Drops & Combat"
+      item-note: "&7Favored by hunters and warriors."
+    redstone:
+      name: "&cRedstone & Utility"
+      icon-display-name: "&cRedstone & Utility"
+      icon-lore: "&7Automation components and wiring."
+      menu:
+        title: "&cRedstone & Utility"
+      sell-portal-display-name: "&6Sell Portal"
+      sell-portal-lore-1: "&7Automatically sells items that touch the portal."
+      sell-portal-lore-2: "&7Price: &a{buy}"
+      sell-portal-lore-3: "&7Only items with a shop sell price are converted."
+    spawners:
+      name: "&6Mob Spawners"
+      icon-display-name: "&6Mob Spawners"
+      icon-lore: "&7Purchase mob spawners to power your island grinders."
+      menu:
+        title: "&6Mob Spawners"
+      spawns-line: "&7Spawns: &b{spawner_name}"
+    valuables:
+      name: "&bValuables & Rares"
+      icon-display-name: "&bValuables & Rares"
+      icon-lore: "&7Rare and valuable items."
+      menu:
+        title: "&bValuables & Rares"
+      item-note: "&7Guaranteed by the shopkeeper."
+    wood:
+      name: "&aWood & Nature"
+      icon-display-name: "&aWood & Nature"
+      icon-lore: "&7Raw lumber and forestry goods."
+      menu:
+        title: "&aWood & Nature"
+
+  common:
+    prices-may-change: "&7Prices may change over time."
+
+  menu:
+    main:
+      title: "&aServer Shop"
+    category:
+      back-display-name: "&eBack"
+      back-lore: "&7Return to the main shop menu."
+
+  stock:
+    gui:
+      overview:
+        title: "&6Stock Market Overview"
+      filter:
+        all: "All Stocks"
+        category: "By Category"
+        price: "By Price"
+      localization:
+        next-page: "&aNext Page"
+        prev-page: "&cPrevious Page"
+        filter-label: "&eFilter: {filter}"
+        no-stocks: "&cNo tradable stocks found."
+        item-format: "&e{item} &7- &6{price}"
+      see-all:
+        display-name: "&bSee All Stocks"
+        lore:
+          - "&7View all available stocks in the market."
+          - "&eClick to browse everything!"
+      all-stocks:
+        title: "&bAll Stocks"
+      back-display-name: "&cBack to My Stocks"
+      back-lore: "&7Return to your stock overview"
+      filter-button-display: "&aFilter: {filter}"
+      filter-button:
+        lore:
+          click: "&7Click to cycle filters"
+          current: "&eCurrent: {filter}"
+      filters:
+        all: "All Items"
+        blocks: "Blocks"
+        items: "Items"
+      pagination:
+        previous: "&aPrevious Page"
+        next: "&aNext Page"
+      localization:
+        item-price-format: "&7Current Price: &6{price}"
+        item-blocked: "&cBlocked"
+        item-frozen: "&bFrozen"
+        no-items: "&cNo items match the current filter."
+
+  shop:
+    rotations:
+      daily_specials:
+        farming_frenzy:
+          display-name: "&aDaily Special: Farming Frenzy"
+          lore: "&7Staple crops on sale for islands stocking up."
+          menu-title: "&aDaily Special: Farming Frenzy"
+        monster_madness:
+          display-name: "&cDaily Special: Monster Madness"
+          lore: "&7Overstocked mob drops priced to move."
+          menu-title: "&cDaily Special: Monster Madness"
+          harvest_bundle:
+            display-name: "&cRotten Flesh Bundle"
+            note: "&7Fresh from tonight's mob farm cleanup."
+          seasonal_treats:
+            display-name: "&cExplosive Care Package"
+            note: "&7Perfect for crafting rockets or TNT."
+          premium_pick:
+            display-name: "&cBlaze Rod Stash"
+            note: "&7Stockpile rods for brewing stands and fuel."
+        miner_mania:
+          display-name: "&bDaily Special: Miner Mania"
+          lore: "&7Premium ore shipments delivered overnight."
+          menu-title: "&bDaily Special: Miner Mania"
+          harvest_bundle:
+            display-name: "&bBulk Iron Ingot Shipment"
+            note: "&7Perfect for hoppers, anvils, and tools."
+          seasonal_treats:
+            display-name: "&bRefined Gold Ingot Batch"
+            note: "&7Ideal for beacons, apples, and rails."
+          premium_pick:
+            display-name: "&bShimmering Diamond Parcel"
+            note: "&7Treat yourself or resell at a premium."

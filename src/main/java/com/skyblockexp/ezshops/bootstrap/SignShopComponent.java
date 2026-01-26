@@ -48,7 +48,7 @@ public final class SignShopComponent implements PluginComponent {
 
         ShopMessageConfiguration.CommandMessages commandMessages = messageConfiguration.commands();
         ShopMessageConfiguration.SignMessages signMessages = messageConfiguration.signs();
-        ShopSignConfiguration signConfiguration = ShopSignConfiguration.from(plugin.getConfig(), plugin.getLogger());
+        ShopSignConfiguration signConfiguration = ShopSignConfiguration.from(plugin.getConfig(), plugin.getLogger(), messageConfiguration);
 
         shopSignListener = new ShopSignListener(plugin, pricingManager, transactionService, signConfiguration,
                 signMessages);

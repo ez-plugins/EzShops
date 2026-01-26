@@ -1,19 +1,19 @@
 # EzShops category configuration for "fishing".
 categories:
   fishing:
-    name: '&bFishing Gear'
+    name: "{translate:shop.categories.fishing.name}"
     slot: 21
     icon:
       material: FISHING_ROD
-      display-name: '&bFishing Gear'
+      display-name: "{translate:shop.categories.fishing.icon-display-name}"
       lore:
-      - '&7Fishing essentials and bait.'
+      - "{translate:shop.categories.fishing.icon-lore}"
     menu:
-      title: '&bFishing Gear'
+      title: "{translate:shop.categories.fishing.menu.title}"
       size: 54
       fill:
         material: LIGHT_GRAY_STAINED_GLASS_PANE
-        display-name: '&7 '
+        display-name: "{translate:shop.common.menu.fill-display-name}"
     items:
       cod:
         material: COD
@@ -21,12 +21,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Freshly stocked for anglers.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.fishing.item-note}"
         buy: 24.0
         sell: 9.6
       salmon:
@@ -35,12 +35,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Freshly stocked for anglers.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.fishing.item-note}"
         buy: 28.0
         sell: 11.2
       tropical_fish:
@@ -49,12 +49,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Freshly stocked for anglers.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.fishing.item-note}"
         buy: 36.0
         sell: 14.4
       pufferfish:
@@ -63,12 +63,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Freshly stocked for anglers.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.fishing.item-note}"
         buy: 38.0
         sell: 15.2
       ink_sac:
@@ -77,12 +77,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Freshly stocked for anglers.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.fishing.item-note}"
         buy: 26.0
         sell: 10.4
       glow_ink_sac:
@@ -91,12 +91,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Freshly stocked for anglers.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.fishing.item-note}"
         buy: 38.0
         sell: 15.2
       nautilus_shell:
@@ -105,11 +105,11 @@ categories:
         amount: 8
         bulk-amount: 32
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Freshly stocked for anglers.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.fishing.item-note}"
         buy: 280.0
         sell: 98.0

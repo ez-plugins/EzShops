@@ -1,19 +1,19 @@
 # EzShops category configuration for "food".
 categories:
   food:
-    name: '&eFood & Meals'
+    name: "{translate:shop.categories.food.name}"
     slot: 19
     icon:
       material: COOKED_BEEF
-      display-name: '&eFood & Meals'
+      display-name: "{translate:shop.categories.food.icon-display-name}"
       lore:
-      - '&7Everyday meals and snacks.'
+      - "{translate:shop.categories.food.icon-lore}"
     menu:
-      title: '&eFood & Meals'
+      title: "{translate:shop.categories.food.menu.title}"
       size: 54
       fill:
         material: LIGHT_GRAY_STAINED_GLASS_PANE
-        display-name: '&7 '
+        display-name: "{translate:shop.common.menu.fill-display-name}"
     items:
       bread:
         material: BREAD
@@ -21,12 +21,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 20.0
         sell: 8.0
       cooked_beef:
@@ -35,12 +35,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 44.0
         sell: 17.5
       cooked_porkchop:
@@ -49,12 +49,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 40.0
         sell: 16.0
       cooked_chicken:
@@ -63,12 +63,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 30.0
         sell: 12.0
       cooked_mutton:
@@ -77,12 +77,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 36.0
         sell: 14.4
       cooked_cod:
@@ -91,12 +91,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 32.0
         sell: 12.8
       cooked_salmon:
@@ -105,12 +105,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 38.0
         sell: 15.2
       baked_potato:
@@ -119,12 +119,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 22.0
         sell: 8.8
       carrot:
@@ -133,12 +133,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 18.0
         sell: 6.3
       potato:
@@ -147,12 +147,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 18.0
         sell: 6.3
       beetroot:
@@ -161,12 +161,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 18.0
         sell: 6.3
       melon_slice:
@@ -175,12 +175,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 12.0
         sell: 4.2
       sweet_berries:
@@ -189,12 +189,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 16.0
         sell: 5.6
       pumpkin_pie:
@@ -203,12 +203,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 34.0
         sell: 11.9
       cookie:
@@ -217,12 +217,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 16.0
         sell: 5.6
       honey_bottle:
@@ -231,12 +231,12 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 28.0
         sell: 9.8
       golden_carrot:
@@ -245,11 +245,11 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
-        - '&7Restores plenty of hunger.'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.food.item-note}"
         buy: 60.0
         sell: 21.0

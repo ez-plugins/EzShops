@@ -1,19 +1,19 @@
 # EzShops category configuration for "redstone".
 categories:
   redstone:
-    name: '&cRedstone & Utility'
+    name: "{translate:shop.categories.redstone.name}"
     slot: 25
     icon:
       material: REDSTONE
-      display-name: '&cRedstone & Utility'
+      display-name: "{translate:shop.categories.redstone.icon-display-name}"
       lore:
-      - '&7Automation components and wiring.'
+      - "{translate:shop.categories.redstone.icon-lore}"
     menu:
-      title: '&cRedstone & Utility'
+      title: "{translate:shop.categories.redstone.menu.title}"
       size: 54
       fill:
         material: LIGHT_GRAY_STAINED_GLASS_PANE
-        display-name: '&7 '
+        display-name: "{translate:shop.common.menu.fill-display-name}"
       back-button-slot: 45
     items:
       redstone_dust:
@@ -22,11 +22,11 @@ categories:
         amount: 32
         bulk-amount: 64
         icon-amount: 32
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 25.0
         sell: 10.0
       redstone_torch:
@@ -35,11 +35,11 @@ categories:
         amount: 16
         bulk-amount: 64
         icon-amount: 16
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 32.0
         sell: 16.0
       repeater:
@@ -48,11 +48,11 @@ categories:
         amount: 8
         bulk-amount: 32
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 90.0
         sell: 40.0
       comparator:
@@ -61,11 +61,11 @@ categories:
         amount: 8
         bulk-amount: 32
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 120.0
         sell: 55.0
       observer:
@@ -74,11 +74,11 @@ categories:
         amount: 8
         bulk-amount: 32
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 140.0
         sell: 65.0
       piston:
@@ -87,11 +87,11 @@ categories:
         amount: 8
         bulk-amount: 32
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 110.0
         sell: 48.0
       sticky_piston:
@@ -100,11 +100,11 @@ categories:
         amount: 8
         bulk-amount: 32
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 170.0
         sell: 66.0
       dropper:
@@ -113,11 +113,11 @@ categories:
         amount: 8
         bulk-amount: 32
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 70.0
         sell: 28.0
       dispenser:
@@ -126,11 +126,11 @@ categories:
         amount: 8
         bulk-amount: 32
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 90.0
         sell: 34.0
       hopper:
@@ -139,11 +139,11 @@ categories:
         amount: 4
         bulk-amount: 32
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 200.0
         sell: 95.0
       target:
@@ -152,11 +152,11 @@ categories:
         amount: 8
         bulk-amount: 32
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 130.0
         sell: 58.0
       daylight_detector:
@@ -165,11 +165,11 @@ categories:
         amount: 8
         bulk-amount: 32
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 120.0
         sell: 52.0
       crafter:
@@ -178,11 +178,11 @@ categories:
         amount: 4
         bulk-amount: 16
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 420.0
         sell: 180.0
         required-island-level: 9
@@ -192,11 +192,11 @@ categories:
         amount: 8
         bulk-amount: 32
         icon-amount: 8
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 150.0
         sell: 60.0
       copper_bulb:
@@ -205,11 +205,11 @@ categories:
         amount: 4
         bulk-amount: 32
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 260.0
         sell: 95.0
       exposed_copper_bulb:
@@ -218,11 +218,11 @@ categories:
         amount: 4
         bulk-amount: 32
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 260.0
         sell: 95.0
       weathered_copper_bulb:
@@ -231,11 +231,11 @@ categories:
         amount: 4
         bulk-amount: 32
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 260.0
         sell: 95.0
       oxidized_copper_bulb:
@@ -244,11 +244,11 @@ categories:
         amount: 4
         bulk-amount: 32
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 260.0
         sell: 95.0
       waxed_copper_bulb:
@@ -257,11 +257,11 @@ categories:
         amount: 4
         bulk-amount: 32
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 260.0
         sell: 95.0
       waxed_exposed_copper_bulb:
@@ -270,11 +270,11 @@ categories:
         amount: 4
         bulk-amount: 32
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 260.0
         sell: 95.0
       waxed_weathered_copper_bulb:
@@ -283,11 +283,11 @@ categories:
         amount: 4
         bulk-amount: 32
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 260.0
         sell: 95.0
       waxed_oxidized_copper_bulb:
@@ -296,11 +296,11 @@ categories:
         amount: 4
         bulk-amount: 32
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 260.0
         sell: 95.0
       copper_door:
@@ -309,11 +309,11 @@ categories:
         amount: 4
         bulk-amount: 32
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 120.0
         sell: 44.0
       copper_trapdoor:
@@ -322,11 +322,11 @@ categories:
         amount: 4
         bulk-amount: 32
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 110.0
         sell: 42.0
       copper_grate:
@@ -335,11 +335,11 @@ categories:
         amount: 4
         bulk-amount: 32
         icon-amount: 4
-        display-name: '&f{material}'
+        display-name: "{translate:shop.common.item-display-name}"
         lore:
-        - '&7Buy {amount}: &a{buy_total}'
-        - '&7Sell {amount}: &c{sell_total}'
-        - '&7Shift-click {bulk_amount}: &a{buy_bulk_total} &7/ &c{sell_bulk_total}'
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
         buy: 90.0
         sell: 32.0
       sell_portal:
@@ -348,10 +348,10 @@ categories:
         amount: 1
         bulk-amount: 1
         icon-amount: 1
-        display-name: '&6Sell Portal'
+        display-name: "{translate:shop.categories.redstone.sell-portal-display-name}"
         lore:
-        - '&7Automatically sells items that touch the portal.'
-        - '&7Price: &a{buy}'
-        - '&7Only items with a shop sell price are converted.'
+        - "{translate:shop.categories.redstone.sell-portal-lore-1}"
+        - "{translate:shop.categories.redstone.sell-portal-lore-2}"
+        - "{translate:shop.categories.redstone.sell-portal-lore-3}"
         buy: 500000.0
         sell: -1

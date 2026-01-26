@@ -6,30 +6,30 @@
 # those values. When no overrides are supplied the defaults are displayed.
 categories:
   daily_specials:
-    name: '&dDaily Specials'
+    name: "{translate:shop.categories.daily_specials.name}"
     slot: 28
     icon:
       material: ENDER_CHEST
-      display-name: '&dDaily Specials'
+      display-name: "{translate:shop.categories.daily_specials.icon-display-name}"
       lore:
-      - '&7Hand-picked deals that change throughout the day.'
+      - "{translate:shop.categories.daily_specials.icon-lore}"
     menu:
-      title: '&dDaily Specials'
+      title: "{translate:shop.categories.daily_specials.menu.title}"
       size: 54
       fill:
         material: WHITE_STAINED_GLASS_PANE
-        display-name: '&7 '
+        display-name: "{translate:shop.common.menu.fill-display-name}"
       back-button-slot: 49
     # Link this category to the rotation defined in shop/rotations/daily-specials.yml.
     rotation-group: daily-specials
-    rotation-defaults:
+      rotation-defaults:
       icon:
         material: ENDER_CHEST
-        display-name: '&dDaily Specials'
+        display-name: "{translate:shop.categories.daily_specials.icon-display-name}"
         lore:
-        - '&7Visit often to catch the featured option.'
-        - '&7Admins can swap options manually by editing shop-rotations.yml.'
-      menu-title: '&dDaily Specials'
+        - "{translate:shop.categories.daily_specials.rotation-defaults.visit-lore}"
+        - "{translate:shop.categories.daily_specials.rotation-defaults.admin-hint}"
+      menu-title: "{translate:shop.categories.daily_specials.menu.title}"
       items:
         harvest_bundle:
           material: CARROT
@@ -37,11 +37,11 @@ categories:
           amount: 32
           bulk-amount: 64
           icon-amount: 32
-          display-name: '&f{material}'
+          display-name: "{translate:shop.common.item-display-name}"
           lore:
-          - '&7Buy {amount}: &a{buy_total}'
-          - '&7Sell {amount}: &c{sell_total}'
-          - '&7A hearty haul to feed an army.'
+          - "{translate:shop.common.buy-line}"
+          - "{translate:shop.common.sell-line}"
+          - "{translate:shop.categories.daily_specials.item-note}"
           buy: 160.0
           sell: 64.0
         seasonal_treats:
@@ -50,11 +50,11 @@ categories:
           amount: 12
           bulk-amount: 24
           icon-amount: 12
-          display-name: '&f{material}'
+          display-name: "{translate:shop.common.item-display-name}"
           lore:
-          - '&7Buy {amount}: &a{buy_total}'
-          - '&7Sell {amount}: &c{sell_total}'
-          - '&7Sweet deals refreshed each rotation.'
+          - "{translate:shop.common.buy-line}"
+          - "{translate:shop.common.sell-line}"
+          - "{translate:shop.categories.daily_specials.item-note}"
           buy: 180.0
           sell: 72.0
         premium_pick:
@@ -63,10 +63,10 @@ categories:
           amount: 16
           bulk-amount: 32
           icon-amount: 16
-          display-name: '&f{material}'
+          display-name: "{translate:shop.common.item-display-name}"
           lore:
-          - '&7Buy {amount}: &a{buy_total}'
-          - '&7Sell {amount}: &c{sell_total}'
-          - '&7A limited-time premium offer.'
+          - "{translate:shop.common.buy-line}"
+          - "{translate:shop.common.sell-line}"
+          - "{translate:shop.categories.daily_specials.item-note}"
           buy: 64.0
           sell: 24.0
