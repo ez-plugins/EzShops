@@ -22,20 +22,6 @@ import java.text.NumberFormat;
 import java.util.*;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
-import net.milkbowl.vault.economy.EconomyResponse;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.CreatureSpawner;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.BlockStateMeta;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * Provides shared logic for buying and selling items through the shop.
@@ -166,11 +152,7 @@ public class ShopTransactionService {
         handleLeftoverItems(player, leftovers);
         pricingManager.handlePurchase(material, amount);
         return ShopTransactionResult.success(successMessages.purchase(amount,
-                ChatColor.AQUA + friendlyMaterialName(material), formatCurrency(totalCost)));
-<<<<<<< Updated upstream
-=======
-        // no item context available here; hooks are executed by overloads that have ShopMenuLayout.Item
-        return result;
+            ChatColor.AQUA + friendlyMaterialName(material), formatCurrency(totalCost)));
     }
 
     public ShopTransactionResult buy(Player player, com.skyblockexp.ezshops.shop.ShopMenuLayout.Item item, int amount) {
@@ -190,7 +172,7 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.amountPositive());
         }
 
-        ShopPrice price = pricingManager.getPrice(item.priceId()).orElse(item.price());
+        ShopPrice price = item.priceId() != null ? pricingManager.getPrice(item.priceId()).orElse(item.price()) : item.price();
         if (price == null) {
             return ShopTransactionResult.failure(errorMessages.notConfigured());
         }
@@ -199,7 +181,7 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.notBuyable());
         }
 
-        double totalCost = pricingManager.estimateBulkTotal(item.priceId(), amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY);
+        double totalCost = item.priceId() != null ? pricingManager.estimateBulkTotal(item.priceId(), amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY) : pricingManager.estimateBulkTotal(item.material(), amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY);
         totalCost = EconomyUtils.normalizeCurrency(totalCost);
         if (totalCost <= 0) {
             return ShopTransactionResult.failure(errorMessages.invalidBuyPrice());
@@ -220,22 +202,17 @@ public class ShopTransactionService {
 
         List<ItemStack> leftovers = giveItems(player, item.material(), amount);
         handleLeftoverItems(player, leftovers);
-        pricingManager.handlePurchase(item.priceId(), amount);
+        if (item.priceId() != null) {
+            pricingManager.handlePurchase(item.priceId(), amount);
+        } else {
+            pricingManager.handlePurchase(item.material(), amount);
+        }
         ShopTransactionResult result = ShopTransactionResult.success(successMessages.purchase(amount,
                 ChatColor.AQUA + friendlyMaterialName(item.material()), formatCurrency(totalCost)));
-        if (hookService != null && item != null) {
-            java.util.Map<String, String> tokens = new java.util.HashMap<>();
-            tokens.put("amount", String.valueOf(amount));
-            tokens.put("item", item.id());
-            tokens.put("material", item.material().name());
-            tokens.put("display", item.display() != null ? item.display().displayName() : "");
-            tokens.put("price", item.price() != null ? formatCurrency(item.price().buyPrice()) : "");
-            tokens.put("total", formatCurrency(totalCost));
-            hookService.executeHooks(player, item.buyCommands(), item.commandsRunAsConsole() == null ? true : item.commandsRunAsConsole(), tokens);
+        if (item != null) {
             org.bukkit.Bukkit.getPluginManager().callEvent(new com.skyblockexp.ezshops.event.ShopPurchaseEvent(player, new ItemStack(item.material(), Math.max(1, amount)), amount, totalCost));
         }
         return result;
->>>>>>> Stashed changes
     }
 
     public ShopTransactionResult sell(Player player, Material material, int amount) {
@@ -282,11 +259,7 @@ public class ShopTransactionService {
 
         pricingManager.handleSale(material, amount);
         return ShopTransactionResult.success(successMessages.sale(amount,
-                ChatColor.AQUA + friendlyMaterialName(material), formatCurrency(totalGain)));
-<<<<<<< Updated upstream
-=======
-        // no item context available here; GUI callers may use the overload with item
-        return result;
+            ChatColor.AQUA + friendlyMaterialName(material), formatCurrency(totalGain)));
     }
 
     public ShopTransactionResult sell(Player player, com.skyblockexp.ezshops.shop.ShopMenuLayout.Item item, int amount) {
@@ -306,7 +279,7 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.amountPositive());
         }
 
-        ShopPrice price = pricingManager.getPrice(item.priceId()).orElse(item.price());
+        ShopPrice price = item.priceId() != null ? pricingManager.getPrice(item.priceId()).orElse(item.price()) : item.price();
         if (price == null) {
             return ShopTransactionResult.failure(errorMessages.notConfigured());
         }
@@ -315,7 +288,7 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.notSellable());
         }
 
-        double totalGain = pricingManager.estimateBulkTotal(item.priceId(), amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.SELL);
+        double totalGain = item.priceId() != null ? pricingManager.estimateBulkTotal(item.priceId(), amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.SELL) : pricingManager.estimateBulkTotal(item.material(), amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.SELL);
         totalGain = EconomyUtils.normalizeCurrency(totalGain);
         totalGain *= getSellPriceMultiplier(player);
         if (totalGain <= 0) {
@@ -335,22 +308,17 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.transactionFailed(response.errorMessage));
         }
 
-        pricingManager.handleSale(item.priceId(), amount);
+        if (item.priceId() != null) {
+            pricingManager.handleSale(item.priceId(), amount);
+        } else {
+            pricingManager.handleSale(item.material(), amount);
+        }
         ShopTransactionResult result = ShopTransactionResult.success(successMessages.sale(amount,
                 ChatColor.AQUA + friendlyMaterialName(item.material()), formatCurrency(totalGain)));
-        if (hookService != null && item != null) {
-            java.util.Map<String, String> tokens = new java.util.HashMap<>();
-            tokens.put("amount", String.valueOf(amount));
-            tokens.put("item", item.id());
-            tokens.put("material", item.material().name());
-            tokens.put("display", item.display() != null ? item.display().displayName() : "");
-            tokens.put("price", item.price() != null ? formatCurrency(item.price().sellPrice()) : "");
-            tokens.put("total", formatCurrency(totalGain));
-            hookService.executeHooks(player, item.sellCommands(), item.commandsRunAsConsole() == null ? true : item.commandsRunAsConsole(), tokens);
+        if (item != null) {
             org.bukkit.Bukkit.getPluginManager().callEvent(new com.skyblockexp.ezshops.event.ShopSaleEvent(player, new ItemStack(item.material(), Math.max(1, amount)), amount, totalGain));
         }
         return result;
->>>>>>> Stashed changes
     }
 
     public ShopTransactionResult sellInventory(Player player) {
@@ -482,8 +450,6 @@ public class ShopTransactionService {
                 successMessages.spawnerPurchase(quantity, ChatColor.AQUA + friendlyName, formatCurrency(totalCost)));
     }
 
-<<<<<<< Updated upstream
-=======
     public ShopTransactionResult buySpawner(Player player, com.skyblockexp.ezshops.shop.ShopMenuLayout.Item item, int quantity) {
         if (economy == null) {
             return ShopTransactionResult.failure(errorMessages.noEconomy());
@@ -524,25 +490,21 @@ public class ShopTransactionService {
         ShopTransactionResult base = buySpawner(player, entityType, unitPrice, quantity);
         if (!base.success()) return base;
 
-        // Update dynamic pricing and run hooks/events
-        pricingManager.handlePurchase(item.priceId(), quantity);
-        if (hookService != null) {
-            java.util.Map<String, String> tokens = new java.util.HashMap<>();
-            tokens.put("amount", String.valueOf(quantity));
-            tokens.put("item", item.id());
-            tokens.put("material", item.material().name());
-            tokens.put("display", item.display() != null ? item.display().displayName() : "");
-            tokens.put("price", item.price() != null ? formatCurrency(item.price().buyPrice()) : "");
-            tokens.put("total", formatCurrency(pricingManager.estimateBulkTotal(item.priceId(), quantity, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY)));
-            hookService.executeHooks(player, item.buyCommands(), item.commandsRunAsConsole() == null ? true : item.commandsRunAsConsole(), tokens);
+        // Update dynamic pricing and fire purchase event
+        if (item.priceId() != null) {
+            pricingManager.handlePurchase(item.priceId(), quantity);
             ItemStack purchased = createSpawnerItem(entityType);
             purchased.setAmount(Math.max(1, quantity));
             org.bukkit.Bukkit.getPluginManager().callEvent(new com.skyblockexp.ezshops.event.ShopPurchaseEvent(player, purchased, quantity, pricingManager.estimateBulkTotal(item.priceId(), quantity, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY)));
+        } else {
+            pricingManager.handlePurchase(item.material(), quantity);
+            ItemStack purchased = createSpawnerItem(entityType);
+            purchased.setAmount(Math.max(1, quantity));
+            org.bukkit.Bukkit.getPluginManager().callEvent(new com.skyblockexp.ezshops.event.ShopPurchaseEvent(player, purchased, quantity, pricingManager.estimateBulkTotal(item.material(), quantity, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY)));
         }
         return base;
     }
 
->>>>>>> Stashed changes
     public ShopTransactionResult buyEnchantedBook(Player player, ShopMenuLayout.Item item, int quantity) {
         if (economy == null) {
             return ShopTransactionResult.failure(errorMessages.noEconomy());
@@ -610,27 +572,15 @@ public class ShopTransactionService {
         handleLeftoverItems(player, leftovers);
 
         String friendlyName = bookName.isEmpty() ? friendlyMaterialName(item.material()) : bookName;
-<<<<<<< Updated upstream
-        return ShopTransactionResult.success(successMessages.purchase(quantity, ChatColor.AQUA + friendlyName,
-                formatCurrency(totalCost)));
-=======
-        // adjust dynamic pricing and execute hooks/events like other buy paths
-        pricingManager.handlePurchase(item.priceId(), quantity);
+        if (item.priceId() != null) {
+            pricingManager.handlePurchase(item.priceId(), quantity);
+        } else {
+            pricingManager.handlePurchase(item.material(), quantity);
+        }
         ShopTransactionResult result = ShopTransactionResult.success(successMessages.purchase(quantity,
             ChatColor.AQUA + friendlyName, formatCurrency(totalCost)));
-        if (hookService != null) {
-            java.util.Map<String, String> tokens = new java.util.HashMap<>();
-            tokens.put("amount", String.valueOf(quantity));
-            tokens.put("item", item.id());
-            tokens.put("material", item.material().name());
-            tokens.put("display", item.display() != null ? item.display().displayName() : "");
-            tokens.put("price", item.price() != null ? formatCurrency(item.price().buyPrice()) : "");
-            tokens.put("total", formatCurrency(pricingManager.estimateBulkTotal(item.priceId(), quantity, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY)));
-            hookService.executeHooks(player, item.buyCommands(), item.commandsRunAsConsole() == null ? true : item.commandsRunAsConsole(), tokens);
-            org.bukkit.Bukkit.getPluginManager().callEvent(new com.skyblockexp.ezshops.event.ShopPurchaseEvent(player, new ItemStack(item.material(), Math.max(1, quantity)), quantity, pricingManager.estimateBulkTotal(item.priceId(), quantity, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY)));
-        }
+        org.bukkit.Bukkit.getPluginManager().callEvent(new com.skyblockexp.ezshops.event.ShopPurchaseEvent(player, new ItemStack(item.material(), Math.max(1, quantity)), quantity, item.priceId() != null ? pricingManager.estimateBulkTotal(item.priceId(), quantity, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY) : pricingManager.estimateBulkTotal(item.material(), quantity, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY)));
         return result;
->>>>>>> Stashed changes
     }
 
     public String formatCurrency(double amount) {
