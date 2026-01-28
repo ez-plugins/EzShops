@@ -572,3 +572,48 @@ To migrate from old configs, check `../REFACTORING.md` in the plugin directory.
 ---
 
 For more information, see the [Commands](commands.md) and [Permissions](permissions.md) documentation, or the main [README](../README.md).
+
+---
+
+## Execute Commands on Buy/Sell
+
+It would be great if the shop system had an option to execute commands when a player buys or sells an item. This command could be executed either as the player or from the console, depending on the setup. That would allow more advanced integrations, like giving ranks, triggering quests, granting permissions, or running custom events directly through shop interactions.
+
+Basic usage ideas:
+
+- **Per-item hooks:** Allow `on-buy` and/or `on-sell` blocks on individual items in `shop.yml` that list commands to run.
+- **Execution context:** Support `execute-as: player` or `execute-as: console` so server owners control permissions and context.
+- **Placeholders:** Support `{player}`, `{amount}`, `{item}`, `{price}` (and other common placeholders) in commands.
+
+Example (item-level in `shop.yml`):
+
+```yaml
+items:
+  DIAMOND:
+    buy: 100.0
+    sell: 50.0
+    on-buy:
+      execute-as: player    # or 'console'
+      commands:
+        - "lp user {player} parent add VIP"        # run as player (if allowed)
+        - "quest progress give {player} starter"
+    on-sell:
+      execute-as: console
+      commands:
+        - "broadcast {player} sold {amount}x {item} for ${price}!"
+```
+
+Example (global defaults in `config.yml`):
+
+```yaml
+transactions:
+  execute-commands: true           # enable command hooks globally
+  default-execute-as: console      # fallback execution context
+```
+
+Notes:
+
+- Servers should be careful when allowing `execute-as: player` because it runs commands with the player's permissions.
+- Implementations may choose to run commands sync/async depending on the command type and server safety.
+- Consider adding permission checks such as `ezshops.hooks.use` or per-item permission keys.
+

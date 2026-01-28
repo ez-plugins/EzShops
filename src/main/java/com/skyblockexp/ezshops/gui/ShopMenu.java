@@ -169,7 +169,9 @@ public class ShopMenu implements Listener {
 
     private void openCategory(Player player, ShopMenuLayout.Category category) {
         int islandLevel = resolvePlayerIslandLevel(player);
+        plugin.getLogger().info("ShopMenu: openCategory called for category='" + (category != null ? category.id() : "null") + "' player='" + (player != null ? player.getName() : "null") + "'");
         inventoryComposer.openCategoryMenu(player, category, islandLevel, ignoreIslandRequirements);
+        plugin.getLogger().info("ShopMenu: after openCategory for category='" + (category != null ? category.id() : "null") + "'");
     }
 
     @EventHandler
@@ -319,8 +321,10 @@ public class ShopMenu implements Listener {
 
     private void handleCategoryClick(Player player, String categoryId) {
         ShopMenuLayout layout = pricingManager.getMenuLayout();
+        plugin.getLogger().info("ShopMenu: handleCategoryClick triggered for id=" + categoryId);
         for (ShopMenuLayout.Category category : layout.categories()) {
             if (category.id().equalsIgnoreCase(categoryId)) {
+                plugin.getLogger().info("ShopMenu: found category='" + category.id() + "' command='" + category.command() + "'");
                 if (category.command() != null && !category.command().isEmpty()) {
                     // Replace {player} placeholder with player name
                     String commandToRun = category.command().replace("{player}", player.getName());
@@ -554,15 +558,15 @@ public class ShopMenu implements Listener {
             if (item.type() != ShopMenuLayout.ItemType.MATERIAL) {
                 return ShopTransactionResult.failure(guiMessages.common().itemCannotBeSold());
             }
-            return transactionService.sell(player, item.material(), amount);
+            return transactionService.sell(player, item, amount);
         }
 
         return switch (item.type()) {
-            case MATERIAL -> transactionService.buy(player, item.material(), amount);
+            case MATERIAL -> transactionService.buy(player, item, amount);
             case MINION_HEAD -> ShopTransactionResult.failure(restrictionMessages.minionHeadCrateOnly());
             case MINION_CRATE_KEY -> transactionService.buyMinionCrateKey(player, item.price().buyPrice(), amount);
             case VOTE_CRATE_KEY -> transactionService.buyVoteCrateKey(player, item.price().buyPrice(), amount);
-            case SPAWNER -> transactionService.buySpawner(player, item.spawnerEntity(), item.price().buyPrice(), amount);
+            case SPAWNER -> transactionService.buySpawner(player, item, amount);
             case ENCHANTED_BOOK -> transactionService.buyEnchantedBook(player, item, amount);
         };
     }

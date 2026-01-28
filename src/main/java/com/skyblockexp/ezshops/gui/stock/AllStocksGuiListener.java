@@ -5,6 +5,7 @@ import com.skyblockexp.ezshops.config.ConfigTranslator;
 import com.skyblockexp.ezshops.stock.StockMarketManager;
 import com.skyblockexp.ezshops.config.StockMarketConfig;
 import com.skyblockexp.ezshops.stock.StockMarketFrozenStore;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -48,6 +49,14 @@ public class AllStocksGuiListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
+        // Ignore if the top inventory is a shop menu to avoid title collisions
+        try {
+            var top = event.getView().getTopInventory();
+            if (top != null && top.getHolder() instanceof com.skyblockexp.ezshops.gui.shop.AbstractShopMenuHolder) {
+                return;
+            }
+            // Rely on InventoryHolder-based detection only (checked above)
+        } catch (Throwable ignored) {}
         String title = event.getView().getTitle();
         
         // Check if this is a transaction confirmation GUI
@@ -60,6 +69,7 @@ public class AllStocksGuiListener implements Listener {
         // Check if this is an AllStocksGui by title pattern
         String strippedTitle = ChatColor.stripColor(title);
         if (!strippedTitle.startsWith(allStocksTitle)) return;
+        Bukkit.getLogger().info("AllStocksGuiListener: matched title='" + strippedTitle + "' for player='" + player.getName() + "'");
         
         // Cancel all clicks in the GUI to prevent item duplication/theft
         event.setCancelled(true);

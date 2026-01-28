@@ -22,13 +22,13 @@ categories:
       back-button-slot: 49
     # Link this category to the rotation defined in shop/rotations/daily-specials.yml.
     rotation-group: daily-specials
-      rotation-defaults:
+    rotation-defaults:
       icon:
         material: ENDER_CHEST
         display-name: "{translate:shop.categories.daily_specials.icon-display-name}"
         lore:
-        - "{translate:shop.categories.daily_specials.rotation-defaults.visit-lore}"
-        - "{translate:shop.categories.daily_specials.rotation-defaults.admin-hint}"
+          - "{translate:shop.categories.daily_specials.rotation-defaults.visit-lore}"
+          - "{translate:shop.categories.daily_specials.rotation-defaults.admin-hint}"
       menu-title: "{translate:shop.categories.daily_specials.menu.title}"
       items:
         harvest_bundle:
