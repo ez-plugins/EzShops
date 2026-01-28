@@ -172,16 +172,26 @@ public final class ShopMenuLayout {
         private final Map<Enchantment, Integer> enchantments;
         private final int requiredIslandLevel;
         private final ShopPriceType priceType;
+        private final String priceId;
 
         public Item(String id, Material material, ItemDecoration display, int slot, int amount, int bulkAmount,
                 ShopPrice price, ItemType type, EntityType spawnerEntity,
                 Map<Enchantment, Integer> enchantments, int requiredIslandLevel) {
+<<<<<<< Updated upstream
             this(id, material, display, slot, amount, bulkAmount, price, type, spawnerEntity, enchantments, requiredIslandLevel, ShopPriceType.STATIC);
+=======
+            this(id, material, display, slot, amount, bulkAmount, price, type, spawnerEntity, enchantments, requiredIslandLevel, ShopPriceType.STATIC, List.of(), List.of(), Boolean.TRUE, null);
+>>>>>>> Stashed changes
         }
 
         public Item(String id, Material material, ItemDecoration display, int slot, int amount, int bulkAmount,
                 ShopPrice price, ItemType type, EntityType spawnerEntity,
+<<<<<<< Updated upstream
                 Map<Enchantment, Integer> enchantments, int requiredIslandLevel, ShopPriceType priceType) {
+=======
+                Map<Enchantment, Integer> enchantments, int requiredIslandLevel, ShopPriceType priceType,
+                java.util.List<String> buyCommands, java.util.List<String> sellCommands, Boolean commandsRunAsConsole, String priceId) {
+>>>>>>> Stashed changes
             this.id = Objects.requireNonNull(id, "id");
             this.material = Objects.requireNonNull(material, "material");
             this.display = Objects.requireNonNull(display, "display");
@@ -194,6 +204,11 @@ public final class ShopMenuLayout {
             this.enchantments = enchantments == null ? Map.of() : Map.copyOf(enchantments);
             this.requiredIslandLevel = Math.max(0, requiredIslandLevel);
             this.priceType = priceType == null ? ShopPriceType.STATIC : priceType;
+            this.priceId = priceId == null ? id : priceId;
+        }
+
+        public String priceId() {
+            return priceId;
         }
 
         public ShopPriceType priceType() {

@@ -82,6 +82,33 @@ DIAMOND:
 	- `buy-change` (double) — per-unit fractional increase when buying (e.g. `0.01` = +1%).
 	- `sell-change` (double) — per-unit fractional decrease when selling (e.g. `0.01` = -1%).
 
+	### Per-item price keys (`price-id`) (optional)
+
+	To allow multiple independent price entries for the same Minecraft `Material` (for example two different shop items that both use `EXPERIENCE_BOTTLE`), items may declare an optional `price-id` string in their configuration. When present, the plugin uses this `price-id` as the pricing key (and as the dynamic-pricing state key stored in `shop-dynamic.yml`) instead of the material name.
+
+	Notes:
+	- `price-id` is optional; if omitted the material name (e.g. `DIAMOND`, `EXPERIENCE_BOTTLE`) is used and pricing remains material-scoped (backwards compatible).
+	- `price-id` must be unique across your shop configuration if you want independent pricing/multipliers for two items that share the same material.
+	- Dynamic state (multipliers) are saved by `price-id` in `shop-dynamic.yml` when present; legacy material keys continue to be supported.
+
+	Example (category item):
+
+	```yaml
+	my-exp-bottle-item:
+		material: EXPERIENCE_BOTTLE
+		price-id: exotic_exp_1   # optional unique key to separate pricing
+		buy: 10.0
+		sell: 5.0
+		dynamic-pricing:
+			starting-multiplier: 1.0
+			min-multiplier: 0.5
+			max-multiplier: 3.0
+			buy-change: 0.01
+			sell-change: 0.01
+	```
+
+	Troubleshooting tip: if two shop items using the same `Material` show the same price or share dynamic changes, add distinct `price-id` values to each item to separate them.
+
 	Stock market tuning is in `stock-gui.yml` / `config.yml` (see `StockMarketConfig`). The stock market uses a deterministic per-unit demand factor (default `0.02`) plus a configurable random component for flavor.
 
 	---
