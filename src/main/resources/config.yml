@@ -112,3 +112,10 @@ stock:
       display: "{translate:stock.overrides.diamond.display}"
       base-price: 100.0
     # Add more overrides as needed
+
+# Hooks
+# Message sent to players when a hook requests execution as the player but
+# they lack the required permission (`ezshops.hooks.use`). Use & color codes.
+# Set to null or remove to disable the player-facing message.
+hooks:
+  player-lacking-permission-message: "{translate:hooks.player-lacking-permission-message}"

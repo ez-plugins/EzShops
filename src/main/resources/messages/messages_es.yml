@@ -167,8 +167,29 @@ signs:
     sell-verb: "vender"
     buy-label: "&aComprar"
     sell-label: "&cVender"
+  display:
+    header: "&2[Shop]"
+    buy-prefix: "&aBuy &7x"
+    buy-suffix: " &7for &6{price}"
+    sell-prefix: "&cSell &7x"
+    sell-suffix: " &7for &6{price}"
+    item-format: "&b{item}"
+    price-format: "&6{price}"
+    unavailable-format: "&cUnavailable"
 
 player-shops:
+  sign-format:
+    available-header: "&2[PlayerShop]"
+    out-of-stock-header: "&c[PlayerShop]"
+    owner-prefix: "&7"
+    owner-suffix: "'s"
+    unknown-owner-name: "Owner"
+    item-prefix: "&b"
+    item-middle: "&7x &b"
+    item-suffix: " -"
+    price-prefix: "&6"
+    price-suffix: " &7for &6{price}"
+    out-of-stock-line: "&cOut of Stock"
   messages:
     menu:
       inventory-title: "&2Player Shop Setup"
@@ -343,25 +364,25 @@ shop:
           - "&eClick to browse everything!"
       all-stocks:
         title: "&bAll Stocks"
-      back-display-name: "&cBack to My Stocks"
-      back-lore: "&7Return to your stock overview"
-      filter-button-display: "&aFilter: {filter}"
-      filter-button:
-        lore:
-          click: "&7Click to cycle filters"
-          current: "&eCurrent: {filter}"
-      filters:
-        all: "All Items"
-        blocks: "Blocks"
-        items: "Items"
-      pagination:
-        previous: "&aPrevious Page"
-        next: "&aNext Page"
-      localization:
-        item-price-format: "&7Current Price: &6{price}"
-        item-blocked: "&cBlocked"
-        item-frozen: "&bFrozen"
-        no-items: "&cNo items match the current filter."
+        back-display-name: "&cBack to My Stocks"
+        back-lore: "&7Return to your stock overview"
+        filter-button-display: "&aFilter: {filter}"
+        filter-button:
+          lore:
+            click: "&7Click to cycle filters"
+            current: "&eCurrent: {filter}"
+        filters:
+          all: "All Items"
+          blocks: "Blocks"
+          items: "Items"
+        pagination:
+          previous: "&aPrevious Page"
+          next: "&aNext Page"
+        localization:
+          item-price-format: "&7Current Price: &6{price}"
+          item-blocked: "&cBlocked"
+          item-frozen: "&bFrozen"
+          no-items: "&cNo items match the current filter."
 
   shop:
     rotations:
@@ -396,3 +417,6 @@ shop:
           premium_pick:
             display-name: "&bShimmering Diamond Parcel"
             note: "&7Treat yourself or resell at a premium."
+
+hooks:
+  player-lacking-permission-message: "&cYou do not have permission to run shop hook commands."

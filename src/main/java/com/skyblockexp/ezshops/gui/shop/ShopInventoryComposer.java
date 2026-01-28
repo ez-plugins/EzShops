@@ -106,6 +106,7 @@ public class ShopInventoryComposer {
         }
 
         player.openInventory(inventory);
+        placeInventoryMarker(inventory);
     }
 
     public void openFlatMenu(Player player, int islandLevel, boolean ignoreIslandRequirements) {
@@ -121,6 +122,7 @@ public class ShopInventoryComposer {
 
         populateFlatMenu(holder, 0, islandLevel, ignoreIslandRequirements);
         player.openInventory(inventory);
+        placeInventoryMarker(inventory);
     }
 
     public void populateFlatMenu(FlatShopMenuHolder holder, int page, int islandLevel,
@@ -326,6 +328,7 @@ public class ShopInventoryComposer {
         }
 
         player.openInventory(inventory);
+        placeInventoryMarker(inventory);
     }
 
     public void openQuantityMenu(Player player, ShopMenuLayout.Category category, ShopMenuLayout.Item item,
@@ -382,6 +385,13 @@ public class ShopInventoryComposer {
         }
 
         player.openInventory(inventory);
+        placeInventoryMarker(inventory);
+    }
+
+    private void placeInventoryMarker(Inventory inventory) {
+        // Marker removal: GUI detection now uses InventoryHolder exclusively.
+        // No visible marker should be placed.
+        return;
     }
 
     private void applyFill(Inventory inventory, ShopMenuLayout.ItemDecoration fill) {

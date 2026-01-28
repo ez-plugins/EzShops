@@ -662,13 +662,37 @@ public class ShopPricingManager {
 
         registerMenuItemType(material, type, context);
 
+        // parse optional command hooks
+        java.util.List<String> buyCommands = section.getStringList("buy-commands");
+        java.util.List<String> sellCommands = section.getStringList("sell-commands");
+        Boolean commandsRunAsConsole = null;
+        // support 'on-buy'/'on-sell' blocks with execute-as and commands
+        if (section.isConfigurationSection("on-buy")) {
+            org.bukkit.configuration.ConfigurationSection onBuy = section.getConfigurationSection("on-buy");
+            if (onBuy != null) {
+                if (onBuy.isSet("commands")) {
+                    buyCommands = onBuy.getStringList("commands");
+                }
+                String exec = onBuy.getString("execute-as", null);
+                if (exec != null && exec.equalsIgnoreCase("player")) {
+                    commandsRunAsConsole = Boolean.FALSE;
+                }
+            }
+        }
+        if (section.isConfigurationSection("on-sell")) {
+            org.bukkit.configuration.ConfigurationSection onSell = section.getConfigurationSection("on-sell");
+            if (onSell != null && onSell.isSet("commands")) {
+                sellCommands = onSell.getStringList("commands");
+                String exec = onSell.getString("execute-as", null);
+                if (exec != null && exec.equalsIgnoreCase("player")) {
+                    commandsRunAsConsole = Boolean.FALSE;
+                }
+            }
+        }
+
         return new ShopMenuLayout.Item(itemId, material, decoration, slot, amount, bulkAmount, price, type,
-<<<<<<< Updated upstream
-                spawnerEntity, enchantments, requiredIslandLevel, priceType);
-=======
             spawnerEntity, enchantments, requiredIslandLevel, priceType, buyCommands, sellCommands,
             commandsRunAsConsole, configuredPriceId);
->>>>>>> Stashed changes
     }
 
     private Map<String, Map<String, Object>> readItemData(ConfigurationSection section) {
@@ -1175,7 +1199,12 @@ public class ShopPricingManager {
         if (text == null) {
             return null;
         }
-        return MessageUtil.translateColors(text);
+        // Resolve {translate:...} tokens from message configuration, then apply color codes.
+        try {
+            return com.skyblockexp.ezshops.config.ConfigTranslator.resolve(text, null);
+        } catch (Throwable t) {
+            return MessageUtil.translateColors(text);
+        }
     }
 
     private String friendlyName(String raw) {

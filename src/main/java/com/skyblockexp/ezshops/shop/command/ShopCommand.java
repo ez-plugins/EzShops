@@ -26,6 +26,7 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
     private final ShopPricingManager pricingManager;
     private final ShopTransactionService transactionService;
     private final ShopMenu shopMenu;
+    private final boolean debug;
     private final ShopMessageConfiguration.CommandMessages.ShopCommandMessages messages;
     private final ShopMessageConfiguration.TransactionMessages.ErrorMessages errorMessages;
     private final ShopMessageConfiguration.TransactionMessages.RestrictionMessages restrictionMessages;
@@ -33,13 +34,15 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
     public ShopCommand(ShopPricingManager pricingManager, ShopTransactionService transactionService,
             ShopMenu shopMenu, ShopMessageConfiguration.CommandMessages.ShopCommandMessages messages,
             ShopMessageConfiguration.TransactionMessages.ErrorMessages errorMessages,
-            ShopMessageConfiguration.TransactionMessages.RestrictionMessages restrictionMessages) {
+            ShopMessageConfiguration.TransactionMessages.RestrictionMessages restrictionMessages,
+            boolean debug) {
         this.pricingManager = pricingManager;
         this.transactionService = transactionService;
         this.shopMenu = shopMenu;
         this.messages = messages;
         this.errorMessages = errorMessages;
         this.restrictionMessages = restrictionMessages;
+        this.debug = debug;
     }
 
     @Override
@@ -108,7 +111,7 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
                 result = handleBuy(player, material, amount);
                 break;
             case "sell":
-                result = transactionService.sell(player, material, amount);
+                result = handleSell(player, material, amount);
                 break;
             default:
                 sendUsage(player, label);
@@ -128,11 +131,48 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
     private ShopTransactionResult handleBuy(Player player, Material material, int amount) {
         ShopMenuLayout.ItemType itemType = pricingManager.getItemType(material);
         return switch (itemType) {
-            case MATERIAL -> transactionService.buy(player, material, amount);
+            case MATERIAL -> {
+                // Try to find a configured ShopMenuLayout.Item for this material so hooks (on-buy) execute.
+                ShopMenuLayout.Item item = findItemForMaterial(material);
+                if (item != null) yield transactionService.buy(player, item, amount);
+                yield transactionService.buy(player, material, amount);
+            }
             case MINION_CRATE_KEY -> executeCrateKeyPurchase(player, material, amount,
                     ShopMenuLayout.ItemType.MINION_CRATE_KEY);
             case VOTE_CRATE_KEY -> executeCrateKeyPurchase(player, material, amount,
                     ShopMenuLayout.ItemType.VOTE_CRATE_KEY);
+            case ENCHANTED_BOOK -> ShopTransactionResult.failure(restrictionMessages.enchantedBookMenuOnly());
+            case MINION_HEAD -> ShopTransactionResult.failure(restrictionMessages.minionHeadCrateOnly());
+            case SPAWNER -> ShopTransactionResult.failure(restrictionMessages.spawnerMenuOnly());
+        };
+    }
+
+    private ShopMenuLayout.Item findItemForMaterial(Material material) {
+        ShopMenuLayout layout = pricingManager.getMenuLayout();
+        if (layout == null) return null;
+        for (ShopMenuLayout.Category category : layout.categories()) {
+            for (ShopMenuLayout.Item item : category.items()) {
+                if (item != null && item.material() == material) {
+                    return item;
+                }
+            }
+        }
+        return null;
+    }
+
+    private ShopTransactionResult handleSell(Player player, Material material, int amount) {
+        ShopMenuLayout.ItemType itemType = pricingManager.getItemType(material);
+        return switch (itemType) {
+            case MATERIAL -> {
+                ShopMenuLayout.Item item = findItemForMaterial(material);
+                if (item != null) yield transactionService.sell(player, item, amount);
+                // log fallback so admins can detect missing item-context for hooks (only when debug enabled)
+                if (debug) {
+                    org.bukkit.Bukkit.getLogger().info("ShopCommand: falling back to material-only sell for " + material.name());
+                }
+                yield transactionService.sell(player, material, amount);
+            }
+            case MINION_CRATE_KEY, VOTE_CRATE_KEY -> ShopTransactionResult.failure(restrictionMessages.enchantedBookMenuOnly());
             case ENCHANTED_BOOK -> ShopTransactionResult.failure(restrictionMessages.enchantedBookMenuOnly());
             case MINION_HEAD -> ShopTransactionResult.failure(restrictionMessages.minionHeadCrateOnly());
             case SPAWNER -> ShopTransactionResult.failure(restrictionMessages.spawnerMenuOnly());
