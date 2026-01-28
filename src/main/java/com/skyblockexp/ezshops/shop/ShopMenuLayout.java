@@ -183,8 +183,10 @@ public final class ShopMenuLayout {
             this(id, material, display, slot, amount, bulkAmount, price, type, spawnerEntity, enchantments, requiredIslandLevel, ShopPriceType.STATIC, List.of(), List.of(), Boolean.TRUE, null);
         }
 
-            Map<Enchantment, Integer> enchantments, int requiredIslandLevel, ShopPriceType priceType,
-            java.util.List<String> buyCommands, java.util.List<String> sellCommands, Boolean commandsRunAsConsole, String priceId) {
+        public Item(String id, Material material, ItemDecoration display, int slot, int amount, int bulkAmount,
+                ShopPrice price, ItemType type, EntityType spawnerEntity,
+                Map<Enchantment, Integer> enchantments, int requiredIslandLevel, ShopPriceType priceType,
+                java.util.List<String> buyCommands, java.util.List<String> sellCommands, Boolean commandsRunAsConsole, String priceId) {
             this.id = Objects.requireNonNull(id, "id");
             this.material = Objects.requireNonNull(material, "material");
             this.display = Objects.requireNonNull(display, "display");
