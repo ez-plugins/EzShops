@@ -110,7 +110,7 @@ public final class CoreShopComponent implements PluginComponent {
         rotationManager.enable();
 
         shopCommand = new ShopCommand(pricingManager, transactionService, shopMenu, commandMessages.shop(),
-                transactionMessages.errors(), transactionMessages.restrictions());
+            transactionMessages.errors(), transactionMessages.restrictions(), plugin.isDebugMode());
         sellHandCommand = new SellHandCommand(transactionService, commandMessages.sellHand());
         sellInventoryCommand = new SellInventoryCommand(transactionService, commandMessages.sellInventory());
         priceCommand = new PriceCommand(pricingManager, transactionService, commandMessages.price());

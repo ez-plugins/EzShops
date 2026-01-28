@@ -169,9 +169,13 @@ public class ShopMenu implements Listener {
 
     private void openCategory(Player player, ShopMenuLayout.Category category) {
         int islandLevel = resolvePlayerIslandLevel(player);
-        plugin.getLogger().info("ShopMenu: openCategory called for category='" + (category != null ? category.id() : "null") + "' player='" + (player != null ? player.getName() : "null") + "'");
+        if (plugin.getConfig().getBoolean("debug", false)) {
+            plugin.getLogger().info("ShopMenu: openCategory called for category='" + (category != null ? category.id() : "null") + "' player='" + (player != null ? player.getName() : "null") + "'");
+        }
         inventoryComposer.openCategoryMenu(player, category, islandLevel, ignoreIslandRequirements);
-        plugin.getLogger().info("ShopMenu: after openCategory for category='" + (category != null ? category.id() : "null") + "'");
+        if (plugin.getConfig().getBoolean("debug", false)) {
+            plugin.getLogger().info("ShopMenu: after openCategory for category='" + (category != null ? category.id() : "null") + "'");
+        }
     }
 
     @EventHandler
@@ -321,10 +325,14 @@ public class ShopMenu implements Listener {
 
     private void handleCategoryClick(Player player, String categoryId) {
         ShopMenuLayout layout = pricingManager.getMenuLayout();
-        plugin.getLogger().info("ShopMenu: handleCategoryClick triggered for id=" + categoryId);
+        if (plugin.getConfig().getBoolean("debug", false)) {
+            plugin.getLogger().info("ShopMenu: handleCategoryClick triggered for id=" + categoryId);
+        }
         for (ShopMenuLayout.Category category : layout.categories()) {
             if (category.id().equalsIgnoreCase(categoryId)) {
-                plugin.getLogger().info("ShopMenu: found category='" + category.id() + "' command='" + category.command() + "'");
+                if (plugin.getConfig().getBoolean("debug", false)) {
+                    plugin.getLogger().info("ShopMenu: found category='" + category.id() + "' command='" + category.command() + "'");
+                }
                 if (category.command() != null && !category.command().isEmpty()) {
                     // Replace {player} placeholder with player name
                     String commandToRun = category.command().replace("{player}", player.getName());

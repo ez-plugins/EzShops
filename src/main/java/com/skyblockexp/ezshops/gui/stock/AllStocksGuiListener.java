@@ -30,6 +30,7 @@ public class AllStocksGuiListener implements Listener {
     private final File configFile;
     private final StockOverviewGui stockOverviewGui;
     private final String allStocksTitle;
+    private final boolean debug;
 
     public AllStocksGuiListener(StockMarketManager stockMarketManager, 
                                 StockMarketConfig stockMarketConfig,
@@ -44,6 +45,7 @@ public class AllStocksGuiListener implements Listener {
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
         this.allStocksTitle = org.bukkit.ChatColor.stripColor(ConfigTranslator.resolve(
             config.getString("all-stocks-gui.layout.title", "&bAll Stocks"), null));
+        this.debug = config.getBoolean("debug", false);
     }
 
     @EventHandler
@@ -69,7 +71,9 @@ public class AllStocksGuiListener implements Listener {
         // Check if this is an AllStocksGui by title pattern
         String strippedTitle = ChatColor.stripColor(title);
         if (!strippedTitle.startsWith(allStocksTitle)) return;
-        Bukkit.getLogger().info("AllStocksGuiListener: matched title='" + strippedTitle + "' for player='" + player.getName() + "'");
+        if (debug) {
+            Bukkit.getLogger().info("AllStocksGuiListener: matched title='" + strippedTitle + "' for player='" + player.getName() + "'");
+        }
         
         // Cancel all clicks in the GUI to prevent item duplication/theft
         event.setCancelled(true);

@@ -26,6 +26,7 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
     private final ShopPricingManager pricingManager;
     private final ShopTransactionService transactionService;
     private final ShopMenu shopMenu;
+    private final boolean debug;
     private final ShopMessageConfiguration.CommandMessages.ShopCommandMessages messages;
     private final ShopMessageConfiguration.TransactionMessages.ErrorMessages errorMessages;
     private final ShopMessageConfiguration.TransactionMessages.RestrictionMessages restrictionMessages;
@@ -33,13 +34,15 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
     public ShopCommand(ShopPricingManager pricingManager, ShopTransactionService transactionService,
             ShopMenu shopMenu, ShopMessageConfiguration.CommandMessages.ShopCommandMessages messages,
             ShopMessageConfiguration.TransactionMessages.ErrorMessages errorMessages,
-            ShopMessageConfiguration.TransactionMessages.RestrictionMessages restrictionMessages) {
+            ShopMessageConfiguration.TransactionMessages.RestrictionMessages restrictionMessages,
+            boolean debug) {
         this.pricingManager = pricingManager;
         this.transactionService = transactionService;
         this.shopMenu = shopMenu;
         this.messages = messages;
         this.errorMessages = errorMessages;
         this.restrictionMessages = restrictionMessages;
+        this.debug = debug;
     }
 
     @Override
@@ -163,8 +166,10 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
             case MATERIAL -> {
                 ShopMenuLayout.Item item = findItemForMaterial(material);
                 if (item != null) yield transactionService.sell(player, item, amount);
-                // log fallback so admins can detect missing item-context for hooks
-                org.bukkit.Bukkit.getLogger().info("ShopCommand: falling back to material-only sell for " + material.name());
+                // log fallback so admins can detect missing item-context for hooks (only when debug enabled)
+                if (debug) {
+                    org.bukkit.Bukkit.getLogger().info("ShopCommand: falling back to material-only sell for " + material.name());
+                }
                 yield transactionService.sell(player, material, amount);
             }
             case MINION_CRATE_KEY, VOTE_CRATE_KEY -> ShopTransactionResult.failure(restrictionMessages.enchantedBookMenuOnly());

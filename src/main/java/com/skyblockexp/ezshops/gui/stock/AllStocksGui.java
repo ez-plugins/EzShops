@@ -63,6 +63,7 @@ public class AllStocksGui {
     private final Map<String, String> localization;
     
     private StockOverviewGui stockOverviewGui;
+    private final boolean debug;
 
     public AllStocksGui(StockMarketManager stockMarketManager, StockMarketConfig stockMarketConfig, 
                         StockMarketFrozenStore frozenStore, File configFile) {
@@ -206,6 +207,7 @@ public class AllStocksGui {
         if (!localization.containsKey("item-frozen")) {
             localization.put("item-frozen", ChatColor.AQUA + "Frozen");
         }
+        this.debug = guiConfig.getBoolean("debug", false);
     }
 
     public void setStockOverviewGui(StockOverviewGui stockOverviewGui) {
@@ -302,7 +304,9 @@ public class AllStocksGui {
         page = Math.max(1, Math.min(page, totalPages));
         
         String displayTitle = ConfigTranslator.resolve(title, null) + " (" + page + "/" + totalPages + ")";
-        Bukkit.getLogger().info("AllStocksGui: opening inventory for player='" + player.getName() + "' title='" + ChatColor.stripColor(displayTitle) + "'");
+        if (debug) {
+            Bukkit.getLogger().info("AllStocksGui: opening inventory for player='" + player.getName() + "' title='" + ChatColor.stripColor(displayTitle) + "'");
+        }
         Inventory inv = Bukkit.createInventory(player, rows * 9, displayTitle);
         
         int start = (page - 1) * pageSize;
@@ -372,10 +376,12 @@ public class AllStocksGui {
             var backMeta = back.getItemMeta();
             backMeta.setDisplayName(backButtonDisplayName);
             backMeta.setLore(backButtonLore);
-            try {
-                String strippedLore = String.join(" | ", backButtonLore.stream().map(java.lang.String::valueOf).toList());
-                Bukkit.getLogger().info("AllStocksGui: back-button display='" + ChatColor.stripColor(backButtonDisplayName) + "' lore='" + ChatColor.stripColor(strippedLore) + "'");
-            } catch (Throwable ignored) {}
+                try {
+                    String strippedLore = String.join(" | ", backButtonLore.stream().map(java.lang.String::valueOf).toList());
+                    if (debug) {
+                        Bukkit.getLogger().info("AllStocksGui: back-button display='" + ChatColor.stripColor(backButtonDisplayName) + "' lore='" + ChatColor.stripColor(strippedLore) + "'");
+                    }
+                } catch (Throwable ignored) {}
             back.setItemMeta(backMeta);
             inv.setItem(backButtonSlot, back);
         }
@@ -394,7 +400,9 @@ public class AllStocksGui {
             filterMeta.setLore(fLore);
             try {
                 String stripped = String.join(" | ", fLore.stream().map(java.lang.String::valueOf).toList());
-                Bukkit.getLogger().info("AllStocksGui: filter-button display='" + ChatColor.stripColor(name) + "' lore='" + ChatColor.stripColor(stripped) + "'");
+                if (debug) {
+                    Bukkit.getLogger().info("AllStocksGui: filter-button display='" + ChatColor.stripColor(name) + "' lore='" + ChatColor.stripColor(stripped) + "'");
+                }
             } catch (Throwable ignored) {}
             filterItem.setItemMeta(filterMeta);
             inv.setItem(filterButtonSlot, filterItem);
