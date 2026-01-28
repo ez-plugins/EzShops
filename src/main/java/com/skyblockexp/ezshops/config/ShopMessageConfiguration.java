@@ -82,6 +82,14 @@ public final class ShopMessageConfiguration {
         return gui;
     }
 
+    /**
+     * Lookup a translation list by path from the loaded primary messages, falling back to English.
+     * Returns colorized text and falls back to the provided default when missing.
+     */
+    public List<String> lookupList(String path, List<String> def) {
+        return stringList(path, def);
+    }
+
     public SignMessages signs() {
         return signs;
     }

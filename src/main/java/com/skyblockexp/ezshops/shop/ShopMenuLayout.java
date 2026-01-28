@@ -170,18 +170,22 @@ public final class ShopMenuLayout {
         private final ItemType type;
         private final EntityType spawnerEntity;
         private final Map<Enchantment, Integer> enchantments;
+        private final java.util.List<String> buyCommands;
+        private final java.util.List<String> sellCommands;
+        private final Boolean commandsRunAsConsole;
         private final int requiredIslandLevel;
         private final ShopPriceType priceType;
 
         public Item(String id, Material material, ItemDecoration display, int slot, int amount, int bulkAmount,
                 ShopPrice price, ItemType type, EntityType spawnerEntity,
                 Map<Enchantment, Integer> enchantments, int requiredIslandLevel) {
-            this(id, material, display, slot, amount, bulkAmount, price, type, spawnerEntity, enchantments, requiredIslandLevel, ShopPriceType.STATIC);
+            this(id, material, display, slot, amount, bulkAmount, price, type, spawnerEntity, enchantments, requiredIslandLevel, ShopPriceType.STATIC, List.of(), List.of(), Boolean.TRUE);
         }
 
         public Item(String id, Material material, ItemDecoration display, int slot, int amount, int bulkAmount,
                 ShopPrice price, ItemType type, EntityType spawnerEntity,
-                Map<Enchantment, Integer> enchantments, int requiredIslandLevel, ShopPriceType priceType) {
+                Map<Enchantment, Integer> enchantments, int requiredIslandLevel, ShopPriceType priceType,
+                java.util.List<String> buyCommands, java.util.List<String> sellCommands, Boolean commandsRunAsConsole) {
             this.id = Objects.requireNonNull(id, "id");
             this.material = Objects.requireNonNull(material, "material");
             this.display = Objects.requireNonNull(display, "display");
@@ -192,6 +196,9 @@ public final class ShopMenuLayout {
             this.type = type == null ? ItemType.MATERIAL : type;
             this.spawnerEntity = spawnerEntity;
             this.enchantments = enchantments == null ? Map.of() : Map.copyOf(enchantments);
+            this.buyCommands = buyCommands == null ? List.of() : List.copyOf(buyCommands);
+            this.sellCommands = sellCommands == null ? List.of() : List.copyOf(sellCommands);
+            this.commandsRunAsConsole = commandsRunAsConsole == null ? Boolean.TRUE : commandsRunAsConsole;
             this.requiredIslandLevel = Math.max(0, requiredIslandLevel);
             this.priceType = priceType == null ? ShopPriceType.STATIC : priceType;
         }
@@ -242,6 +249,18 @@ public final class ShopMenuLayout {
 
         public int requiredIslandLevel() {
             return requiredIslandLevel;
+        }
+
+        public java.util.List<String> buyCommands() {
+            return buyCommands;
+        }
+
+        public java.util.List<String> sellCommands() {
+            return sellCommands;
+        }
+
+        public Boolean commandsRunAsConsole() {
+            return commandsRunAsConsole;
         }
     }
 

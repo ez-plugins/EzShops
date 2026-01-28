@@ -42,7 +42,7 @@ public class StockOverviewGui {
         this.debugMode = debugMode;
         this.guiConfig = YamlConfiguration.loadConfiguration(configFile);
         this.rows = guiConfig.getInt("layout.rows", 6);
-        this.title = ConfigTranslator.resolve(guiConfig.getString("layout.title", "Stock Market Overview"), null);
+        this.title = safeResolve(guiConfig.getString("layout.title", "Stock Market Overview"), "Stock Market Overview");
         this.filters = new ArrayList<>();
         List<?> filterList = guiConfig.getList("filters");
         if (filterList != null) {
@@ -82,22 +82,68 @@ public class StockOverviewGui {
             String matName = section.getString("material", "BOOK");
             Material mat = Material.matchMaterial(matName);
             this.seeAllStocksMaterial = mat != null ? mat : Material.BOOK;
-            this.seeAllStocksDisplayName = ConfigTranslator.resolve(section.getString("display-name", "&bSee All Stocks"), null);
+            this.seeAllStocksDisplayName = safeResolve(section.getString("display-name", "&bSee All Stocks"), "&bSee All Stocks");
             List<String> loreList = section.getStringList("lore");
             if (loreList == null || loreList.isEmpty()) {
                 this.seeAllStocksLore = Collections.singletonList(ChatColor.GRAY + "View all available stocks");
             } else {
                 List<String> colored = new ArrayList<>();
-                for (String l : loreList) colored.add(ConfigTranslator.resolve(l, null));
+                for (String l : loreList) colored.add(safeResolve(l, ""));
                 this.seeAllStocksLore = colored;
             }
         } else {
             this.seeAllStocksEnabled = false;
             this.seeAllStocksSlot = (rows * 9) - 1;
             this.seeAllStocksMaterial = Material.BOOK;
-            this.seeAllStocksDisplayName = ConfigTranslator.resolve("&bSee All Stocks", null);
+            this.seeAllStocksDisplayName = safeResolve("&bSee All Stocks", "&bSee All Stocks");
             this.seeAllStocksLore = Collections.singletonList(ChatColor.GRAY + "View all available stocks");
         }
+    }
+
+    private static String safeResolve(String raw, String def) {
+        String resolved = ConfigTranslator.resolve(raw, null);
+        if (resolved == null || resolved.isBlank()) {
+            resolved = MessageUtil.translateColors(def == null ? "" : def);
+        }
+
+        if (resolved.contains("{translate:")) {
+            try {
+                org.bukkit.plugin.Plugin p = org.bukkit.Bukkit.getPluginManager().getPlugin("EzShops");
+                if (p instanceof com.skyblockexp.ezshops.EzShopsPlugin ez) {
+                    var messages = ez.getCoreShopComponent().messageConfiguration();
+                    if (messages != null) {
+                        java.util.regex.Matcher m = java.util.regex.Pattern.compile("\\{translate:([a-zA-Z0-9_.-]+)\\}").matcher(resolved);
+                        StringBuffer sb = new StringBuffer();
+                        while (m.find()) {
+                            String key = m.group(1);
+                            String replacement = messages.lookup(key, "");
+                            if (replacement == null || replacement.isBlank()) {
+                                String alt = key.replace(".all-stocks.", ".");
+                                replacement = messages.lookup(alt, "");
+                            }
+                            if ((replacement == null || replacement.isBlank()) && key.matches(".*\\.lore\\.line\\d+$")) {
+                                try {
+                                    java.util.regex.Matcher lm = java.util.regex.Pattern.compile("(.*)\\.lore\\.line(\\d+)$").matcher(key);
+                                    if (lm.find()) {
+                                        String listKey = lm.group(1) + ".lore";
+                                        int idx = Integer.parseInt(lm.group(2)) - 1;
+                                        java.util.List<String> list = messages.lookupList(listKey, java.util.List.of());
+                                        if (idx >= 0 && idx < list.size()) {
+                                            replacement = list.get(idx);
+                                        }
+                                    }
+                                } catch (Throwable ignored) {}
+                            }
+                            replacement = replacement == null ? "" : replacement.replace("$", "\\$");
+                            m.appendReplacement(sb, replacement);
+                        }
+                        m.appendTail(sb);
+                        resolved = MessageUtil.translateColors(sb.toString());
+                    }
+                }
+            } catch (Throwable ignored) {}
+        }
+        return resolved;
     }
 
     public void open(Player player, String filter, int page) {

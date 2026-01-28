@@ -28,6 +28,10 @@ categories:
         - "{translate:shop.common.shift-click-line}"
         buy: 64.0
         sell: 32.0
+        on-buy:
+          execute-as: console
+          commands:
+          - "broadcast test 1 2 3"
       glass:
         material: GLASS
         slot: 11

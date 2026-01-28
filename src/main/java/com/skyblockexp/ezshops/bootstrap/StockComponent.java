@@ -51,10 +51,14 @@ public final class StockComponent implements PluginComponent, TabCompleter {
         this.cooldownMillis = config.getConfigurationSection("stock") != null ? config.getLong("stock.cooldown-millis", 0L) : 0L;
         registerCommand("stock", new StockCommand(plugin, stockMarketManager, cooldownMillis, stockMarketConfig, frozenStore));
         registerCommand("stockadmin", new StockAdminCommand(stockMarketManager, frozenStore, stockMarketConfig));
+        // Ensure the data-folder copy of stock-gui.yml contains required defaults
+        java.io.File stockGuiFile = new java.io.File(plugin.getDataFolder(), "stock-gui.yml");
+        ensureStockGuiDefaults(plugin, stockGuiFile);
+
         // Register StockOverviewGuiListener for GUI sell actions
         com.skyblockexp.ezshops.gui.stock.StockOverviewGui stockOverviewGui = new com.skyblockexp.ezshops.gui.stock.StockOverviewGui(
             stockMarketManager, stockMarketConfig, frozenStore,
-            new java.io.File(plugin.getDataFolder(), "stock-gui.yml"),
+            stockGuiFile,
             plugin.isDebugMode()
         );
         stockOverviewGuiListener = new com.skyblockexp.ezshops.gui.stock.StockOverviewGuiListener(stockMarketManager, stockOverviewGui);
@@ -81,6 +85,38 @@ public final class StockComponent implements PluginComponent, TabCompleter {
         com.skyblockexp.ezshops.gui.stock.StockHistoryGuiListener stockHistoryGuiListener = new com.skyblockexp.ezshops.gui.stock.StockHistoryGuiListener(plugin);
         plugin.getServer().getPluginManager().registerEvents(stockHistoryGuiListener, plugin);
         com.skyblockexp.ezshops.gui.stock.StockHistoryGui.setListener(stockHistoryGuiListener);
+    }
+
+    private void ensureStockGuiDefaults(EzShopsPlugin plugin, java.io.File targetFile) {
+        try {
+            if (!targetFile.exists()) {
+                // Nothing to merge; save default resource
+                plugin.saveResource("stock-gui.yml", false);
+                return;
+            }
+
+            org.bukkit.configuration.file.YamlConfiguration target = org.bukkit.configuration.file.YamlConfiguration.loadConfiguration(targetFile);
+            java.io.InputStream defaultStream = plugin.getResource("stock-gui.yml");
+            if (defaultStream == null) return;
+            java.io.InputStreamReader isr = new java.io.InputStreamReader(defaultStream);
+            org.bukkit.configuration.file.YamlConfiguration defaults = org.bukkit.configuration.file.YamlConfiguration.loadConfiguration(new java.io.BufferedReader(isr));
+
+            boolean changed = false;
+            // Merge any missing keys from defaults (deep merge)
+            for (String key : defaults.getKeys(true)) {
+                if (!target.contains(key)) {
+                    target.set(key, defaults.get(key));
+                    changed = true;
+                    plugin.getLogger().info("stock-gui.yml: adding missing default key '" + key + "'");
+                }
+            }
+
+            if (changed) {
+                target.save(targetFile);
+            }
+        } catch (Exception ex) {
+            plugin.getLogger().warning("Failed to ensure stock-gui defaults: " + ex.getMessage());
+        }
     }
 
     @Override

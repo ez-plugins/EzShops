@@ -157,9 +157,9 @@ signs:
   display:
     header: "&2[Shop]"
     buy-prefix: "&aBuy &7x"
-    buy-suffix: ""
+    buy-suffix: " &7for &6{price}"
     sell-prefix: "&cSell &7x"
-    sell-suffix: ""
+    sell-suffix: " &7for &6{price}"
     item-format: "&b{item}"
     price-format: "&6{price}"
     unavailable-format: "&cUnavailable"
@@ -182,13 +182,13 @@ player-shops:
     available-header: "&2[PlayerShop]"
     out-of-stock-header: "&c[PlayerShop]"
     owner-prefix: "&7"
-    owner-suffix: ""
+    owner-suffix: "'s"
     unknown-owner-name: "Owner"
     item-prefix: "&b"
     item-middle: "&7x &b"
-    item-suffix: ""
+    item-suffix: " -"
     price-prefix: "&6"
-    price-suffix: ""
+    price-suffix: " &7for &6{price}"
     out-of-stock-line: "&cOut of Stock"
   messages:
     menu:
@@ -291,6 +291,7 @@ shop:
     cannot-sell-line: "&7This item cannot be sold."
     buy-only-shift-line: "&7Shift-click {bulk_amount}: &a{buy_bulk_total}"
     spawner-display-name: "&f{spawner}"
+    prices-may-change: "&7Prices may change over time."
   categories:
     building:
       name: "&eBuilding Blocks"
@@ -310,6 +311,7 @@ shop:
       icon-lore: "&7Everyday meals and snacks."
       menu:
         title: "&eFood & Meals"
+      item-note: "&7Tasty meals and perishable goods."
     daily_specials:
       name: "&dDaily Specials"
       icon-display-name: "&dDaily Specials"
@@ -379,15 +381,13 @@ shop:
       menu:
         title: "&bValuables & Rares"
       item-note: "&7Guaranteed by the shopkeeper."
+      experience-bottle-display-name: "&bExperience Bottle"
     wood:
       name: "&aWood & Nature"
       icon-display-name: "&aWood & Nature"
       icon-lore: "&7Raw lumber and forestry goods."
       menu:
         title: "&aWood & Nature"
-
-  common:
-    prices-may-change: "&7Prices may change over time."
 
   menu:
     main:
@@ -410,20 +410,10 @@ shop:
         filter-label: "&eFilter: {filter}"
         no-stocks: "&cNo tradable stocks found."
         item-format: "&e{item} &7- &6{price}"
-      see-all:
-        display-name: "&bSee All Stocks"
-        lore:
-          - "&7View all available stocks in the market."
-          - "&eClick to browse everything!"
-      all-stocks:
-        title: "&bAll Stocks"
-      back-display-name: "&cBack to My Stocks"
-      back-lore: "&7Return to your stock overview"
-      filter-button-display: "&aFilter: {filter}"
-      filter-button:
-        lore:
-          click: "&7Click to cycle filters"
-          current: "&eCurrent: {filter}"
+        item-price-format: "&7Current Price: &6{price}"
+        item-blocked: "&cBlocked"
+        item-frozen: "&bFrozen"
+        no-items: "&cNo items match the current filter."
       filters:
         all: "All Items"
         blocks: "Blocks"
@@ -431,42 +421,65 @@ shop:
       pagination:
         previous: "&aPrevious Page"
         next: "&aNext Page"
-      localization:
-        item-price-format: "&7Current Price: &6{price}"
-        item-blocked: "&cBlocked"
-        item-frozen: "&bFrozen"
-        no-items: "&cNo items match the current filter."
+      see-all:
+        display-name: "&bSee All Stocks"
+        lore:
+          line1: "&7View all available stocks in the market."
+          line2: "&eClick to browse everything!"
+      all-stocks:
+        title: "&bAll Stocks"
+        back-display-name: "&cBack to My Stocks"
+        back-lore: "&7Return to your stock overview"
+        filter-button-display: "&aFilter: {filter}"
+        filter-button:
+          lore:
+            click: "&7Click to cycle filters"
+            current: "&eCurrent: {filter}"
+        filters:
+          all: "All Items"
+          blocks: "Blocks"
+          items: "Items"
+        pagination:
+          previous: "&aPrevious Page"
+          next: "&aNext Page"
+        localization:
+          item-price-format: "&7Current Price: &6{price}"
+          item-blocked: "&cBlocked"
+          item-frozen: "&bFrozen"
+          no-items: "&cNo items match the current filter."
 
-  shop:
-    rotations:
-      daily_specials:
-        farming_frenzy:
-          display-name: "&aDaily Special: Farming Frenzy"
-          lore: "&7Staple crops on sale for islands stocking up."
-          menu-title: "&aDaily Special: Farming Frenzy"
-        monster_madness:
-          display-name: "&cDaily Special: Monster Madness"
-          lore: "&7Overstocked mob drops priced to move."
-          menu-title: "&cDaily Special: Monster Madness"
-          harvest_bundle:
-            display-name: "&cRotten Flesh Bundle"
-            note: "&7Fresh from tonight's mob farm cleanup."
-          seasonal_treats:
-            display-name: "&cExplosive Care Package"
-            note: "&7Perfect for crafting rockets or TNT."
-          premium_pick:
-            display-name: "&cBlaze Rod Stash"
-            note: "&7Stockpile rods for brewing stands and fuel."
-        miner_mania:
-          display-name: "&bDaily Special: Miner Mania"
-          lore: "&7Premium ore shipments delivered overnight."
-          menu-title: "&bDaily Special: Miner Mania"
-          harvest_bundle:
-            display-name: "&bBulk Iron Ingot Shipment"
-            note: "&7Perfect for hoppers, anvils, and tools."
-          seasonal_treats:
-            display-name: "&bRefined Gold Ingot Batch"
-            note: "&7Ideal for beacons, apples, and rails."
-          premium_pick:
-            display-name: "&bShimmering Diamond Parcel"
-            note: "&7Treat yourself or resell at a premium."
+  rotations:
+    daily_specials:
+      farming_frenzy:
+        display-name: "&aDaily Special: Farming Frenzy"
+        lore: "&7Staple crops on sale for islands stocking up."
+        menu-title: "&aDaily Special: Farming Frenzy"
+      monster_madness:
+        display-name: "&cDaily Special: Monster Madness"
+        lore: "&7Overstocked mob drops priced to move."
+        menu-title: "&cDaily Special: Monster Madness"
+        harvest_bundle:
+          display-name: "&cRotten Flesh Bundle"
+          note: "&7Fresh from tonight's mob farm cleanup."
+        seasonal_treats:
+          display-name: "&cExplosive Care Package"
+          note: "&7Perfect for crafting rockets or TNT."
+        premium_pick:
+          display-name: "&cBlaze Rod Stash"
+          note: "&7Stockpile rods for brewing stands and fuel."
+      miner_mania:
+        display-name: "&bDaily Special: Miner Mania"
+        lore: "&7Premium ore shipments delivered overnight."
+        menu-title: "&bDaily Special: Miner Mania"
+        harvest_bundle:
+          display-name: "&bBulk Iron Ingot Shipment"
+          note: "&7Perfect for hoppers, anvils, and tools."
+        seasonal_treats:
+          display-name: "&bRefined Gold Ingot Batch"
+          note: "&7Ideal for beacons, apples, and rails."
+        premium_pick:
+          display-name: "&bShimmering Diamond Parcel"
+          note: "&7Treat yourself or resell at a premium."
+
+hooks:
+  player-lacking-permission-message: "&cYou do not have permission to run shop hook commands."

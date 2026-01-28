@@ -35,6 +35,14 @@ public final class ConfigTranslator {
         while (m.find()) {
             String key = m.group(1);
             String replacement = messages.lookup(key, "");
+            if (replacement == null || replacement.isBlank()) {
+                try {
+                    org.bukkit.plugin.Plugin p = org.bukkit.Bukkit.getPluginManager().getPlugin("EzShops");
+                    if (p != null) {
+                        p.getLogger().warning("Missing translation for key: " + key);
+                    }
+                } catch (Throwable ignored) {}
+            }
             // lookup already colorizes; escape dollars
             replacement = replacement.replace("$", "\\$");
             m.appendReplacement(sb, replacement == null ? "" : replacement);

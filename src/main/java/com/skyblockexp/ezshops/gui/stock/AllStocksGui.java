@@ -63,6 +63,7 @@ public class AllStocksGui {
     private final Map<String, String> localization;
     
     private StockOverviewGui stockOverviewGui;
+    private final boolean debug;
 
     public AllStocksGui(StockMarketManager stockMarketManager, StockMarketConfig stockMarketConfig, 
                         StockMarketFrozenStore frozenStore, File configFile) {
@@ -73,8 +74,7 @@ public class AllStocksGui {
         
         // Load layout configuration
         this.rows = guiConfig.getInt("all-stocks-gui.layout.rows", 6);
-        this.title = ConfigTranslator.resolve(
-            guiConfig.getString("all-stocks-gui.layout.title", "&bAll Stocks"), null);
+        this.title = safeResolve(guiConfig.getString("all-stocks-gui.layout.title", "&bAll Stocks"), "&bAll Stocks");
         
         // Load back button configuration
         var backSection = guiConfig.getConfigurationSection("all-stocks-gui.back-button");
@@ -84,12 +84,12 @@ public class AllStocksGui {
             String matName = backSection.getString("material", "BARRIER");
             Material mat = Material.matchMaterial(matName);
             this.backButtonMaterial = mat != null ? mat : Material.BARRIER;
-            this.backButtonDisplayName = ConfigTranslator.resolve(
-                backSection.getString("display-name", "&cBack to My Stocks"), null);
+            this.backButtonDisplayName = safeResolve(
+                backSection.getString("display-name", "&cBack to My Stocks"), "&cBack to My Stocks");
             List<String> lore = backSection.getStringList("lore");
             this.backButtonLore = new ArrayList<>();
             for (String l : lore) {
-                this.backButtonLore.add(ConfigTranslator.resolve(l, null));
+                this.backButtonLore.add(safeResolve(l, ""));
             }
         } else {
             this.backButtonEnabled = true;
@@ -107,12 +107,12 @@ public class AllStocksGui {
             String matName = filterSection.getString("material", "HOPPER");
             Material mat = Material.matchMaterial(matName);
             this.filterButtonMaterial = mat != null ? mat : Material.HOPPER;
-            this.filterButtonDisplayName = ConfigTranslator.resolve(
-                filterSection.getString("display-name", "&aFilter: {filter}"), null);
+            this.filterButtonDisplayName = safeResolve(
+                filterSection.getString("display-name", "&aFilter: {filter}"), "&aFilter: {filter}");
             List<String> lore = filterSection.getStringList("lore");
             this.filterButtonLore = new ArrayList<>();
             for (String l : lore) {
-                this.filterButtonLore.add(ConfigTranslator.resolve(l, null));
+                this.filterButtonLore.add(safeResolve(l, ""));
             }
         } else {
             this.filterButtonEnabled = true;
@@ -129,8 +129,8 @@ public class AllStocksGui {
             String matName = prevSection.getString("material", "ARROW");
             Material mat = Material.matchMaterial(matName);
             this.previousPageMaterial = mat != null ? mat : Material.ARROW;
-            this.previousPageDisplayName = ConfigTranslator.resolve(
-                prevSection.getString("display-name", "&aPrevious Page"), null);
+            this.previousPageDisplayName = safeResolve(
+                prevSection.getString("display-name", "&aPrevious Page"), "&aPrevious Page");
         } else {
             this.previousPageSlot = (rows * 9) - 7;
             this.previousPageMaterial = Material.ARROW;
@@ -143,8 +143,8 @@ public class AllStocksGui {
             String matName = nextSection.getString("material", "ARROW");
             Material mat = Material.matchMaterial(matName);
             this.nextPageMaterial = mat != null ? mat : Material.ARROW;
-            this.nextPageDisplayName = ConfigTranslator.resolve(
-                nextSection.getString("display-name", "&aNext Page"), null);
+            this.nextPageDisplayName = safeResolve(
+                nextSection.getString("display-name", "&aNext Page"), "&aNext Page");
         } else {
             this.nextPageSlot = (rows * 9) - 1;
             this.nextPageMaterial = Material.ARROW;
@@ -159,7 +159,12 @@ public class AllStocksGui {
                 if (obj instanceof Map<?,?> map) {
                     Map<String, String> f = new HashMap<>();
                     for (Map.Entry<?,?> e : map.entrySet()) {
-                        f.put(e.getKey().toString(), e.getValue().toString());
+                        String key = e.getKey().toString();
+                        String val = e.getValue() == null ? "" : e.getValue().toString();
+                        if ("display".equals(key)) {
+                            val = safeResolve(val, val);
+                        }
+                        f.put(key, val);
                     }
                     filters.add(f);
                 }
@@ -202,10 +207,61 @@ public class AllStocksGui {
         if (!localization.containsKey("item-frozen")) {
             localization.put("item-frozen", ChatColor.AQUA + "Frozen");
         }
+        this.debug = guiConfig.getBoolean("debug", false);
     }
 
     public void setStockOverviewGui(StockOverviewGui stockOverviewGui) {
         this.stockOverviewGui = stockOverviewGui;
+    }
+
+    private static String safeResolve(String raw, String def) {
+        String resolved = ConfigTranslator.resolve(raw, null);
+        if (resolved == null || resolved.isBlank()) {
+            resolved = MessageUtil.translateColors(def == null ? "" : def);
+        }
+
+        // If there are leftover translate tokens (unresolved), try to resolve them directly
+        if (resolved.contains("{translate:")) {
+            try {
+                org.bukkit.plugin.Plugin p = org.bukkit.Bukkit.getPluginManager().getPlugin("EzShops");
+                if (p instanceof com.skyblockexp.ezshops.EzShopsPlugin ez) {
+                    var messages = ez.getCoreShopComponent().messageConfiguration();
+                    if (messages != null) {
+                        java.util.regex.Matcher m = java.util.regex.Pattern.compile("\\{translate:([a-zA-Z0-9_.-]+)\\}").matcher(resolved);
+                        StringBuffer sb = new StringBuffer();
+                        while (m.find()) {
+                            String key = m.group(1);
+                            String replacement = messages.lookup(key, "");
+                            if (replacement == null || replacement.isBlank()) {
+                                // Try a common fallback: some translations live under stock.gui.* rather than stock.gui.all-stocks.*
+                                String alt = key.replace(".all-stocks.", ".");
+                                replacement = messages.lookup(alt, "");
+                            }
+                            // Handle lore.lineN lookups where the messages store a list under 'lore'
+                            if ((replacement == null || replacement.isBlank()) && key.matches(".*\\.lore\\.line\\d+$")) {
+                                try {
+                                    java.util.regex.Matcher lm = java.util.regex.Pattern.compile("(.*)\\.lore\\.line(\\d+)$").matcher(key);
+                                    if (lm.find()) {
+                                        String listKey = lm.group(1) + ".lore";
+                                        int idx = Integer.parseInt(lm.group(2)) - 1;
+                                        java.util.List<String> list = messages.lookupList(listKey, java.util.List.of());
+                                        if (idx >= 0 && idx < list.size()) {
+                                            replacement = list.get(idx);
+                                        }
+                                    }
+                                } catch (Throwable ignored) {}
+                            }
+                            replacement = replacement == null ? "" : replacement.replace("$", "\\$");
+                            m.appendReplacement(sb, replacement);
+                        }
+                        m.appendTail(sb);
+                        resolved = MessageUtil.translateColors(sb.toString());
+                    }
+                }
+            } catch (Throwable ignored) {
+            }
+        }
+        return resolved;
     }
 
     public int getRows() {
@@ -248,6 +304,9 @@ public class AllStocksGui {
         page = Math.max(1, Math.min(page, totalPages));
         
         String displayTitle = ConfigTranslator.resolve(title, null) + " (" + page + "/" + totalPages + ")";
+        if (debug) {
+            Bukkit.getLogger().info("AllStocksGui: opening inventory for player='" + player.getName() + "' title='" + ChatColor.stripColor(displayTitle) + "'");
+        }
         Inventory inv = Bukkit.createInventory(player, rows * 9, displayTitle);
         
         int start = (page - 1) * pageSize;
@@ -317,6 +376,12 @@ public class AllStocksGui {
             var backMeta = back.getItemMeta();
             backMeta.setDisplayName(backButtonDisplayName);
             backMeta.setLore(backButtonLore);
+                try {
+                    String strippedLore = String.join(" | ", backButtonLore.stream().map(java.lang.String::valueOf).toList());
+                    if (debug) {
+                        Bukkit.getLogger().info("AllStocksGui: back-button display='" + ChatColor.stripColor(backButtonDisplayName) + "' lore='" + ChatColor.stripColor(strippedLore) + "'");
+                    }
+                } catch (Throwable ignored) {}
             back.setItemMeta(backMeta);
             inv.setItem(backButtonSlot, back);
         }
@@ -333,6 +398,12 @@ public class AllStocksGui {
                 fLore.add(l.replace("{filter}", filterDisplay));
             }
             filterMeta.setLore(fLore);
+            try {
+                String stripped = String.join(" | ", fLore.stream().map(java.lang.String::valueOf).toList());
+                if (debug) {
+                    Bukkit.getLogger().info("AllStocksGui: filter-button display='" + ChatColor.stripColor(name) + "' lore='" + ChatColor.stripColor(stripped) + "'");
+                }
+            } catch (Throwable ignored) {}
             filterItem.setItemMeta(filterMeta);
             inv.setItem(filterButtonSlot, filterItem);
         }
