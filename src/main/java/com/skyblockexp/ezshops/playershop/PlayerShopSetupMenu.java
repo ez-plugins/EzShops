@@ -84,6 +84,17 @@ public final class PlayerShopSetupMenu implements Listener {
         player.sendMessage(messages.setupOpen());
     }
 
+    private void reopenMenu(Player player, MenuState state) {
+        if (player == null || state == null) {
+            return;
+        }
+        state.inventory = Bukkit.createInventory(player, INVENTORY_SIZE, messages.menu().inventoryTitle());
+        openMenus.put(player.getUniqueId(), state);
+        redraw(state);
+        player.openInventory(state.inventory);
+        player.sendMessage(messages.setupOpen());
+    }
+
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) {
@@ -157,7 +168,9 @@ public final class PlayerShopSetupMenu implements Listener {
         }
         if (state.inventory != null && state.inventory.equals(event.getInventory())) {
             openMenus.remove(player.getUniqueId());
-            pendingInputs.remove(player.getUniqueId());
+            // Do NOT remove pendingInputs here. When the player starts a chat-based input
+            // we close the inventory to let them type; removing pendingInputs on close
+            // would cancel the pending chat entry and make typing impossible.
         }
     }
 
@@ -207,6 +220,8 @@ public final class PlayerShopSetupMenu implements Listener {
         }
         pendingInputs.put(player.getUniqueId(), new PendingChatInput(state, InputType.QUANTITY));
         player.sendMessage(messages.setupQuantityChatPrompt());
+        // Close inventory so the player can open chat and type the quantity
+        player.closeInventory();
     }
 
     private void startPriceInput(Player player, MenuState state) {
@@ -215,6 +230,8 @@ public final class PlayerShopSetupMenu implements Listener {
         }
         pendingInputs.put(player.getUniqueId(), new PendingChatInput(state, InputType.PRICE));
         player.sendMessage(messages.setupPriceChatPrompt());
+        // Close inventory so the player can open chat and type the price
+        player.closeInventory();
     }
 
     private void handleChatInput(Player player, String message) {
@@ -246,6 +263,7 @@ public final class PlayerShopSetupMenu implements Listener {
                 }
                 if (applyQuantityInput(player, pending.state, value)) {
                     pendingInputs.remove(playerId);
+                    reopenMenu(player, pending.state);
                 } else {
                     player.sendMessage(messages.setupQuantityChatPrompt());
                 }
@@ -266,6 +284,7 @@ public final class PlayerShopSetupMenu implements Listener {
                 }
                 if (applyPriceInput(player, pending.state, value)) {
                     pendingInputs.remove(playerId);
+                    reopenMenu(player, pending.state);
                 } else {
                     player.sendMessage(messages.setupPriceChatPrompt());
                 }
