@@ -89,6 +89,8 @@ See the [Commands](docs/commands.md) and [Permissions](docs/permissions.md) docu
 - [Configuration Guide](docs/configuration.md): Complete configuration reference
  - [Shop Pagination](docs/shops/pagination.md): Pagination and per-item page configuration for shop menus
  - [Pricing & Dynamic Pricing](docs/shops/pricing/dynamic-pricing.md): Dynamic pricing and `price-id` configuration details
+ - [Price ID](docs/shops/price-id.md): When to use `price-id` for per-item pricing keys
+ - [Integrations](docs/integrations/README.md): Third-party plugin integration guides (EzBoost, Vault, etc.)
 
 ## 🛠️ Usage Examples
 
