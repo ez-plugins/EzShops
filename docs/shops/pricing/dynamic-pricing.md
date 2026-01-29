@@ -201,6 +201,40 @@ DIAMOND:
 		- Check console logs for errors during startup or trade handling.
 		- Verify `shop.yml` entries are valid and that the material keys match (`DIAMOND`, `STONE`, etc.).
 
+	### Menu pagination and per-item pages
+
+	EzShops supports assigning shop items to a specific GUI page and improves pagination behavior for category menus.
+
+	- `page` (integer, optional): assign an item to a specific 1-based page inside its category menu. If omitted the item is auto-paginated.
+	- `preserve-last-row` (boolean, optional, category `menu` block): when `true` (default) the entire last inventory row is reserved for navigation and back buttons; items are not auto-filled into that row. Set to `false` to allow auto-filling into the last row.
+
+	Notes:
+	- Page numbers are 1-based in configuration. For example `page: 2` places the item on the second page of the category menu.
+	- The menu's `size` (e.g. `54`) and reserved last row determine how many item slots are available per page; explicit `slot` values must be within the menu bounds.
+	- If an explicit `slot` for an item collides with another item or a reserved slot, the composer will attempt to place it on that page; if it cannot, the item will be deferred into the remaining available slots for that page.
+
+	Example category snippet:
+
+	```yaml
+	categories:
+		building:
+			name: "Building"
+			menu:
+				title: "Building"
+				size: 54
+				preserve-last-row: true
+			items:
+				tuff_brick_stairs:
+					material: TUFF_BRICK_STAIRS
+					slot: 1
+					page: 2
+					amount: 16
+					buy: 56.0
+					sell: 26.0
+	```
+
+	This configuration places `tuff_brick_stairs` on the second page at slot `1`. Setting `preserve-last-row: false` allows the plugin to use the whole inventory for items (useful for compact menus where you don't need a dedicated navigation row).
+
 	- If players report surprising totals, reduce `buy-change`/`sell-change` and test again.
 
 	---

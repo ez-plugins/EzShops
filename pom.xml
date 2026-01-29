@@ -5,7 +5,7 @@
 
     <groupId>com.skyblockexp</groupId>
     <artifactId>ezshops</artifactId>
-    <version>2.1.1</version>
+    <version>2.1.2</version>
     <name>EzShops Plugin</name>
     <description>Standalone plugin providing the Skyblock shop command and sign shops.</description>
     <packaging>jar</packaging>

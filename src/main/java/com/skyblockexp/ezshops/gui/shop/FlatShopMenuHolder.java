@@ -68,7 +68,18 @@ public final class FlatShopMenuHolder extends AbstractShopMenuHolder {
         if (perPage <= 0 || entries.isEmpty()) {
             return 1;
         }
-        return (entries.size() + perPage - 1) / perPage;
+        int autoCount = 0;
+        int maxDeclared = 1;
+        for (FlatMenuEntry e : entries) {
+            if (e == null || e.item() == null) continue;
+            if (e.item().page() > 0) {
+                maxDeclared = Math.max(maxDeclared, e.item().page());
+            } else {
+                autoCount++;
+            }
+        }
+        int autoPages = (autoCount + perPage - 1) / perPage;
+        return Math.max(Math.max(1, autoPages), maxDeclared);
     }
 
     public int page() {

@@ -177,7 +177,11 @@ public class ShopInventoryComposer {
             }
         }
 
-        if (holder.previousSlot() >= 0 && holder.hasPreviousPage()) {
+        // Debug log to help diagnose missing pagination buttons in flat menus
+        plugin.getLogger().info("Flat menu page " + (normalizedPage + 1) + "/" + totalPages
+            + " previousSlot=" + holder.previousSlot() + " nextSlot=" + holder.nextSlot() + " itemSlots=" + itemSlots.size());
+
+        if (holder.previousSlot() >= 0 && normalizedPage > 0) {
             ItemStack previous = createPlaceholderItem(Material.ARROW, flatMenuMessages.previousTitle(),
                     flatMenuMessages.previousLore(normalizedPage));
             if (previous != null) {
@@ -186,7 +190,7 @@ public class ShopInventoryComposer {
             }
         }
 
-        if (holder.nextSlot() >= 0 && holder.hasNextPage()) {
+        if (holder.nextSlot() >= 0 && normalizedPage + 1 < totalPages) {
             ItemStack next = createPlaceholderItem(Material.ARROW, flatMenuMessages.nextTitle(),
                     flatMenuMessages.nextLore(normalizedPage + 2));
             if (next != null) {
@@ -241,40 +245,110 @@ public class ShopInventoryComposer {
 
         holder.clearEntries();
 
-        List<ShopMenuLayout.Item> sortedItems = new ArrayList<>(category.items());
-        sortedItems.sort(Comparator.comparingInt(ShopMenuLayout.Item::slot));
+        List<ShopMenuLayout.Item> allItems = new ArrayList<>(category.items());
+        allItems.sort(Comparator.comparingInt(ShopMenuLayout.Item::slot));
 
-        int totalPages = Math.max(1, holder.totalPages());
+        // separate explicit-page items (page()>0) from auto-assigned (page()==0)
+        List<ShopMenuLayout.Item> explicitItems = new ArrayList<>();
+        List<ShopMenuLayout.Item> autoItems = new ArrayList<>();
+        for (ShopMenuLayout.Item it : allItems) {
+            if (it.page() > 0) {
+                explicitItems.add(it);
+            } else {
+                autoItems.add(it);
+            }
+        }
+        autoItems.sort(Comparator.comparingInt(ShopMenuLayout.Item::slot));
+
+        int perPage = holder.itemsPerPage();
+        int maxDeclaredPage = 0;
+        for (ShopMenuLayout.Item it : explicitItems) {
+            if (it != null) {
+                maxDeclaredPage = Math.max(maxDeclaredPage, it.page());
+            }
+        }
+        int autoPages = perPage <= 0 ? 1 : ((autoItems.size() + perPage - 1) / perPage);
+        int totalPages = Math.max(Math.max(1, holder.totalPages()), Math.max(maxDeclaredPage, autoPages));
         int normalizedPage = Math.max(0, Math.min(page, totalPages - 1));
         holder.setPage(normalizedPage);
 
-        int perPage = holder.itemsPerPage();
-        int startIndex = normalizedPage * perPage;
+        int pageNumber = normalizedPage + 1; // explicit page numbers are 1-based
         List<Integer> itemSlots = holder.itemSlots();
 
-        if (sortedItems.isEmpty()) {
+        if (allItems.isEmpty()) {
             inventory.setItem(Math.min(13, inventory.getSize() - 1),
                     createPlaceholderItem(Material.BARRIER, categoryMenuMessages.emptyTitle(),
                             categoryMenuMessages.emptyLore()));
         } else {
-            for (int i = 0; i < itemSlots.size(); i++) {
-                int entryIndex = startIndex + i;
-                if (entryIndex >= sortedItems.size()) {
+            // available slots for this page (exclude reserved ones)
+            List<Integer> availableSlots = new ArrayList<>(itemSlots);
+
+            // place explicit items for this page into their configured slots first
+            List<ShopMenuLayout.Item> deferredExplicit = new ArrayList<>();
+            for (ShopMenuLayout.Item it : explicitItems) {
+                if (it.page() != pageNumber) {
+                    continue;
+                }
+                int itemSlot = it.slot();
+                if (itemSlot >= 0 && itemSlot < inventory.getSize() && availableSlots.contains(itemSlot)) {
+                    ItemStack stack = createShopMenuItem(category, it, islandLevel);
+                    if (stack == null) {
+                        continue;
+                    }
+                    stack = applyLevelRequirement(stack, it.requiredIslandLevel(), islandLevel, ignoreIslandRequirements);
+                    setPersistent(stack, itemKey, it.id());
+                    setPersistent(stack, categoryKey, category.id());
+                    inventory.setItem(itemSlot, stack);
+                    holder.setEntry(itemSlot, it);
+                    availableSlots.remove(Integer.valueOf(itemSlot));
+                } else {
+                    // couldn't place at desired slot; defer to auto-fill
+                    deferredExplicit.add(it);
+                }
+            }
+
+            // fill remaining slots with auto-assigned items for this page
+            int startIndex = normalizedPage * perPage;
+            int placed = 0;
+            for (int i = startIndex; i < startIndex + perPage && i < autoItems.size(); i++) {
+                if (availableSlots.isEmpty()) {
                     break;
                 }
+                ShopMenuLayout.Item it = autoItems.get(i);
+                int slot = availableSlots.get(0);
+                ItemStack stack = createShopMenuItem(category, it, islandLevel);
+                if (stack == null) {
+                    availableSlots.remove(0);
+                    continue;
+                }
+                stack = applyLevelRequirement(stack, it.requiredIslandLevel(), islandLevel, ignoreIslandRequirements);
+                setPersistent(stack, itemKey, it.id());
+                setPersistent(stack, categoryKey, category.id());
+                inventory.setItem(slot, stack);
+                holder.setEntry(slot, it);
+                availableSlots.remove(0);
+                placed++;
+            }
 
-                int slot = itemSlots.get(i);
-                ShopMenuLayout.Item item = sortedItems.get(entryIndex);
-                ItemStack stack = createShopMenuItem(category, item, islandLevel);
+            // Debug log to help diagnose missing pagination buttons in category menus
+            plugin.getLogger().info("Category '" + category.id() + "' page " + (normalizedPage + 1) + "/" + totalPages
+                    + " previousSlot=" + holder.previousSlot() + " nextSlot=" + holder.nextSlot() + " itemSlots=" + itemSlots.size());
+
+            // place any deferred explicit items into remaining available slots
+            for (ShopMenuLayout.Item it : deferredExplicit) {
+                if (availableSlots.isEmpty()) {
+                    break;
+                }
+                ItemStack stack = createShopMenuItem(category, it, islandLevel);
                 if (stack == null) {
                     continue;
                 }
-                stack = applyLevelRequirement(stack, item.requiredIslandLevel(), islandLevel,
-                        ignoreIslandRequirements);
-                setPersistent(stack, itemKey, item.id());
+                stack = applyLevelRequirement(stack, it.requiredIslandLevel(), islandLevel, ignoreIslandRequirements);
+                int slot = availableSlots.remove(0);
+                setPersistent(stack, itemKey, it.id());
                 setPersistent(stack, categoryKey, category.id());
                 inventory.setItem(slot, stack);
-                holder.setEntry(slot, item);
+                holder.setEntry(slot, it);
             }
         }
 
