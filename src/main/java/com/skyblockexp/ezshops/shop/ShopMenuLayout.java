@@ -202,7 +202,7 @@ public final class ShopMenuLayout {
             this.commandsRunAsConsole = commandsRunAsConsole == null ? Boolean.TRUE : commandsRunAsConsole;
             this.requiredIslandLevel = Math.max(0, requiredIslandLevel);
             this.priceType = priceType == null ? ShopPriceType.STATIC : priceType;
-            this.priceId = priceId == null ? id : priceId;
+            this.priceId = priceId == null ? material.name() : priceId;
         }
 
         public String priceId() {
