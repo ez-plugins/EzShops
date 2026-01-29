@@ -177,10 +177,6 @@ public class ShopInventoryComposer {
             }
         }
 
-        // Debug log to help diagnose missing pagination buttons in flat menus
-        plugin.getLogger().info("Flat menu page " + (normalizedPage + 1) + "/" + totalPages
-            + " previousSlot=" + holder.previousSlot() + " nextSlot=" + holder.nextSlot() + " itemSlots=" + itemSlots.size());
-
         if (holder.previousSlot() >= 0 && normalizedPage > 0) {
             ItemStack previous = createPlaceholderItem(Material.ARROW, flatMenuMessages.previousTitle(),
                     flatMenuMessages.previousLore(normalizedPage));

@@ -9,8 +9,10 @@ import com.skyblockexp.ezshops.shop.ShopTransactionService;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -84,10 +86,14 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
         String action = args[0].toLowerCase(Locale.ENGLISH);
         String materialName = args[1];
         Material material = Material.matchMaterial(materialName, false);
+        ShopMenuLayout.Item explicitItem = null;
 
         if (material == null) {
-            player.sendMessage(messages.unknownItem(materialName));
-            return true;
+            explicitItem = findItemByKey(materialName);
+            if (explicitItem == null) {
+                player.sendMessage(messages.unknownItem(materialName));
+                return true;
+            }
         }
 
         int amount = 1;
@@ -108,10 +114,18 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
         ShopTransactionResult result;
         switch (action) {
             case "buy":
-                result = handleBuy(player, material, amount);
+                if (explicitItem != null) {
+                    result = transactionService.buy(player, explicitItem, amount);
+                } else {
+                    result = handleBuy(player, material, amount);
+                }
                 break;
             case "sell":
-                result = handleSell(player, material, amount);
+                if (explicitItem != null) {
+                    result = transactionService.sell(player, explicitItem, amount);
+                } else {
+                    result = handleSell(player, material, amount);
+                }
                 break;
             default:
                 sendUsage(player, label);
@@ -201,10 +215,10 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
         if (args.length == 2) {
             String action = args[0].toLowerCase(Locale.ENGLISH);
             if (action.equals("buy")) {
-                return filterBuyMaterials(args[1], pricingManager.getBuyableMaterials());
+                return filterBuyCompletions(args[1]);
             }
             if (action.equals("sell")) {
-                return filterMaterials(args[1], pricingManager.getSellableMaterials());
+                return filterSellCompletions(args[1]);
             }
         }
 
@@ -228,6 +242,92 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
             }
         }
         return matches;
+    }
+
+    private ShopMenuLayout.Item findItemByKey(String key) {
+        if (key == null) return null;
+        ShopMenuLayout layout = pricingManager.getMenuLayout();
+        if (layout == null) return null;
+        String lower = key.toLowerCase(Locale.ENGLISH);
+        for (ShopMenuLayout.Category category : layout.categories()) {
+            for (ShopMenuLayout.Item item : category.items()) {
+                if (item == null) continue;
+                if (item.id().equalsIgnoreCase(key)) return item;
+                if (item.priceId() != null && item.priceId().equalsIgnoreCase(key)) return item;
+                if (item.material() != null && item.material().name().equalsIgnoreCase(key)) return item;
+                // also match display name (lowercased) if it begins with key
+                if (item.display() != null && item.display().displayName() != null
+                        && item.display().displayName().toLowerCase(Locale.ENGLISH).startsWith(lower)) {
+                    return item;
+                }
+            }
+        }
+        return null;
+    }
+
+    private List<String> filterBuyCompletions(String current) {
+        Set<String> completions = new HashSet<>();
+        String lowerCurrent = current.toLowerCase(Locale.ENGLISH);
+        // include material names
+        for (Material material : pricingManager.getBuyableMaterials()) {
+            if (!isDirectBuySupported(material)) continue;
+            String name = material.name().toLowerCase(Locale.ENGLISH);
+            if (name.startsWith(lowerCurrent)) completions.add(name);
+        }
+        // include configured item ids and price-ids from menu layout
+        ShopMenuLayout layout = pricingManager.getMenuLayout();
+        if (layout != null) {
+            for (ShopMenuLayout.Category category : layout.categories()) {
+                for (ShopMenuLayout.Item item : category.items()) {
+                    if (item == null) continue;
+                    // determine whether item is buyable
+                    boolean buyable = false;
+                    if (item.priceId() != null) {
+                        buyable = pricingManager.getPrice(item.priceId()).map(p -> p.canBuy()).orElse(item.price().canBuy());
+                    } else {
+                        buyable = pricingManager.getPrice(item.material()).map(p -> p.canBuy()).orElse(item.price().canBuy());
+                    }
+                    if (!buyable) continue;
+                    String id = item.id();
+                    if (id != null && id.toLowerCase(Locale.ENGLISH).startsWith(lowerCurrent)) completions.add(id.toLowerCase(Locale.ENGLISH));
+                    String pid = item.priceId();
+                    if (pid != null && pid.toLowerCase(Locale.ENGLISH).startsWith(lowerCurrent)) completions.add(pid.toLowerCase(Locale.ENGLISH));
+                }
+            }
+        }
+        return new ArrayList<>(completions);
+    }
+
+    private List<String> filterSellCompletions(String current) {
+        Set<String> completions = new HashSet<>();
+        String lowerCurrent = current.toLowerCase(Locale.ENGLISH);
+        // include material names
+        for (Material material : pricingManager.getSellableMaterials()) {
+            String name = material.name().toLowerCase(Locale.ENGLISH);
+            if (name.startsWith(lowerCurrent)) completions.add(name);
+        }
+        // include configured item ids and price-ids from menu layout
+        ShopMenuLayout layout = pricingManager.getMenuLayout();
+        if (layout != null) {
+            for (ShopMenuLayout.Category category : layout.categories()) {
+                for (ShopMenuLayout.Item item : category.items()) {
+                    if (item == null) continue;
+                    // determine whether item is sellable
+                    boolean sellable = false;
+                    if (item.priceId() != null) {
+                        sellable = pricingManager.getPrice(item.priceId()).map(p -> p.canSell()).orElse(item.price().canSell());
+                    } else {
+                        sellable = pricingManager.getPrice(item.material()).map(p -> p.canSell()).orElse(item.price().canSell());
+                    }
+                    if (!sellable) continue;
+                    String id = item.id();
+                    if (id != null && id.toLowerCase(Locale.ENGLISH).startsWith(lowerCurrent)) completions.add(id.toLowerCase(Locale.ENGLISH));
+                    String pid = item.priceId();
+                    if (pid != null && pid.toLowerCase(Locale.ENGLISH).startsWith(lowerCurrent)) completions.add(pid.toLowerCase(Locale.ENGLISH));
+                }
+            }
+        }
+        return new ArrayList<>(completions);
     }
 
     private List<String> filterBuyMaterials(String current, Collection<Material> materials) {
