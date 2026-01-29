@@ -200,7 +200,6 @@ DIAMOND:
 		- Ensure `shop-dynamic.yml` exists and contains expected multipliers.
 		- Check console logs for errors during startup or trade handling.
 		- Verify `shop.yml` entries are valid and that the material keys match (`DIAMOND`, `STONE`, etc.).
-
 	- If players report surprising totals, reduce `buy-change`/`sell-change` and test again.
 
 	---

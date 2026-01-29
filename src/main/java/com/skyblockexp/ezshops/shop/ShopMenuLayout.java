@@ -69,12 +69,13 @@ public final class ShopMenuLayout {
         private final ItemDecoration menuFill;
         private final ItemDecoration backButton;
         private final Integer backButtonSlot;
+        private final boolean preserveLastRow;
         private final List<Item> items;
         private final CategoryRotation rotation;
         private final String command;
 
         public Category(String id, String displayName, ItemDecoration icon, int slot, String menuTitle, int menuSize,
-                ItemDecoration menuFill, ItemDecoration backButton, Integer backButtonSlot, List<Item> items,
+                ItemDecoration menuFill, ItemDecoration backButton, Integer backButtonSlot, boolean preserveLastRow, List<Item> items,
                 CategoryRotation rotation, String command) {
             this.id = Objects.requireNonNull(id, "id");
             this.displayName = Objects.requireNonNull(displayName, "displayName");
@@ -85,6 +86,7 @@ public final class ShopMenuLayout {
             this.menuFill = menuFill;
             this.backButton = backButton;
             this.backButtonSlot = backButtonSlot;
+            this.preserveLastRow = preserveLastRow;
             this.items = List.copyOf(items);
             this.rotation = rotation;
             this.command = command;
@@ -126,6 +128,10 @@ public final class ShopMenuLayout {
             return backButtonSlot;
         }
 
+        public boolean preserveLastRow() {
+            return preserveLastRow;
+        }
+
         public List<Item> items() {
             return items;
         }
@@ -161,6 +167,7 @@ public final class ShopMenuLayout {
     public static final class Item {
 
         private final String id;
+        private final int page;
         private final Material material;
         private final ItemDecoration display;
         private final int slot;
@@ -177,17 +184,18 @@ public final class ShopMenuLayout {
         private final ShopPriceType priceType;
         private final String priceId;
 
-        public Item(String id, Material material, ItemDecoration display, int slot, int amount, int bulkAmount,
+        public Item(String id, Material material, ItemDecoration display, int slot, int page, int amount, int bulkAmount,
             ShopPrice price, ItemType type, EntityType spawnerEntity,
             Map<Enchantment, Integer> enchantments, int requiredIslandLevel) {
-            this(id, material, display, slot, amount, bulkAmount, price, type, spawnerEntity, enchantments, requiredIslandLevel, ShopPriceType.STATIC, List.of(), List.of(), Boolean.TRUE, null);
+            this(id, material, display, slot, page, amount, bulkAmount, price, type, spawnerEntity, enchantments, requiredIslandLevel, ShopPriceType.STATIC, List.of(), List.of(), Boolean.TRUE, null);
         }
 
-        public Item(String id, Material material, ItemDecoration display, int slot, int amount, int bulkAmount,
+        public Item(String id, Material material, ItemDecoration display, int slot, int page, int amount, int bulkAmount,
                 ShopPrice price, ItemType type, EntityType spawnerEntity,
                 Map<Enchantment, Integer> enchantments, int requiredIslandLevel, ShopPriceType priceType,
                 java.util.List<String> buyCommands, java.util.List<String> sellCommands, Boolean commandsRunAsConsole, String priceId) {
             this.id = Objects.requireNonNull(id, "id");
+            this.page = Math.max(0, page);
             this.material = Objects.requireNonNull(material, "material");
             this.display = Objects.requireNonNull(display, "display");
             this.slot = slot;
@@ -211,6 +219,10 @@ public final class ShopMenuLayout {
 
         public ShopPriceType priceType() {
             return priceType;
+        }
+
+        public int page() {
+            return page;
         }
 
         public String id() {

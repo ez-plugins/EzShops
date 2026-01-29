@@ -376,6 +376,7 @@ public class ShopPricingManager {
 
         int slot = clampSlot(section.getInt("slot", 0), mainMenuSize);
         ConfigurationSection menuSection = section.getConfigurationSection("menu");
+        boolean preserveLastRow = menuSection != null ? menuSection.getBoolean("preserve-last-row", true) : true;
         String menuTitle = colorize(menuSection != null ? menuSection.getString("title", displayName) : displayName);
         int menuSize = normalizeSize(menuSection != null ? menuSection.getInt("size", 54) : 54);
         ShopMenuLayout.ItemDecoration menuFill = parseDecoration(
@@ -423,7 +424,7 @@ public class ShopPricingManager {
 
                 String command = section.getString("command", null);
                 return new CategoryTemplate(categoryId, displayName, icon, slot, menuTitle, menuSize, menuFill,
-                    backButton, backButtonSlot, List.copyOf(items), null, command);
+                    backButton, backButtonSlot, preserveLastRow, List.copyOf(items), null, command);
         }
 
         ShopRotationDefinition definition = rotationDefinitions.get(rotationGroupId);
@@ -446,7 +447,7 @@ public class ShopPricingManager {
             }
                 String command = section.getString("command", null);
                 return new CategoryTemplate(categoryId, displayName, icon, slot, menuTitle, menuSize, menuFill,
-                    backButton, backButtonSlot, List.copyOf(items), null, command);
+                    backButton, backButtonSlot, preserveLastRow, List.copyOf(items), null, command);
         }
 
         ConfigurationSection rotationDefaultsSection = section.getConfigurationSection("rotation-defaults");
@@ -484,7 +485,7 @@ public class ShopPricingManager {
 
         RotationBinding rotation = new RotationBinding(rotationGroupId, defaultIcon, defaultMenuTitle, optionItems);
         return new CategoryTemplate(categoryId, displayName, icon, slot, menuTitle, menuSize, menuFill, backButton,
-                backButtonSlot, List.of(), rotation, section.getString("command", null));
+            backButtonSlot, preserveLastRow, List.of(), rotation, section.getString("command", null));
     }
 
     private ShopMenuLayout rebuildMenuLayoutFromTemplates() {
@@ -506,7 +507,7 @@ public class ShopPricingManager {
         if (!template.isRotating()) {
             return new ShopMenuLayout.Category(template.id, template.displayName, template.icon, template.slot,
                 template.menuTitle, template.menuSize, template.menuFill, template.backButton,
-                template.backButtonSlot, template.staticItems, null, template.command);
+                template.backButtonSlot, template.preserveLastRow, template.staticItems, null, template.command);
         }
 
         RotationBinding binding = template.rotation;
@@ -516,7 +517,7 @@ public class ShopPricingManager {
                     + template.id + "'.");
                 return new ShopMenuLayout.Category(template.id, template.displayName, template.icon, template.slot,
                     template.menuTitle, template.menuSize, template.menuFill, template.backButton,
-                    template.backButtonSlot, List.of(), null, template.command);
+                    template.backButtonSlot, template.preserveLastRow, List.of(), null, template.command);
         }
 
         String optionId = activeRotationOptions.getOrDefault(definition.id(), definition.defaultOptionId());
@@ -550,8 +551,8 @@ public class ShopPricingManager {
         ShopMenuLayout.CategoryRotation rotationState =
                 new ShopMenuLayout.CategoryRotation(definition.id(), optionId);
         return new ShopMenuLayout.Category(template.id, template.displayName, icon, template.slot, menuTitle,
-                template.menuSize, template.menuFill, template.backButton, template.backButtonSlot, items,
-                rotationState, template.command);
+            template.menuSize, template.menuFill, template.backButton, template.backButtonSlot, template.preserveLastRow, items,
+            rotationState, template.command);
     }
 
     private ShopMenuLayout.Item parseItem(String contextPrefix, String itemId, ConfigurationSection section,
@@ -587,6 +588,8 @@ public class ShopPricingManager {
         int amount = Math.max(1, section.getInt("amount", 1));
         int bulkAmount = Math.max(amount, section.getInt("bulk-amount", material.getMaxStackSize()));
         bulkAmount = Math.min(64, bulkAmount);
+
+        int page = section.contains("page") ? Math.max(1, section.getInt("page", 1)) : 0;
 
         double buyPrice = readPrice(section, context, "buy");
         double sellPrice = readPrice(section, context, "sell");
@@ -690,7 +693,7 @@ public class ShopPricingManager {
             }
         }
 
-        return new ShopMenuLayout.Item(itemId, material, decoration, slot, amount, bulkAmount, price, type,
+        return new ShopMenuLayout.Item(itemId, material, decoration, slot, page, amount, bulkAmount, price, type,
             spawnerEntity, enchantments, requiredIslandLevel, priceType, buyCommands, sellCommands,
             commandsRunAsConsole, configuredPriceId);
     }
@@ -1239,13 +1242,14 @@ public class ShopPricingManager {
         private final ShopMenuLayout.ItemDecoration menuFill;
         private final ShopMenuLayout.ItemDecoration backButton;
         private final Integer backButtonSlot;
+        private final boolean preserveLastRow;
         private final List<ShopMenuLayout.Item> staticItems;
         private final RotationBinding rotation;
         private final String command;
 
         private CategoryTemplate(String id, String displayName, ShopMenuLayout.ItemDecoration icon, int slot,
                 String menuTitle, int menuSize, ShopMenuLayout.ItemDecoration menuFill,
-                ShopMenuLayout.ItemDecoration backButton, Integer backButtonSlot, List<ShopMenuLayout.Item> staticItems,
+                ShopMenuLayout.ItemDecoration backButton, Integer backButtonSlot, boolean preserveLastRow, List<ShopMenuLayout.Item> staticItems,
                 RotationBinding rotation, String command) {
             this.id = Objects.requireNonNull(id, "id");
             this.displayName = Objects.requireNonNull(displayName, "displayName");
@@ -1256,6 +1260,7 @@ public class ShopPricingManager {
             this.menuFill = menuFill;
             this.backButton = backButton;
             this.backButtonSlot = backButtonSlot;
+            this.preserveLastRow = preserveLastRow;
             this.staticItems = staticItems == null ? List.of() : List.copyOf(staticItems);
             this.rotation = rotation;
             this.command = command;

@@ -21,6 +21,7 @@ public final class CategoryShopMenuHolder extends AbstractShopMenuHolder {
         this.category = category;
 
         int inventorySize = Math.max(0, category.menuSize());
+        boolean preserveLastRow = category.preserveLastRow();
         if (inventorySize >= 18) {
             this.previousSlot = inventorySize - 9;
             this.nextSlot = inventorySize - 1;
@@ -34,6 +35,10 @@ public final class CategoryShopMenuHolder extends AbstractShopMenuHolder {
         int back = backSlot != null ? backSlot : -9999;
         for (int slot = 0; slot < inventorySize; slot++) {
             if (slot == previousSlot || slot == nextSlot || slot == back) {
+                continue;
+            }
+            if (preserveLastRow && inventorySize >= 9 && slot >= inventorySize - 9) {
+                // preserve entire last row for navigation/back/etc.
                 continue;
             }
             computedSlots.add(slot);
@@ -70,7 +75,18 @@ public final class CategoryShopMenuHolder extends AbstractShopMenuHolder {
         if (perPage <= 0 || items.isEmpty()) {
             return 1;
         }
-        return (items.size() + perPage - 1) / perPage;
+        int autoCount = 0;
+        int maxDeclared = 1;
+        for (ShopMenuLayout.Item it : items) {
+            if (it == null) continue;
+            if (it.page() > 0) {
+                maxDeclared = Math.max(maxDeclared, it.page());
+            } else {
+                autoCount++;
+            }
+        }
+        int autoPages = (autoCount + perPage - 1) / perPage;
+        return Math.max(Math.max(1, autoPages), maxDeclared);
     }
 
     public int page() {
