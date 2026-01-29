@@ -87,6 +87,8 @@ See the [Commands](docs/commands.md) and [Permissions](docs/permissions.md) docu
 - [Commands](docs/commands.md): All commands and their usage
 - [Permissions](docs/permissions.md): All permissions and defaults
 - [Configuration Guide](docs/configuration.md): Complete configuration reference
+ - [Shop Pagination](docs/shops/pagination.md): Pagination and per-item page configuration for shop menus
+ - [Pricing & Dynamic Pricing](docs/shops/pricing/dynamic-pricing.md): Dynamic pricing and `price-id` configuration details
 
 ## 🛠️ Usage Examples
 
