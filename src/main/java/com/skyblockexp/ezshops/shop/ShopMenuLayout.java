@@ -175,17 +175,18 @@ public final class ShopMenuLayout {
         private final Boolean commandsRunAsConsole;
         private final int requiredIslandLevel;
         private final ShopPriceType priceType;
+        private final String priceId;
 
         public Item(String id, Material material, ItemDecoration display, int slot, int amount, int bulkAmount,
-                ShopPrice price, ItemType type, EntityType spawnerEntity,
-                Map<Enchantment, Integer> enchantments, int requiredIslandLevel) {
-            this(id, material, display, slot, amount, bulkAmount, price, type, spawnerEntity, enchantments, requiredIslandLevel, ShopPriceType.STATIC, List.of(), List.of(), Boolean.TRUE);
+            ShopPrice price, ItemType type, EntityType spawnerEntity,
+            Map<Enchantment, Integer> enchantments, int requiredIslandLevel) {
+            this(id, material, display, slot, amount, bulkAmount, price, type, spawnerEntity, enchantments, requiredIslandLevel, ShopPriceType.STATIC, List.of(), List.of(), Boolean.TRUE, null);
         }
 
         public Item(String id, Material material, ItemDecoration display, int slot, int amount, int bulkAmount,
                 ShopPrice price, ItemType type, EntityType spawnerEntity,
                 Map<Enchantment, Integer> enchantments, int requiredIslandLevel, ShopPriceType priceType,
-                java.util.List<String> buyCommands, java.util.List<String> sellCommands, Boolean commandsRunAsConsole) {
+                java.util.List<String> buyCommands, java.util.List<String> sellCommands, Boolean commandsRunAsConsole, String priceId) {
             this.id = Objects.requireNonNull(id, "id");
             this.material = Objects.requireNonNull(material, "material");
             this.display = Objects.requireNonNull(display, "display");
@@ -201,6 +202,11 @@ public final class ShopMenuLayout {
             this.commandsRunAsConsole = commandsRunAsConsole == null ? Boolean.TRUE : commandsRunAsConsole;
             this.requiredIslandLevel = Math.max(0, requiredIslandLevel);
             this.priceType = priceType == null ? ShopPriceType.STATIC : priceType;
+            this.priceId = priceId == null ? material.name() : priceId;
+        }
+
+        public String priceId() {
+            return priceId;
         }
 
         public ShopPriceType priceType() {

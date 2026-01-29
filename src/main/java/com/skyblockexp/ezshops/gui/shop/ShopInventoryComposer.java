@@ -9,6 +9,7 @@ import com.skyblockexp.ezshops.shop.ShopPrice;
 import com.skyblockexp.ezshops.shop.ShopPricingManager;
 import com.skyblockexp.ezshops.shop.ShopTransactionService;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -357,7 +358,7 @@ public class ShopInventoryComposer {
         for (int i = 0; i < multipliers.length && i < slots.length; i++) {
             int multiplier = multipliers[i];
             int total = multiplyAmount(baseAmount, multiplier);
-            ItemStack option = createQuantityOptionItem(item, type, total);
+            ItemStack option = createQuantityOptionItem(category, item, type, total);
             if (option == null) {
                 continue;
             }
@@ -424,8 +425,7 @@ public class ShopInventoryComposer {
         }
 
         meta = decorateEnchantments(meta, item.enchantments());
-
-        ShopPrice price = resolveDisplayPrice(item);
+        ShopPrice price = resolveDisplayPrice(category, item);
         double buyPrice = price.buyPrice();
         double sellPrice = price.sellPrice();
         int stackAmount = Math.max(1, Math.min(64, item.material().getMaxStackSize()));
@@ -436,8 +436,8 @@ public class ShopInventoryComposer {
         if (buyPrice >= 0.0D) {
             lore.add(quantityMenuMessages.buyLine(formatPrice(buyPrice)));
             if (stackAmount > 1) {
-                double buyStackTotal = item.type() == ShopMenuLayout.ItemType.MATERIAL && item.material() != null
-                        ? pricingManager.estimateBulkTotal(item.material(), stackAmount, ShopTransactionType.BUY)
+                    double buyStackTotal = item.type() == ShopMenuLayout.ItemType.MATERIAL && item.material() != null
+                        ? pricingManager.estimateBulkTotal(item.priceId(), stackAmount, ShopTransactionType.BUY)
                         : totalPrice(buyPrice, stackAmount);
                 lore.add(quantityMenuMessages.buyStackLine(stackAmount, formatPrice(buyStackTotal)));
             }
@@ -452,8 +452,8 @@ public class ShopInventoryComposer {
             lore.add(quantityMenuMessages.sellLine(formatPrice(sellPrice)));
             if (stackAmount > 1) {
                 double sellStackTotal = item.type() == ShopMenuLayout.ItemType.MATERIAL && item.material() != null
-                        ? pricingManager.estimateBulkTotal(item.material(), stackAmount, ShopTransactionType.SELL)
-                        : totalPrice(sellPrice, stackAmount);
+                    ? pricingManager.estimateBulkTotal(item.priceId(), stackAmount, ShopTransactionType.SELL)
+                    : totalPrice(sellPrice, stackAmount);
                 lore.add(quantityMenuMessages.sellStackLine(stackAmount, formatPrice(sellStackTotal)));
             }
         } else {
@@ -563,19 +563,19 @@ public class ShopInventoryComposer {
 
         placeholders.put("{enchantments}", formatEnchantments(item.enchantments()));
 
-        ShopPrice price = resolveDisplayPrice(item);
+        ShopPrice price = resolveDisplayPrice(category, item);
         placeholders.put("{buy_price}", formatPrice(price.buyPrice()));
         placeholders.put("{sell_price}", formatPrice(price.sellPrice()));
         placeholders.put("{buy}", formatPrice(price.buyPrice()));
         placeholders.put("{sell}", formatPrice(price.sellPrice()));
         // Use pricing manager estimator for material-backed items with dynamic pricing
         if (item.type() == ShopMenuLayout.ItemType.MATERIAL && item.material() != null) {
-            double buyAmountTotal = pricingManager.estimateBulkTotal(item.material(), item.amount(), ShopTransactionType.BUY);
-            double sellAmountTotal = pricingManager.estimateBulkTotal(item.material(), item.amount(), ShopTransactionType.SELL);
-            double buyBulkTotal = pricingManager.estimateBulkTotal(item.material(), item.bulkAmount(), ShopTransactionType.BUY);
-            double sellBulkTotal = pricingManager.estimateBulkTotal(item.material(), item.bulkAmount(), ShopTransactionType.SELL);
-            double buyStackTotal = pricingManager.estimateBulkTotal(item.material(), stackAmount, ShopTransactionType.BUY);
-            double sellStackTotal = pricingManager.estimateBulkTotal(item.material(), stackAmount, ShopTransactionType.SELL);
+            double buyAmountTotal = pricingManager.estimateBulkTotal(item.priceId(), item.amount(), ShopTransactionType.BUY);
+            double sellAmountTotal = pricingManager.estimateBulkTotal(item.priceId(), item.amount(), ShopTransactionType.SELL);
+            double buyBulkTotal = pricingManager.estimateBulkTotal(item.priceId(), item.bulkAmount(), ShopTransactionType.BUY);
+            double sellBulkTotal = pricingManager.estimateBulkTotal(item.priceId(), item.bulkAmount(), ShopTransactionType.SELL);
+            double buyStackTotal = pricingManager.estimateBulkTotal(item.priceId(), stackAmount, ShopTransactionType.BUY);
+            double sellStackTotal = pricingManager.estimateBulkTotal(item.priceId(), stackAmount, ShopTransactionType.SELL);
             placeholders.put("{buy_total}", formatPrice(buyAmountTotal));
             placeholders.put("{sell_total}", formatPrice(sellAmountTotal));
             placeholders.put("{buy_bulk_total}", formatPrice(buyBulkTotal));
@@ -593,11 +593,15 @@ public class ShopInventoryComposer {
         return placeholders;
     }
 
-    private ShopPrice resolveDisplayPrice(ShopMenuLayout.Item item) {
+    private ShopPrice resolveDisplayPrice(ShopMenuLayout.Category category, ShopMenuLayout.Item item) {
         if (item == null) {
             return new ShopPrice(-1.0D, -1.0D);
         }
         if (item.type() == ShopMenuLayout.ItemType.MATERIAL) {
+            Optional<ShopPrice> byKey = pricingManager.getPrice(item.priceId());
+            if (byKey.isPresent()) {
+                return byKey.get();
+            }
             return pricingManager.getPrice(item.material()).orElse(item.price());
         }
         return item.price();
@@ -638,7 +642,7 @@ public class ShopInventoryComposer {
         return slot;
     }
 
-    private ItemStack createQuantityOptionItem(ShopMenuLayout.Item item, ShopTransactionType type, int quantity) {
+    private ItemStack createQuantityOptionItem(ShopMenuLayout.Category category, ShopMenuLayout.Item item, ShopTransactionType type, int quantity) {
         if (quantity <= 0) {
             return null;
         }
@@ -657,10 +661,10 @@ public class ShopInventoryComposer {
         meta.setDisplayName(quantityMenuMessages.optionTitle(quantity));
 
         List<String> lore = new ArrayList<>();
-        ShopPrice currentPrice = resolveDisplayPrice(item);
+        ShopPrice currentPrice = resolveDisplayPrice(category, item);
         double totalValue;
         if (item.type() == ShopMenuLayout.ItemType.MATERIAL && item.material() != null) {
-            totalValue = pricingManager.estimateBulkTotal(item.material(), quantity, type);
+            totalValue = pricingManager.estimateBulkTotal(item.priceId(), quantity, type);
         } else {
             double unitPrice = type == ShopTransactionType.BUY ? currentPrice.buyPrice() : currentPrice.sellPrice();
             totalValue = unitPrice >= 0 ? totalPrice(unitPrice, quantity) : -1.0D;

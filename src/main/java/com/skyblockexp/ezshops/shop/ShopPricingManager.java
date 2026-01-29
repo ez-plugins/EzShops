@@ -41,7 +41,7 @@ public class ShopPricingManager {
     private static final String ROTATIONS_KEY = "rotations";
 
     private final JavaPlugin plugin;
-    private final Map<Material, PriceEntry> priceMap = new EnumMap<>(Material.class);
+    private final Map<String, PriceEntry> priceMap = new LinkedHashMap<>();
     private final Map<Material, ShopMenuLayout.ItemType> menuItemTypes = new EnumMap<>(Material.class);
     private final Logger logger;
     private final File dynamicStateFile;
@@ -100,7 +100,10 @@ public class ShopPricingManager {
     }
 
     public Optional<ShopPrice> getPrice(Material material) {
-        PriceEntry entry = priceMap.get(material);
+        if (material == null) {
+            return Optional.empty();
+        }
+        PriceEntry entry = priceMap.get(material.name());
         if (entry == null) {
             return Optional.empty();
         }
@@ -119,7 +122,7 @@ public class ShopPricingManager {
         if (material == null || amount <= 0) {
             return -1.0D;
         }
-        PriceEntry entry = priceMap.get(material);
+        PriceEntry entry = priceMap.get(material.name());
         if (entry == null) {
             return -1.0D;
         }
@@ -127,7 +130,7 @@ public class ShopPricingManager {
     }
 
     public boolean isConfigured(Material material) {
-        return priceMap.containsKey(material);
+        return material != null && priceMap.containsKey(material.name());
     }
 
     public Collection<Material> getBuyableMaterials() {
@@ -139,7 +142,16 @@ public class ShopPricingManager {
     }
 
     public Set<Material> getConfiguredMaterials() {
-        return Collections.unmodifiableSet(priceMap.keySet());
+        List<Material> materials = new ArrayList<>();
+        for (String key : priceMap.keySet()) {
+            try {
+                Material m = Material.matchMaterial(key, false);
+                if (m != null) {
+                    materials.add(m);
+                }
+            } catch (Throwable ignored) {}
+        }
+        return Collections.unmodifiableSet(java.util.Set.copyOf(materials));
     }
 
     public boolean isEmpty() {
@@ -180,6 +192,32 @@ public class ShopPricingManager {
         return menuItemTypes.getOrDefault(material, ShopMenuLayout.ItemType.MATERIAL);
     }
 
+    public Optional<ShopPrice> getPrice(String priceKey) {
+        if (priceKey == null) {
+            return Optional.empty();
+        }
+        PriceEntry entry = priceMap.get(priceKey);
+        if (entry == null) {
+            return Optional.empty();
+        }
+        if (entry.priceType == ShopPriceType.STOCK_MARKET) {
+            double stockPrice = com.skyblockexp.ezshops.stock.StockMarketManagerHolder.get().getPrice(priceKey);
+            return Optional.of(new ShopPrice(stockPrice, stockPrice));
+        }
+        return Optional.of(entry.currentPrice());
+    }
+
+    public double estimateBulkTotal(String priceKey, int amount, ShopTransactionType type) {
+        if (priceKey == null || amount <= 0) {
+            return -1.0D;
+        }
+        PriceEntry entry = priceMap.get(priceKey);
+        if (entry == null) {
+            return -1.0D;
+        }
+        return entry.estimateBulkTotal(amount, type);
+    }
+
     private void loadLegacyEntries(ConfigurationSection root) {
         for (String key : root.getKeys(false)) {
             if (MAIN_MENU_KEY.equalsIgnoreCase(key) || CATEGORY_MENU_KEY.equalsIgnoreCase(key)
@@ -211,7 +249,7 @@ public class ShopPricingManager {
             ShopPrice price = new ShopPrice(Double.isNaN(buyPrice) ? -1.0D : buyPrice,
                     Double.isNaN(sellPrice) ? -1.0D : sellPrice);
             DynamicSettings dynamicSettings = parseDynamicSettings(priceSection, key);
-            registerPrice(material, price, dynamicSettings);
+            registerPrice(key, price, dynamicSettings);
         }
     }
 
@@ -558,12 +596,18 @@ public class ShopPricingManager {
         }
 
         ShopPrice price = new ShopPrice(Double.isNaN(buyPrice) ? -1.0D : buyPrice,
-                Double.isNaN(sellPrice) ? -1.0D : sellPrice);
-        DynamicSettings dynamicSettings = parseDynamicSettings(section, context);
+            Double.isNaN(sellPrice) ? -1.0D : sellPrice);
+        // allow optional per-item price key to avoid material-level linking
+        String configuredPriceId = section.getString("price-id", null);
+        if (configuredPriceId != null && configuredPriceId.isBlank()) {
+            configuredPriceId = null;
+        }
+        String priceKey = configuredPriceId != null ? configuredPriceId : material.name();
+        DynamicSettings dynamicSettings = parseDynamicSettings(section, priceKey);
 
         if (type == ShopMenuLayout.ItemType.MATERIAL || type == ShopMenuLayout.ItemType.MINION_CRATE_KEY
-                || type == ShopMenuLayout.ItemType.VOTE_CRATE_KEY) {
-            registerPrice(material, price, dynamicSettings, priceType);
+            || type == ShopMenuLayout.ItemType.VOTE_CRATE_KEY) {
+            registerPrice(priceKey, price, dynamicSettings, priceType);
         }
 
         EntityType spawnerEntity = null;
@@ -647,8 +691,8 @@ public class ShopPricingManager {
         }
 
         return new ShopMenuLayout.Item(itemId, material, decoration, slot, amount, bulkAmount, price, type,
-                spawnerEntity, enchantments, requiredIslandLevel, priceType, buyCommands, sellCommands,
-                commandsRunAsConsole);
+            spawnerEntity, enchantments, requiredIslandLevel, priceType, buyCommands, sellCommands,
+            commandsRunAsConsole, configuredPriceId);
     }
 
     private Map<String, Map<String, Object>> readItemData(ConfigurationSection section) {
@@ -758,31 +802,33 @@ public class ShopPricingManager {
 
     private Collection<Material> filterMaterials(PricePredicate predicate) {
         List<Material> materials = new ArrayList<>();
-        for (Map.Entry<Material, PriceEntry> entry : priceMap.entrySet()) {
-            if (predicate.test(entry.getValue().currentPrice())) {
-                materials.add(entry.getKey());
+        for (Map.Entry<String, PriceEntry> entry : priceMap.entrySet()) {
+            String key = entry.getKey();
+            Material m = Material.matchMaterial(key, false);
+            if (m != null && predicate.test(entry.getValue().currentPrice())) {
+                materials.add(m);
             }
         }
         materials.sort((a, b) -> a.name().compareToIgnoreCase(b.name()));
         return Collections.unmodifiableList(materials);
     }
 
-    private void registerPrice(Material material, ShopPrice price, DynamicSettings dynamicSettings) {
+    private void registerPrice(String priceKey, ShopPrice price, DynamicSettings dynamicSettings) {
         PriceEntry entry = new PriceEntry(price, dynamicSettings,
-                loadSavedMultiplier(material, dynamicSettings));
-        PriceEntry previous = priceMap.put(material, entry);
+                loadSavedMultiplier(priceKey, dynamicSettings));
+        PriceEntry previous = priceMap.put(priceKey, entry);
         if (previous != null && !previous.basePrice.equals(price)) {
-            logger.fine("Overriding shop price for material " + material.name() + " with new configuration values.");
+            logger.fine("Overriding shop price for key " + priceKey + " with new configuration values.");
         }
     }
 
     // Overload for price type
-    private void registerPrice(Material material, ShopPrice price, DynamicSettings dynamicSettings, ShopPriceType priceType) {
+    private void registerPrice(String priceKey, ShopPrice price, DynamicSettings dynamicSettings, ShopPriceType priceType) {
         PriceEntry entry = new PriceEntry(price, dynamicSettings,
-                loadSavedMultiplier(material, dynamicSettings), priceType);
-        PriceEntry previous = priceMap.put(material, entry);
+                loadSavedMultiplier(priceKey, dynamicSettings), priceType);
+        PriceEntry previous = priceMap.put(priceKey, entry);
         if (previous != null && !previous.basePrice.equals(price)) {
-            logger.fine("Overriding shop price for material " + material.name() + " with new configuration values.");
+            logger.fine("Overriding shop price for key " + priceKey + " with new configuration values.");
         }
     }
 
@@ -818,17 +864,42 @@ public class ShopPricingManager {
         adjustDynamicMultiplier(material, amount, false);
     }
 
-    private void adjustDynamicMultiplier(Material material, int amount, boolean purchase) {
-        if (amount <= 0) {
+    public void handlePurchase(String priceKey, int amount) {
+        adjustDynamicMultiplier(priceKey, amount, true);
+    }
+
+    public void handleSale(String priceKey, int amount) {
+        adjustDynamicMultiplier(priceKey, amount, false);
+    }
+
+    private void adjustDynamicMultiplier(String priceKey, int amount, boolean purchase) {
+        if (amount <= 0 || priceKey == null) {
             return;
         }
-        PriceEntry entry = priceMap.get(material);
+        PriceEntry entry = priceMap.get(priceKey);
         if (entry == null || !entry.hasDynamicPricing()) {
             return;
         }
         boolean changed = purchase ? entry.adjustAfterPurchase(amount) : entry.adjustAfterSale(amount);
         if (changed) {
-            saveDynamicState(material, entry);
+            saveDynamicState(priceKey, entry);
+        }
+    }
+
+    private void adjustDynamicMultiplier(Material material, int amount, boolean purchase) {
+        if (amount <= 0) {
+            return;
+        }
+        if (material == null) {
+            return;
+        }
+        PriceEntry entry = priceMap.get(material.name());
+        if (entry == null || !entry.hasDynamicPricing()) {
+            return;
+        }
+        boolean changed = purchase ? entry.adjustAfterPurchase(amount) : entry.adjustAfterSale(amount);
+        if (changed) {
+            saveDynamicState(material.name(), entry);
         }
     }
 
@@ -907,24 +978,24 @@ public class ShopPricingManager {
         }
     }
 
-    private double loadSavedMultiplier(Material material, DynamicSettings settings) {
+    private double loadSavedMultiplier(String priceKey, DynamicSettings settings) {
         if (settings == null) {
             return 1.0D;
         }
         if (dynamicStateConfiguration == null) {
             dynamicStateConfiguration = new YamlConfiguration();
         }
-        if (!dynamicStateConfiguration.isSet(material.name())) {
+        if (!dynamicStateConfiguration.isSet(priceKey)) {
             return settings.clamp(settings.startingMultiplier());
         }
-        return settings.clamp(dynamicStateConfiguration.getDouble(material.name(), settings.startingMultiplier()));
+        return settings.clamp(dynamicStateConfiguration.getDouble(priceKey, settings.startingMultiplier()));
     }
 
-    private void saveDynamicState(Material material, PriceEntry entry) {
+    private void saveDynamicState(String priceKey, PriceEntry entry) {
         if (dynamicStateConfiguration == null || entry == null || !entry.hasDynamicPricing()) {
             return;
         }
-        dynamicStateConfiguration.set(material.name(), entry.multiplier);
+        dynamicStateConfiguration.set(priceKey, entry.multiplier);
         try {
             dynamicStateConfiguration.save(dynamicStateFile);
         } catch (IOException ex) {
@@ -957,9 +1028,8 @@ public class ShopPricingManager {
             if ("rotations".equalsIgnoreCase(key)) {
                 continue;
             }
-            Material material = Material.matchMaterial(key, false);
-            PriceEntry entry = material != null ? priceMap.get(material) : null;
-            if (material == null || entry == null || !entry.hasDynamicPricing()) {
+            PriceEntry entry = priceMap.get(key);
+            if (entry == null || !entry.hasDynamicPricing()) {
                 dynamicStateConfiguration.set(key, null);
                 dirty = true;
             }
