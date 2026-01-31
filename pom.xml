@@ -243,7 +243,7 @@
             </activation>
             <dependencies>
                 <dependency>
-                    <groupId>com.github.seeseemelk</groupId>
+                    <groupId>${mockbukkit.groupId}</groupId>
                     <artifactId>${mockbukkit.artifactId}</artifactId>
                     <version>${mockbukkit.version}</version>
                     <scope>test</scope>
