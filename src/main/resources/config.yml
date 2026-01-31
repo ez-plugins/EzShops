@@ -31,6 +31,9 @@ player-shops:
   # Recognized first-line tokens that trigger a player shop sign.
   headers:
     - "[playershop]"
+  # When true, other players cannot open or break player shop chests/signs.
+  # Set to false to allow other players to open the chest and break the sign.
+  protection-enabled: true
   # When true, players must have enough stock for the first sale to finish
   # setup; otherwise the sign activates but will show as out of stock until
   # restocked.

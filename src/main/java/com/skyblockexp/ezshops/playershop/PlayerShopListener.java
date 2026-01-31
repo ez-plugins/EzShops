@@ -133,14 +133,16 @@ public final class PlayerShopListener implements Listener {
         if (shop == null) {
             return;
         }
-        if (shop.ownerId().equals(player.getUniqueId())) {
-            return;
+        if (configuration.protectionEnabled()) {
+            if (shop.ownerId().equals(player.getUniqueId())) {
+                return;
+            }
+            if (player.hasPermission(PlayerShopManager.PERMISSION_ADMIN)) {
+                return;
+            }
+            event.setCancelled(true);
+            player.sendMessage(messages.chestAccessDenied());
         }
-        if (player.hasPermission(PlayerShopManager.PERMISSION_ADMIN)) {
-            return;
-        }
-        event.setCancelled(true);
-        player.sendMessage(messages.chestAccessDenied());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -155,10 +157,12 @@ public final class PlayerShopListener implements Listener {
         }
         Player player = event.getPlayer();
         boolean isOwner = shop.ownerId().equals(player.getUniqueId());
-        if (!isOwner && !player.hasPermission(PlayerShopManager.PERMISSION_ADMIN)) {
-            player.sendMessage(messages.breakDenied());
-            event.setCancelled(true);
-            return;
+        if (configuration.protectionEnabled()) {
+            if (!isOwner && !player.hasPermission(PlayerShopManager.PERMISSION_ADMIN)) {
+                player.sendMessage(messages.breakDenied());
+                event.setCancelled(true);
+                return;
+            }
         }
         manager.removeShop(shop);
         manager.saveShops();

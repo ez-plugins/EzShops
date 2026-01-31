@@ -33,6 +33,7 @@ public final class PlayerShopConfiguration {
     private final boolean enabled;
     private final Set<String> headerTokens;
     private final boolean requireStockOnCreation;
+    private final boolean protectionEnabled;
     private final int minQuantity;
     private final int maxQuantity;
     private final double minPrice;
@@ -41,11 +42,12 @@ public final class PlayerShopConfiguration {
     private final PlayerShopMessages messages;
 
     private PlayerShopConfiguration(boolean enabled, Set<String> headerTokens, boolean requireStockOnCreation,
-            int minQuantity, int maxQuantity, double minPrice, double maxPrice, SignFormat signFormat,
+            boolean protectionEnabled, int minQuantity, int maxQuantity, double minPrice, double maxPrice, SignFormat signFormat,
             PlayerShopMessages messages) {
         this.enabled = enabled;
         this.headerTokens = headerTokens;
         this.requireStockOnCreation = requireStockOnCreation;
+        this.protectionEnabled = protectionEnabled;
         this.minQuantity = minQuantity;
         this.maxQuantity = maxQuantity;
         this.minPrice = minPrice;
@@ -106,13 +108,15 @@ public final class PlayerShopConfiguration {
 
         PlayerShopMessages playerMessages = PlayerShopMessages.from(section.getConfigurationSection("messages"));
 
-        return new PlayerShopConfiguration(enabled, normalizedHeaders, requireStock, minQuantity, maxQuantity, minPrice,
-                maxPrice, signFormat, playerMessages);
+        boolean protection = section.getBoolean("protection-enabled", true);
+
+        return new PlayerShopConfiguration(enabled, normalizedHeaders, requireStock, protection, minQuantity, maxQuantity, minPrice,
+            maxPrice, signFormat, playerMessages);
     }
 
     public static PlayerShopConfiguration defaults() {
-        return new PlayerShopConfiguration(true, Collections.singleton(DEFAULT_HEADER), true, 1, 0, 0.0d, 0.0d,
-                SignFormat.defaults(), PlayerShopMessages.defaults());
+        return new PlayerShopConfiguration(true, Collections.singleton(DEFAULT_HEADER), true, true, 1, 0, 0.0d, 0.0d,
+            SignFormat.defaults(), PlayerShopMessages.defaults());
     }
 
     public boolean enabled() {
@@ -129,6 +133,10 @@ public final class PlayerShopConfiguration {
 
     public boolean requireStockOnCreation() {
         return requireStockOnCreation;
+    }
+
+    public boolean protectionEnabled() {
+        return protectionEnabled;
     }
 
     public int minQuantity() {
