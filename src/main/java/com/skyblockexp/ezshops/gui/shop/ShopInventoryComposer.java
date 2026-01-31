@@ -880,7 +880,11 @@ public class ShopInventoryComposer {
     private String applyPlaceholders(String text, Map<String, String> placeholders) {
         String result = text;
         for (Map.Entry<String, String> entry : placeholders.entrySet()) {
-            result = result.replace(entry.getKey(), entry.getValue());
+            String replacement = entry.getValue();
+            if (replacement == null) {
+                replacement = "";
+            }
+            result = result.replace(entry.getKey(), replacement);
         }
         return result;
     }

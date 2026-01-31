@@ -20,7 +20,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 /**
  * Standalone plugin responsible for the /shop command and sign shops.
  */
-public final class EzShopsPlugin extends JavaPlugin {
+public class EzShopsPlugin extends JavaPlugin {
     private static final List<String> DEFAULT_SHOP_RESOURCES = List.of(
             "shop.yml",
             "stock-gui.yml",
@@ -162,16 +162,20 @@ public final class EzShopsPlugin extends JavaPlugin {
     }
 
     private boolean setupEconomy() {
+        // First check if an Economy provider is already registered via ServicesManager.
+        RegisteredServiceProvider<Economy> registration =
+                getServer().getServicesManager().getRegistration(Economy.class);
+        if (registration != null) {
+            economy = registration.getProvider();
+            return economy != null;
+        }
+
+        // Fallback: ensure the Vault plugin is present (even if no provider registered yet).
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
-        RegisteredServiceProvider<Economy> registration =
-                getServer().getServicesManager().getRegistration(Economy.class);
-        if (registration == null) {
-            return false;
-        }
-        economy = registration.getProvider();
-        return economy != null;
+
+        return false;
     }
 
     private void saveDefaultResources() {

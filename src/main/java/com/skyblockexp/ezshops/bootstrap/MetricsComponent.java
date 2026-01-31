@@ -12,7 +12,13 @@ public final class MetricsComponent implements PluginComponent {
 
     @Override
     public void enable(EzShopsPlugin plugin) {
-        metrics = new Metrics(plugin, 27734);
+        try {
+            metrics = new Metrics(plugin, 27734);
+        } catch (IllegalStateException ex) {
+            // bStats may not be relocated or available in test environments (MockBukkit).
+            plugin.getLogger().warning("bStats not available; skipping metrics: " + ex.getMessage());
+            metrics = null;
+        }
     }
 
     @Override
