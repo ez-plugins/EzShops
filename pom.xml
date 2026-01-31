@@ -12,9 +12,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.17.1-R0.1-SNAPSHOT</version>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>${paper.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -86,7 +86,29 @@
             <version>5.14.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>32.1.2-jre</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${mockbukkit.groupId}</groupId>
+            <artifactId>${mockbukkit.artifactId}</artifactId>
+            <version>${mockbukkit.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
+    <properties>
+        <!-- Target Java 21 to match Paper API (class file version 65) -->
+        <!-- Allow CI to override the Paper API version with -Dpaper.version -->
+        <paper.version>1.21.11-R0.1-SNAPSHOT</paper.version>
+        <!-- MockBukkit coordinates are configurable so CI can select the right artifact per Paper matrix entry -->
+        <mockbukkit.groupId>org.mockbukkit.mockbukkit</mockbukkit.groupId>
+        <mockbukkit.artifactId>mockbukkit-v1.21</mockbukkit.artifactId>
+        <mockbukkit.version>4.101.0</mockbukkit.version>
+    </properties>
 
     <build>
         <finalName>EzShops-${project.version}</finalName>
@@ -182,6 +204,14 @@
                     <target>16</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M8</version>
+                <configuration>
+                    <useModulePath>false</useModulePath>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -189,6 +219,10 @@
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>papermc-repo</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
         <repository>
             <id>spigot-repo</id>
@@ -201,4 +235,43 @@
             </snapshots>
         </repository>
     </repositories>
+    <profiles>
+        <profile>
+            <id>feature-tests</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>${mockbukkit.groupId}</groupId>
+                    <artifactId>${mockbukkit.artifactId}</artifactId>
+                    <version>${mockbukkit.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>3.3.0</version>
+                        <executions>
+                            <execution>
+                                <id>add-feature-test-source</id>
+                                <phase>generate-test-sources</phase>
+                                <goals>
+                                    <goal>add-test-source</goal>
+                                </goals>
+                                <configuration>
+                                    <sources>
+                                        <source>src/feature-test/java</source>
+                                    </sources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

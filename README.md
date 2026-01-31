@@ -2,6 +2,10 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Java](https://img.shields.io/badge/java-17%2B-blue)](https://adoptium.net/)
+[![Release](https://img.shields.io/github/v/release/ez-plugins/EzShops)](https://github.com/ez-plugins/EzShops/releases/latest)
+[![Stars](https://img.shields.io/github/stars/ez-plugins/EzShops?style=social)](https://github.com/ez-plugins/EzShops/stargazers)
+[![Issues](https://img.shields.io/github/issues/ez-plugins/EzShops)](https://github.com/ez-plugins/EzShops/issues)
+[![CI](https://github.com/ez-plugins/EzShops/actions/workflows/ci.yml/badge.svg)](https://github.com/ez-plugins/EzShops/actions)
 
 **EzShops** is a modern, feature-rich Minecraft shop plugin for Skyblock and Survival servers. It provides guided storefront menus, dynamic pricing, rotating daily specials, sign shop mirroring, player-run marketplaces, and a live stock market system.
 
