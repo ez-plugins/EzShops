@@ -62,6 +62,14 @@ categories:
   # a single paginated list instead of disabling the menu entirely.
   single-list-when-disabled: false
 
+sell:
+  # Ignore items with NBT (custom tags/metadata) during /sellhand and /sellinventory
+  # When enabled, only plain items without NBT will be sold.
+  # For example: if you have a "Supreme Bone" (with NBT) and normal bones,
+  # only the normal bones will be sold when using /sellinventory.
+  # Default: true
+  ignore-items-with-nbt: true
+
 dynamic-pricing:
   # Toggle whether dynamic pricing multipliers are active at all.
   enabled: true

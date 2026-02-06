@@ -1,12 +1,15 @@
 package com.skyblockexp.ezshops.shop;
 
 import com.skyblockexp.ezshops.AbstractEzShopsTest;
+import com.skyblockexp.ezshops.config.ShopMessageConfiguration;
 import com.skyblockexp.ezshops.hook.TransactionHookService;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -19,8 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ShopTransactionHookFeatureTest extends AbstractEzShopsTest {
 
@@ -83,6 +85,8 @@ public class ShopTransactionHookFeatureTest extends AbstractEzShopsTest {
 
         ShopTransactionService svc = new ShopTransactionService(pricingManager, econ, com.skyblockexp.ezshops.config.ShopMessageConfiguration.load(plugin).transactions());
 
+        svc.setIgnoreItemsWithNBT(false); // This test expects items with no NBT filtering
+
         TransactionHookService hook = Mockito.mock(TransactionHookService.class);
         svc.setTransactionHookService(hook);
 
@@ -105,5 +109,66 @@ public class ShopTransactionHookFeatureTest extends AbstractEzShopsTest {
         assertEquals("3", tokens.get("amount"));
         assertEquals("diamond_item", tokens.get("item"));
         assertEquals("DIAMOND", tokens.get("material"));
+    }
+
+    @Test
+    void sell_item_with_nbt_is_ignored_when_configured() {
+        loadProviderPlugin(Mockito.mock(Economy.class));
+        var plugin = loadPlugin(com.skyblockexp.ezshops.EzShopsPlugin.class);
+
+        ShopPricingManager pricingManager = Mockito.mock(ShopPricingManager.class);
+        Economy econ = Mockito.mock(Economy.class);
+
+        ShopPrice price = new ShopPrice(10.0, 5.0);
+        when(pricingManager.getPrice(eq("DIAMOND"))).thenReturn(Optional.of(price));
+
+        ShopTransactionService svc =
+                new ShopTransactionService(
+                        pricingManager,
+                        econ,
+                        ShopMessageConfiguration.load(plugin).transactions()
+                );
+
+        // 👇 FEATURE UNDER TEST
+        svc.setIgnoreItemsWithNBT(true);
+
+        TransactionHookService hook = Mockito.mock(TransactionHookService.class);
+        svc.setTransactionHookService(hook);
+
+        Player player = server.addPlayer("seller");
+        player.addAttachment(plugin, ShopTransactionService.PERMISSION_SELL, true);
+
+        ItemStack nbtItem = new ItemStack(Material.DIAMOND, 3);
+        nbtItem.getItemMeta().getPersistentDataContainer()
+                .set(new NamespacedKey(plugin, "custom"), PersistentDataType.STRING, "yes");
+        player.getInventory().addItem(nbtItem);
+
+        ShopMenuLayout.ItemDecoration decoration =
+                new ShopMenuLayout.ItemDecoration(Material.DIAMOND, 1, "", List.of());
+
+        List<String> sellCommands = List.of("sellhook {player} {amount} {total}");
+
+        ShopMenuLayout.Item item =
+                new ShopMenuLayout.Item(
+                        "diamond_item",
+                        Material.DIAMOND,
+                        decoration,
+                        0, 0, 1, 1,
+                        price,
+                        ShopMenuLayout.ItemType.MATERIAL,
+                        null,
+                        Map.of(),
+                        0,
+                        ShopPriceType.STATIC,
+                        List.of(),
+                        sellCommands,
+                        Boolean.TRUE,
+                        null
+                );
+
+        svc.sell(player, item, 3);
+
+        // 👇 ASSERTION: hook must NOT be called
+        verify(hook, never()).executeHooks(any(), any(), eq(Boolean.TRUE), any());
     }
 }
