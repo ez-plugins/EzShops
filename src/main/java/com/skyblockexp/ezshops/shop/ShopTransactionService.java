@@ -42,6 +42,7 @@ public class ShopTransactionService {
     private final ShopMessageConfiguration.TransactionMessages.CustomItemMessages customItemMessages;
     private final Map<EntityType, ItemStack> spawnerCache = new EnumMap<>(EntityType.class);
     private com.skyblockexp.ezshops.hook.TransactionHookService hookService;
+    private boolean ignoreItemsWithNBT = true; // Default: true
 
     public ShopTransactionService(ShopPricingManager pricingManager, Economy economy,
             ShopMessageConfiguration.TransactionMessages transactionMessages) {
@@ -55,6 +56,10 @@ public class ShopTransactionService {
 
     public void setTransactionHookService(com.skyblockexp.ezshops.hook.TransactionHookService hookService) {
         this.hookService = hookService;
+    }
+
+    public void setIgnoreItemsWithNBT(boolean ignoreItemsWithNBT) {
+        this.ignoreItemsWithNBT = ignoreItemsWithNBT;
     }
 
     private double getSellPriceMultiplier(Player player) {
@@ -357,7 +362,7 @@ public class ShopTransactionService {
         double totalGain = 0.0D;
 
         for (ItemStack stack : inventory.getStorageContents()) {
-            if (stack == null || stack.getType() == Material.AIR) {
+            if (stack == null || stack.getType() == Material.AIR || shouldIgnoreItem(stack)) {
                 continue;
             }
 
@@ -732,7 +737,7 @@ public class ShopTransactionService {
     private int countMaterial(Player player, Material material) {
         int total = 0;
         for (ItemStack stack : player.getInventory().getStorageContents()) {
-            if (stack != null && stack.getType() == material) {
+            if (stack != null && stack.getType() == material && !shouldIgnoreItem(stack)) {
                 total += stack.getAmount();
             }
         }
@@ -746,7 +751,7 @@ public class ShopTransactionService {
 
         for (int i = 0; i < contents.length && remaining > 0; i++) {
             ItemStack stack = contents[i];
-            if (stack == null || stack.getType() != material) {
+            if (stack == null || stack.getType() != material || shouldIgnoreItem(stack)) {
                 continue;
             }
 
@@ -762,6 +767,17 @@ public class ShopTransactionService {
         }
 
         inventory.setStorageContents(contents);
+    }
+
+    private boolean shouldIgnoreItem(ItemStack stack) {
+        if (!ignoreItemsWithNBT) {
+            return false; // Don't ignore any items if feature is disabled
+        }
+        if (stack == null) {
+            return false;
+        }
+        // An item has NBT if it has ItemMeta with any custom data
+        return stack.hasItemMeta();
     }
 
     private List<ItemStack> giveItems(Player player, Material material, int amount) {
