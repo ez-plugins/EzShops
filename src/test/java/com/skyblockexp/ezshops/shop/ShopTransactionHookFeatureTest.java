@@ -54,13 +54,13 @@ public class ShopTransactionHookFeatureTest extends AbstractEzShopsTest {
         List<String> buyCommands = List.of("hookcmd {player} {amount} {total}");
         List<String> sellCommands = List.<String>of();
         ShopMenuLayout.Item item = new ShopMenuLayout.Item("diamond_item", Material.DIAMOND, decoration, 0, 0, 1, 1,
-                price, ShopMenuLayout.ItemType.MATERIAL, null, Map.of(), 0, com.skyblockexp.ezshops.shop.ShopPriceType.STATIC,
-                buyCommands, sellCommands, Boolean.FALSE, null);
+            price, ShopMenuLayout.ItemType.MATERIAL, null, Map.of(), 0, com.skyblockexp.ezshops.shop.ShopPriceType.STATIC,
+            buyCommands, sellCommands, false, null);
 
         svc.buy(player, item, 2);
 
         ArgumentCaptor<Map> tokensCaptor = ArgumentCaptor.forClass(Map.class);
-        verify(hook).executeHooks(eq(player), eq(buyCommands), eq(Boolean.FALSE), tokensCaptor.capture());
+        verify(hook).executeHooks(eq(player), eq(buyCommands), eq(false), tokensCaptor.capture());
         Map<String, String> tokens = tokensCaptor.getValue();
         assertEquals("2", tokens.get("amount"));
         assertEquals("diamond_item", tokens.get("item"));

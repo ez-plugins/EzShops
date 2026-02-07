@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -52,7 +53,7 @@ public class ShopItemTypeFeatureTest extends AbstractEzShopsTest {
         List<String> sellCommands = List.<String>of();
         ShopMenuLayout.Item item = new ShopMenuLayout.Item("diamond_item", Material.DIAMOND, decoration, 0, 0, 1, 1,
                 price, ShopMenuLayout.ItemType.MATERIAL, null, Map.of(), 0, com.skyblockexp.ezshops.shop.ShopPriceType.STATIC,
-                buyCommands, sellCommands, Boolean.FALSE, null, DeliveryType.ITEM);
+                buyCommands, sellCommands, false, null, DeliveryType.ITEM);
 
         svc.buy(player, item, 2);
 
@@ -61,7 +62,7 @@ public class ShopItemTypeFeatureTest extends AbstractEzShopsTest {
         assertTrue(count >= 2, "Player should have received diamonds");
 
         ArgumentCaptor<Map> tokensCaptor = ArgumentCaptor.forClass(Map.class);
-        verify(hook).executeHooks(eq(player), eq(buyCommands), eq(Boolean.FALSE), tokensCaptor.capture());
+        verify(hook).executeHooks(eq(player), eq(buyCommands), eq(false), tokensCaptor.capture());
     }
 
     @Test
@@ -91,7 +92,7 @@ public class ShopItemTypeFeatureTest extends AbstractEzShopsTest {
         List<String> buyCommands = List.of("hookcmd {player} {amount} {total}");
         ShopMenuLayout.Item item = new ShopMenuLayout.Item("diamond_command", Material.DIAMOND, decoration, 0, 0, 1, 1,
                 price, ShopMenuLayout.ItemType.MATERIAL, null, Map.of(), 0, com.skyblockexp.ezshops.shop.ShopPriceType.STATIC,
-                buyCommands, List.of(), Boolean.FALSE, null, DeliveryType.COMMAND);
+                buyCommands, List.of(), false, null, DeliveryType.COMMAND);
 
         svc.buy(player, item, 1);
 
@@ -100,7 +101,7 @@ public class ShopItemTypeFeatureTest extends AbstractEzShopsTest {
         assertEquals(0, count, "Player should not receive diamonds for COMMAND delivery");
 
         ArgumentCaptor<Map> tokensCaptor = ArgumentCaptor.forClass(Map.class);
-        verify(hook).executeHooks(eq(player), eq(buyCommands), eq(Boolean.FALSE), tokensCaptor.capture());
+        verify(hook).executeHooks(eq(player), eq(buyCommands), eq(false), tokensCaptor.capture());
     }
 
     @Test
@@ -128,8 +129,8 @@ public class ShopItemTypeFeatureTest extends AbstractEzShopsTest {
 
         ShopMenuLayout.ItemDecoration decoration = new ShopMenuLayout.ItemDecoration(Material.DIAMOND, 1, "", List.<String>of());
         ShopMenuLayout.Item item = new ShopMenuLayout.Item("diamond_none", Material.DIAMOND, decoration, 0, 0, 1, 1,
-                price, ShopMenuLayout.ItemType.MATERIAL, null, Map.of(), 0, com.skyblockexp.ezshops.shop.ShopPriceType.STATIC,
-                List.of(), List.of(), Boolean.FALSE, null, DeliveryType.NONE);
+            price, ShopMenuLayout.ItemType.MATERIAL, null, Map.of(), 0, com.skyblockexp.ezshops.shop.ShopPriceType.STATIC,
+            List.of(), List.of(), false, null, DeliveryType.NONE);
 
         svc.buy(player, item, 1);
 
@@ -138,6 +139,6 @@ public class ShopItemTypeFeatureTest extends AbstractEzShopsTest {
         assertEquals(0, count, "Player should not receive diamonds for NONE delivery");
 
         // hooks should NOT be executed
-        verify(hook, Mockito.never()).executeHooks(any(), any(), any(), any());
+        verify(hook, Mockito.never()).executeHooks(any(), any(), anyBoolean(), any());
     }
 }

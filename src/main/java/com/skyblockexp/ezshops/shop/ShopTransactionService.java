@@ -217,7 +217,7 @@ public class ShopTransactionService {
         pricingManager.handlePurchase(priceKey, amount);
         ShopTransactionResult result = ShopTransactionResult.success(successMessages.purchase(amount,
                 ChatColor.AQUA + friendlyMaterialName(item.material()), formatCurrency(totalCost)));
-        if (hookService != null && item != null) {
+        if (hookService != null && item != null && item.delivery() != DeliveryType.NONE && item.buyCommands() != null && !item.buyCommands().isEmpty()) {
             java.util.Map<String, String> tokens = new java.util.HashMap<>();
             tokens.put("amount", String.valueOf(amount));
             tokens.put("item", item.id());
@@ -517,7 +517,7 @@ public class ShopTransactionService {
         ItemStack purchased = createSpawnerItem(entityType);
         purchased.setAmount(Math.max(1, quantity));
         double eventTotal = pricingManager.estimateBulkTotal(priceKey, quantity, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY);
-        if (hookService != null) {
+        if (hookService != null && item.delivery() != DeliveryType.NONE && item.buyCommands() != null && !item.buyCommands().isEmpty()) {
             java.util.Map<String, String> tokens = new java.util.HashMap<>();
             tokens.put("amount", String.valueOf(quantity));
             tokens.put("item", item.id());
@@ -603,7 +603,7 @@ public class ShopTransactionService {
         ShopTransactionResult result = ShopTransactionResult.success(successMessages.purchase(quantity,
             ChatColor.AQUA + friendlyName, formatCurrency(totalCost)));
         double eventTotal = pricingManager.estimateBulkTotal(priceKey, quantity, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY);
-        if (hookService != null) {
+        if (hookService != null && item.delivery() != DeliveryType.NONE && item.buyCommands() != null && !item.buyCommands().isEmpty()) {
             java.util.Map<String, String> tokens = new java.util.HashMap<>();
             tokens.put("amount", String.valueOf(quantity));
             tokens.put("item", item.id());
