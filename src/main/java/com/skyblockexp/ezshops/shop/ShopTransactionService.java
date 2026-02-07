@@ -194,8 +194,10 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.invalidBuyPrice());
         }
 
-        if (!hasInventorySpace(player, item.material(), amount)) {
-            return ShopTransactionResult.failure(errorMessages.noInventorySpace());
+        if (item.delivery() == DeliveryType.ITEM) {
+            if (!hasInventorySpace(player, item.material(), amount)) {
+                return ShopTransactionResult.failure(errorMessages.noInventorySpace());
+            }
         }
 
         if (economy.getBalance(player) < totalCost) {
@@ -207,12 +209,15 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.transactionFailed(response.errorMessage));
         }
 
-        List<ItemStack> leftovers = giveItems(player, item.material(), amount);
-        handleLeftoverItems(player, leftovers);
+        List<ItemStack> leftovers = List.of();
+        if (item.delivery() == DeliveryType.ITEM) {
+            leftovers = giveItems(player, item.material(), amount);
+            handleLeftoverItems(player, leftovers);
+        }
         pricingManager.handlePurchase(priceKey, amount);
         ShopTransactionResult result = ShopTransactionResult.success(successMessages.purchase(amount,
                 ChatColor.AQUA + friendlyMaterialName(item.material()), formatCurrency(totalCost)));
-        if (hookService != null && item != null) {
+        if (hookService != null && item != null && item.delivery() != DeliveryType.NONE && item.buyCommands() != null && !item.buyCommands().isEmpty()) {
             java.util.Map<String, String> tokens = new java.util.HashMap<>();
             tokens.put("amount", String.valueOf(amount));
             tokens.put("item", item.id());
@@ -512,7 +517,7 @@ public class ShopTransactionService {
         ItemStack purchased = createSpawnerItem(entityType);
         purchased.setAmount(Math.max(1, quantity));
         double eventTotal = pricingManager.estimateBulkTotal(priceKey, quantity, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY);
-        if (hookService != null) {
+        if (hookService != null && item.delivery() != DeliveryType.NONE && item.buyCommands() != null && !item.buyCommands().isEmpty()) {
             java.util.Map<String, String> tokens = new java.util.HashMap<>();
             tokens.put("amount", String.valueOf(quantity));
             tokens.put("item", item.id());
@@ -598,7 +603,7 @@ public class ShopTransactionService {
         ShopTransactionResult result = ShopTransactionResult.success(successMessages.purchase(quantity,
             ChatColor.AQUA + friendlyName, formatCurrency(totalCost)));
         double eventTotal = pricingManager.estimateBulkTotal(priceKey, quantity, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY);
-        if (hookService != null) {
+        if (hookService != null && item.delivery() != DeliveryType.NONE && item.buyCommands() != null && !item.buyCommands().isEmpty()) {
             java.util.Map<String, String> tokens = new java.util.HashMap<>();
             tokens.put("amount", String.valueOf(quantity));
             tokens.put("item", item.id());

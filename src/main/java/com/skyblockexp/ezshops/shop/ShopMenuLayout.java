@@ -183,6 +183,7 @@ public final class ShopMenuLayout {
         private final int requiredIslandLevel;
         private final ShopPriceType priceType;
         private final String priceId;
+        private final DeliveryType delivery;
 
         public Item(String id, Material material, ItemDecoration display, int slot, int page, int amount, int bulkAmount,
             ShopPrice price, ItemType type, EntityType spawnerEntity,
@@ -194,6 +195,13 @@ public final class ShopMenuLayout {
                 ShopPrice price, ItemType type, EntityType spawnerEntity,
                 Map<Enchantment, Integer> enchantments, int requiredIslandLevel, ShopPriceType priceType,
                 java.util.List<String> buyCommands, java.util.List<String> sellCommands, Boolean commandsRunAsConsole, String priceId) {
+            this(id, material, display, slot, page, amount, bulkAmount, price, type, spawnerEntity, enchantments, requiredIslandLevel, priceType, buyCommands, sellCommands, commandsRunAsConsole, priceId, DeliveryType.ITEM);
+        }
+
+        public Item(String id, Material material, ItemDecoration display, int slot, int page, int amount, int bulkAmount,
+                ShopPrice price, ItemType type, EntityType spawnerEntity,
+                Map<Enchantment, Integer> enchantments, int requiredIslandLevel, ShopPriceType priceType,
+                java.util.List<String> buyCommands, java.util.List<String> sellCommands, Boolean commandsRunAsConsole, String priceId, DeliveryType delivery) {
             this.id = Objects.requireNonNull(id, "id");
             this.page = Math.max(0, page);
             this.material = Objects.requireNonNull(material, "material");
@@ -211,6 +219,7 @@ public final class ShopMenuLayout {
             this.requiredIslandLevel = Math.max(0, requiredIslandLevel);
             this.priceType = priceType == null ? ShopPriceType.STATIC : priceType;
             this.priceId = priceId == null ? material.name() : priceId;
+            this.delivery = delivery == null ? DeliveryType.ITEM : delivery;
         }
 
         public String priceId() {
@@ -279,6 +288,10 @@ public final class ShopMenuLayout {
 
         public Boolean commandsRunAsConsole() {
             return commandsRunAsConsole;
+        }
+
+        public DeliveryType delivery() {
+            return delivery;
         }
     }
 

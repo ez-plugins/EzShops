@@ -693,9 +693,10 @@ public class ShopPricingManager {
             }
         }
 
+        DeliveryType delivery = DeliveryType.fromConfig(section.getString("item-type"));
         return new ShopMenuLayout.Item(itemId, material, decoration, slot, page, amount, bulkAmount, price, type,
             spawnerEntity, enchantments, requiredIslandLevel, priceType, buyCommands, sellCommands,
-            commandsRunAsConsole, configuredPriceId);
+            commandsRunAsConsole, configuredPriceId, delivery);
     }
 
     private Map<String, Map<String, Object>> readItemData(ConfigurationSection section) {
