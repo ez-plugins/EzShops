@@ -342,6 +342,7 @@ command: "warp menu {player}"
 | `permission` | string | Required permission to buy/sell |
 | `stock-market` | boolean | Enable stock market pricing |
 | `dynamic.enabled` | boolean | Enable dynamic pricing |
+| `item-type` | string | How the item is delivered on purchase. One of `ITEM`, `COMMAND`, or `NONE`. `ITEM` (default) gives the configured ItemStack; `COMMAND` does not give an ItemStack but will run configured `on-buy` commands/hooks; `NONE` performs no item delivery and no commands (still charges and applies pricing). |
 
 ### Special Item Types
 
@@ -362,6 +363,37 @@ PLAYER_HEAD:
   skull-owner: "Shadow48402"
   display-name: "&6Minion Head"
   permission: "ezshops.shop.admin.minionhead"
+```
+
+### Command / No-Delivery Items
+
+Some shops may want purchases that don't hand the player a physical ItemStack. Use the `item-type` property on an item to control delivery behavior:
+
+- `ITEM` — Default. The player receives the configured ItemStack when they buy the item.
+- `COMMAND` — The player is charged and pricing/dynamic effects are applied, but no ItemStack is given. Any configured `on-buy` commands (or `buy-commands`) will be executed.
+- `NONE` — The player is charged and pricing/dynamic effects are applied, but no ItemStack is given and no commands are executed. Useful for non-physical purchases (tokens, permissions, etc.).
+
+Example: command-delivery item
+
+```yaml
+DIAMOND_VIP:
+  buy: 100.0
+  sell: -1
+  item-type: COMMAND
+  on-buy:
+    execute-as: console
+    commands:
+      - "lp user {player} parent add VIP"
+      - "give {player} minecraft:diamond 1"
+```
+
+Example: none-delivery item (charges money only)
+
+```yaml
+VIP_TICKET:
+  buy: 50.0
+  sell: -1
+  item-type: NONE
 ```
 
 ---

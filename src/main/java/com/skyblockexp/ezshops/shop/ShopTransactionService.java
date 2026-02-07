@@ -194,8 +194,10 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.invalidBuyPrice());
         }
 
-        if (!hasInventorySpace(player, item.material(), amount)) {
-            return ShopTransactionResult.failure(errorMessages.noInventorySpace());
+        if (item.delivery() == DeliveryType.ITEM) {
+            if (!hasInventorySpace(player, item.material(), amount)) {
+                return ShopTransactionResult.failure(errorMessages.noInventorySpace());
+            }
         }
 
         if (economy.getBalance(player) < totalCost) {
@@ -207,8 +209,11 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.transactionFailed(response.errorMessage));
         }
 
-        List<ItemStack> leftovers = giveItems(player, item.material(), amount);
-        handleLeftoverItems(player, leftovers);
+        List<ItemStack> leftovers = List.of();
+        if (item.delivery() == DeliveryType.ITEM) {
+            leftovers = giveItems(player, item.material(), amount);
+            handleLeftoverItems(player, leftovers);
+        }
         pricingManager.handlePurchase(priceKey, amount);
         ShopTransactionResult result = ShopTransactionResult.success(successMessages.purchase(amount,
                 ChatColor.AQUA + friendlyMaterialName(item.material()), formatCurrency(totalCost)));
