@@ -71,6 +71,19 @@ public final class CoreShopComponent implements PluginComponent {
 
         pricingManager = new ShopPricingManager(plugin, dynamicPricingConfiguration);
         transactionService = new ShopTransactionService(pricingManager, economy, transactionMessages);
+        // Load configuration for sell command behavior
+        boolean ignoreItemsWithNBT = plugin.getConfig().getBoolean("sell.ignore-items-with-nbt", true);
+        transactionService.setIgnoreItemsWithNBT(ignoreItemsWithNBT);
+        
+        // Load NBT filter configuration
+        org.bukkit.configuration.ConfigurationSection nbtFilterSection = plugin.getConfig().getConfigurationSection("sell.nbt-filter");
+        if (nbtFilterSection != null) {
+            String mode = nbtFilterSection.getString("mode", "off");
+            java.util.List<String> whitelist = nbtFilterSection.getStringList("whitelist");
+            java.util.List<String> blacklist = nbtFilterSection.getStringList("blacklist");
+            transactionService.setNBTFilter(mode, whitelist, blacklist);
+        }
+        
         // Hook service for executing commands on buy/sell
         com.skyblockexp.ezshops.hook.TransactionHookService hookService = new com.skyblockexp.ezshops.hook.TransactionHookService(plugin);
         transactionService.setTransactionHookService(hookService);

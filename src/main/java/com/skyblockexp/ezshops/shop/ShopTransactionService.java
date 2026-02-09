@@ -42,6 +42,10 @@ public class ShopTransactionService {
     private final ShopMessageConfiguration.TransactionMessages.CustomItemMessages customItemMessages;
     private final Map<EntityType, ItemStack> spawnerCache = new EnumMap<>(EntityType.class);
     private com.skyblockexp.ezshops.hook.TransactionHookService hookService;
+    private boolean ignoreItemsWithNBT = false; // Default: false
+    private String nbtFilterMode = "off"; // off, whitelist, blacklist
+    private Set<String> nbtWhitelist = new HashSet<>();
+    private Set<String> nbtBlacklist = new HashSet<>();
 
     public ShopTransactionService(ShopPricingManager pricingManager, Economy economy,
             ShopMessageConfiguration.TransactionMessages transactionMessages) {
@@ -55,6 +59,16 @@ public class ShopTransactionService {
 
     public void setTransactionHookService(com.skyblockexp.ezshops.hook.TransactionHookService hookService) {
         this.hookService = hookService;
+    }
+
+    public void setIgnoreItemsWithNBT(boolean ignoreItemsWithNBT) {
+        this.ignoreItemsWithNBT = ignoreItemsWithNBT;
+    }
+
+    public void setNBTFilter(String mode, List<String> whitelist, List<String> blacklist) {
+        this.nbtFilterMode = mode != null ? mode : "off";
+        this.nbtWhitelist = whitelist != null ? new HashSet<>(whitelist) : new HashSet<>();
+        this.nbtBlacklist = blacklist != null ? new HashSet<>(blacklist) : new HashSet<>();
     }
 
     private double getSellPriceMultiplier(Player player) {
@@ -357,7 +371,7 @@ public class ShopTransactionService {
         double totalGain = 0.0D;
 
         for (ItemStack stack : inventory.getStorageContents()) {
-            if (stack == null || stack.getType() == Material.AIR) {
+            if (stack == null || stack.getType() == Material.AIR || shouldIgnoreItem(stack)) {
                 continue;
             }
 
@@ -732,7 +746,7 @@ public class ShopTransactionService {
     private int countMaterial(Player player, Material material) {
         int total = 0;
         for (ItemStack stack : player.getInventory().getStorageContents()) {
-            if (stack != null && stack.getType() == material) {
+            if (stack != null && stack.getType() == material && !shouldIgnoreItem(stack)) {
                 total += stack.getAmount();
             }
         }
@@ -746,7 +760,7 @@ public class ShopTransactionService {
 
         for (int i = 0; i < contents.length && remaining > 0; i++) {
             ItemStack stack = contents[i];
-            if (stack == null || stack.getType() != material) {
+            if (stack == null || stack.getType() != material || shouldIgnoreItem(stack)) {
                 continue;
             }
 
@@ -762,6 +776,50 @@ public class ShopTransactionService {
         }
 
         inventory.setStorageContents(contents);
+    }
+
+    private boolean shouldIgnoreItem(ItemStack stack) {
+        if (!ignoreItemsWithNBT || stack == null || !stack.hasItemMeta()) {
+            return false;
+        }
+
+        ItemMeta meta = stack.getItemMeta();
+        if (meta == null) {
+            return false;
+        }
+
+        Set<String> keys = meta.getPersistentDataContainer().getKeys()
+                .stream()
+                .map(k -> k.getNamespace() + ":" + k.getKey())
+                .collect(Collectors.toSet());
+
+        if (keys.isEmpty()) {
+            return false;
+        }
+
+        if ("off".equalsIgnoreCase(nbtFilterMode)) {
+            return true;
+        }
+
+        if ("whitelist".equalsIgnoreCase(nbtFilterMode)) {
+            for (String key : keys) {
+                if (!nbtWhitelist.contains(key)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        if ("blacklist".equalsIgnoreCase(nbtFilterMode)) {
+            for (String key : keys) {
+                if (nbtBlacklist.contains(key)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        return true;
     }
 
     private List<ItemStack> giveItems(Player player, Material material, int amount) {
