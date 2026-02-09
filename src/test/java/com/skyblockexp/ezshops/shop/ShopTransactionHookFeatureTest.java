@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.eq;
@@ -129,7 +130,6 @@ public class ShopTransactionHookFeatureTest extends AbstractEzShopsTest {
                         ShopMessageConfiguration.load(plugin).transactions()
                 );
 
-        // 👇 FEATURE UNDER TEST
         svc.setIgnoreItemsWithNBT(true);
 
         TransactionHookService hook = Mockito.mock(TransactionHookService.class);
@@ -166,9 +166,14 @@ public class ShopTransactionHookFeatureTest extends AbstractEzShopsTest {
                         null
                 );
 
-        svc.sell(player, item, 3);
+        ShopTransactionResult result = svc.sell(player, item, 3);
 
-        // 👇 ASSERTION: hook must NOT be called
+        assertFalse(result.success());
+        assertEquals(
+                ShopMessageConfiguration.load(plugin).transactions().errors().invalidSellPrice(),
+                result.message()
+        );
+
         verify(hook, never()).executeHooks(any(), any(), eq(Boolean.TRUE), any());
     }
 }

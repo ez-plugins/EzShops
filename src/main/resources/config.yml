@@ -67,8 +67,18 @@ sell:
   # When enabled, only plain items without NBT will be sold.
   # For example: if you have a "Supreme Bone" (with NBT) and normal bones,
   # only the normal bones will be sold when using /sellinventory.
-  # Default: true
-  ignore-items-with-nbt: true
+  # Default: false
+  ignore-items-with-nbt: false
+
+  # NBT tag filter for more granular control
+  # Mode: 'off', 'whitelist', or 'blacklist'
+  #   - 'off' (default): Ignore the filter, use ignore-items-with-nbt setting only
+  #   - 'whitelist': Only allow items with NBT tags in the whitelist
+  #   - 'blacklist': Block items with NBT tags in the blacklist
+  nbt-filter:
+    mode: "off"
+    whitelist: []
+    blacklist: []
 
 dynamic-pricing:
   # Toggle whether dynamic pricing multipliers are active at all.

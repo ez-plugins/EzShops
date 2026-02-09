@@ -42,7 +42,10 @@ public class ShopTransactionService {
     private final ShopMessageConfiguration.TransactionMessages.CustomItemMessages customItemMessages;
     private final Map<EntityType, ItemStack> spawnerCache = new EnumMap<>(EntityType.class);
     private com.skyblockexp.ezshops.hook.TransactionHookService hookService;
-    private boolean ignoreItemsWithNBT = true; // Default: true
+    private boolean ignoreItemsWithNBT = false; // Default: false
+    private String nbtFilterMode = "off"; // off, whitelist, blacklist
+    private Set<String> nbtWhitelist = new HashSet<>();
+    private Set<String> nbtBlacklist = new HashSet<>();
 
     public ShopTransactionService(ShopPricingManager pricingManager, Economy economy,
             ShopMessageConfiguration.TransactionMessages transactionMessages) {
@@ -60,6 +63,12 @@ public class ShopTransactionService {
 
     public void setIgnoreItemsWithNBT(boolean ignoreItemsWithNBT) {
         this.ignoreItemsWithNBT = ignoreItemsWithNBT;
+    }
+
+    public void setNBTFilter(String mode, List<String> whitelist, List<String> blacklist) {
+        this.nbtFilterMode = mode != null ? mode : "off";
+        this.nbtWhitelist = whitelist != null ? new HashSet<>(whitelist) : new HashSet<>();
+        this.nbtBlacklist = blacklist != null ? new HashSet<>(blacklist) : new HashSet<>();
     }
 
     private double getSellPriceMultiplier(Player player) {
@@ -765,14 +774,47 @@ public class ShopTransactionService {
     }
 
     private boolean shouldIgnoreItem(ItemStack stack) {
-        if (!ignoreItemsWithNBT) {
-            return false; // Don't ignore any items if feature is disabled
-        }
-        if (stack == null) {
+        if (!ignoreItemsWithNBT || stack == null || !stack.hasItemMeta()) {
             return false;
         }
-        // An item has NBT if it has ItemMeta with any custom data
-        return stack.hasItemMeta();
+
+        ItemMeta meta = stack.getItemMeta();
+        if (meta == null) {
+            return false;
+        }
+
+        Set<String> keys = meta.getPersistentDataContainer().getKeys()
+                .stream()
+                .map(k -> k.getNamespace() + ":" + k.getKey())
+                .collect(Collectors.toSet());
+
+        if (keys.isEmpty()) {
+            return false;
+        }
+
+        if ("off".equalsIgnoreCase(nbtFilterMode)) {
+            return true;
+        }
+
+        if ("whitelist".equalsIgnoreCase(nbtFilterMode)) {
+            for (String key : keys) {
+                if (!nbtWhitelist.contains(key)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        if ("blacklist".equalsIgnoreCase(nbtFilterMode)) {
+            for (String key : keys) {
+                if (nbtBlacklist.contains(key)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        return true;
     }
 
     private List<ItemStack> giveItems(Player player, Material material, int amount) {
