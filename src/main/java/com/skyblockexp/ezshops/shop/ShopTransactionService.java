@@ -126,6 +126,70 @@ public class ShopTransactionService {
         }
     }
 
+    private double getBuyPriceMultiplier(Player player) {
+        /**
+         * Retrieves the active EzBoost discount boost for the player and converts it
+         * into a price multiplier.
+         *
+         * Example:
+         *  - 20% discount boost -> returns 0.8
+         *  - 50% discount boost -> returns 0.5
+         *
+         * If EzBoost is not present or an error occurs, defaults to 1.0 (no discount).
+         * Multiplier is clamped to a minimum of 0.0 to prevent negative prices.
+         */
+        try {
+            org.bukkit.plugin.Plugin ezBoostPlugin = org.bukkit.Bukkit.getPluginManager().getPlugin("EzBoost");
+            if (ezBoostPlugin == null) {
+                return 1.0;
+            }
+
+            ClassLoader ezBoostClassLoader = ezBoostPlugin.getClass().getClassLoader();
+            Class<?> ezBoostAPIClass = Class.forName("com.skyblockexp.ezboost.api.EzBoostAPI", true, ezBoostClassLoader);
+
+            java.lang.reflect.Method getBoostManagerMethod = ezBoostAPIClass.getMethod("getBoostManager");
+            Object boostManager = getBoostManagerMethod.invoke(null);
+            if (boostManager == null) {
+                return 1.0;
+            }
+
+            java.lang.reflect.Method getBoostsMethod = boostManager.getClass().getMethod("getBoosts", Player.class);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> boosts = (Map<String, Object>) getBoostsMethod.invoke(boostManager, player);
+
+            double multiplier = 1.0;
+
+            for (Object boost : boosts.values()) {
+                java.lang.reflect.Method isActiveMethod = boostManager.getClass().getMethod("isActive", Player.class, String.class);
+                java.lang.reflect.Method getKeyMethod = boost.getClass().getMethod("key");
+                String key = (String) getKeyMethod.invoke(boost);
+
+                Boolean isActive = (Boolean) isActiveMethod.invoke(boostManager, player, key);
+                if (isActive) {
+                    java.lang.reflect.Method getEffectsMethod = boost.getClass().getMethod("effects");
+                    @SuppressWarnings("unchecked")
+                    Collection<Object> effects = (Collection<Object>) getEffectsMethod.invoke(boost);
+
+                    for (Object effect : effects) {
+                        java.lang.reflect.Method getCustomNameMethod = effect.getClass().getMethod("customName");
+                        String customName = (String) getCustomNameMethod.invoke(effect);
+
+                        if ("ezshops_discountboost".equals(customName)) {
+                            java.lang.reflect.Method getAmplifierMethod = effect.getClass().getMethod("amplifier");
+                            Number amplifier = (Number) getAmplifierMethod.invoke(effect);
+
+                            multiplier -= amplifier.doubleValue() / 100.0;
+                        }
+                    }
+                }
+            }
+
+            return Math.max(0.0, multiplier);
+        } catch (Exception e) {
+            return 1.0;
+        }
+    }
+
     public ShopTransactionResult buy(Player player, Material material, int amount) {
         if (economy == null) {
             return ShopTransactionResult.failure(errorMessages.noEconomy());
@@ -148,7 +212,10 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.notBuyable());
         }
 
+        // Apply EzBoost discount boost (if active)
         double totalCost = pricingManager.estimateBulkTotal(material, amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY);
+        totalCost = EconomyUtils.normalizeCurrency(totalCost);
+        totalCost *= getBuyPriceMultiplier(player);
         totalCost = EconomyUtils.normalizeCurrency(totalCost);
         if (totalCost <= 0) {
             return ShopTransactionResult.failure(errorMessages.invalidBuyPrice());
@@ -202,7 +269,10 @@ public class ShopTransactionService {
         }
 
         String priceKey = item.priceId() != null ? item.priceId() : item.material().name();
+        // Apply EzBoost discount boost (if active)
         double totalCost = pricingManager.estimateBulkTotal(priceKey, amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY);
+        totalCost = EconomyUtils.normalizeCurrency(totalCost);
+        totalCost *= getBuyPriceMultiplier(player);
         totalCost = EconomyUtils.normalizeCurrency(totalCost);
         if (totalCost <= 0) {
             return ShopTransactionResult.failure(errorMessages.invalidBuyPrice());
@@ -455,7 +525,10 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.amountPositive());
         }
 
+        // Apply EzBoost discount boost (if active)
         double totalCost = EconomyUtils.normalizeCurrency(unitPrice * quantity);
+        totalCost *= getBuyPriceMultiplier(player);
+        totalCost = EconomyUtils.normalizeCurrency(totalCost);
         if (totalCost <= 0) {
             return ShopTransactionResult.failure(errorMessages.invalidCustomPrice());
         }
@@ -581,7 +654,10 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.invalidCustomPrice());
         }
 
+        // Apply EzBoost discount boost (if active)
         double totalCost = EconomyUtils.normalizeCurrency(unitPrice * quantity);
+        totalCost *= getBuyPriceMultiplier(player);
+        totalCost = EconomyUtils.normalizeCurrency(totalCost);
         if (totalCost <= 0) {
             return ShopTransactionResult.failure(errorMessages.invalidCustomPrice());
         }
@@ -673,7 +749,10 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.amountPositive());
         }
 
+        // Apply EzBoost discount boost (if active)
         double totalCost = EconomyUtils.normalizeCurrency(unitPrice * quantity);
+        totalCost *= getBuyPriceMultiplier(player);
+        totalCost = EconomyUtils.normalizeCurrency(totalCost);
         if (totalCost <= 0) {
             return ShopTransactionResult.failure(errorMessages.invalidCustomPrice());
         }
