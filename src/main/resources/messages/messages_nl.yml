@@ -12,8 +12,10 @@ commands:
   sell-hand:
     players-only: "&cAlleen spelers kunnen items verkopen."
     must-hold-item: "&cJe moet een item vasthouden om dit commando te gebruiken."
+    not-in-rotation: "&cDit item is niet beschikbaar in de huidige winkelrotatie."
   sell-inventory:
     players-only: "&cAlleen spelers kunnen items verkopen."
+    not-in-rotation: "&cEr zijn geen verkoopbare items beschikbaar in de huidige winkelrotatie."
   price:
     usage: "&eGebruik: /{label} <item>"
     unknown-item: "&cOnbekend item: {item}"
@@ -54,6 +56,7 @@ transactions:
     not-configured: "&cDat item is niet geconfigureerd in de winkel."
     not-buyable: "&cDat item kan niet in de winkel worden gekocht."
     not-sellable: "&cDat item kan niet aan de winkel worden verkocht."
+    not-in-rotation: "&cDit item is niet beschikbaar in de huidige winkelrotatie."
     invalid-buy-price: "&cDit item heeft geen geldige aankoopprijs."
     invalid-sell-price: "&cDit item heeft geen geldige verkoopprijs."
     invalid-spawner: "&cDeze spawner is niet correct geconfigureerd."

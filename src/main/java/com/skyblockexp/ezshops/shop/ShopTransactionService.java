@@ -203,6 +203,11 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.amountPositive());
         }
 
+        // If the material is part of a rotation but not currently visible, reject the trade.
+        if (!pricingManager.isVisibleInMenu(material) && pricingManager.isPartOfRotation(material)) {
+            return ShopTransactionResult.failure(errorMessages.notInRotation());
+        }
+
         ShopPrice price = pricingManager.getPrice(material).orElse(null);
         if (price == null) {
             return ShopTransactionResult.failure(errorMessages.notConfigured());
@@ -328,6 +333,11 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.amountPositive());
         }
 
+        // If the material is part of a rotation but not currently visible, reject the trade.
+        if (!pricingManager.isVisibleInMenu(material) && pricingManager.isPartOfRotation(material)) {
+            return ShopTransactionResult.failure(errorMessages.notInRotation());
+        }
+
         ShopPrice price = pricingManager.getPrice(material).orElse(null);
         if (price == null) {
             return ShopTransactionResult.failure(errorMessages.notConfigured());
@@ -446,6 +456,10 @@ public class ShopTransactionService {
             }
 
             Material material = stack.getType();
+            // Skip materials that are part of a rotation but not visible in the current menu rotation
+            if (!pricingManager.isVisibleInMenu(material) && pricingManager.isPartOfRotation(material)) {
+                continue;
+            }
             ShopPrice price = pricingManager.getPrice(material).orElse(null);
             if (price == null || !price.canSell()) {
                 continue;

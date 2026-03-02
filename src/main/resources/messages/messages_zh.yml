@@ -12,8 +12,10 @@ commands:
   sell-hand:
     players-only: "&c只有玩家可以出售物品。"
     must-hold-item: "&c你必须拿着一个物品才能使用此指令。"
+    not-in-rotation: "&c该物品在当前商店轮换中不可用。"
   sell-inventory:
     players-only: "&c只有玩家可以出售物品。"
+    not-in-rotation: "&c当前商店轮换中没有可出售的物品。"
   price:
     usage: "&e用法：/{label} <item>"
     unknown-item: "&c未知物品：{item}"
@@ -54,6 +56,7 @@ transactions:
     not-configured: "&c该物品未在商店中配置。"
     not-buyable: "&c该物品无法在商店购买。"
     not-sellable: "&c该物品无法出售给商店。"
+    not-in-rotation: "&c该物品在当前商店轮换中不可用。"
     invalid-buy-price: "&c该物品没有有效的购买价格。"
     invalid-sell-price: "&c该物品没有有效的出售价格。"
     invalid-spawner: "&c该刷怪笼配置不正确。"

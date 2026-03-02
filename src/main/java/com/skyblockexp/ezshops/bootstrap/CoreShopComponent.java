@@ -124,7 +124,7 @@ public final class CoreShopComponent implements PluginComponent {
 
         shopCommand = new ShopCommand(pricingManager, transactionService, shopMenu, commandMessages.shop(),
             transactionMessages.errors(), transactionMessages.restrictions(), plugin.isDebugMode());
-        sellHandCommand = new SellHandCommand(transactionService, commandMessages.sellHand());
+        sellHandCommand = new SellHandCommand(transactionService, pricingManager, commandMessages.sellHand());
         sellInventoryCommand = new SellInventoryCommand(transactionService, commandMessages.sellInventory());
         priceCommand = new PriceCommand(pricingManager, transactionService, commandMessages.price());
 

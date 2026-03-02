@@ -162,6 +162,83 @@ public class ShopPricingManager {
         return menuLayout;
     }
 
+    /**
+     * Returns true if the given material is present in the active shop menu layout (current rotation).
+     */
+    public boolean isVisibleInMenu(Material material) {
+        if (material == null) return false;
+        ShopMenuLayout layout = getMenuLayout();
+        if (layout == null) return false;
+        for (ShopMenuLayout.Category category : layout.categories()) {
+            for (ShopMenuLayout.Item item : category.items()) {
+                if (item == null) continue;
+                if (item.material() == material) return true;
+                if (item.priceId() != null && item.priceId().equalsIgnoreCase(material.name())) return true;
+                if (item.id() != null && item.id().equalsIgnoreCase(material.name())) return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the given price key / identifier is present in the active shop menu layout (current rotation).
+     */
+    public boolean isVisibleInMenu(String priceKey) {
+        if (priceKey == null || priceKey.isBlank()) return false;
+        ShopMenuLayout layout = getMenuLayout();
+        if (layout == null) return false;
+        String lower = priceKey.toLowerCase(Locale.ENGLISH);
+        for (ShopMenuLayout.Category category : layout.categories()) {
+            for (ShopMenuLayout.Item item : category.items()) {
+                if (item == null) continue;
+                if (item.id() != null && item.id().equalsIgnoreCase(priceKey)) return true;
+                if (item.priceId() != null && item.priceId().equalsIgnoreCase(priceKey)) return true;
+                if (item.material() != null && item.material().name().equalsIgnoreCase(priceKey)) return true;
+                if (item.display() != null && item.display().displayName() != null
+                        && item.display().displayName().toLowerCase(Locale.ENGLISH).startsWith(lower)) return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the given material is declared in any rotation option (regardless of active option).
+     */
+    public boolean isPartOfRotation(Material material) {
+        if (material == null) return false;
+        String name = material.name();
+        return isPartOfRotation(name);
+    }
+
+    /**
+     * Returns true if the given price key / identifier is declared in any rotation option (regardless of active option).
+     */
+    public boolean isPartOfRotation(String priceKey) {
+        if (priceKey == null || priceKey.isBlank()) return false;
+        if (categoryTemplates == null || categoryTemplates.isEmpty()) return false;
+        String lower = priceKey.toLowerCase(Locale.ENGLISH);
+        for (CategoryTemplate template : categoryTemplates) {
+            if (template == null || !template.isRotating()) continue;
+            RotationBinding binding = template.rotation;
+            if (binding == null) continue;
+            ShopRotationDefinition def = rotationDefinitions.get(binding.groupId());
+            if (def == null) continue;
+            for (ShopRotationOption option : def.options()) {
+                java.util.List<ShopMenuLayout.Item> items = binding.itemsFor(option.id());
+                if (items == null) continue;
+                for (ShopMenuLayout.Item item : items) {
+                    if (item == null) continue;
+                    if (item.id() != null && item.id().equalsIgnoreCase(priceKey)) return true;
+                    if (item.priceId() != null && item.priceId().equalsIgnoreCase(priceKey)) return true;
+                    if (item.material() != null && item.material().name().equalsIgnoreCase(priceKey)) return true;
+                    if (item.display() != null && item.display().displayName() != null
+                            && item.display().displayName().toLowerCase(Locale.ENGLISH).startsWith(lower)) return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public Map<String, ShopRotationDefinition> getRotationDefinitions() {
         return Collections.unmodifiableMap(rotationDefinitions);
     }

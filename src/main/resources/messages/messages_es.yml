@@ -12,8 +12,10 @@ commands:
   sell-hand:
     players-only: "&cSolo los jugadores pueden vender artículos."
     must-hold-item: "&cDebes tener un artículo en la mano para usar este comando."
+    not-in-rotation: "&cEse artículo no está disponible en la rotación actual de la tienda."
   sell-inventory:
     players-only: "&cSolo los jugadores pueden vender artículos."
+    not-in-rotation: "&cNo hay artículos vendibles disponibles en la rotación actual de la tienda."
   price:
     usage: "&eUso: /{label} <artículo>"
     unknown-item: "&cArtículo desconocido: {item}"
@@ -54,6 +56,7 @@ transactions:
     not-configured: "&cEse artículo no está configurado en la tienda."
     not-buyable: "&cEse artículo no se puede comprar en la tienda."
     not-sellable: "&cEse artículo no se puede vender a la tienda."
+    not-in-rotation: "&cEse artículo no está disponible en la rotación actual de la tienda."
     invalid-buy-price: "&cEste artículo no tiene un precio de compra válido."
     invalid-sell-price: "&cEste artículo no tiene un precio de venta válido."
     invalid-spawner: "&cEste generador no está configurado correctamente."

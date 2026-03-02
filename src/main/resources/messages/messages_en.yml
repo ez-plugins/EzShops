@@ -12,8 +12,10 @@ commands:
   sell-hand:
     players-only: "&cOnly players can sell items."
     must-hold-item: "&cYou must hold an item to use this command."
+    not-in-rotation: "&cThat item is not available in the current shop rotation."
   sell-inventory:
     players-only: "&cOnly players can sell items."
+    not-in-rotation: "&cNo sellable items are available in the current shop rotation."
   price:
     usage: "&eUsage: /{label} <item>"
     unknown-item: "&cUnknown item: {item}"
@@ -54,6 +56,7 @@ transactions:
     not-configured: "&cThat item is not configured in the shop."
     not-buyable: "&cThat item cannot be purchased from the shop."
     not-sellable: "&cThat item cannot be sold to the shop."
+    not-in-rotation: "&cThat item is not available in the current shop rotation."
     invalid-buy-price: "&cThis item does not have a valid buy price."
     invalid-sell-price: "&cThis item does not have a valid sell price."
     invalid-spawner: "&cThis spawner is not configured correctly."

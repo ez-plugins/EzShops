@@ -148,7 +148,13 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
             case MATERIAL -> {
                 // Try to find a configured ShopMenuLayout.Item for this material so hooks (on-buy) execute.
                 ShopMenuLayout.Item item = findItemForMaterial(material);
-                if (item != null) yield transactionService.buy(player, item, amount);
+                if (item != null) {
+                    yield transactionService.buy(player, item, amount);
+                }
+                // If the material is part of a rotation but not present in the active menu rotation, reject the command
+                if (!pricingManager.isVisibleInMenu(material) && pricingManager.isPartOfRotation(material)) {
+                    yield ShopTransactionResult.failure(messages.notInRotation());
+                }
                 yield transactionService.buy(player, material, amount);
             }
             case MINION_CRATE_KEY -> executeCrateKeyPurchase(player, material, amount,
@@ -183,6 +189,10 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
                 // log fallback so admins can detect missing item-context for hooks (only when debug enabled)
                 if (debug) {
                     org.bukkit.Bukkit.getLogger().info("ShopCommand: falling back to material-only sell for " + material.name());
+                }
+                // Prevent selling items via command that are part of a rotation but not visible in the active menu rotation
+                if (!pricingManager.isVisibleInMenu(material) && pricingManager.isPartOfRotation(material)) {
+                    yield ShopTransactionResult.failure(messages.notInRotation());
                 }
                 yield transactionService.sell(player, material, amount);
             }
