@@ -19,6 +19,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
+import org.bukkit.inventory.ItemStack;
+import com.skyblockexp.ezshops.shop.api.ShopTemplateService;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import com.skyblockexp.ezshops.shop.template.ShopTemplate;
+import com.skyblockexp.ezshops.util.ItemStackSerializers;
+import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Handles the {@code /shop} command, allowing players to open the shop GUI or use text commands to trade.
@@ -78,23 +86,176 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
+        String action = args.length > 0 ? args[0].toLowerCase(Locale.ENGLISH) : "";
+
+        if (action.equals("import")) {
+            if (!sender.hasPermission("ezshops.import")) {
+                sender.sendMessage("§cYou do not have permission to import templates.");
+                return true;
+            }
+            if (args.length < 2) {
+                player.sendMessage("§cUsage: /" + label + " import <templateId>");
+                return true;
+            }
+            String templateId = args[1];
+            RegisteredServiceProvider<ShopTemplateService> p = Bukkit.getServicesManager().getRegistration(ShopTemplateService.class);
+            ShopTemplateService svc = p != null ? p.getProvider() : null;
+            if (svc == null) {
+                player.sendMessage("§cShop template service not available.");
+                return true;
+            }
+            Optional<ShopTemplate> tmpl = svc.importTemplate(templateId);
+            if (tmpl.isEmpty()) {
+                player.sendMessage(messages.unknownItem(templateId));
+                return true;
+            }
+            // If template contains programmatic categories, generate the category YAML files
+            if (!tmpl.get().categories().isEmpty()) {
+                org.bukkit.plugin.Plugin ez = Bukkit.getPluginManager().getPlugin("EzShops");
+                if (ez != null) {
+                    java.io.File categoriesDir = new java.io.File(ez.getDataFolder(), "shop" + java.io.File.separator + "categories");
+                    // delete existing category YAML files
+                    if (categoriesDir.exists() && categoriesDir.isDirectory()) {
+                        java.io.File[] olds = categoriesDir.listFiles((d, name) -> name.endsWith(".yml") || name.endsWith(".yaml"));
+                        if (olds != null) {
+                            for (java.io.File f : olds) {
+                                try { f.delete(); } catch (Exception ignored) {}
+                            }
+                        }
+                    } else {
+                        categoriesDir.mkdirs();
+                    }
+                    // write new files from template categories
+                    org.yaml.snakeyaml.DumperOptions opts = new org.yaml.snakeyaml.DumperOptions();
+                    opts.setDefaultFlowStyle(org.yaml.snakeyaml.DumperOptions.FlowStyle.BLOCK);
+                    org.yaml.snakeyaml.Yaml yaml = new org.yaml.snakeyaml.Yaml(opts);
+                    for (var entry : tmpl.get().categories().entrySet()) {
+                        String filename = entry.getKey();
+                        if (!filename.endsWith(".yml") && !filename.endsWith(".yaml")) filename = filename + ".yml";
+                        java.io.File out = new java.io.File(categoriesDir, filename);
+                        try (java.io.FileOutputStream fos = new java.io.FileOutputStream(out)) {
+                            // Wrap the category mapping under the 'categories' key so the shop loader
+                            // places the category under the expected 'categories.<id>' path when merging.
+                            String content = yaml.dump(java.util.Map.of("categories", java.util.Map.of(entry.getKey(), entry.getValue().toMap())));
+                            fos.write(content.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+                        } catch (java.io.IOException ex) {
+                            if (debug) Bukkit.getLogger().warning("Failed to write category file " + out.getAbsolutePath() + ": " + ex.getMessage());
+                        }
+                    }
+                    // reload pricing manager so new categories take effect
+                    try {
+                        pricingManager.reload();
+                        if (shopMenu != null) shopMenu.refreshViewers();
+                    } catch (Exception ex) {
+                        player.sendMessage("§cFailed to reload shop categories: " + ex.getMessage());
+                    }
+                }
+            } else if (!tmpl.get().files().isEmpty()) {
+                // fallback to raw files mapping if present (deprecated)
+                org.bukkit.plugin.Plugin ez = Bukkit.getPluginManager().getPlugin("EzShops");
+                if (ez != null) {
+                    java.io.File categoriesDir = new java.io.File(ez.getDataFolder(), "shop" + java.io.File.separator + "categories");
+                    if (categoriesDir.exists() && categoriesDir.isDirectory()) {
+                        java.io.File[] olds = categoriesDir.listFiles((d, name) -> name.endsWith(".yml") || name.endsWith(".yaml"));
+                        if (olds != null) {
+                            for (java.io.File f : olds) {
+                                try { f.delete(); } catch (Exception ignored) {}
+                            }
+                        }
+                    } else {
+                        categoriesDir.mkdirs();
+                    }
+                    for (var entry : tmpl.get().files().entrySet()) {
+                        String filename = entry.getKey();
+                        if (!filename.endsWith(".yml") && !filename.endsWith(".yaml")) filename = filename + ".yml";
+                        java.io.File out = new java.io.File(categoriesDir, filename);
+                        try (java.io.FileOutputStream fos = new java.io.FileOutputStream(out)) {
+                            fos.write(entry.getValue().getBytes(java.nio.charset.StandardCharsets.UTF_8));
+                        } catch (java.io.IOException ex) {
+                            if (debug) Bukkit.getLogger().warning("Failed to write template file " + out.getAbsolutePath() + ": " + ex.getMessage());
+                        }
+                    }
+                    try {
+                        pricingManager.reload();
+                        if (shopMenu != null) shopMenu.refreshViewers();
+                    } catch (Exception ex) {
+                        player.sendMessage("§cFailed to reload shop categories: " + ex.getMessage());
+                    }
+                }
+            }
+            int given = 0;
+            for (var itemMap : tmpl.get().items()) {
+                try {
+                    ItemStack stack = null;
+                    if (itemMap.containsKey("itemstack-base64")) {
+                        String b64 = String.valueOf(itemMap.get("itemstack-base64"));
+                        try {
+                            stack = ItemStackSerializers.fromBase64(b64);
+                        } catch (ClassNotFoundException | IOException ex) {
+                            if (debug) Bukkit.getLogger().warning("Failed to deserialize itemstack: " + ex.getMessage());
+                            stack = null;
+                        }
+                    }
+                    if (stack == null) {
+                        // fallback: support simple material + amount
+                        String mat = itemMap.containsKey("material") ? String.valueOf(itemMap.get("material")) : String.valueOf(itemMap.get("item"));
+                        int amount = 1;
+                        if (itemMap.containsKey("amount")) {
+                            try { amount = Integer.parseInt(String.valueOf(itemMap.get("amount"))); } catch (NumberFormatException ignored) {}
+                        }
+                        if (mat != null) {
+                            Material m = Material.matchMaterial(mat, false);
+                            if (m != null) stack = new ItemStack(m, Math.max(1, amount));
+                        }
+                    }
+                    if (stack != null) {
+                        player.getInventory().addItem(stack);
+                        given++;
+                    }
+                } catch (Exception ex) {
+                    if (debug) Bukkit.getLogger().warning("Error importing template item: " + ex.getMessage());
+                }
+            }
+            player.sendMessage("§aImported template '" + tmpl.get().name() + "' (" + given + " items)");
+            return true;
+        }
+
+        if (action.equals("export")) {
+            if (!sender.hasPermission("ezshops.export")) {
+                sender.sendMessage("§cYou do not have permission to export templates.");
+                return true;
+            }
+            if (args.length < 2) {
+                player.sendMessage("§cUsage: /" + label + " export <templateId>");
+                return true;
+            }
+            String templateId = args[1];
+            RegisteredServiceProvider<ShopTemplateService> p = Bukkit.getServicesManager().getRegistration(ShopTemplateService.class);
+            ShopTemplateService svc = p != null ? p.getProvider() : null;
+            if (svc == null) {
+                player.sendMessage("§cShop template service not available.");
+                return true;
+            }
+            // gather items from player's inventory (main contents)
+            java.util.List<org.bukkit.inventory.ItemStack> stacks = new java.util.ArrayList<>();
+            for (org.bukkit.inventory.ItemStack is : player.getInventory().getContents()) {
+                if (is == null) continue;
+                stacks.add(is.clone());
+            }
+            var template = com.skyblockexp.ezshops.util.TemplateWriter.createTemplateFromStacks(templateId, templateId, stacks);
+            svc.registerTemplate(template);
+            player.sendMessage("§aExported " + stacks.size() + " items as template '" + templateId + "'.");
+            return true;
+        }
+
         if (args.length < 2) {
             sendUsage(player, label);
             return true;
         }
 
-        String action = args[0].toLowerCase(Locale.ENGLISH);
         String materialName = args[1];
         Material material = Material.matchMaterial(materialName, false);
         ShopMenuLayout.Item explicitItem = null;
-
-        if (material == null) {
-            explicitItem = findItemByKey(materialName);
-            if (explicitItem == null) {
-                player.sendMessage(messages.unknownItem(materialName));
-                return true;
-            }
-        }
 
         int amount = 1;
         if (args.length >= 3) {
@@ -209,7 +370,8 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return filterCompletions(args[0], List.of("buy", "sell", "reload"));
+            List<String> base = List.of("buy", "sell", "reload", "import");
+            return filterCompletions(args[0], base);
         }
 
         if (args.length == 2) {
@@ -219,6 +381,12 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
             }
             if (action.equals("sell")) {
                 return filterSellCompletions(args[1]);
+            }
+            if (action.equals("import")) {
+                RegisteredServiceProvider<ShopTemplateService> p = Bukkit.getServicesManager().getRegistration(ShopTemplateService.class);
+                ShopTemplateService svc = p != null ? p.getProvider() : null;
+                if (svc == null) return Collections.emptyList();
+                return svc.listTemplates().stream().map(ShopTemplate::id).filter(s -> s.toLowerCase(Locale.ENGLISH).startsWith(args[1].toLowerCase(Locale.ENGLISH))).toList();
             }
         }
 

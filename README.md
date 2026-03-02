@@ -87,7 +87,7 @@ See the [Configuration Guide](docs/configuration.md) for full details.
 See the [Commands](docs/commands.md) and [Permissions](docs/permissions.md) documentation for complete lists.
 
 ## 📚 Documentation
-- [API Reference](docs/api.md): Public classes, methods, and integration examples
+- [API Reference](docs/api/): Public classes, methods, and integration examples
 - [Commands](docs/commands.md): All commands and their usage
 - [Permissions](docs/permissions.md): All permissions and defaults
 - [Configuration Guide](docs/configuration.md): Complete configuration reference

@@ -1,0 +1,6 @@
+id: example-template
+name: Example Template
+items:
+  - material: DIAMOND
+    amount: 5
+  - itemstack-base64: "PLACEHOLDER_BASE64_ITEMSTACK"

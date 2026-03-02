@@ -14,6 +14,8 @@ import com.skyblockexp.ezshops.shop.ShopPricingManager;
 import com.skyblockexp.ezshops.shop.ShopRotationManager;
 import com.skyblockexp.ezshops.shop.ShopTransactionService;
 import com.skyblockexp.ezshops.shop.api.ShopPriceService;
+import com.skyblockexp.ezshops.shop.api.ShopTemplateService;
+import com.skyblockexp.ezshops.shop.ShopTemplateServiceImpl;
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.UUID;
@@ -51,6 +53,7 @@ public final class CoreShopComponent implements PluginComponent {
     private SellInventoryCommand sellInventoryCommand;
     private PriceCommand priceCommand;
     private ShopPriceService shopPriceService;
+    private ShopTemplateService shopTemplateService;
     private IslandLevelProvider islandLevelProvider;
     private boolean ignoreIslandRequirements;
 
@@ -71,19 +74,6 @@ public final class CoreShopComponent implements PluginComponent {
 
         pricingManager = new ShopPricingManager(plugin, dynamicPricingConfiguration);
         transactionService = new ShopTransactionService(pricingManager, economy, transactionMessages);
-        // Load configuration for sell command behavior
-        boolean ignoreItemsWithNBT = plugin.getConfig().getBoolean("sell.ignore-items-with-nbt", true);
-        transactionService.setIgnoreItemsWithNBT(ignoreItemsWithNBT);
-        
-        // Load NBT filter configuration
-        org.bukkit.configuration.ConfigurationSection nbtFilterSection = plugin.getConfig().getConfigurationSection("sell.nbt-filter");
-        if (nbtFilterSection != null) {
-            String mode = nbtFilterSection.getString("mode", "off");
-            java.util.List<String> whitelist = nbtFilterSection.getStringList("whitelist");
-            java.util.List<String> blacklist = nbtFilterSection.getStringList("blacklist");
-            transactionService.setNBTFilter(mode, whitelist, blacklist);
-        }
-        
         // Hook service for executing commands on buy/sell
         com.skyblockexp.ezshops.hook.TransactionHookService hookService = new com.skyblockexp.ezshops.hook.TransactionHookService(plugin);
         transactionService.setTransactionHookService(hookService);
@@ -91,6 +81,10 @@ public final class CoreShopComponent implements PluginComponent {
         ServicesManager servicesManager = plugin.getServer().getServicesManager();
         shopPriceService = new ShopPriceLookupService(pricingManager, plugin.getLogger());
         servicesManager.register(ShopPriceService.class, shopPriceService, plugin, ServicePriority.Normal);
+
+        java.io.File templatesDir = new java.io.File(plugin.getDataFolder(), "templates");
+        shopTemplateService = new ShopTemplateServiceImpl(templatesDir);
+        servicesManager.register(ShopTemplateService.class, shopTemplateService, plugin, ServicePriority.Normal);
 
         islandLevelProvider = createIslandLevelProvider(plugin);
         ignoreIslandRequirements = islandLevelProvider == null;
@@ -150,6 +144,10 @@ public final class CoreShopComponent implements PluginComponent {
                 servicesManager.unregister(ShopPriceService.class, shopPriceService);
                 shopPriceService = null;
             }
+            if (shopTemplateService != null) {
+                servicesManager.unregister(ShopTemplateService.class, shopTemplateService);
+                shopTemplateService = null;
+            }
         } else {
             shopPriceService = null;
         }
@@ -177,6 +175,10 @@ public final class CoreShopComponent implements PluginComponent {
 
     public ShopMessageConfiguration messageConfiguration() {
         return messageConfiguration;
+    }
+
+    public ShopTemplateService shopTemplateService() {
+        return shopTemplateService;
     }
 
     public IslandLevelProvider islandLevelProvider() {
