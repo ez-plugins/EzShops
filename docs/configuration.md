@@ -9,13 +9,16 @@ Welcome to the EzShops configuration guide. We have split the documentation into
 Choose a section below to learn how to configure specific parts of the plugin:
 
 ### ⚙️ [Main Settings](./configuration/main-settings.md)
-Global settings, economy integration, player shops, and the stock market.
+Global settings, economy integration, player shops, and general behavior.
 
 ### 📦 [Items & Pricing](./configuration/shop-items.md)
-How to define shop items, set prices, and use special item types like spawners.
+How to define shop items, set prices, and configure special item properties.
 
 ### 🖥️ [Menu & GUI Layout](./configuration/menu-layout.md)
 Customize the shop appearance, inventory sizes, and navigation buttons.
+
+### 📈 [Advanced Pricing](./configuration/main-settings.md)
+Learn about **Dynamic Pricing** and the **Stock Market** formulas (included in Main Settings).
 
 ### 🌍 [Localization & Messages](./configuration/localization.md)
 Change languages and customize every message sent to your players.

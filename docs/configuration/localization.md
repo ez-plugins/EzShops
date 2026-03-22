@@ -6,7 +6,7 @@ EzShops supports full localization, allowing you to translate every message and 
 
 ## 🚩 Selecting a Language
 
-You can switch the active language globally in your `config.yml` file.
+You can switch the active language globally in your `main-settings.md` (config.yml). 
 
 ```yaml
 # Supported languages: en (English), es (Spanish), nl (Dutch), zh (Chinese)

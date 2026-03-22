@@ -6,7 +6,7 @@ The `shop.yml` file is where you define every item available in your server's sh
 
 ## 💰 Basic Item Configuration
 
-Each item is identified by its Minecraft Material Name.
+Each item is identified by its Minecraft Material Name. Here is how a basic setup looks:
 
 ```yaml
 items:
