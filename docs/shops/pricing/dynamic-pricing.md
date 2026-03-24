@@ -184,6 +184,7 @@ DIAMOND:
 	- Use smaller `buy-change` / `sell-change` for gentle price movement (e.g. `0.002`).
 	- Use `min-multiplier` / `max-multiplier` to limit extreme swings.
 	- Cap preview amounts in GUI to avoid heavy computation on very large inputs.
+	 - Reset dynamic state via `/shop admin resetdynamic <item|material|all>` (permission `ezshops.shop.admin.resetdynamic` or `ezshops.shop.admin`) to clear saved multipliers.
 
 	---
 
