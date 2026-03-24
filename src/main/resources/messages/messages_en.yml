@@ -9,6 +9,10 @@ commands:
     unknown-item: "&cUnknown item: {item}"
     invalid-amount: "&cInvalid amount: {amount}"
     amount-positive: "&cAmount must be positive."
+    reload-no-permission: "&cYou do not have permission to reload EzShops."
+    reload-success: "&aEzShops configuration reloaded successfully."
+    reload-failed: "&cFailed to reload EzShops: {error}"
+    unknown-category: "&cUnknown shop category: {category}"
   sell-hand:
     players-only: "&cOnly players can sell items."
     must-hold-item: "&cYou must hold an item to use this command."
@@ -25,6 +29,24 @@ commands:
     buy-unavailable: "&a Buy: &7Unavailable"
     sell-line: "&c Sell: &6{price}"
     sell-unavailable: "&c Sell: &7Unavailable"
+
+  pricing-admin:
+    usage: "&eUsage: /pricingadmin <reset|resetall> ..."
+    no-permission: "&cYou do not have permission to use this command."
+    lack-permission: "&cYou lack permission: {perm}"
+    reset-success: "&aReset dynamic pricing for {key}"
+    reset-failed: "&cNo dynamic pricing found for {key}"
+    resetall-success: "&aReset dynamic pricing for {count} items."
+
+  stock-admin:
+    usage: "&eUsage: /stockadmin <set|reset|freeze|unfreeze|reload|listfrozen|listoverrides> ..."
+    no-permission: "&cYou do not have permission to use this command."
+    lack-permission: "&cYou lack permission: {perm}"
+    set-success: "&aSet price of {item} to {price}"
+    reset-success: "&aReset price of {item} to base"
+    freeze-success: "&aFroze {item} by {by} at {when}"
+    unfreeze-success: "&aUnfroze {item}"
+    reload-success: "&aReloaded frozen state from disk."
 
 sign-shop-scan:
   players-only: "&cOnly players can scan for shop signs."

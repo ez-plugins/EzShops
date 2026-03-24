@@ -235,10 +235,13 @@ public final class ShopMessageConfiguration {
         private final SellInventoryCommandMessages sellInventory = new SellInventoryCommandMessages();
         private final PriceCommandMessages price = new PriceCommandMessages();
         private final SignShopScanCommandMessages signShopScan = new SignShopScanCommandMessages();
+        private final StockAdminCommandMessages stockAdmin = new StockAdminCommandMessages();
+        private final PricingAdminCommandMessages pricingAdmin = new PricingAdminCommandMessages();
 
         public ShopCommandMessages shop() {
             return shop;
         }
+        
 
         public SellHandCommandMessages sellHand() {
             return sellHand;
@@ -254,6 +257,88 @@ public final class ShopMessageConfiguration {
 
         public SignShopScanCommandMessages signShopScan() {
             return signShopScan;
+        }
+
+        public StockAdminCommandMessages stockAdmin() {
+            return stockAdmin;
+        }
+
+        public final class StockAdminCommandMessages {
+
+            public String usage() {
+                return string("commands.stock-admin.usage", "&eUsage: /stockadmin <set|reset|freeze|unfreeze|reload|listfrozen|listoverrides> ...");
+            }
+
+            public String noPermission() {
+                return string("commands.stock-admin.no-permission", "&cYou do not have permission to use this command.");
+            }
+
+            public String lackPermission(String perm) {
+                return format(string("commands.stock-admin.lack-permission", "&cYou lack permission: {perm}"), Map.of("{perm}", perm == null ? "" : perm));
+            }
+
+            public String setSuccess(String item, String price) {
+                return format(string("commands.stock-admin.set-success", "&aSet price of {item} to {price}"), Map.of("{item}", item == null ? "" : item, "{price}", price == null ? "" : price));
+            }
+
+            public String resetSuccess(String item) {
+                return format(string("commands.stock-admin.reset-success", "&aReset price of {item} to base"), Map.of("{item}", item == null ? "" : item));
+            }
+
+            public String frozenCannotChange(String item) {
+                return format(string("commands.stock-admin.frozen-cannot-change", "&cThis item is frozen and cannot be changed."), Map.of("{item}", item == null ? "" : item));
+            }
+
+            public String frozenCannotReset(String item) {
+                return format(string("commands.stock-admin.frozen-cannot-reset", "&cThis item is frozen and cannot be reset."), Map.of("{item}", item == null ? "" : item));
+            }
+
+            public String freezeSuccess(String item, String by, String when) {
+                return format(string("commands.stock-admin.freeze-success", "&aFroze {item} by {by} at {when}"), Map.of("{item}", item == null ? "" : item, "{by}", by == null ? "" : by, "{when}", when == null ? "" : when));
+            }
+
+            public String unfreezeSuccess(String item) {
+                return format(string("commands.stock-admin.unfreeze-success", "&aUnfroze {item}"), Map.of("{item}", item == null ? "" : item));
+            }
+
+            public String reloadSuccess() {
+                return string("commands.stock-admin.reload-success", "&aReloaded frozen state from disk.");
+            }
+        }
+
+        public PricingAdminCommandMessages pricingAdmin() {
+            return pricingAdmin;
+        }
+
+        public final class PricingAdminCommandMessages {
+
+            public String usage() {
+                return string("commands.pricing-admin.usage", "&eUsage: /pricingadmin <reset|resetall> ...");
+            }
+
+            public String noPermission() {
+                return string("commands.pricing-admin.no-permission", "&cYou do not have permission to use this command.");
+            }
+
+            public String lackPermission(String perm) {
+                return format(string("commands.pricing-admin.lack-permission", "&cYou lack permission: {perm}"),
+                        Map.of("{perm}", perm == null ? "" : perm));
+            }
+
+            public String resetSuccess(String key) {
+                return format(string("commands.pricing-admin.reset-success", "&aReset dynamic pricing for {key}"),
+                        Map.of("{key}", key == null ? "" : key));
+            }
+
+            public String resetFailed(String key) {
+                return format(string("commands.pricing-admin.reset-failed", "&cNo dynamic pricing found for {key}"),
+                        Map.of("{key}", key == null ? "" : key));
+            }
+
+            public String resetAllSuccess(int count) {
+                return format(string("commands.pricing-admin.resetall-success", "&aReset dynamic pricing for {count} items."),
+                        Map.of("{count}", Integer.toString(Math.max(0, count))));
+            }
         }
 
         public final class ShopCommandMessages {
@@ -291,6 +376,24 @@ public final class ShopMessageConfiguration {
 
             public String notInRotation() {
                 return string("commands.shop.not-in-rotation", "&cThat item is not available in the current shop rotation.");
+            }
+
+            public String reloadNoPermission() {
+                return string("commands.shop.reload-no-permission", "&cYou do not have permission to reload EzShops.");
+            }
+
+            public String reloadSuccess() {
+                return string("commands.shop.reload-success", "&aEzShops configuration reloaded successfully.");
+            }
+
+            public String reloadFailed(String error) {
+                return format(string("commands.shop.reload-failed", "&cFailed to reload EzShops: {error}"),
+                        Map.of("{error}", error == null ? "" : error));
+            }
+
+            public String unknownCategory(String category) {
+                return format(string("commands.shop.unknown-category", "&cUnknown shop category: {category}"),
+                        Map.of("{category}", category == null ? "" : category));
             }
         }
 

@@ -9,6 +9,7 @@ commands:
     unknown-item: "&c未知物品：{item}"
     invalid-amount: "&c数量无效：{amount}"
     amount-positive: "&c数量必须为正数。"
+    unknown-category: "&c未知的商店分类：{category}"
   sell-hand:
     players-only: "&c只有玩家可以出售物品。"
     must-hold-item: "&c你必须拿着一个物品才能使用此指令。"

@@ -167,7 +167,7 @@ public class ShopMenu implements Listener {
         }
     }
 
-    private void openCategory(Player player, ShopMenuLayout.Category category) {
+    public void openCategory(Player player, ShopMenuLayout.Category category) {
         int islandLevel = resolvePlayerIslandLevel(player);
         if (plugin.getConfig().getBoolean("debug", false)) {
             plugin.getLogger().info("ShopMenu: openCategory called for category='" + (category != null ? category.id() : "null") + "' player='" + (player != null ? player.getName() : "null") + "'");

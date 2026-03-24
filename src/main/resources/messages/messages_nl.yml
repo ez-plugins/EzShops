@@ -9,6 +9,7 @@ commands:
     unknown-item: "&cOnbekend item: {item}"
     invalid-amount: "&cOngeldige hoeveelheid: {amount}"
     amount-positive: "&cDe hoeveelheid moet positief zijn."
+    unknown-category: "&cOnbekende winkelfcategorie: {category}"
   sell-hand:
     players-only: "&cAlleen spelers kunnen items verkopen."
     must-hold-item: "&cJe moet een item vasthouden om dit commando te gebruiken."

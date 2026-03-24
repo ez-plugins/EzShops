@@ -30,7 +30,9 @@ Opens the main shop GUI where players can browse categories and purchase items.
 **Subcommands:**
 - `/shop buy <material> [amount]` - Buy items directly from chat
 - `/shop sell <material> [amount]` - Sell items directly from chat
-- `/shop reload` - Reload shop configuration (requires `ezshops.reload` permission)
+- `/shop <category>` - Open a specific shop category GUI (use the category id from `shop/categories`)
+ - `/shop <category>` - Open a specific shop category GUI (use the category id or display name from `shop/categories`)
+ - `/shop reload` - Reload shop configuration (requires `ezshops.reload` permission)
 
 **Examples:**
 ```
@@ -38,6 +40,18 @@ Opens the main shop GUI where players can browse categories and purchase items.
 /shop buy DIAMOND 10
 /shop sell IRON_INGOT 64
 /shop reload
+```
+
+To open a specific category directly, use the category id as the first argument. Category ids are defined in the `categories` folder.
+
+Example:
+```
+/shop blocks
+```
+
+You can also use the category display name (case-insensitive, color codes ignored) as the argument. For example, if a category display name is `&eBuilding Blocks`, the following will also open it:
+```
+/shop Building Blocks
 ```
 
 ---
