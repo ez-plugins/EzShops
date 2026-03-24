@@ -37,6 +37,9 @@ commands:
     reset-success: "&aSe reinició el precio dinámico para {key}"
     reset-failed: "&cNo se encontró precio dinámico para {key}"
     resetall-success: "&aSe reiniciaron los precios dinámicos de {count} artículos."
+    set-success: "&aEstablecido el precio de {item} a {price}"
+    disable-success: "&aDeshabilitado {action} para {item}"
+    disable-failed: "&cNo se pudo deshabilitar {action} para {item}"
 
   stock-admin:
     usage: "&eUso: /stockadmin <set|reset|freeze|unfreeze|reload|listfrozen|listoverrides> ..."

@@ -27,6 +27,17 @@ commands:
     sell-line: "&c 出售：&6{price}"
     sell-unavailable: "&c 出售：&7不可用"
 
+  pricing-admin:
+    usage: "&e用法：/pricingadmin <reset|resetall> ..."
+    no-permission: "&c你没有权限使用此命令。"
+    lack-permission: "&c你缺少权限：{perm}"
+    reset-success: "&a已重置 {key} 的动态定价"
+    reset-failed: "&c未找到 {key} 的动态定价"
+    resetall-success: "&a已重置 {count} 个物品的动态定价。"
+    set-success: "&a已将 {item} 的价格设置为 {price}"
+    disable-success: "&a已为 {item} 禁用 {action} 操作"
+    disable-failed: "&c无法为 {item} 禁用 {action} 操作"
+
 sign-shop-scan:
   players-only: "&c只有玩家可以扫描商店告示牌。"
   no-permission: "&c你没有权限扫描商店告示牌。"

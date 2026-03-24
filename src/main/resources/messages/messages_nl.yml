@@ -27,6 +27,17 @@ commands:
     sell-line: "&c Verkopen: &6{price}"
     sell-unavailable: "&c Verkopen: &7Niet beschikbaar"
 
+  pricing-admin:
+    usage: "&eGebruik: /pricingadmin <reset|resetall> ..."
+    no-permission: "&cJe hebt geen toestemming om dit commando te gebruiken."
+    lack-permission: "&cJe mist toestemming: {perm}"
+    reset-success: "&aDynamische prijs voor {key} gereset"
+    reset-failed: "&cGeen dynamische prijs gevonden voor {key}"
+    resetall-success: "&aDynamische prijzen voor {count} items gereset."
+    set-success: "&aPrijs van {item} ingesteld op {price}"
+    disable-success: "&aUitgeschakeld {action} voor {item}"
+    disable-failed: "&cKon {action} niet uitschakelen voor {item}"
+
 sign-shop-scan:
   players-only: "&cAlleen spelers kunnen winkelschilden scannen."
   no-permission: "&cJe hebt geen toestemming om winkelschilden te scannen."
