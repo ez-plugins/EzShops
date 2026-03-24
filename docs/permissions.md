@@ -78,6 +78,9 @@ EzShops uses a hierarchical permission system. Permissions are organized into ca
 | `ezshops.reload`            | op      | Reload shop configuration with `/shop reload`    |
 | `ezshops.shop.admin.minionhead` | op  | Purchase minion heads directly (bypass restrictions) |
 
+| `ezshops.shop.admin` | op | Use `/shop admin` subcommands, administrative shop actions |
+| `ezshops.shop.admin.resetdynamic` | op | Reset dynamic pricing state for configured shop items (`/shop admin resetdynamic`) |
+
 **Details:**
 - `ezshops.reload` - Allows reloading all shop configurations, menus, categories, and pricing without server restart
 - `ezshops.shop.admin.minionhead` - Bypasses normal restrictions on minion heads (usually crate-only items)

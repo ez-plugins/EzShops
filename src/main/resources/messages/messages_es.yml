@@ -25,6 +25,15 @@ commands:
     buy-unavailable: "&a Comprar: &7No disponible"
     sell-line: "&c Vender: &6{price}"
     sell-unavailable: "&c Vender: &7No disponible"
+  admin:
+    no-permission: "&cNo tienes permiso para usar los comandos de administración de la tienda."
+    usage: "&eUso: /{label} admin resetdynamic <artículo|material|all>"
+    resetdynamic:
+      success: "&aReestablecido el precio dinámico de {item}."
+      no_state: "&cNo se encontró estado dinámico para {item}."
+      reset_all_success: "&aReestablecidos los precios dinámicos de {count} artículos."
+      reset_all_none: "&cNo se encontraron entradas de precios dinámicos para restablecer."
+      unknown: "&cArtículo o material desconocido: {item}"
 
 sign-shop-scan:
   players-only: "&cSolo los jugadores pueden escanear carteles de tienda."

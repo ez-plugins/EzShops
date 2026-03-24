@@ -953,6 +953,75 @@ public class ShopPricingManager {
         adjustDynamicMultiplier(priceKey, amount, false);
     }
 
+    /**
+     * Reset dynamic pricing state for a given price key. Returns true if a reset occurred.
+     */
+    public boolean resetDynamicState(String priceKey) {
+        if (priceKey == null || priceKey.isBlank()) return false;
+        PriceEntry entry = priceMap.get(priceKey);
+        if (entry == null || !entry.hasDynamicPricing()) {
+            // still remove stored state if present
+            if (dynamicStateConfiguration != null && dynamicStateConfiguration.isSet(priceKey)) {
+                dynamicStateConfiguration.set(priceKey, null);
+                try { dynamicStateConfiguration.save(dynamicStateFile); } catch (IOException ex) { logger.warning("Failed to save dynamic shop pricing data: " + ex.getMessage()); }
+                return true;
+            }
+            return false;
+        }
+        // restore to starting multiplier
+        double start = entry.settings.startingMultiplier();
+        entry.multiplier = entry.settings.clamp(start);
+        if (dynamicStateConfiguration == null) dynamicStateConfiguration = new YamlConfiguration();
+        dynamicStateConfiguration.set(priceKey, null);
+        try {
+            dynamicStateConfiguration.save(dynamicStateFile);
+        } catch (IOException ex) {
+            logger.warning("Failed to save dynamic shop pricing data: " + ex.getMessage());
+        }
+        return true;
+    }
+
+    /**
+     * Reset dynamic pricing state for a material name (material.name()).
+     */
+    public boolean resetDynamicState(Material material) {
+        if (material == null) return false;
+        return resetDynamicState(material.name());
+    }
+
+    /**
+     * Reset dynamic pricing state for all configured prices. Returns the number of
+     * entries that were reset (entries without dynamic pricing are ignored, but
+     * stored state for unknown/non-dynamic keys is removed).
+     */
+    public int resetAllDynamicState() {
+        if (dynamicStateConfiguration == null) {
+            dynamicStateConfiguration = new YamlConfiguration();
+        }
+        int count = 0;
+        for (Map.Entry<String, PriceEntry> e : priceMap.entrySet()) {
+            String key = e.getKey();
+            PriceEntry entry = e.getValue();
+            if (entry != null && entry.hasDynamicPricing()) {
+                double start = entry.settings.startingMultiplier();
+                entry.multiplier = entry.settings.clamp(start);
+                dynamicStateConfiguration.set(key, null);
+                count++;
+            } else {
+                // remove any leftover saved state for keys that are no longer dynamic
+                if (dynamicStateConfiguration.isSet(key)) {
+                    dynamicStateConfiguration.set(key, null);
+                }
+            }
+        }
+        try {
+            dynamicStateConfiguration.save(dynamicStateFile);
+        } catch (IOException ex) {
+            logger.warning("Failed to save dynamic shop pricing data: " + ex.getMessage());
+        }
+        return count;
+    }
+
     private void adjustDynamicMultiplier(String priceKey, int amount, boolean purchase) {
         if (amount <= 0 || priceKey == null) {
             return;

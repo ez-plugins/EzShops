@@ -25,6 +25,15 @@ commands:
     buy-unavailable: "&a Kopen: &7Niet beschikbaar"
     sell-line: "&c Verkopen: &6{price}"
     sell-unavailable: "&c Verkopen: &7Niet beschikbaar"
+  admin:
+    no-permission: "&cJe hebt geen toestemming om winkelbeheercommando's te gebruiken."
+    usage: "&eGebruik: /{label} admin resetdynamic <item|materiaal|all>"
+    resetdynamic:
+      success: "&aDynamics prijzen gereset voor {item}."
+      no_state: "&cGeen dynamische prijsstatus gevonden voor {item}."
+      reset_all_success: "&aDynamische prijzen gereset voor {count} items."
+      reset_all_none: "&cGeen dynamische prijsitems gevonden om te resetten."
+      unknown: "&cOnbekend winkelitem of materiaal: {item}"
 
 sign-shop-scan:
   players-only: "&cAlleen spelers kunnen winkelschilden scannen."

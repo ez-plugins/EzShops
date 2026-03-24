@@ -25,6 +25,15 @@ commands:
     buy-unavailable: "&a Buy: &7Unavailable"
     sell-line: "&c Sell: &6{price}"
     sell-unavailable: "&c Sell: &7Unavailable"
+  admin:
+    no-permission: "&cYou do not have permission to use shop admin commands."
+    usage: "&eUsage: /{label} admin resetdynamic <item|material|all>"
+    resetdynamic:
+      success: "&aReset dynamic pricing for {item}."
+      no_state: "&cNo dynamic pricing state found for {item}."
+      reset_all_success: "&aReset dynamic pricing for {count} items."
+      reset_all_none: "&cNo dynamic pricing entries found to reset."
+      unknown: "&cUnknown shop item or material: {item}"
 
 sign-shop-scan:
   players-only: "&cOnly players can scan for shop signs."

@@ -248,6 +248,59 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
+        if (action.equals("admin")) {
+            if (!sender.hasPermission("ezshops.shop.admin") && !sender.hasPermission("ezshops.shop.admin.resetdynamic")) {
+                sender.sendMessage(messages.adminNoPermission());
+                return true;
+            }
+            if (args.length < 2) {
+                player.sendMessage(messages.adminUsage(label));
+                return true;
+            }
+            String adminSub = args[1].toLowerCase(Locale.ENGLISH);
+            switch (adminSub) {
+                case "resetdynamic":
+                    if (!sender.hasPermission("ezshops.shop.admin.resetdynamic") && !sender.hasPermission("ezshops.shop.admin")) {
+                        sender.sendMessage(messages.adminNoPermission());
+                        return true;
+                    }
+                    if (args.length < 3) {
+                        player.sendMessage(messages.adminUsage(label));
+                        return true;
+                    }
+                    String key = args[2];
+                    if ("all".equalsIgnoreCase(key)) {
+                        int reset = pricingManager.resetAllDynamicState();
+                        if (reset > 0) player.sendMessage(messages.adminResetAllSuccess(reset));
+                        else player.sendMessage(messages.adminResetAllNone());
+                        return true;
+                    }
+                    // Try to resolve configured item first
+                    ShopMenuLayout.Item item = findItemByKey(key);
+                    boolean changed = false;
+                    if (item != null) {
+                        String priceKey = item.priceId() != null ? item.priceId() : (item.material() != null ? item.material().name() : key);
+                        changed = pricingManager.resetDynamicState(priceKey);
+                        if (changed) player.sendMessage(messages.adminResetDynamicSuccess(key));
+                        else player.sendMessage(messages.adminResetDynamicNoState(key));
+                        return true;
+                    }
+                    // Fallback to matching material by name
+                    Material mat = Material.matchMaterial(key, false);
+                    if (mat != null) {
+                        changed = pricingManager.resetDynamicState(mat);
+                        if (changed) player.sendMessage(messages.adminResetDynamicSuccess(mat.name()));
+                        else player.sendMessage(messages.adminResetDynamicNoState(mat.name()));
+                        return true;
+                    }
+                    player.sendMessage(messages.adminUnknownItem(key));
+                    return true;
+                default:
+                    player.sendMessage(messages.adminUnknownSubcommand(adminSub));
+                    return true;
+            }
+        }
+
         if (args.length < 2) {
             sendUsage(player, label);
             return true;

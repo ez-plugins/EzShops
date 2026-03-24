@@ -72,6 +72,12 @@ permissions:
   ezshops.shop.admin.minionhead:
     description: Allows administrators to buy minion heads directly.
     default: op
+  ezshops.shop.admin:
+    description: Allows administrators to use /shop admin subcommands.
+    default: op
+  ezshops.shop.admin.resetdynamic:
+    description: Allows resetting dynamic pricing state for shop items.
+    default: op
   ezshops.playershop.create:
     description: Allows players to create sign-based chest shops.
     default: true

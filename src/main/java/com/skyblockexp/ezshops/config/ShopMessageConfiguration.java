@@ -292,6 +292,45 @@ public final class ShopMessageConfiguration {
             public String notInRotation() {
                 return string("commands.shop.not-in-rotation", "&cThat item is not available in the current shop rotation.");
             }
+
+            // Admin command messages
+            public String adminNoPermission() {
+                return string("commands.shop.admin.no-permission", "&cYou do not have permission to use shop admin commands.");
+            }
+
+            public String adminUsage(String label) {
+                return format(string("commands.shop.admin.usage", "&eUsage: /{label} admin resetdynamic <item|material|all>"),
+                        Map.of("{label}", label == null ? "shop" : label));
+            }
+
+            public String adminResetDynamicSuccess(String item) {
+                return format(string("commands.shop.admin.resetdynamic.success", "&aReset dynamic pricing for {item}."),
+                        Map.of("{item}", item == null ? "" : item));
+            }
+
+            public String adminResetDynamicNoState(String item) {
+                return format(string("commands.shop.admin.resetdynamic.no_state", "&cNo dynamic pricing state found for {item}."),
+                        Map.of("{item}", item == null ? "" : item));
+            }
+
+            public String adminResetAllSuccess(int count) {
+                return format(string("commands.shop.admin.resetdynamic.reset_all_success", "&aReset dynamic pricing for {count} items."),
+                        Map.of("{count}", Integer.toString(Math.max(0, count))));
+            }
+
+            public String adminResetAllNone() {
+                return string("commands.shop.admin.resetdynamic.reset_all_none", "&cNo dynamic pricing entries found to reset.");
+            }
+
+            public String adminUnknownItem(String item) {
+                return format(string("commands.shop.admin.resetdynamic.unknown", "&cUnknown shop item or material: {item}"),
+                        Map.of("{item}", item == null ? "" : item));
+            }
+
+            public String adminUnknownSubcommand(String sub) {
+                return format(string("commands.shop.admin.unknown-subcommand", "&cUnknown admin subcommand: {sub}"),
+                        Map.of("{sub}", sub == null ? "" : sub));
+            }
         }
 
         public final class SellHandCommandMessages {

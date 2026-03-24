@@ -25,6 +25,15 @@ commands:
     buy-unavailable: "&a 购买：&7不可用"
     sell-line: "&c 出售：&6{price}"
     sell-unavailable: "&c 出售：&7不可用"
+  admin:
+    no-permission: "&c你没有权限使用商店管理员命令。"
+    usage: "&e用法：/{label} admin resetdynamic <物品|材料|all>"
+    resetdynamic:
+      success: "&a已重置 {item} 的动态定价。"
+      no_state: "&c未找到 {item} 的动态定价状态。"
+      reset_all_success: "&a已重置 {count} 个物品的动态定价。"
+      reset_all_none: "&c未找到要重置的动态定价条目。"
+      unknown: "&c未知的商店物品或材料：{item}"
 
 sign-shop-scan:
   players-only: "&c只有玩家可以扫描商店告示牌。"
