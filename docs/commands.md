@@ -40,6 +40,26 @@ Opens the main shop GUI where players can browse categories and purchase items.
 /shop reload
 ```
 
+### Shop Admin
+
+#### `/shop admin resetdynamic <item|material|all>`
+
+Reset dynamic pricing state for a configured shop item or material. Use the item's `price-id` (if configured) or the material name. Passing `all` will clear all saved dynamic pricing multipliers.
+
+**Usage:** `/shop admin resetdynamic <item|material|all>`  
+**Permission:** `ezshops.shop.admin.resetdynamic` (or `ezshops.shop.admin`)  
+
+**Examples:**
+```
+/shop admin resetdynamic DIAMOND
+/shop admin resetdynamic exotic_exp_1
+/shop admin resetdynamic all
+```
+
+Notes:
+- When an item declares a `price-id` the admin reset should use that `price-id` to target its independent multiplier.
+- Resetting will update `shop-dynamic.yml` on disk; a plugin reload is not required for the change to take effect.
+
 ---
 
 ### Trading Commands
@@ -259,30 +279,6 @@ List all items with admin price overrides, showing who set them and when.
 
 **Permission:** `ezshops.stock.admin`  
 **Example:** `/stockadmin listoverrides`
-## Command Notes
-
----
-
-### Shop Admin
-
-#### `/shop admin resetdynamic <item|material|all>`
-
-Reset dynamic pricing state for a configured shop item or material. Use the item's `price-id` (if configured) or the material name. Passing `all` will clear all saved dynamic pricing multipliers.
-
-**Usage:** `/shop admin resetdynamic <item|material|all>`  
-**Permission:** `ezshops.shop.admin.resetdynamic` (or `ezshops.shop.admin`)  
-
-**Examples:**
-```
-/shop admin resetdynamic DIAMOND
-/shop admin resetdynamic exotic_exp_1
-/shop admin resetdynamic all
-```
-
-Notes:
-- When an item declares a `price-id` the admin reset should use that `price-id` to target its independent multiplier.
-- Resetting will update `shop-dynamic.yml` on disk; a plugin reload is not required for the change to take effect.
-
 ---
 
 ## Command Notes
