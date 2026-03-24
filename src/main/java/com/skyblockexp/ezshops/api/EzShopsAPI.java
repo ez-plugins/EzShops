@@ -4,6 +4,7 @@ import com.skyblockexp.ezshops.EzShopsPlugin;
 import com.skyblockexp.ezshops.bootstrap.StockComponent;
 import com.skyblockexp.ezshops.stock.StockMarketManager;
 import com.skyblockexp.ezshops.shop.api.ShopPriceService;
+import com.skyblockexp.ezshops.shop.api.ShopTemplateService;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
@@ -110,6 +111,17 @@ public class EzShopsAPI {
     public ShopPriceService getShopAPI() {
         RegisteredServiceProvider<ShopPriceService> provider = 
             Bukkit.getServicesManager().getRegistration(ShopPriceService.class);
+        return provider != null ? provider.getProvider() : null;
+    }
+
+    /**
+     * Gets the Shop Template Service API for registering/listing/importing shop templates.
+     *
+     * @return the shop template service, or null if not available
+     */
+    public ShopTemplateService getTemplateAPI() {
+        RegisteredServiceProvider<ShopTemplateService> provider =
+                Bukkit.getServicesManager().getRegistration(ShopTemplateService.class);
         return provider != null ? provider.getProvider() : null;
     }
     
