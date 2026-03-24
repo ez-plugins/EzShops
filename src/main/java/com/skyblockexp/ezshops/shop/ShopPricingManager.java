@@ -1139,6 +1139,108 @@ public class ShopPricingManager {
         }
     }
 
+    /**
+     * Reset dynamic pricing state for a single price key.
+     * Returns true if a saved dynamic multiplier existed and was removed.
+     */
+    public boolean resetDynamicPricing(String priceKey) {
+        if (priceKey == null || priceKey.isBlank()) return false;
+        if (dynamicStateConfiguration == null) return false;
+        if (!dynamicStateConfiguration.isSet(priceKey)) return false;
+        // Ensure the target price entry is actually configured and supports dynamic pricing
+        PriceEntry entry = priceMap.get(priceKey);
+        if (entry == null || !entry.hasDynamicPricing()) {
+            // still remove stray entries that may remain
+            dynamicStateConfiguration.set(priceKey, null);
+            try { dynamicStateConfiguration.save(dynamicStateFile); } catch (IOException ex) { logger.warning("Failed to save dynamic shop pricing data: " + ex.getMessage()); }
+            return false;
+        }
+        dynamicStateConfiguration.set(priceKey, null);
+        try {
+            dynamicStateConfiguration.save(dynamicStateFile);
+            return true;
+        } catch (IOException ex) {
+            logger.warning("Failed to save dynamic shop pricing data: " + ex.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Reset all dynamic pricing entries. Returns the number of entries reset.
+     */
+    public int resetAllDynamicPricing() {
+        if (dynamicStateConfiguration == null) return 0;
+        int count = 0;
+        for (String key : new java.util.ArrayList<>(dynamicStateConfiguration.getKeys(false))) {
+            if ("rotations".equalsIgnoreCase(key)) continue;
+            PriceEntry entry = priceMap.get(key);
+            if (entry != null && entry.hasDynamicPricing() && dynamicStateConfiguration.isSet(key)) {
+                dynamicStateConfiguration.set(key, null);
+                count++;
+            }
+        }
+        if (count > 0) {
+            try {
+                dynamicStateConfiguration.save(dynamicStateFile);
+            } catch (IOException ex) {
+                logger.warning("Failed to save dynamic shop pricing data: " + ex.getMessage());
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Set the base price for a configured price key. This updates both buy and sell
+     * base prices to the provided value and preserves dynamic multiplier and settings.
+     * Returns true if the price was updated.
+     */
+    public boolean setPrice(String priceKey, double price) {
+        if (priceKey == null || priceKey.isBlank()) return false;
+        PriceEntry previous = priceMap.get(priceKey);
+        if (previous == null) return false;
+        ShopPrice newBase = new ShopPrice(price, price);
+        PriceEntry replacement = new PriceEntry(newBase, previous.settings, previous.multiplier, previous.priceType);
+        priceMap.put(priceKey, replacement);
+        return true;
+    }
+
+    /**
+     * Disable buying for the configured price key (sets buy price to unavailable).
+     */
+    public boolean disableBuy(String priceKey) {
+        if (priceKey == null || priceKey.isBlank()) return false;
+        PriceEntry previous = priceMap.get(priceKey);
+        if (previous == null) return false;
+        ShopPrice base = previous.basePrice;
+        double sell = base == null ? -1.0D : base.sellPrice();
+        ShopPrice newBase = new ShopPrice(-1.0D, sell);
+        PriceEntry replacement = new PriceEntry(newBase, previous.settings, previous.multiplier, previous.priceType);
+        priceMap.put(priceKey, replacement);
+        return true;
+    }
+
+    /**
+     * Disable selling for the configured price key (sets sell price to unavailable).
+     */
+    public boolean disableSell(String priceKey) {
+        if (priceKey == null || priceKey.isBlank()) return false;
+        PriceEntry previous = priceMap.get(priceKey);
+        if (previous == null) return false;
+        ShopPrice base = previous.basePrice;
+        double buy = base == null ? -1.0D : base.buyPrice();
+        ShopPrice newBase = new ShopPrice(buy, -1.0D);
+        PriceEntry replacement = new PriceEntry(newBase, previous.settings, previous.multiplier, previous.priceType);
+        priceMap.put(priceKey, replacement);
+        return true;
+    }
+
+    /**
+     * Returns the configured price keys (identifiers) for tab-completion and lookups.
+     */
+    public java.util.Set<String> getConfiguredPriceKeys() {
+        return Collections.unmodifiableSet(new java.util.LinkedHashSet<>(priceMap.keySet()));
+    }
+
     private DynamicSettings parseDynamicSettings(ConfigurationSection section, String materialKey) {
         if (section == null || !dynamicConfiguration.enabled()) {
             return null;

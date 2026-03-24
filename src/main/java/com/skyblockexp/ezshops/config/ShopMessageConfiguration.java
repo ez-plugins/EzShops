@@ -339,6 +339,21 @@ public final class ShopMessageConfiguration {
                 return format(string("commands.pricing-admin.resetall-success", "&aReset dynamic pricing for {count} items."),
                         Map.of("{count}", Integer.toString(Math.max(0, count))));
             }
+
+            public String setSuccess(String item, String price) {
+                return format(string("commands.pricing-admin.set-success", "&aSet price of {item} to {price}"),
+                        Map.of("{item}", item == null ? "" : item, "{price}", price == null ? "" : price));
+            }
+
+            public String disableSuccess(String action, String item) {
+                return format(string("commands.pricing-admin.disable-success", "&aDisabled {action} for {item}"),
+                        Map.of("{action}", action == null ? "" : action, "{item}", item == null ? "" : item));
+            }
+
+            public String disableFailed(String action, String item) {
+                return format(string("commands.pricing-admin.disable-failed", "&cFailed to disable {action} for {item}"),
+                        Map.of("{action}", action == null ? "" : action, "{item}", item == null ? "" : item));
+            }
         }
 
         public final class ShopCommandMessages {

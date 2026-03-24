@@ -37,6 +37,9 @@ commands:
     reset-success: "&aReset dynamic pricing for {key}"
     reset-failed: "&cNo dynamic pricing found for {key}"
     resetall-success: "&aReset dynamic pricing for {count} items."
+    set-success: "&aSet price of {item} to {price}"
+    disable-success: "&aDisabled {action} for {item}"
+    disable-failed: "&cFailed to disable {action} for {item}"
 
   stock-admin:
     usage: "&eUsage: /stockadmin <set|reset|freeze|unfreeze|reload|listfrozen|listoverrides> ..."

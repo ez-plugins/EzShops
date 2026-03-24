@@ -118,12 +118,14 @@ EzShops uses a hierarchical permission system. Permissions are organized into ca
 | `ezshops.pricing.admin.set`        | op      | Allows setting the configured base price via `/pricingadmin set <item> <price>` |
 | `ezshops.pricing.admin.reset`      | op      | Allows resetting dynamic pricing for a single item via `/pricingadmin reset`    |
 | `ezshops.pricing.admin.resetall`   | op      | Allows resetting dynamic pricing for all items via `/pricingadmin resetall`     |
+| `ezshops.pricing.admin.disable`    | op      | Allows disabling buy/sell actions for an item via `/pricingadmin disable`        |
 
 **Details:**
 - Grants access to all pricing administration commands:
   - `/pricingadmin set <item> <price>` - Set configured base price for an item
   - `/pricingadmin reset <item>` - Clear saved multiplier for a single item
   - `/pricingadmin resetall` - Clear saved multipliers for all configured items
+  - `/pricingadmin disable <buy|sell> <item>` - Disable buying or selling for an item
 
 ---
 

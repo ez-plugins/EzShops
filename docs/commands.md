@@ -311,6 +311,12 @@ Reset dynamic pricing for all configured items. This clears saved multipliers fo
 **Permission:** `ezshops.pricing.admin.resetall`  
 **Example:** `/pricingadmin resetall`
 
+##### `/pricingadmin disable <buy|sell> <item>`
+Disable buying or selling for a configured shop item. Use `buy` to disable purchases and `sell` to disable selling to the shop.
+
+**Permission:** `ezshops.pricing.admin.disable`  
+**Example:** `/pricingadmin disable buy DIAMOND`
+
 **Notes:**
 - Operators have access to admin commands by default. Use a permissions plugin to grant fine-grained access to the `ezshops.pricing.admin.*` nodes.
 
