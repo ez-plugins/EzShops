@@ -31,181 +31,198 @@ Example `shop.yml` snippet:
 ```yaml
 DIAMOND:
 	buy: 100.0
-	---
+```
+	
+---
 
-	## Dynamic Pricing (EzShops)
+### At a glance
 
-	Clear, concise documentation for server owners who run EzShops. This page explains how dynamic pricing works, how to configure it, and how to test it on your server.
+- Dynamic pricing makes buy/sell prices move based on player trades.
+- Shop items use per-item `DynamicSettings` (configured in `shop.yml`).
+- The stock market (via `/stock` and stock GUIs) simulates market prices and also supports per-unit effects.
+- The plugin shows progressive bulk totals (sum of changing per-unit prices) rather than `unit_price * amount`.
 
-	---
+### Why this matters
 
-	### At a glance
+Players expect bulk purchases to reflect rising prices when demand increases. Showing `unit_price * amount` can be misleading when each purchased unit raises the price of the next unit. EzShops simulates per-unit effects and shows accurate bulk totals so players see a consistent preview and are charged the expected amount.
 
-	- Dynamic pricing makes buy/sell prices move based on player trades.
-	- Shop items use per-item `DynamicSettings` (configured in `shop.yml`).
-	- The stock market (via `/stock` and stock GUIs) simulates market prices and also supports per-unit effects.
-	- The plugin shows progressive bulk totals (sum of changing per-unit prices) rather than `unit_price * amount`.
+---
 
-	### Why this matters
+### Quick example (recommended)
 
-	Players expect bulk purchases to reflect rising prices when demand increases. Showing `unit_price * amount` can be misleading when each purchased unit raises the price of the next unit. EzShops simulates per-unit effects and shows accurate bulk totals so players see a consistent preview and are charged the expected amount.
+In `shop.yml`:
 
-	---
+```yaml
+DIAMOND:
+	buy: 100.0
+	sell: 80.0
+	dynamic-pricing:
+		starting-multiplier: 1.0
+		min-multiplier: 0.5
+		max-multiplier: 5.0
+		buy-change: 0.01    # +1% per unit bought
+		sell-change: 0.01   # -1% per unit sold
+```
 
-	### Quick example (recommended)
+With the settings above, buying 10 diamonds does not simply charge `100 * 10`. Instead the plugin charges a progressive total where each unit is slightly more expensive than the previous one.
 
-	In `shop.yml`:
+---
 
-	```yaml
-	DIAMOND:
-		buy: 100.0
-		sell: 80.0
-		dynamic-pricing:
-			starting-multiplier: 1.0
-			min-multiplier: 0.5
-			max-multiplier: 5.0
-			buy-change: 0.01    # +1% per unit bought
-			sell-change: 0.01   # -1% per unit sold
-	```
+### Configuration reference
 
-	With the settings above, buying 10 diamonds does not simply charge `100 * 10`. Instead the plugin charges a progressive total where each unit is slightly more expensive than the previous one.
+Edit `shop.yml` entries under each material. The relevant `dynamic-pricing` fields:
 
-	---
+- `starting-multiplier` (double) — initial multiplier (default: `1.0`).
+- `min-multiplier` (double) — minimum allowed multiplier.
+- `max-multiplier` (double) — maximum allowed multiplier.
+- `buy-change` (double) — per-unit fractional increase when buying (e.g. `0.01` = +1%).
+- `sell-change` (double) — per-unit fractional decrease when selling (e.g. `0.01` = -1%).
 
-	### Configuration reference
+### Per-item price keys (`price-id`) (optional)
 
-	Edit `shop.yml` entries under each material. The relevant `dynamic-pricing` fields:
+To allow multiple independent price entries for the same Minecraft `Material` (for example two different shop items that both use `EXPERIENCE_BOTTLE`), items may declare an optional `price-id` string in their configuration. When present, the plugin uses this `price-id` as the pricing key (and as the dynamic-pricing state key stored in `shop-dynamic.yml`) instead of the material name.
 
-	- `starting-multiplier` (double) — initial multiplier (default: `1.0`).
-	- `min-multiplier` (double) — minimum allowed multiplier.
-	- `max-multiplier` (double) — maximum allowed multiplier.
-	- `buy-change` (double) — per-unit fractional increase when buying (e.g. `0.01` = +1%).
-	- `sell-change` (double) — per-unit fractional decrease when selling (e.g. `0.01` = -1%).
+Notes:
+- `price-id` is optional; if omitted the material name (e.g. `DIAMOND`, `EXPERIENCE_BOTTLE`) is used and pricing remains material-scoped (backwards compatible).
+- `price-id` must be unique across your shop configuration if you want independent pricing/multipliers for two items that share the same material.
+- Dynamic state (multipliers) are saved by `price-id` in `shop-dynamic.yml` when present; legacy material keys continue to be supported.
 
-	### Per-item price keys (`price-id`) (optional)
+Example (category item):
 
-	To allow multiple independent price entries for the same Minecraft `Material` (for example two different shop items that both use `EXPERIENCE_BOTTLE`), items may declare an optional `price-id` string in their configuration. When present, the plugin uses this `price-id` as the pricing key (and as the dynamic-pricing state key stored in `shop-dynamic.yml`) instead of the material name.
+```yaml
+my-exp-bottle-item:
+	material: EXPERIENCE_BOTTLE
+	price-id: exotic_exp_1   # optional unique key to separate pricing
+	buy: 10.0
+	sell: 5.0
+	dynamic-pricing:
+		starting-multiplier: 1.0
+		min-multiplier: 0.5
+		max-multiplier: 3.0
+		buy-change: 0.01
+		sell-change: 0.01
+```
 
-	Notes:
-	- `price-id` is optional; if omitted the material name (e.g. `DIAMOND`, `EXPERIENCE_BOTTLE`) is used and pricing remains material-scoped (backwards compatible).
-	- `price-id` must be unique across your shop configuration if you want independent pricing/multipliers for two items that share the same material.
-	- Dynamic state (multipliers) are saved by `price-id` in `shop-dynamic.yml` when present; legacy material keys continue to be supported.
+Troubleshooting tip: if two shop items using the same `Material` show the same price or share dynamic changes, add distinct `price-id` values to each item to separate them.
 
-	Example (category item):
+Stock market tuning is in `stock-gui.yml` / `config.yml` (see `StockMarketConfig`). The stock market uses a deterministic per-unit demand factor (default `0.02`) plus a configurable random component for flavor.
 
-	```yaml
-	my-exp-bottle-item:
-		material: EXPERIENCE_BOTTLE
-		price-id: exotic_exp_1   # optional unique key to separate pricing
-		buy: 10.0
-		sell: 5.0
-		dynamic-pricing:
-			starting-multiplier: 1.0
-			min-multiplier: 0.5
-			max-multiplier: 3.0
-			buy-change: 0.01
-			sell-change: 0.01
-	```
+---
 
-	Troubleshooting tip: if two shop items using the same `Material` show the same price or share dynamic changes, add distinct `price-id` values to each item to separate them.
+### How it works (technical summary)
 
-	Stock market tuning is in `stock-gui.yml` / `config.yml` (see `StockMarketConfig`). The stock market uses a deterministic per-unit demand factor (default `0.02`) plus a configurable random component for flavor.
+- The shop stores a `multiplier` per item and applies multiplicative updates per traded unit:
 
-	---
+	multiplier := clamp(multiplier * (1 + buyChange)) on buys
 
-	### How it works (technical summary)
+	multiplier := clamp(multiplier * (1 - sellChange)) on sells
 
-	- The shop stores a `multiplier` per item and applies multiplicative updates per traded unit:
+- Bulk totals are computed by simulating N per-unit updates and summing the per-unit prices. The estimator does not mutate saved state — it is only used for previews and GUI displays.
 
-		multiplier := clamp(multiplier * (1 + buyChange)) on buys
+---
 
-		multiplier := clamp(multiplier * (1 - sellChange)) on sells
+### Formulae
 
-	- Bulk totals are computed by simulating N per-unit updates and summing the per-unit prices. The estimator does not mutate saved state — it is only used for previews and GUI displays.
+- After `N` buys (starting multiplier `M0`):
 
-	---
+	M_N = clamp(M0 * (1 + buyChange)^N)
 
-	### Formulae
+- Bulk total for base unit price `P`:
 
-	- After `N` buys (starting multiplier `M0`):
+	total = sum_{i=0..N-1} normalizeCurrency( P * M0 * (1 + buyChange)^i )
 
-		M_N = clamp(M0 * (1 + buyChange)^N)
+`normalizeCurrency` is the plugin's rounding/normalization for currency values.
 
-	- Bulk total for base unit price `P`:
+---
 
-		total = sum_{i=0..N-1} normalizeCurrency( P * M0 * (1 + buyChange)^i )
+### Commands & testing (in-game)
 
-	`normalizeCurrency` is the plugin's rounding/normalization for currency values.
+Build & install:
 
-	---
+```bash
+mvn clean package -DskipTests
+cp target/*.jar /path/to/paper/plugins/
+# restart or reload server
+```
 
-	### Commands & testing (in-game)
+Basic checks:
 
-	Build & install:
+- Confirm plugin loaded: `/plugins` and look for `EzShops`.
+- Open the shop GUI and inspect items with `dynamic-pricing` configured — bulk lines use `{buy_bulk_total}` and `{sell_bulk_total}` placeholders.
 
-	```bash
-	mvn clean package -DskipTests
-	cp target/*.jar /path/to/paper/plugins/
-	# restart or reload server
-	```
+Preview (stock market):
 
-	Basic checks:
+```text
+/stock preview buy DIAMOND 64
+```
 
-	- Confirm plugin loaded: `/plugins` and look for `EzShops`.
-	- Open the shop GUI and inspect items with `dynamic-pricing` configured — bulk lines use `{buy_bulk_total}` and `{sell_bulk_total}` placeholders.
+This prints per-unit price and an estimated total. The estimator is deterministic (no randomness) so previews are stable.
 
-	Preview (stock market):
+Execute trade:
 
-	```text
-	/stock preview buy DIAMOND 64
-	```
+```text
+/stock buy DIAMOND 64
+```
 
-	This prints per-unit price and an estimated total. The estimator is deterministic (no randomness) so previews are stable.
+The plugin charges the estimated total (based on progressive per-unit prices) and updates the stored market price accordingly.
 
-	Execute trade:
+---
 
-	```text
-	/stock buy DIAMOND 64
-	```
+### Admin commands & maintenance
 
-	The plugin charges the estimated total (based on progressive per-unit prices) and updates the stored market price accordingly.
+Administrators can inspect and manage dynamic pricing state using the `/pricingadmin` admin command (also documented in the main commands reference). The command provides the following subcommands:
 
-	---
+- `/pricingadmin set <item> <price>` — Set the configured base price for a configured shop item. This updates the configured buy/sell price while preserving any saved dynamic multiplier state. Permission: `ezshops.pricing.admin.set`.
+- `/pricingadmin reset <item>` — Reset the dynamic pricing state (multiplier) for a single configured item, returning it to its configured base behavior. Permission: `ezshops.pricing.admin.reset`.
+- `/pricingadmin resetall` — Reset dynamic pricing for all configured items. This clears saved multipliers for every item and returns them to their configured base prices. Permission: `ezshops.pricing.admin.resetall`.
 
-	### UI notes
+Examples:
+```
+/pricingadmin set DIAMOND 100.0
+/pricingadmin reset DIAMOND
+/pricingadmin resetall
+```
 
-	- The confirmation GUI for stock transactions shows totals for the following amounts by default: `1, 8, 16, 32, 64`.
-	- Administrators can change the GUI files or request an enhancement to make these amounts configurable via `stock-gui.yml`.
+Notes:
+- The dynamic state is stored in `shop-dynamic.yml`. The `reset` and `resetall` commands remove saved multipliers from this file (or the in-memory representation), so items revert to the values defined in `shop.yml`.
+- Operators have access to admin commands by default; use a permissions plugin to grant fine-grained access to the `ezshops.pricing.admin.*` nodes.
+- See the main commands reference for full usage and tab-completion behavior: [docs/commands.md](../../commands.md).
 
-	---
 
-	### Admin tips & tuning
+### UI notes
 
-	- Use smaller `buy-change` / `sell-change` for gentle price movement (e.g. `0.002`).
-	- Use `min-multiplier` / `max-multiplier` to limit extreme swings.
-	- Cap preview amounts in GUI to avoid heavy computation on very large inputs.
+- The confirmation GUI for stock transactions shows totals for the following amounts by default: `1, 8, 16, 32, 64`.
+- Administrators can change the GUI files or request an enhancement to make these amounts configurable via `stock-gui.yml`.
 
-	---
+---
 
-	### Migration & compatibility
+### Admin tips & tuning
 
-	- Existing `shop-dynamic.yml` files are preserved. Multipliers already stored will be used as the starting point after upgrade.
-	- If you rely on additive semantics, consider adding a config flag `dynamic-pricing.mode` (not currently present) or keep a fallback branch.
+- Use smaller `buy-change` / `sell-change` for gentle price movement (e.g. `0.002`).
+- Use `min-multiplier` / `max-multiplier` to limit extreme swings.
+- Cap preview amounts in GUI to avoid heavy computation on very large inputs.
 
-	---
+---
 
-	### Troubleshooting
+### Migration & compatibility
 
-	- If bulk totals appear incorrect:
-		- Ensure `shop-dynamic.yml` exists and contains expected multipliers.
-		- Check console logs for errors during startup or trade handling.
-		- Verify `shop.yml` entries are valid and that the material keys match (`DIAMOND`, `STONE`, etc.).
-	- If players report surprising totals, reduce `buy-change`/`sell-change` and test again.
+- Existing `shop-dynamic.yml` files are preserved. Multipliers already stored will be used as the starting point after upgrade.
+- If you rely on additive semantics, consider adding a config flag `dynamic-pricing.mode` (not currently present) or keep a fallback branch.
 
-	---
+---
 
-	### Contributing & support
+### Troubleshooting
 
-	If you want enhancements (config-mode toggle for additive vs multiplicative, configurable GUI amounts, extra debug commands, unit tests), open an issue or a PR in the repository. Include example configs and expected behavior.
+- If bulk totals appear incorrect:
+	- Ensure `shop-dynamic.yml` exists and contains expected multipliers.
+	- Check console logs for errors during startup or trade handling.
+	- Verify `shop.yml` entries are valid and that the material keys match (`DIAMOND`, `STONE`, etc.).
+- If players report surprising totals, reduce `buy-change`/`sell-change` and test again.
 
-	For quick debugging: check `shop-dynamic.yml` on the server and use `/stock preview` to verify estimator outputs.
+---
+
+### Contributing & support
+
+If you want enhancements (config-mode toggle for additive vs multiplicative, configurable GUI amounts, extra debug commands, unit tests), open an issue or a PR in the repository. Include example configs and expected behavior.
+
+For quick debugging: check `shop-dynamic.yml` on the server and use `/stock preview` to verify estimator outputs.

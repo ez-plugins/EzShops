@@ -326,9 +326,6 @@ public class ShopInventoryComposer {
                 placed++;
             }
 
-            // Debug log to help diagnose missing pagination buttons in category menus
-            plugin.getLogger().info("Category '" + category.id() + "' page " + (normalizedPage + 1) + "/" + totalPages
-                    + " previousSlot=" + holder.previousSlot() + " nextSlot=" + holder.nextSlot() + " itemSlots=" + itemSlots.size());
 
             // place any deferred explicit items into remaining available slots
             for (ShopMenuLayout.Item it : deferredExplicit) {

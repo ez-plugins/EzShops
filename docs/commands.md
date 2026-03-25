@@ -276,6 +276,58 @@ List all items with admin price overrides, showing who set them and when.
 
 ---
 
+### Pricing Admin
+
+#### `/pricingadmin`
+Administrative commands for managing dynamic pricing and overrides for shop items.
+
+**Usage:**
+```
+/pricingadmin set <item> <price>
+/pricingadmin reset <item>
+/pricingadmin resetall
+```
+
+**Permission:** `ezshops.pricing.admin`  
+**Aliases:** None
+
+**Subcommands:**
+
+##### `/pricingadmin set <item> <price>`
+Set the base price for a configured shop item. This updates the configured price while preserving any dynamic multiplier state.
+
+**Permission:** `ezshops.pricing.admin.set`  
+**Example:** `/pricingadmin set DIAMOND 100.0`
+
+##### `/pricingadmin reset <item>`
+Reset the dynamic pricing state for a single configured item, removing any multipliers so the item returns to its configured pricing behavior.
+
+**Permission:** `ezshops.pricing.admin.reset`  
+**Example:** `/pricingadmin reset DIAMOND`
+
+##### `/pricingadmin resetall`
+Reset dynamic pricing for all configured items. This clears saved multipliers for every item and returns them to their configured base prices.
+
+**Permission:** `ezshops.pricing.admin.resetall`  
+**Example:** `/pricingadmin resetall`
+
+##### `/pricingadmin disable <buy|sell> <item>`
+Disable buying or selling for a configured shop item. Use `buy` to disable purchases and `sell` to disable selling to the shop.
+
+**Permission:** `ezshops.pricing.admin.disable`  
+**Example:** `/pricingadmin disable buy DIAMOND`
+
+##### `/pricingadmin list [page]`
+List configured shop price keys and their current buy/sell prices. Paginated; defaults to page 1.
+
+**Permission:** `ezshops.pricing.admin.list`  
+**Example:** `/pricingadmin list 2`
+
+**Notes:**
+- Operators have access to admin commands by default. Use a permissions plugin to grant fine-grained access to the `ezshops.pricing.admin.*` nodes.
+
+---
+
 ## Command Notes
 
 ### Tab Completion
