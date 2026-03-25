@@ -1,0 +1,59 @@
+name: Publish package
+
+on:
+  release:
+    types: [created]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 16
+      uses: actions/setup-java@v4
+      with:
+        java-version: '16'
+        distribution: 'temurin'
+        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+        settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+
+    - name: Check if package version already published
+      id: check_package
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+      run: |
+        set -e
+        VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        GROUP=$(mvn help:evaluate -Dexpression=project.groupId -q -DforceStdout)
+        ARTIFACT=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+        OWNER=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f1)
+        REPO=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f2)
+        GROUP_PATH=$(echo "$GROUP" | tr '.' '/')
+        URL="https://maven.pkg.github.com/${OWNER}/${REPO}/${GROUP_PATH}/${ARTIFACT}/${VERSION}/${ARTIFACT}-${VERSION}.pom"
+        echo "Checking $URL"
+        STATUS=$(curl -o /dev/null -s -w "%{http_code}" -H "Authorization: Bearer $GITHUB_TOKEN" -I "$URL") || true
+        echo "status=$STATUS" >> $GITHUB_OUTPUT
+
+    - name: Publish to GitHub Packages Apache Maven
+      if: steps.check_package.outputs.status != '200'
+      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Skip publish if already exists
+      if: steps.check_package.outputs.status == '200'
+      run: |
+        echo "Package version already exists on GitHub Packages (HTTP 200). Skipping deploy to avoid 422 Unprocessable Entity error."
