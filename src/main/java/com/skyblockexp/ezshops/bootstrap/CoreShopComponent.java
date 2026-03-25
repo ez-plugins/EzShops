@@ -1,6 +1,7 @@
 package com.skyblockexp.ezshops.bootstrap;
 
 import com.skyblockexp.ezshops.shop.command.PriceCommand;
+import com.skyblockexp.ezshops.shop.command.PricingAdminCommand;
 import com.skyblockexp.ezshops.shop.command.SellHandCommand;
 import com.skyblockexp.ezshops.shop.command.SellInventoryCommand;
 import com.skyblockexp.ezshops.shop.command.ShopCommand;
@@ -128,6 +129,7 @@ public final class CoreShopComponent implements PluginComponent {
         registerCommand("sellhand", sellHandCommand);
         registerCommand("sellinventory", sellInventoryCommand);
         registerCommand("price", priceCommand);
+        registerCommand("pricingadmin", new com.skyblockexp.ezshops.shop.command.PricingAdminCommand(pricingManager, commandMessages.pricingAdmin()));
     }
 
     @Override
