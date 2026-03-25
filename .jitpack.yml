@@ -1,5 +1,6 @@
+
 jdk:
-  - openjdk16
+  - openjdk21
 
 install:
   - mvn -B -DskipTests -U clean package
