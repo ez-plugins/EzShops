@@ -37,6 +37,8 @@ commands:
     set-success: "&aPrijs van {item} ingesteld op {price}"
     disable-success: "&aUitgeschakeld {action} voor {item}"
     disable-failed: "&cKon {action} niet uitschakelen voor {item}"
+    list-header: "&6Prijslijst - pagina {page}/{total}"
+    list-entry: "&e{key} &7- Kopen: {buy} Verkopen: {sell}"
 
 sign-shop-scan:
   players-only: "&cAlleen spelers kunnen winkelschilden scannen."

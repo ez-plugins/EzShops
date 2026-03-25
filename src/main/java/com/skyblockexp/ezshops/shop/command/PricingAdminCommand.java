@@ -125,6 +125,40 @@ public class PricingAdminCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage(messages.disableFailed(action, targetKey));
                 }
                 break;
+            case "list":
+                if (!sender.hasPermission("ezshops.pricing.admin.list")) {
+                    sender.sendMessage(messages.lackPermission("ezshops.pricing.admin.list"));
+                    return true;
+                }
+                int page = 1;
+                if (args.length >= 2) {
+                    try {
+                        page = Math.max(1, Integer.parseInt(args[1]));
+                    } catch (NumberFormatException ex) {
+                        sender.sendMessage(ChatColor.RED + "Invalid page number.");
+                        return true;
+                    }
+                }
+                java.util.List<String> keys = new java.util.ArrayList<>(pricingManager.getConfiguredPriceKeys());
+                int pageSize = 10;
+                int totalPages = Math.max(1, (int) Math.ceil((double) keys.size() / pageSize));
+                if (page > totalPages) page = totalPages;
+                sender.sendMessage(messages.listHeader(page, totalPages));
+                int start = (page - 1) * pageSize;
+                int end = Math.min(keys.size(), start + pageSize);
+                for (int i = start; i < end; i++) {
+                    String k = keys.get(i);
+                    java.util.Optional<com.skyblockexp.ezshops.shop.ShopPrice> sp = pricingManager.getPrice(k);
+                    String buy = "N/A";
+                    String sell = "N/A";
+                    if (sp.isPresent()) {
+                        com.skyblockexp.ezshops.shop.ShopPrice p = sp.get();
+                        buy = p.canBuy() ? Double.toString(p.buyPrice()) : "N/A";
+                        sell = p.canSell() ? Double.toString(p.sellPrice()) : "N/A";
+                    }
+                    sender.sendMessage(messages.listEntry(k, buy, sell));
+                }
+                break;
             default:
                 sender.sendMessage(messages.usage());
         }

@@ -37,6 +37,8 @@ commands:
     set-success: "&a已将 {item} 的价格设置为 {price}"
     disable-success: "&a已为 {item} 禁用 {action} 操作"
     disable-failed: "&c无法为 {item} 禁用 {action} 操作"
+    list-header: "&6价格列表 - 第 {page}/{total} 页"
+    list-entry: "&e{key} &7- 购买: {buy} 出售: {sell}"
 
 sign-shop-scan:
   players-only: "&c只有玩家可以扫描商店告示牌。"

@@ -55,6 +55,15 @@ commands:
       /stockadmin listfrozen [page]
       /stockadmin listoverrides [page]
     permission: ezshops.stock.admin
+  pricingadmin:
+    description: Admin commands for EzShops dynamic pricing
+    usage: |
+      /pricingadmin set <item> <price>
+      /pricingadmin reset <item>
+      /pricingadmin resetall
+      /pricingadmin disable <buy|sell> <item>
+      /pricingadmin list [page]
+    permission: ezshops.pricing.admin
   
 permissions:
   ezshops.shop:
@@ -95,4 +104,22 @@ permissions:
     default: op
   ezshops.stock.admin:
     description: Admin functions for stock market
+    default: op
+  ezshops.pricing.admin:
+    description: Admin functions for dynamic pricing (reset/resetall)
+    default: op
+  ezshops.pricing.admin.reset:
+    description: Reset dynamic pricing for a single item
+    default: op
+  ezshops.pricing.admin.resetall:
+    description: Reset all dynamic pricing entries
+    default: op
+  ezshops.pricing.admin.set:
+    description: Set configured base price for an item
+    default: op
+  ezshops.pricing.admin.disable:
+    description: Disable buying or selling for a configured item
+    default: op
+  ezshops.pricing.admin.list:
+    description: List configured prices via /pricingadmin list
     default: op

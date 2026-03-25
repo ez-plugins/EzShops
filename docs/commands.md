@@ -317,6 +317,12 @@ Disable buying or selling for a configured shop item. Use `buy` to disable purch
 **Permission:** `ezshops.pricing.admin.disable`  
 **Example:** `/pricingadmin disable buy DIAMOND`
 
+##### `/pricingadmin list [page]`
+List configured shop price keys and their current buy/sell prices. Paginated; defaults to page 1.
+
+**Permission:** `ezshops.pricing.admin.list`  
+**Example:** `/pricingadmin list 2`
+
 **Notes:**
 - Operators have access to admin commands by default. Use a permissions plugin to grant fine-grained access to the `ezshops.pricing.admin.*` nodes.
 

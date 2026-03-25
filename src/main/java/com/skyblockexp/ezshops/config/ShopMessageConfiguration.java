@@ -354,6 +354,16 @@ public final class ShopMessageConfiguration {
                 return format(string("commands.pricing-admin.disable-failed", "&cFailed to disable {action} for {item}"),
                         Map.of("{action}", action == null ? "" : action, "{item}", item == null ? "" : item));
             }
+
+            public String listHeader(int page, int total) {
+                return format(string("commands.pricing-admin.list-header", "&6Pricing list - page {page}/{total}"),
+                        Map.of("{page}", Integer.toString(Math.max(1, page)), "{total}", Integer.toString(Math.max(1, total))));
+            }
+
+            public String listEntry(String key, String buy, String sell) {
+                return format(string("commands.pricing-admin.list-entry", "&e{key} &7- Buy: {buy} Sell: {sell}"),
+                        Map.of("{key}", key == null ? "" : key, "{buy}", buy == null ? "N/A" : buy, "{sell}", sell == null ? "N/A" : sell));
+            }
         }
 
         public final class ShopCommandMessages {

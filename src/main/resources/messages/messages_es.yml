@@ -40,6 +40,8 @@ commands:
     set-success: "&aEstablecido el precio de {item} a {price}"
     disable-success: "&aDeshabilitado {action} para {item}"
     disable-failed: "&cNo se pudo deshabilitar {action} para {item}"
+    list-header: "&6Lista de precios - página {page}/{total}"
+    list-entry: "&e{key} &7- Comprar: {buy} Vender: {sell}"
 
   stock-admin:
     usage: "&eUso: /stockadmin <set|reset|freeze|unfreeze|reload|listfrozen|listoverrides> ..."
