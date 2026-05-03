@@ -2,9 +2,11 @@ package com.skyblockexp.ezshops.bootstrap;
 
 import com.skyblockexp.ezshops.shop.command.PriceCommand;
 import com.skyblockexp.ezshops.shop.command.PricingAdminCommand;
+import com.skyblockexp.ezshops.shop.command.SellCommand;
 import com.skyblockexp.ezshops.shop.command.SellHandCommand;
 import com.skyblockexp.ezshops.shop.command.SellInventoryCommand;
 import com.skyblockexp.ezshops.shop.command.ShopCommand;
+import com.skyblockexp.ezshops.gui.quicksell.QuickSellMenu;
 import com.skyblockexp.ezshops.EzShopsPlugin;
 import com.skyblockexp.ezshops.config.ShopMessageConfiguration;
 import com.skyblockexp.ezshops.gui.IslandLevelProvider;
@@ -52,6 +54,8 @@ public final class CoreShopComponent implements PluginComponent {
     private ShopCommand shopCommand;
     private SellHandCommand sellHandCommand;
     private SellInventoryCommand sellInventoryCommand;
+    private SellCommand sellCommand;
+    private QuickSellMenu quickSellMenu;
     private PriceCommand priceCommand;
     private ShopPriceService shopPriceService;
     private ShopTemplateService shopTemplateService;
@@ -123,11 +127,17 @@ public final class CoreShopComponent implements PluginComponent {
         sellInventoryCommand = new SellInventoryCommand(transactionService, commandMessages.sellInventory());
         priceCommand = new PriceCommand(pricingManager, transactionService, commandMessages.price());
 
+        boolean quickSellEnabled = plugin.getConfig().getBoolean("quick-sell.enabled", true);
+        quickSellMenu = new QuickSellMenu(pricingManager, transactionService, commandMessages.sell());
+        sellCommand = new SellCommand(quickSellMenu, commandMessages.sell(), quickSellEnabled);
+
         PluginManager pluginManager = plugin.getServer().getPluginManager();
         registerListener(pluginManager, shopMenu);
+        registerListener(pluginManager, quickSellMenu);
         registerCommand("shop", shopCommand);
         registerCommand("sellhand", sellHandCommand);
         registerCommand("sellinventory", sellInventoryCommand);
+        registerCommand("sell", sellCommand);
         registerCommand("price", priceCommand);
         registerCommand("pricingadmin", new com.skyblockexp.ezshops.shop.command.PricingAdminCommand(pricingManager, commandMessages.pricingAdmin()));
     }
@@ -140,6 +150,7 @@ public final class CoreShopComponent implements PluginComponent {
         }
 
         unregisterListener(shopMenu);
+        unregisterListener(quickSellMenu);
         if (plugin != null) {
             ServicesManager servicesManager = plugin.getServer().getServicesManager();
             if (shopPriceService != null) {
@@ -157,6 +168,8 @@ public final class CoreShopComponent implements PluginComponent {
         shopCommand = null;
         sellHandCommand = null;
         sellInventoryCommand = null;
+        sellCommand = null;
+        quickSellMenu = null;
         priceCommand = null;
         shopMenu = null;
         transactionService = null;

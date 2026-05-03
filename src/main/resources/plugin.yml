@@ -11,6 +11,10 @@ commands:
     description: Access the Skyblock shop to buy or sell items.
     usage: /<command>
     permission: ezshops.shop
+  sell:
+    description: Open the quick sell GUI to sell items quickly.
+    usage: /<command>
+    permission: ezshops.shop.sell
   sellhand:
     description: Sell the item currently in your hand to the shop.
     usage: /<command>

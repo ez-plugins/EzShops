@@ -233,6 +233,7 @@ public final class ShopMessageConfiguration {
         private final ShopCommandMessages shop = new ShopCommandMessages();
         private final SellHandCommandMessages sellHand = new SellHandCommandMessages();
         private final SellInventoryCommandMessages sellInventory = new SellInventoryCommandMessages();
+        private final SellCommandMessages sell = new SellCommandMessages();
         private final PriceCommandMessages price = new PriceCommandMessages();
         private final SignShopScanCommandMessages signShopScan = new SignShopScanCommandMessages();
         private final StockAdminCommandMessages stockAdmin = new StockAdminCommandMessages();
@@ -249,6 +250,10 @@ public final class ShopMessageConfiguration {
 
         public SellInventoryCommandMessages sellInventory() {
             return sellInventory;
+        }
+
+        public SellCommandMessages sell() {
+            return sell;
         }
 
         public PriceCommandMessages price() {
@@ -445,6 +450,34 @@ public final class ShopMessageConfiguration {
 
             public String notInRotation() {
                 return string("commands.sell-inventory.not-in-rotation", "&cNo sellable items are available in the current shop rotation.");
+            }
+        }
+
+        public final class SellCommandMessages {
+
+            public String playersOnly() {
+                return string("commands.sell.players-only", "&cOnly players can use the sell command.");
+            }
+
+            public String guiDisabled() {
+                return string("commands.sell.gui-disabled", "&cThe quick sell GUI is disabled on this server.");
+            }
+
+            public String guiTitle() {
+                return string("commands.sell.gui-title", "&8Quick Sell");
+            }
+
+            public String unsellableItem() {
+                return string("commands.sell.unsellable-item", "&cThat item cannot be sold in the shop.");
+            }
+
+            public String nothingToSell() {
+                return string("commands.sell.nothing-to-sell", "&cNo items to sell.");
+            }
+
+            public String soldSummary(String total) {
+                return format(string("commands.sell.sold-summary", "&aSold items for &6{total}&a."),
+                        Map.of("{total}", total == null ? "0" : total));
             }
         }
 

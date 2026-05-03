@@ -20,6 +20,13 @@ commands:
   sell-inventory:
     players-only: "&cSolo los jugadores pueden vender artículos."
     not-in-rotation: "&cNo hay artículos vendibles disponibles en la rotación actual."
+  sell:
+    players-only: "&cSolo los jugadores pueden usar el comando de venta."
+    gui-disabled: "&cLa GUI de venta rápida está deshabilitada en este servidor."
+    gui-title: "&8Venta Rápida"
+    unsellable-item: "&cEse artículo no se puede vender en la tienda."
+    nothing-to-sell: "&cNo hay artículos para vender."
+    sold-summary: "&aArtículos vendidos por &6{total}&a."
   price:
     usage: "&eUso: /{label} <artículo>"
     unknown-item: "&cArtículo desconocido: {item}"
