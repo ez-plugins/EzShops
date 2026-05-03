@@ -128,7 +128,11 @@ public final class CoreShopComponent implements PluginComponent {
         priceCommand = new PriceCommand(pricingManager, transactionService, commandMessages.price());
 
         boolean quickSellEnabled = plugin.getConfig().getBoolean("quick-sell.enabled", true);
-        quickSellMenu = new QuickSellMenu(pricingManager, transactionService, commandMessages.sell());
+        String confirmSound = plugin.getConfig().getString("quick-sell.confirm-sound.name", "entity.experience_orb.pickup");
+        float confirmSoundVolume = (float) plugin.getConfig().getDouble("quick-sell.confirm-sound.volume", 1.0);
+        float confirmSoundPitch = (float) plugin.getConfig().getDouble("quick-sell.confirm-sound.pitch", 1.0);
+        quickSellMenu = new QuickSellMenu(pricingManager, transactionService, commandMessages.sell(),
+                confirmSound, confirmSoundVolume, confirmSoundPitch);
         sellCommand = new SellCommand(quickSellMenu, commandMessages.sell(), quickSellEnabled);
 
         PluginManager pluginManager = plugin.getServer().getPluginManager();

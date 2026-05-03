@@ -50,13 +50,23 @@ public class QuickSellMenu implements Listener {
     private final ShopPricingManager pricingManager;
     private final ShopTransactionService transactionService;
     private final ShopMessageConfiguration.CommandMessages.SellCommandMessages messages;
+    /** Bukkit sound key to play on confirm, or {@code null} / empty to disable. */
+    private final String confirmSound;
+    private final float confirmSoundVolume;
+    private final float confirmSoundPitch;
 
     public QuickSellMenu(ShopPricingManager pricingManager,
             ShopTransactionService transactionService,
-            ShopMessageConfiguration.CommandMessages.SellCommandMessages messages) {
+            ShopMessageConfiguration.CommandMessages.SellCommandMessages messages,
+            String confirmSound,
+            float confirmSoundVolume,
+            float confirmSoundPitch) {
         this.pricingManager = pricingManager;
         this.transactionService = transactionService;
         this.messages = messages;
+        this.confirmSound = confirmSound;
+        this.confirmSoundVolume = confirmSoundVolume;
+        this.confirmSoundPitch = confirmSoundPitch;
     }
 
     /**
@@ -375,6 +385,10 @@ public class QuickSellMenu implements Listener {
 
         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                 messages.soldSummary(transactionService.formatCurrency(total))));
+
+        if (confirmSound != null && !confirmSound.isEmpty()) {
+            player.playSound(player.getLocation(), confirmSound, confirmSoundVolume, confirmSoundPitch);
+        }
     }
 
     /**
