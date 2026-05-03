@@ -3,8 +3,11 @@ package com.skyblockexp.ezshops.gui.shop;
 import com.skyblockexp.ezshops.shop.ShopMenuLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public final class CategoryShopMenuHolder extends AbstractShopMenuHolder {
@@ -16,7 +19,8 @@ public final class CategoryShopMenuHolder extends AbstractShopMenuHolder {
     private final Map<Integer, ShopMenuLayout.Item> slotEntries = new HashMap<>();
     private int page;
 
-    public CategoryShopMenuHolder(UUID owner, ShopMenuLayout.Category category) {
+    public CategoryShopMenuHolder(UUID owner, ShopMenuLayout.Category category,
+            List<ShopMenuLayout.ConfigurableButton> globalDefaultButtons) {
         super(owner);
         this.category = category;
 
@@ -30,11 +34,24 @@ public final class CategoryShopMenuHolder extends AbstractShopMenuHolder {
             this.nextSlot = -1;
         }
 
+        // Merge buttons: global defaults first, then category-specific overrides
+        Map<String, ShopMenuLayout.ConfigurableButton> merged = new LinkedHashMap<>();
+        if (globalDefaultButtons != null) {
+            for (ShopMenuLayout.ConfigurableButton b : globalDefaultButtons) {
+                merged.put(b.id(), b);
+            }
+        }
+        for (ShopMenuLayout.ConfigurableButton b : category.buttons()) {
+            merged.put(b.id(), b);
+        }
+        Set<Integer> buttonSlots = new HashSet<>();
+        for (ShopMenuLayout.ConfigurableButton b : merged.values()) {
+            buttonSlots.add(b.slot());
+        }
+
         List<Integer> computedSlots = new ArrayList<>();
-        Integer backSlot = category.backButtonSlot();
-        int back = backSlot != null ? backSlot : -9999;
         for (int slot = 0; slot < inventorySize; slot++) {
-            if (slot == previousSlot || slot == nextSlot || slot == back) {
+            if (slot == previousSlot || slot == nextSlot || buttonSlots.contains(slot)) {
                 continue;
             }
             if (preserveLastRow && inventorySize >= 9 && slot >= inventorySize - 9) {

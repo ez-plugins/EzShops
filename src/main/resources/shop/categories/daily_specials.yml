@@ -19,7 +19,6 @@ categories:
       fill:
         material: WHITE_STAINED_GLASS_PANE
         display-name: "{translate:shop.common.menu.fill-display-name}"
-      back-button-slot: 49
     # Link this category to the rotation defined in shop/rotations/daily-specials.yml.
     rotation-group: daily-specials
     rotation-defaults:

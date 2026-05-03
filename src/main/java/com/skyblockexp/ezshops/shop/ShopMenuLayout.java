@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Collections;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
@@ -16,22 +17,23 @@ public final class ShopMenuLayout {
     private final String mainTitle;
     private final int mainSize;
     private final ItemDecoration mainFill;
-    private final ItemDecoration defaultBackButton;
-    private final int defaultBackButtonSlot;
+    private final List<ConfigurableButton> defaultCategoryButtons;
+    private final List<ConfigurableButton> mainMenuButtons;
     private final List<Category> categories;
 
     public ShopMenuLayout(String mainTitle, int mainSize, ItemDecoration mainFill,
-            ItemDecoration defaultBackButton, int defaultBackButtonSlot, List<Category> categories) {
+            List<ConfigurableButton> defaultCategoryButtons, List<ConfigurableButton> mainMenuButtons,
+            List<Category> categories) {
         this.mainTitle = Objects.requireNonNull(mainTitle, "mainTitle");
         this.mainSize = mainSize;
         this.mainFill = mainFill;
-        this.defaultBackButton = defaultBackButton;
-        this.defaultBackButtonSlot = defaultBackButtonSlot;
+        this.defaultCategoryButtons = defaultCategoryButtons == null ? List.of() : List.copyOf(defaultCategoryButtons);
+        this.mainMenuButtons = mainMenuButtons == null ? List.of() : List.copyOf(mainMenuButtons);
         this.categories = List.copyOf(categories);
     }
 
     public static ShopMenuLayout empty() {
-        return new ShopMenuLayout("Skyblock Shop", 27, null, null, 0, List.of());
+        return new ShopMenuLayout("Skyblock Shop", 27, null, List.of(), List.of(), List.of());
     }
 
     public String mainTitle() {
@@ -46,12 +48,12 @@ public final class ShopMenuLayout {
         return mainFill;
     }
 
-    public ItemDecoration defaultBackButton() {
-        return defaultBackButton;
+    public List<ConfigurableButton> defaultCategoryButtons() {
+        return defaultCategoryButtons;
     }
 
-    public int defaultBackButtonSlot() {
-        return defaultBackButtonSlot;
+    public List<ConfigurableButton> mainMenuButtons() {
+        return mainMenuButtons;
     }
 
     public List<Category> categories() {
@@ -67,15 +69,14 @@ public final class ShopMenuLayout {
         private final String menuTitle;
         private final int menuSize;
         private final ItemDecoration menuFill;
-        private final ItemDecoration backButton;
-        private final Integer backButtonSlot;
+        private final List<ConfigurableButton> buttons;
         private final boolean preserveLastRow;
         private final List<Item> items;
         private final CategoryRotation rotation;
         private final String command;
 
         public Category(String id, String displayName, ItemDecoration icon, int slot, String menuTitle, int menuSize,
-                ItemDecoration menuFill, ItemDecoration backButton, Integer backButtonSlot, boolean preserveLastRow, List<Item> items,
+                ItemDecoration menuFill, List<ConfigurableButton> buttons, boolean preserveLastRow, List<Item> items,
                 CategoryRotation rotation, String command) {
             this.id = Objects.requireNonNull(id, "id");
             this.displayName = Objects.requireNonNull(displayName, "displayName");
@@ -84,8 +85,7 @@ public final class ShopMenuLayout {
             this.menuTitle = Objects.requireNonNull(menuTitle, "menuTitle");
             this.menuSize = menuSize;
             this.menuFill = menuFill;
-            this.backButton = backButton;
-            this.backButtonSlot = backButtonSlot;
+            this.buttons = buttons == null ? List.of() : List.copyOf(buttons);
             this.preserveLastRow = preserveLastRow;
             this.items = List.copyOf(items);
             this.rotation = rotation;
@@ -120,12 +120,8 @@ public final class ShopMenuLayout {
             return menuFill;
         }
 
-        public ItemDecoration backButton() {
-            return backButton;
-        }
-
-        public Integer backButtonSlot() {
-            return backButtonSlot;
+        public List<ConfigurableButton> buttons() {
+            return buttons;
         }
 
         public boolean preserveLastRow() {
@@ -292,6 +288,81 @@ public final class ShopMenuLayout {
 
         public DeliveryType delivery() {
             return delivery;
+        }
+    }
+
+    public enum ButtonAction {
+        BACK,
+        CLOSE,
+        PLAY_SOUND,
+        RUN_COMMAND,
+        OPEN_MAIN_MENU;
+
+        public static ButtonAction fromConfig(String value) {
+            if (value == null || value.isBlank()) {
+                return null;
+            }
+            try {
+                return valueOf(value.trim().toUpperCase(Locale.ROOT));
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
+        }
+    }
+
+    public static final class ConfigurableButton {
+
+        private final String id;
+        private final int slot;
+        private final ItemDecoration display;
+        private final ButtonAction action;
+        private final String sound;
+        private final float soundVolume;
+        private final float soundPitch;
+        private final String command;
+
+        public ConfigurableButton(String id, int slot, ItemDecoration display, ButtonAction action,
+                String sound, float soundVolume, float soundPitch, String command) {
+            this.id = Objects.requireNonNull(id, "id");
+            this.slot = slot;
+            this.display = display;
+            this.action = Objects.requireNonNull(action, "action");
+            this.sound = sound;
+            this.soundVolume = soundVolume;
+            this.soundPitch = soundPitch;
+            this.command = command;
+        }
+
+        public String id() {
+            return id;
+        }
+
+        public int slot() {
+            return slot;
+        }
+
+        public ItemDecoration display() {
+            return display;
+        }
+
+        public ButtonAction action() {
+            return action;
+        }
+
+        public String sound() {
+            return sound;
+        }
+
+        public float soundVolume() {
+            return soundVolume;
+        }
+
+        public float soundPitch() {
+            return soundPitch;
+        }
+
+        public String command() {
+            return command;
         }
     }
 

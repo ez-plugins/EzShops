@@ -54,8 +54,8 @@ public class ShopPricingManager {
     private String mainMenuTitle = "Skyblock Shop";
     private int mainMenuSize = 27;
     private ShopMenuLayout.ItemDecoration mainMenuFillDecoration = null;
-    private ShopMenuLayout.ItemDecoration defaultBackButtonDecoration = null;
-    private int defaultBackButtonSlot = 0;
+    private List<ShopMenuLayout.ConfigurableButton> defaultCategoryButtons = List.of();
+    private List<ShopMenuLayout.ConfigurableButton> mainMenuButtons = List.of();
 
     public ShopPricingManager(JavaPlugin plugin, DynamicPricingConfiguration dynamicConfiguration) {
         this.plugin = plugin;
@@ -79,8 +79,8 @@ public class ShopPricingManager {
         mainMenuTitle = "Skyblock Shop";
         mainMenuSize = 27;
         mainMenuFillDecoration = null;
-        defaultBackButtonDecoration = null;
-        defaultBackButtonSlot = 0;
+        defaultCategoryButtons = List.of();
+        mainMenuButtons = List.of();
 
         ensureDataFolder();
         if (dynamicStateFile.exists()) {
@@ -417,13 +417,18 @@ public class ShopPricingManager {
                         List.of()));
 
         ConfigurationSection categoryMenuSection = root.getConfigurationSection(CATEGORY_MENU_KEY);
-        defaultBackButtonDecoration = parseDecoration(
-                categoryMenuSection != null ? categoryMenuSection.getConfigurationSection("back-button") : null,
-                new ShopMenuLayout.ItemDecoration(Material.ARROW, 1,
-                        ChatColor.YELLOW + "\u2190 Back to Shop",
-                        List.of(ChatColor.GRAY + "Return to the main shop menu.")));
-        defaultBackButtonSlot = clampSlot(
-                categoryMenuSection != null ? categoryMenuSection.getInt("back-button-slot", 49) : 49, 54);
+        List<ShopMenuLayout.ConfigurableButton> parsedCategoryButtons = parseButtons(categoryMenuSection);
+        if (parsedCategoryButtons.isEmpty()) {
+            // Provide a built-in BACK button default so existing configs without explicit buttons still work
+            parsedCategoryButtons = List.of(new ShopMenuLayout.ConfigurableButton(
+                    "back", 49,
+                    new ShopMenuLayout.ItemDecoration(Material.ARROW, 1,
+                            ChatColor.YELLOW + "\u2190 Back to Shop",
+                            List.of(ChatColor.GRAY + "Return to the main shop menu.")),
+                    ShopMenuLayout.ButtonAction.BACK, null, 1.0f, 1.0f, null));
+        }
+        defaultCategoryButtons = parsedCategoryButtons;
+        mainMenuButtons = parseButtons(mainMenuSection);
 
         List<CategoryTemplate> templates = new ArrayList<>();
         ConfigurationSection categoriesSection = root.getConfigurationSection(CATEGORIES_KEY);
@@ -458,19 +463,7 @@ public class ShopPricingManager {
         int menuSize = normalizeSize(menuSection != null ? menuSection.getInt("size", 54) : 54);
         ShopMenuLayout.ItemDecoration menuFill = parseDecoration(
                 menuSection != null ? menuSection.getConfigurationSection("fill") : null, null);
-        ShopMenuLayout.ItemDecoration backButton = parseDecoration(
-                menuSection != null ? menuSection.getConfigurationSection("back-button") : null, null);
-
-        Integer backButtonSlot = null;
-        if (menuSection != null && menuSection.contains("back-button-slot")) {
-            int slotValue = menuSection.getInt("back-button-slot");
-            if (slotValue < 0 || slotValue >= menuSize) {
-                logger.warning("Ignoring back button slot " + slotValue + " for category '" + categoryId
-                        + "' because it is outside the menu bounds.");
-            } else {
-                backButtonSlot = slotValue;
-            }
-        }
+        List<ShopMenuLayout.ConfigurableButton> categoryButtons = parseButtons(menuSection);
 
         String rotationGroupId = section.getString("rotation-group");
         if (rotationGroupId != null && rotationGroupId.isBlank()) {
@@ -501,7 +494,7 @@ public class ShopPricingManager {
 
                 String command = section.getString("command", null);
                 return new CategoryTemplate(categoryId, displayName, icon, slot, menuTitle, menuSize, menuFill,
-                    backButton, backButtonSlot, preserveLastRow, List.copyOf(items), null, command);
+                    categoryButtons, preserveLastRow, List.copyOf(items), null, command);
         }
 
         ShopRotationDefinition definition = rotationDefinitions.get(rotationGroupId);
@@ -524,7 +517,7 @@ public class ShopPricingManager {
             }
                 String command = section.getString("command", null);
                 return new CategoryTemplate(categoryId, displayName, icon, slot, menuTitle, menuSize, menuFill,
-                    backButton, backButtonSlot, preserveLastRow, List.copyOf(items), null, command);
+                    categoryButtons, preserveLastRow, List.copyOf(items), null, command);
         }
 
         ConfigurationSection rotationDefaultsSection = section.getConfigurationSection("rotation-defaults");
@@ -561,8 +554,8 @@ public class ShopPricingManager {
         }
 
         RotationBinding rotation = new RotationBinding(rotationGroupId, defaultIcon, defaultMenuTitle, optionItems);
-        return new CategoryTemplate(categoryId, displayName, icon, slot, menuTitle, menuSize, menuFill, backButton,
-            backButtonSlot, preserveLastRow, List.of(), rotation, section.getString("command", null));
+        return new CategoryTemplate(categoryId, displayName, icon, slot, menuTitle, menuSize, menuFill, categoryButtons,
+            preserveLastRow, List.of(), rotation, section.getString("command", null));
     }
 
     private ShopMenuLayout rebuildMenuLayoutFromTemplates() {
@@ -573,8 +566,8 @@ public class ShopPricingManager {
                 categories.add(category);
             }
         }
-        return new ShopMenuLayout(mainMenuTitle, mainMenuSize, mainMenuFillDecoration, defaultBackButtonDecoration,
-                defaultBackButtonSlot, categories);
+        return new ShopMenuLayout(mainMenuTitle, mainMenuSize, mainMenuFillDecoration, defaultCategoryButtons,
+                mainMenuButtons, categories);
     }
 
     private ShopMenuLayout.Category buildCategoryFromTemplate(CategoryTemplate template) {
@@ -583,8 +576,8 @@ public class ShopPricingManager {
         }
         if (!template.isRotating()) {
             return new ShopMenuLayout.Category(template.id, template.displayName, template.icon, template.slot,
-                template.menuTitle, template.menuSize, template.menuFill, template.backButton,
-                template.backButtonSlot, template.preserveLastRow, template.staticItems, null, template.command);
+                template.menuTitle, template.menuSize, template.menuFill, template.buttons,
+                template.preserveLastRow, template.staticItems, null, template.command);
         }
 
         RotationBinding binding = template.rotation;
@@ -593,8 +586,8 @@ public class ShopPricingManager {
             logger.warning("Rotation group '" + binding.groupId() + "' is no longer available for category '"
                     + template.id + "'.");
                 return new ShopMenuLayout.Category(template.id, template.displayName, template.icon, template.slot,
-                    template.menuTitle, template.menuSize, template.menuFill, template.backButton,
-                    template.backButtonSlot, template.preserveLastRow, List.of(), null, template.command);
+                    template.menuTitle, template.menuSize, template.menuFill, template.buttons,
+                    template.preserveLastRow, List.of(), null, template.command);
         }
 
         String optionId = activeRotationOptions.getOrDefault(definition.id(), definition.defaultOptionId());
@@ -628,7 +621,7 @@ public class ShopPricingManager {
         ShopMenuLayout.CategoryRotation rotationState =
                 new ShopMenuLayout.CategoryRotation(definition.id(), optionId);
         return new ShopMenuLayout.Category(template.id, template.displayName, icon, template.slot, menuTitle,
-            template.menuSize, template.menuFill, template.backButton, template.backButtonSlot, template.preserveLastRow, items,
+            template.menuSize, template.menuFill, template.buttons, template.preserveLastRow, items,
             rotationState, template.command);
     }
 
@@ -1393,6 +1386,42 @@ public class ShopPricingManager {
         return slot;
     }
 
+    private List<ShopMenuLayout.ConfigurableButton> parseButtons(ConfigurationSection section) {
+        if (section == null) {
+            return List.of();
+        }
+        List<ShopMenuLayout.ConfigurableButton> buttons = new ArrayList<>();
+        for (String key : section.getKeys(false)) {
+            if (!section.isConfigurationSection(key)) {
+                continue;
+            }
+            ConfigurationSection btnSection = section.getConfigurationSection(key);
+            if (btnSection == null || !btnSection.contains("action")) {
+                continue;
+            }
+            String actionStr = btnSection.getString("action");
+            ShopMenuLayout.ButtonAction action = ShopMenuLayout.ButtonAction.fromConfig(actionStr);
+            if (action == null) {
+                logger.warning("Unknown button action '" + actionStr + "' for button '" + key + "' — skipping.");
+                continue;
+            }
+            int slot = btnSection.getInt("slot", -1);
+            if (slot < 0) {
+                logger.warning("Button '" + key + "' has no valid slot — skipping.");
+                continue;
+            }
+            ShopMenuLayout.ItemDecoration display = btnSection.contains("material")
+                    ? parseDecoration(btnSection, null) : null;
+            String sound = btnSection.getString("sound", null);
+            float soundVolume = (float) btnSection.getDouble("volume", 1.0);
+            float soundPitch = (float) btnSection.getDouble("pitch", 1.0);
+            String command = btnSection.getString("command", null);
+            buttons.add(new ShopMenuLayout.ConfigurableButton(key, slot, display, action,
+                    sound, soundVolume, soundPitch, command));
+        }
+        return buttons;
+    }
+
     private ShopMenuLayout.ItemDecoration parseDecoration(ConfigurationSection section,
             ShopMenuLayout.ItemDecoration fallback) {
         if (section == null) {
@@ -1469,8 +1498,7 @@ public class ShopPricingManager {
         private final String menuTitle;
         private final int menuSize;
         private final ShopMenuLayout.ItemDecoration menuFill;
-        private final ShopMenuLayout.ItemDecoration backButton;
-        private final Integer backButtonSlot;
+        private final List<ShopMenuLayout.ConfigurableButton> buttons;
         private final boolean preserveLastRow;
         private final List<ShopMenuLayout.Item> staticItems;
         private final RotationBinding rotation;
@@ -1478,7 +1506,7 @@ public class ShopPricingManager {
 
         private CategoryTemplate(String id, String displayName, ShopMenuLayout.ItemDecoration icon, int slot,
                 String menuTitle, int menuSize, ShopMenuLayout.ItemDecoration menuFill,
-                ShopMenuLayout.ItemDecoration backButton, Integer backButtonSlot, boolean preserveLastRow, List<ShopMenuLayout.Item> staticItems,
+                List<ShopMenuLayout.ConfigurableButton> buttons, boolean preserveLastRow, List<ShopMenuLayout.Item> staticItems,
                 RotationBinding rotation, String command) {
             this.id = Objects.requireNonNull(id, "id");
             this.displayName = Objects.requireNonNull(displayName, "displayName");
@@ -1487,8 +1515,7 @@ public class ShopPricingManager {
             this.menuTitle = Objects.requireNonNull(menuTitle, "menuTitle");
             this.menuSize = menuSize;
             this.menuFill = menuFill;
-            this.backButton = backButton;
-            this.backButtonSlot = backButtonSlot;
+            this.buttons = buttons == null ? List.of() : List.copyOf(buttons);
             this.preserveLastRow = preserveLastRow;
             this.staticItems = staticItems == null ? List.of() : List.copyOf(staticItems);
             this.rotation = rotation;
