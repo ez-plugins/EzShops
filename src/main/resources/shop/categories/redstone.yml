@@ -14,7 +14,9 @@ categories:
       fill:
         material: LIGHT_GRAY_STAINED_GLASS_PANE
         display-name: "{translate:shop.common.menu.fill-display-name}"
-      back-button-slot: 45
+      back:
+        slot: 45
+        action: BACK
     items:
       redstone_dust:
         material: REDSTONE

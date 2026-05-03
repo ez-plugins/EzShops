@@ -18,6 +18,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -55,6 +56,10 @@ public class ShopMenu implements Listener {
     private final NamespacedKey itemKey;
     private final NamespacedKey actionKey;
     private final NamespacedKey quantityKey;
+    private final NamespacedKey soundKey;
+    private final NamespacedKey soundVolumeKey;
+    private final NamespacedKey soundPitchKey;
+    private final NamespacedKey commandKey;
     private final ShopInventoryComposer inventoryComposer;
     private final ConcurrentMap<UUID, PendingTransaction> pendingCustomInputs;
     private final ShopMessageConfiguration.GuiMessages guiMessages;
@@ -84,6 +89,10 @@ public class ShopMenu implements Listener {
         this.itemKey = new NamespacedKey(plugin, "shop_item");
         this.actionKey = new NamespacedKey(plugin, "shop_action");
         this.quantityKey = new NamespacedKey(plugin, "shop_quantity");
+        this.soundKey = new NamespacedKey(plugin, "shop_sound");
+        this.soundVolumeKey = new NamespacedKey(plugin, "shop_sound_volume");
+        this.soundPitchKey = new NamespacedKey(plugin, "shop_sound_pitch");
+        this.commandKey = new NamespacedKey(plugin, "shop_command");
         this.inventoryComposer = new ShopInventoryComposer(plugin, pricingManager, transactionService, categoryKey,
                 itemKey, actionKey, quantityKey, guiMessages);
         this.pendingCustomInputs = new ConcurrentHashMap<>();
@@ -210,6 +219,38 @@ public class ShopMenu implements Listener {
         }
 
         PersistentDataContainer container = CompatibilityUtil.getPersistentDataContainer(meta);
+
+        // Dispatch configurable button actions (valid in any menu type)
+        String action = CompatibilityUtil.get(container, actionKey, PersistentDataType.STRING);
+        if (ShopInventoryComposer.ACTION_CLOSE.equalsIgnoreCase(action)) {
+            player.closeInventory();
+            return;
+        }
+        if (ShopInventoryComposer.ACTION_OPEN_MAIN_MENU.equalsIgnoreCase(action)) {
+            plugin.getServer().getScheduler().runTask(plugin, () -> openMainMenu(player));
+            return;
+        }
+        if (ShopInventoryComposer.ACTION_PLAY_SOUND.equalsIgnoreCase(action)) {
+            String soundName = CompatibilityUtil.get(container, soundKey, PersistentDataType.STRING);
+            if (soundName != null) {
+                Float volume = CompatibilityUtil.get(container, soundVolumeKey, PersistentDataType.FLOAT);
+                Float pitch = CompatibilityUtil.get(container, soundPitchKey, PersistentDataType.FLOAT);
+                Location loc = player.getLocation();
+                player.playSound(loc, soundName, volume != null ? volume : 1.0f, pitch != null ? pitch : 1.0f);
+            }
+            return;
+        }
+        if (ShopInventoryComposer.ACTION_RUN_COMMAND.equalsIgnoreCase(action)) {
+            String cmd = CompatibilityUtil.get(container, commandKey, PersistentDataType.STRING);
+            if (cmd != null) {
+                player.closeInventory();
+                String resolved = cmd.replace("{player}", player.getName());
+                plugin.getServer().getScheduler().runTask(plugin,
+                        () -> player.performCommand(resolved));
+            }
+            return;
+        }
+
         if (holder instanceof MainShopMenuHolder) {
             String categoryId = CompatibilityUtil.get(container, categoryKey, PersistentDataType.STRING);
             if (categoryId != null) {
@@ -232,7 +273,6 @@ public class ShopMenu implements Listener {
             return;
         }
 
-        String action = CompatibilityUtil.get(container, actionKey, PersistentDataType.STRING);
         if (ShopInventoryComposer.ACTION_BACK.equalsIgnoreCase(action)) {
             plugin.getServer().getScheduler().runTask(plugin, () -> openMainMenu((Player) event.getWhoClicked()));
             return;

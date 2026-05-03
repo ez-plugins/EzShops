@@ -9,6 +9,7 @@ import com.skyblockexp.ezshops.shop.ShopPrice;
 import com.skyblockexp.ezshops.shop.ShopPricingManager;
 import com.skyblockexp.ezshops.shop.ShopTransactionService;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Optional;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -33,6 +34,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class ShopInventoryComposer {
 
     public static final String ACTION_BACK = "back";
+    public static final String ACTION_CLOSE = "close";
+    public static final String ACTION_PLAY_SOUND = "play_sound";
+    public static final String ACTION_RUN_COMMAND = "run_command";
+    public static final String ACTION_OPEN_MAIN_MENU = "open_main_menu";
     public static final String ACTION_CUSTOM = "custom";
     public static final String ACTION_PREVIOUS = "previous";
     public static final String ACTION_NEXT = "next";
@@ -44,6 +49,10 @@ public class ShopInventoryComposer {
     private final NamespacedKey itemKey;
     private final NamespacedKey actionKey;
     private final NamespacedKey quantityKey;
+    private final NamespacedKey soundKey;
+    private final NamespacedKey commandKey;
+    private final NamespacedKey soundVolumeKey;
+    private final NamespacedKey soundPitchKey;
     private final ShopMessageConfiguration.GuiMessages guiMessages;
     private final ShopMessageConfiguration.GuiMessages.CommonMessages commonMessages;
     private final ShopMessageConfiguration.GuiMessages.MenuMessages menuMessages;
@@ -62,6 +71,10 @@ public class ShopInventoryComposer {
         this.itemKey = itemKey;
         this.actionKey = actionKey;
         this.quantityKey = quantityKey;
+        this.soundKey = new NamespacedKey(plugin, "shop_sound");
+        this.commandKey = new NamespacedKey(plugin, "shop_command");
+        this.soundVolumeKey = new NamespacedKey(plugin, "shop_sound_volume");
+        this.soundPitchKey = new NamespacedKey(plugin, "shop_sound_pitch");
         this.guiMessages = guiMessages;
         this.commonMessages = guiMessages.common();
         this.menuMessages = guiMessages.menus();
@@ -104,6 +117,8 @@ public class ShopInventoryComposer {
                 inventory.setItem(category.slot(), icon);
             }
         }
+
+        placeButtons(inventory, layout.mainMenuButtons(), List.of(), Map.of());
 
         player.openInventory(inventory);
         placeInventoryMarker(inventory);
@@ -232,7 +247,8 @@ public class ShopInventoryComposer {
         }
 
         ShopMenuLayout layout = pricingManager.getMenuLayout();
-        CategoryShopMenuHolder holder = new CategoryShopMenuHolder(player.getUniqueId(), category);
+        CategoryShopMenuHolder holder = new CategoryShopMenuHolder(player.getUniqueId(), category,
+                layout.defaultCategoryButtons());
         Inventory inventory = Bukkit.createInventory(holder, category.menuSize(), category.menuTitle());
         holder.setInventory(inventory);
 
@@ -375,24 +391,8 @@ public class ShopInventoryComposer {
             }
         }
 
-        ShopMenuLayout.ItemDecoration backButtonDecoration = category.backButton() != null ? category.backButton()
-                : layout.defaultBackButton();
-        int backSlot = category.backButtonSlot() != null ? category.backButtonSlot()
-                : clampSlot(layout.defaultBackButtonSlot(), inventory.getSize());
-        if (backButtonDecoration != null) {
-            ItemStack backButton = createItem(backButtonDecoration, Map.of("{category}", category.displayName()));
-            if (backButton != null) {
-                setPersistent(backButton, actionKey, ACTION_BACK);
-                inventory.setItem(backSlot, backButton);
-            }
-        } else {
-            ItemStack backButton = createPlaceholderItem(Material.ARROW, categoryMenuMessages.defaultBackTitle(),
-                    categoryMenuMessages.defaultBackLore(category.displayName()));
-            if (backButton != null) {
-                setPersistent(backButton, actionKey, ACTION_BACK);
-                inventory.setItem(backSlot, backButton);
-            }
-        }
+        placeButtons(inventory, category.buttons(), layout.defaultCategoryButtons(),
+                Map.of("{category}", category.displayName()));
 
         player.openInventory(inventory);
         placeInventoryMarker(inventory);
@@ -437,10 +437,12 @@ public class ShopInventoryComposer {
         setPersistent(custom, actionKey, ACTION_CUSTOM);
         inventory.setItem(22, custom);
 
-        ShopMenuLayout.ItemDecoration backDecoration = layout.defaultBackButton();
+        ShopMenuLayout.ConfigurableButton backBtn = layout.defaultCategoryButtons().stream()
+                .filter(b -> b.action() == ShopMenuLayout.ButtonAction.BACK)
+                .findFirst().orElse(null);
         ItemStack backItem;
-        if (backDecoration != null) {
-            backItem = createItem(backDecoration,
+        if (backBtn != null && backBtn.display() != null) {
+            backItem = createItem(backBtn.display(),
                     Map.of("{category}", category.displayName(), "{name}", category.displayName()));
         } else {
             backItem = createPlaceholderItem(Material.ARROW, quantityMenuMessages.backTitle(),
@@ -459,6 +461,63 @@ public class ShopInventoryComposer {
         // Marker removal: GUI detection now uses InventoryHolder exclusively.
         // No visible marker should be placed.
         return;
+    }
+
+    private void placeButtons(Inventory inventory, List<ShopMenuLayout.ConfigurableButton> categoryButtons,
+            List<ShopMenuLayout.ConfigurableButton> globalDefaults, Map<String, String> placeholders) {
+        // Merge: global defaults first, then category-specific overrides (by id)
+        Map<String, ShopMenuLayout.ConfigurableButton> merged = new LinkedHashMap<>();
+        for (ShopMenuLayout.ConfigurableButton b : globalDefaults) {
+            merged.put(b.id(), b);
+        }
+        for (ShopMenuLayout.ConfigurableButton b : categoryButtons) {
+            // If the category button has no display, inherit from the global button with same id
+            if (b.display() == null) {
+                ShopMenuLayout.ConfigurableButton global = merged.get(b.id());
+                if (global != null && global.display() != null) {
+                    b = new ShopMenuLayout.ConfigurableButton(b.id(), b.slot(), global.display(), b.action(),
+                            b.sound(), b.soundVolume(), b.soundPitch(), b.command());
+                }
+            }
+            merged.put(b.id(), b);
+        }
+        for (ShopMenuLayout.ConfigurableButton button : merged.values()) {
+            int slot = button.slot();
+            if (slot < 0 || slot >= inventory.getSize()) {
+                continue;
+            }
+            ItemStack item;
+            if (button.display() != null) {
+                item = createItem(button.display(), placeholders);
+            } else {
+                item = createDefaultButtonItem(button.action(), placeholders);
+            }
+            if (item == null) {
+                continue;
+            }
+            String actionStr = button.action().name().toLowerCase(Locale.ROOT);
+            setPersistent(item, actionKey, actionStr);
+            if (button.action() == ShopMenuLayout.ButtonAction.PLAY_SOUND && button.sound() != null) {
+                setPersistent(item, soundKey, button.sound());
+                setPersistent(item, soundVolumeKey, button.soundVolume());
+                setPersistent(item, soundPitchKey, button.soundPitch());
+            }
+            if (button.action() == ShopMenuLayout.ButtonAction.RUN_COMMAND && button.command() != null) {
+                setPersistent(item, commandKey, button.command());
+            }
+            inventory.setItem(slot, item);
+        }
+    }
+
+    private ItemStack createDefaultButtonItem(ShopMenuLayout.ButtonAction action, Map<String, String> placeholders) {
+        String category = placeholders.getOrDefault("{category}", "");
+        return switch (action) {
+            case BACK -> createPlaceholderItem(Material.ARROW, categoryMenuMessages.defaultBackTitle(),
+                    categoryMenuMessages.defaultBackLore(category));
+            case CLOSE -> createPlaceholderItem(Material.BARRIER, "Close", List.of());
+            case OPEN_MAIN_MENU -> createPlaceholderItem(Material.NETHER_STAR, "Main Menu", List.of());
+            case PLAY_SOUND, RUN_COMMAND -> null;
+        };
     }
 
     private void applyFill(Inventory inventory, ShopMenuLayout.ItemDecoration fill) {
@@ -846,6 +905,16 @@ public class ShopInventoryComposer {
         }
         PersistentDataContainer container = CompatibilityUtil.getPersistentDataContainer(meta);
         CompatibilityUtil.set(container, key, PersistentDataType.INTEGER, value);
+        item.setItemMeta(meta);
+    }
+
+    private void setPersistent(ItemStack item, NamespacedKey key, float value) {
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) {
+            return;
+        }
+        PersistentDataContainer container = CompatibilityUtil.getPersistentDataContainer(meta);
+        CompatibilityUtil.set(container, key, PersistentDataType.FLOAT, value);
         item.setItemMeta(meta);
     }
 

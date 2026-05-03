@@ -29,8 +29,8 @@ public class ShopGuiConfigurableFeaturesTest extends AbstractEzShopsTest {
         // Build a simple menu layout with one category that has a command
         ShopMenuLayout.ItemDecoration icon = new ShopMenuLayout.ItemDecoration(Material.PAPER, 1, "Cat", List.of());
         ShopMenuLayout.Category category = new ShopMenuLayout.Category("testcat", "Test Cat", icon, 10,
-                "Test Menu", 27, null, null, null, false, List.of(), null, "say hello {player}");
-        ShopMenuLayout layout = new ShopMenuLayout("Test Shop", 27, null, null, 0, List.of(category));
+                "Test Menu", 27, null, List.of(), false, List.of(), null, "say hello {player}");
+        ShopMenuLayout layout = new ShopMenuLayout("Test Shop", 27, null, List.of(), List.of(), List.of(category));
 
         // inject layout into pricing manager
         java.lang.reflect.Field corePricingField = CoreShopComponent.class.getDeclaredField("pricingManager");
@@ -71,9 +71,10 @@ public class ShopGuiConfigurableFeaturesTest extends AbstractEzShopsTest {
         ShopMenuLayout.ItemDecoration icon = new ShopMenuLayout.ItemDecoration(Material.PAPER, 1, "Cat", List.of());
         ShopMenuLayout.ItemDecoration backDec = new ShopMenuLayout.ItemDecoration(Material.DIAMOND, 1, "Back", List.of("Go back"));
 
+        ShopMenuLayout.ConfigurableButton backBtn = new ShopMenuLayout.ConfigurableButton("back", 5, backDec, ShopMenuLayout.ButtonAction.BACK, null, 1.0f, 1.0f, null);
         ShopMenuLayout.Category category = new ShopMenuLayout.Category("testcat2", "Test Cat2", icon, 0,
-                "Category Menu", 27, null, backDec, Integer.valueOf(5), false, List.of(), null, null);
-        ShopMenuLayout layout = new ShopMenuLayout("Test Shop", 27, null, null, 0, List.of(category));
+                "Category Menu", 27, null, List.of(backBtn), false, List.of(), null, null);
+        ShopMenuLayout layout = new ShopMenuLayout("Test Shop", 27, null, List.of(), List.of(), List.of(category));
 
         java.lang.reflect.Field corePricingField = CoreShopComponent.class.getDeclaredField("pricingManager");
         corePricingField.setAccessible(true);
@@ -122,8 +123,8 @@ public class ShopGuiConfigurableFeaturesTest extends AbstractEzShopsTest {
         ShopMenuLayout.ItemDecoration icon = new ShopMenuLayout.ItemDecoration(Material.DIAMOND, 1, "It", List.of());
         ShopMenuLayout.Item item = new ShopMenuLayout.Item("diamond_item", Material.DIAMOND, icon, 0, 0, 1, 1,
                 new com.skyblockexp.ezshops.shop.ShopPrice(1.0, 1.0), ShopMenuLayout.ItemType.MATERIAL, null, java.util.Map.of(), 0);
-        ShopMenuLayout.Category category = new ShopMenuLayout.Category("catq", "CatQ", icon, 0, "CatQ Menu", 27, null, null, null, false, List.of(item), null, null);
-        ShopMenuLayout layout = new ShopMenuLayout("Test Shop", 27, null, null, 0, List.of(category));
+        ShopMenuLayout.Category category = new ShopMenuLayout.Category("catq", "CatQ", icon, 0, "CatQ Menu", 27, null, List.of(), false, List.of(item), null, null);
+        ShopMenuLayout layout = new ShopMenuLayout("Test Shop", 27, null, List.of(), List.of(), List.of(category));
 
         java.lang.reflect.Field corePricingField = CoreShopComponent.class.getDeclaredField("pricingManager");
         corePricingField.setAccessible(true);

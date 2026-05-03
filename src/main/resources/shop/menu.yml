@@ -9,9 +9,10 @@ main-menu:
     material: LIGHT_GRAY_STAINED_GLASS_PANE
     display-name: "{translate:shop.common.menu.fill-display-name}"
 category-menu:
-  back-button-slot: 49
-  back-button:
+  back:
+    slot: 49
     material: ARROW
     display-name: "{translate:shop.menu.category.back-display-name}"
     lore:
-    - "{translate:shop.menu.category.back-lore}"
+      - "{translate:shop.menu.category.back-lore}"
+    action: BACK
