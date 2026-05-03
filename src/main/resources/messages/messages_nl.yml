@@ -332,10 +332,6 @@ shop:
       icon-lore: "&7Automation components and wiring."
       menu:
         title: "&cRedstone & Utility"
-      sell-portal-display-name: "&6Sell Portal"
-      sell-portal-lore-1: "&7Automatically sells items that touch the portal."
-      sell-portal-lore-2: "&7Price: &a{buy}"
-      sell-portal-lore-3: "&7Only items with a shop sell price are converted."
     spawners:
       name: "&6Mob Spawners"
       icon-display-name: "&6Mob Spawners"

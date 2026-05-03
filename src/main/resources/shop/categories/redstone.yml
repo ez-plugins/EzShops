@@ -344,16 +344,3 @@ categories:
         - "{translate:shop.common.shift-click-line}"
         buy: 90.0
         sell: 32.0
-      sell_portal:
-        material: END_PORTAL_FRAME
-        slot: 43
-        amount: 1
-        bulk-amount: 1
-        icon-amount: 1
-        display-name: "{translate:shop.categories.redstone.sell-portal-display-name}"
-        lore:
-        - "{translate:shop.categories.redstone.sell-portal-lore-1}"
-        - "{translate:shop.categories.redstone.sell-portal-lore-2}"
-        - "{translate:shop.categories.redstone.sell-portal-lore-3}"
-        buy: 500000.0
-        sell: -1
