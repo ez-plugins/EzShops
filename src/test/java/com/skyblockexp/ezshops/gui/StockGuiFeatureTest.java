@@ -19,7 +19,8 @@ public class StockGuiFeatureTest extends AbstractEzShopsTest {
         assertNotNull(stock, "StockComponent should be initialized when stock is enabled");
 
         org.bukkit.entity.Player player = server.addPlayer("stock-player");
-        // grant permission required by the command
+        // grant permission required by the command and GUI
+        player.addAttachment(plugin, "ezshops.stock.view", true);
         player.addAttachment(plugin, "ezshops.stock.overview", true);
         // dispatch the stock overview command which should open the GUI
         boolean dispatched = server.dispatchCommand(player, "stock overview");

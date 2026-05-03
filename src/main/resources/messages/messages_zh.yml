@@ -17,6 +17,13 @@ commands:
   sell-inventory:
     players-only: "&c只有玩家可以出售物品。"
     not-in-rotation: "&c当前商店轮换中没有可出售的物品。"
+  sell:
+    players-only: "&c只有玩家可以使用出售指令。"
+    gui-disabled: "&c此服务器已禁用快速出售 GUI。"
+    gui-title: "&8快速出售"
+    unsellable-item: "&c该物品无法在商店中出售。"
+    nothing-to-sell: "&c没有可出售的物品。"
+    sold-summary: "&a物品已以 &6{total}&a 的价格出售。"
   price:
     usage: "&e用法：/{label} <item>"
     unknown-item: "&c未知物品：{item}"

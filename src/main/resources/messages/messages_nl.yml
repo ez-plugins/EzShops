@@ -17,6 +17,13 @@ commands:
   sell-inventory:
     players-only: "&cAlleen spelers kunnen items verkopen."
     not-in-rotation: "&cEr zijn geen verkoopbare items beschikbaar in de huidige winkelrotatie."
+  sell:
+    players-only: "&cAlleen spelers kunnen het verkoop-commando gebruiken."
+    gui-disabled: "&cDe snelverkoop-GUI is uitgeschakeld op deze server."
+    gui-title: "&8Snel Verkopen"
+    unsellable-item: "&cDat item kan niet worden verkocht in de winkel."
+    nothing-to-sell: "&cGeen items om te verkopen."
+    sold-summary: "&aItems verkocht voor &6{total}&a."
   price:
     usage: "&eGebruik: /{label} <item>"
     unknown-item: "&cOnbekend item: {item}"

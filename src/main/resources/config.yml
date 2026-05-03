@@ -62,6 +62,20 @@ categories:
   # a single paginated list instead of disabling the menu entirely.
   single-list-when-disabled: false
 
+quick-sell:
+  # When enabled, /sell opens the Quick Sell GUI where players can drag items
+  # in and sell them all at once with a single Confirm click.
+  # When disabled, /sell sends a disabled message.
+  # Default: true
+  enabled: true
+
+  # Sound played to the player when a sale is successfully confirmed.
+  # Set name to an empty string to disable the sound entirely.
+  confirm-sound:
+    name: "entity.experience_orb.pickup"
+    volume: 1.0
+    pitch: 1.0
+
 sell:
   # Ignore items with NBT (custom tags/metadata) during /sellhand and /sellinventory
   # When enabled, only plain items without NBT will be sold.
