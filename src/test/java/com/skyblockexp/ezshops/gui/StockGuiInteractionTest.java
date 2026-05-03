@@ -15,6 +15,7 @@ public class StockGuiInteractionTest extends AbstractEzShopsTest {
         assertNotNull(plugin);
 
         org.bukkit.entity.Player player = server.addPlayer("stock-interact");
+        player.addAttachment(plugin, "ezshops.stock.view", true);
         player.addAttachment(plugin, "ezshops.stock.overview", true);
 
         // open stock overview via command

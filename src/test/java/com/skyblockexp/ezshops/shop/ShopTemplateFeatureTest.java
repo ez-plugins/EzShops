@@ -41,6 +41,7 @@ public class ShopTemplateFeatureTest extends AbstractEzShopsTest {
 
         // Create a player and grant import permission
         org.bukkit.entity.Player player = server.addPlayer("importer");
+        player.addAttachment(plugin, "ezshops.shop", true);
         player.addAttachment(plugin, "ezshops.import", true);
 
         // Dispatch the import command

@@ -31,6 +31,7 @@ public class ShopCommandCategoryTest extends AbstractEzShopsTest {
         String display = MessageUtil.stripColors(MessageUtil.translateColors(category.displayName()));
 
         org.bukkit.entity.Player player = server.addPlayer("cmd-player");
+        player.addAttachment(plugin, "ezshops.shop", true);
 
         boolean dispatched = server.dispatchCommand(player, "shop " + display);
         assertTrue(dispatched, "Command should be dispatched");
@@ -66,6 +67,7 @@ public class ShopCommandCategoryTest extends AbstractEzShopsTest {
         String display = MessageUtil.stripColors(MessageUtil.translateColors(category.displayName()));
 
         org.bukkit.entity.Player player = server.addPlayer("cmd-player-2");
+        player.addAttachment(plugin, "ezshops.shop", true);
 
         boolean dispatched = server.dispatchCommand(player, "shop " + display);
         assertTrue(dispatched, "Command should be dispatched");
