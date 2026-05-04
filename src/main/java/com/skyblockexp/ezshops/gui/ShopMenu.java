@@ -379,7 +379,7 @@ public class ShopMenu implements Listener {
                     player.closeInventory();
                     plugin.getServer().dispatchCommand(player, commandToRun);
                 } else {
-                    openCategory(player, category);
+                    plugin.getServer().getScheduler().runTask(plugin, () -> openCategory(player, category));
                 }
                 return;
             }
