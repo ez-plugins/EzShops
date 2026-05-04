@@ -42,6 +42,9 @@ public class ShopGuiInteractionTest extends AbstractEzShopsTest {
         org.bukkit.event.inventory.InventoryClickEvent click = new org.bukkit.event.inventory.InventoryClickEvent(view, org.bukkit.event.inventory.InventoryType.SlotType.CONTAINER, slot, org.bukkit.event.inventory.ClickType.LEFT, org.bukkit.event.inventory.InventoryAction.PICKUP_ALL);
         plugin.getServer().getPluginManager().callEvent(click);
 
+        // flush the scheduled runTask so openCategory executes
+        ((org.mockbukkit.mockbukkit.scheduler.BukkitSchedulerMock) server.getScheduler()).performOneTick();
+
         // after click, top inventory should be replaced by a category or flat menu
         org.bukkit.inventory.Inventory newTop = player.getOpenInventory().getTopInventory();
         assertNotNull(newTop);
