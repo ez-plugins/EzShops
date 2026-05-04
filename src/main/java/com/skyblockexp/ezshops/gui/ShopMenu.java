@@ -189,6 +189,7 @@ public class ShopMenu implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
+        boolean debugMode = plugin.getConfig().getBoolean("debug", false);
         Inventory topInventory = event.getView().getTopInventory();
         if (!(topInventory.getHolder() instanceof AbstractShopMenuHolder holder)) {
             return;
@@ -197,31 +198,44 @@ public class ShopMenu implements Listener {
         event.setCancelled(true);
 
         if (!(event.getWhoClicked() instanceof Player player)) {
+            if (debugMode) plugin.getLogger().info("[Debug] onInventoryClick: not a player");
             return;
         }
+
+        if (debugMode) plugin.getLogger().info("[Debug] onInventoryClick: holder=" + holder.getClass().getSimpleName() + " player=" + player.getName() + " slot=" + event.getRawSlot());
 
         if (!holder.owner().equals(player.getUniqueId())) {
+            if (debugMode) plugin.getLogger().info("[Debug] onInventoryClick: owner mismatch, holder.owner=" + holder.owner() + " player=" + player.getUniqueId());
             return;
         }
 
-        if (event.getClickedInventory() == null || event.getClickedInventory().getHolder() != holder) {
+        if (event.getClickedInventory() == null) {
+            if (debugMode) plugin.getLogger().info("[Debug] onInventoryClick: clickedInventory is null");
+            return;
+        }
+        if (event.getClickedInventory().getHolder() != holder) {
+            if (debugMode) plugin.getLogger().info("[Debug] onInventoryClick: clickedInventory.holder != holder; clickedHolder=" + (event.getClickedInventory().getHolder() == null ? "null" : event.getClickedInventory().getHolder().getClass().getSimpleName()));
             return;
         }
 
         ItemStack clicked = event.getCurrentItem();
         if (clicked == null || clicked.getType() == Material.AIR) {
+            if (debugMode) plugin.getLogger().info("[Debug] onInventoryClick: clicked item is null or AIR");
             return;
         }
 
         ItemMeta meta = clicked.getItemMeta();
         if (meta == null) {
+            if (debugMode) plugin.getLogger().info("[Debug] onInventoryClick: item meta is null");
             return;
         }
 
         PersistentDataContainer container = CompatibilityUtil.getPersistentDataContainer(meta);
+        if (debugMode) plugin.getLogger().info("[Debug] onInventoryClick: container=" + (container == null ? "null" : "ok") + " PDCSupport=" + CompatibilityUtil.hasPersistentDataSupport());
 
         // Dispatch configurable button actions (valid in any menu type)
         String action = CompatibilityUtil.get(container, actionKey, PersistentDataType.STRING);
+        if (debugMode) plugin.getLogger().info("[Debug] onInventoryClick: action=" + action);
         if (ShopInventoryComposer.ACTION_CLOSE.equalsIgnoreCase(action)) {
             player.closeInventory();
             return;
@@ -253,6 +267,7 @@ public class ShopMenu implements Listener {
 
         if (holder instanceof MainShopMenuHolder) {
             String categoryId = CompatibilityUtil.get(container, categoryKey, PersistentDataType.STRING);
+            if (debugMode) plugin.getLogger().info("[Debug] onInventoryClick: MainShopMenuHolder, categoryId=" + categoryId);
             if (categoryId != null) {
                 handleCategoryClick((Player) event.getWhoClicked(), categoryId);
             }
