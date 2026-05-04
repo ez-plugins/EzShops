@@ -57,6 +57,9 @@ public class ShopGuiBackNavigationTest extends AbstractEzShopsTest {
         handleCategory.setAccessible(true);
         handleCategory.invoke(shopMenu, player, categoryId);
 
+        // flush the scheduled runTask so openCategory executes
+        ((org.mockbukkit.mockbukkit.scheduler.BukkitSchedulerMock) server.getScheduler()).performOneTick();
+
         // Now find back button in the category menu
         var newTop = player.getOpenInventory().getTopInventory();
         assertNotNull(newTop);

@@ -140,7 +140,7 @@ public final class CompatibilityUtil {
         if (hasPersistentData == null) {
             try {
                 Class.forName("org.bukkit.persistence.PersistentDataContainer");
-                hasPersistentData = getMinecraftVersion() >= 14;
+                hasPersistentData = true;
             } catch (ClassNotFoundException e) {
                 hasPersistentData = false;
             }
