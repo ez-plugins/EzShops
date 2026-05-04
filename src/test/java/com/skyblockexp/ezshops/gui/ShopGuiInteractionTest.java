@@ -31,12 +31,20 @@ public class ShopGuiInteractionTest extends AbstractEzShopsTest {
         org.bukkit.inventory.Inventory top = player.getOpenInventory().getTopInventory();
         assertNotNull(top);
 
-        // find first non-empty slot (a category) and simulate left-click
+        // find first CATEGORY ICON (item with shop_category PDC) and simulate left-click
         int slot = -1;
+        org.bukkit.NamespacedKey catKey = new org.bukkit.NamespacedKey(plugin, "shop_category");
         for (int i = 0; i < top.getSize(); i++) {
-            if (top.getItem(i) != null && top.getItem(i).getType() != org.bukkit.Material.AIR) { slot = i; break; }
+            org.bukkit.inventory.ItemStack it = top.getItem(i);
+            if (it == null || it.getType() == org.bukkit.Material.AIR) continue;
+            org.bukkit.inventory.meta.ItemMeta im = it.getItemMeta();
+            if (im == null) continue;
+            if (im.getPersistentDataContainer().has(catKey, org.bukkit.persistence.PersistentDataType.STRING)) {
+                slot = i;
+                break;
+            }
         }
-        assertTrue(slot >= 0, "Expected at least one category icon in main menu");
+        assertTrue(slot >= 0, "Expected at least one category icon with shop_category PDC in main menu");
 
         org.bukkit.inventory.InventoryView view = player.getOpenInventory();
         org.bukkit.event.inventory.InventoryClickEvent click = new org.bukkit.event.inventory.InventoryClickEvent(view, org.bukkit.event.inventory.InventoryType.SlotType.CONTAINER, slot, org.bukkit.event.inventory.ClickType.LEFT, org.bukkit.event.inventory.InventoryAction.PICKUP_ALL);
@@ -45,10 +53,13 @@ public class ShopGuiInteractionTest extends AbstractEzShopsTest {
         // flush the scheduled runTask so openCategory executes
         ((org.mockbukkit.mockbukkit.scheduler.BukkitSchedulerMock) server.getScheduler()).performOneTick();
 
-        // after click, top inventory should be replaced by a category or flat menu
+        // after click, top inventory should be replaced by a category menu
         org.bukkit.inventory.Inventory newTop = player.getOpenInventory().getTopInventory();
         assertNotNull(newTop);
-        // holder should be an AbstractShopMenuHolder (category/flat menu)
-        assertTrue(newTop.getHolder() instanceof com.skyblockexp.ezshops.gui.shop.AbstractShopMenuHolder);
+        // holder should be a CategoryShopMenuHolder or FlatShopMenuHolder, NOT the main menu
+        assertTrue(newTop.getHolder() instanceof com.skyblockexp.ezshops.gui.shop.CategoryShopMenuHolder
+                || newTop.getHolder() instanceof com.skyblockexp.ezshops.gui.shop.FlatShopMenuHolder,
+                "Expected CategoryShopMenuHolder or FlatShopMenuHolder but got: "
+                        + (newTop.getHolder() == null ? "null" : newTop.getHolder().getClass().getName()));
     }
 }
