@@ -167,6 +167,11 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
                 java.util.Map<String, Object> out = new java.util.LinkedHashMap<>();
                 out.put("categories", java.util.Map.of(catId, cat.toMap()));
                 java.io.File outFile = new java.io.File(categoriesDir, catId + ".yml");
+                // Never overwrite a file that already exists; the operator may have
+                // customised it and those changes must persist across restarts / imports.
+                if (outFile.exists()) {
+                    continue;
+                }
                 try (java.io.FileOutputStream fos = new java.io.FileOutputStream(outFile)) {
                     String dump = yaml.dump(out);
                     fos.write(dump.getBytes(java.nio.charset.StandardCharsets.UTF_8));
