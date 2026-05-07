@@ -88,34 +88,15 @@ public final class StockComponent implements PluginComponent, TabCompleter {
     }
 
     private void ensureStockGuiDefaults(EzShopsPlugin plugin, java.io.File targetFile) {
-        try {
-            if (!targetFile.exists()) {
-                // Nothing to merge; save default resource
+        // Only write the default file on first run. If the file already exists it
+        // is owned by the server operator; never overwrite or merge into it so that
+        // intentional removals and customisations persist across restarts.
+        if (!targetFile.exists()) {
+            try {
                 plugin.saveResource("stock-gui.yml", false);
-                return;
+            } catch (Exception ex) {
+                plugin.getLogger().warning("Failed to save default stock-gui.yml: " + ex.getMessage());
             }
-
-            org.bukkit.configuration.file.YamlConfiguration target = org.bukkit.configuration.file.YamlConfiguration.loadConfiguration(targetFile);
-            java.io.InputStream defaultStream = plugin.getResource("stock-gui.yml");
-            if (defaultStream == null) return;
-            java.io.InputStreamReader isr = new java.io.InputStreamReader(defaultStream);
-            org.bukkit.configuration.file.YamlConfiguration defaults = org.bukkit.configuration.file.YamlConfiguration.loadConfiguration(new java.io.BufferedReader(isr));
-
-            boolean changed = false;
-            // Merge any missing keys from defaults (deep merge)
-            for (String key : defaults.getKeys(true)) {
-                if (!target.contains(key)) {
-                    target.set(key, defaults.get(key));
-                    changed = true;
-                    plugin.getLogger().info("stock-gui.yml: adding missing default key '" + key + "'");
-                }
-            }
-
-            if (changed) {
-                target.save(targetFile);
-            }
-        } catch (Exception ex) {
-            plugin.getLogger().warning("Failed to ensure stock-gui defaults: " + ex.getMessage());
         }
     }
 
