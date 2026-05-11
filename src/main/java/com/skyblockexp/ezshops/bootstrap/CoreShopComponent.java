@@ -61,9 +61,18 @@ public final class CoreShopComponent implements PluginComponent {
     private ShopTemplateService shopTemplateService;
     private IslandLevelProvider islandLevelProvider;
     private boolean ignoreIslandRequirements;
+    private com.skyblockexp.ezshops.teams.TeamsIntegration teamsIntegration;
+    private com.skyblockexp.ezshops.teams.TeamTreasury teamTreasury;
 
     public CoreShopComponent(Economy economy) {
         this.economy = economy;
+    }
+
+    /** Called by TeamShopComponent before enable() to inject team services. */
+    public void setTeamsData(com.skyblockexp.ezshops.teams.TeamsIntegration teamsIntegration,
+                             com.skyblockexp.ezshops.teams.TeamTreasury teamTreasury) {
+        this.teamsIntegration = teamsIntegration;
+        this.teamTreasury = teamTreasury;
     }
 
     @Override
@@ -82,6 +91,11 @@ public final class CoreShopComponent implements PluginComponent {
         // Hook service for executing commands on buy/sell
         com.skyblockexp.ezshops.hook.TransactionHookService hookService = new com.skyblockexp.ezshops.hook.TransactionHookService(plugin);
         transactionService.setTransactionHookService(hookService);
+        // Wire TeamsAPI integration if available
+        if (teamsIntegration != null && teamTreasury != null) {
+            double split = plugin.getConfig().getDouble("teams-integration.treasury-split", 0.05);
+            transactionService.setTeamsIntegration(teamsIntegration, teamTreasury, split);
+        }
 
         ServicesManager servicesManager = plugin.getServer().getServicesManager();
         shopPriceService = new ShopPriceLookupService(pricingManager, plugin.getLogger());

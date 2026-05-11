@@ -7,6 +7,7 @@ import com.skyblockexp.ezshops.bootstrap.PluginComponent;
 import com.skyblockexp.ezshops.bootstrap.SignShopComponent;
 import com.skyblockexp.ezshops.bootstrap.StockComponent;
 import com.skyblockexp.ezshops.bootstrap.PlayerShopComponent;
+import com.skyblockexp.ezshops.bootstrap.TeamShopComponent;
 import com.skyblockexp.ezshops.boost.SellPriceBoostEffect;
 import java.io.File;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class EzShopsPlugin extends JavaPlugin {
     private List<PluginComponent> components;
     private CoreShopComponent coreComponent;
     private StockComponent stockComponent;
+    private TeamShopComponent teamShopComponent;
     private boolean debugMode;
 
     @Override
@@ -66,9 +68,11 @@ public class EzShopsPlugin extends JavaPlugin {
         debugMode = getConfig().getBoolean("debug", false);
 
         coreComponent = new CoreShopComponent(economy);
+        teamShopComponent = new TeamShopComponent(economy);
         PlayerShopComponent playerShopComponent = new PlayerShopComponent(economy, getConfig());
         stockComponent = new StockComponent();
         components = new ArrayList<>();
+        components.add(teamShopComponent);  // MUST be first so services exist when CoreShopComponent.enable() runs
         components.add(coreComponent);
         components.add(stockComponent);
         components.add(playerShopComponent);
@@ -151,6 +155,15 @@ public class EzShopsPlugin extends JavaPlugin {
 
     public CoreShopComponent getCoreShopComponent() {
         return this.coreComponent;
+    }
+
+    /** Alias used internally by TeamShopComponent during enable. */
+    public CoreShopComponent getCoreComponent() {
+        return this.coreComponent;
+    }
+
+    public TeamShopComponent getTeamShopComponent() {
+        return this.teamShopComponent;
     }
 
     public StockComponent getStockComponent() {

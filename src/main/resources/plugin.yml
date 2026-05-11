@@ -5,7 +5,7 @@ author: Shadow48402
 description: Standalone plugin providing the Skyblock shop command, sign shops, and player chest shops.
 api-version: 1.13
 depend: [Vault]
-softdepend: [SkyblockExperience, EzScoreboard, SkyblockExperienceCommon, EzEconomy, EzBoost]
+softdepend: [SkyblockExperience, EzScoreboard, SkyblockExperienceCommon, EzEconomy, EzBoost, TeamsAPI]
 commands:
   shop:
     description: Access the Skyblock shop to buy or sell items.
@@ -68,7 +68,14 @@ commands:
       /pricingadmin disable <buy|sell> <item>
       /pricingadmin list [page]
     permission: ezshops.pricing.admin
-  
+  teamshop:
+    description: Open the team shop dashboard (treasury, shared stocks, perks)
+    usage: |
+      /teamshop
+      /teamshop treasury
+      /teamshop stocks
+    permission: ezshops.teamshop
+
 permissions:
   ezshops.shop:
     description: Allows players to access the /shop command.
@@ -117,6 +124,15 @@ permissions:
     default: op
   ezshops.pricing.admin.resetall:
     description: Reset all dynamic pricing entries
+    default: op
+  ezshops.teamshop:
+    description: Open the team shop (/teamshop)
+    default: true
+  ezshops.teamshop.treasury.withdraw:
+    description: Withdraw from team treasury (OWNER/ADMIN role also required)
+    default: true
+  ezshops.teamshop.admin:
+    description: Admin override for team shop features
     default: op
   ezshops.pricing.admin.set:
     description: Set configured base price for an item

@@ -46,6 +46,9 @@ public class ShopTransactionService {
     private String nbtFilterMode = "off"; // off, whitelist, blacklist
     private Set<String> nbtWhitelist = new HashSet<>();
     private Set<String> nbtBlacklist = new HashSet<>();
+    private com.skyblockexp.ezshops.teams.TeamsIntegration teamsIntegration;
+    private com.skyblockexp.ezshops.teams.TeamTreasury teamTreasury;
+    private double treasurySplit = 0.0;
 
     public ShopTransactionService(ShopPricingManager pricingManager, Economy economy,
             ShopMessageConfiguration.TransactionMessages transactionMessages) {
@@ -69,6 +72,14 @@ public class ShopTransactionService {
         this.nbtFilterMode = mode != null ? mode : "off";
         this.nbtWhitelist = whitelist != null ? new HashSet<>(whitelist) : new HashSet<>();
         this.nbtBlacklist = blacklist != null ? new HashSet<>(blacklist) : new HashSet<>();
+    }
+
+    public void setTeamsIntegration(com.skyblockexp.ezshops.teams.TeamsIntegration teamsIntegration,
+                                    com.skyblockexp.ezshops.teams.TeamTreasury teamTreasury,
+                                    double treasurySplit) {
+        this.teamsIntegration = teamsIntegration;
+        this.teamTreasury = teamTreasury;
+        this.treasurySplit = Math.max(0.0, Math.min(1.0, treasurySplit));
     }
 
     private double getSellPriceMultiplier(Player player) {
@@ -190,6 +201,22 @@ public class ShopTransactionService {
         }
     }
 
+    private double getTeamSellMultiplier(Player player) {
+        if (teamsIntegration == null) return 1.0;
+        return teamsIntegration.getSellMultiplier(player);
+    }
+
+    private double getTeamBuyMultiplier(Player player) {
+        if (teamsIntegration == null) return 1.0;
+        return teamsIntegration.getBuyMultiplier(player);
+    }
+
+    private void doTreasurySplit(Player player, double totalGain) {
+        if (teamTreasury == null || teamsIntegration == null || treasurySplit <= 0.0) return;
+        teamsIntegration.getPlayerTeam(player.getUniqueId())
+                .ifPresent(team -> teamTreasury.splitDeposit(team.getId(), totalGain * treasurySplit));
+    }
+
     public ShopTransactionResult buy(Player player, Material material, int amount) {
         if (economy == null) {
             return ShopTransactionResult.failure(errorMessages.noEconomy());
@@ -221,6 +248,7 @@ public class ShopTransactionService {
         double totalCost = pricingManager.estimateBulkTotal(material, amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY);
         totalCost = EconomyUtils.normalizeCurrency(totalCost);
         totalCost *= getBuyPriceMultiplier(player);
+        totalCost *= getTeamBuyMultiplier(player);
         totalCost = EconomyUtils.normalizeCurrency(totalCost);
         if (totalCost <= 0) {
             return ShopTransactionResult.failure(errorMessages.invalidBuyPrice());
@@ -278,6 +306,7 @@ public class ShopTransactionService {
         double totalCost = pricingManager.estimateBulkTotal(priceKey, amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.BUY);
         totalCost = EconomyUtils.normalizeCurrency(totalCost);
         totalCost *= getBuyPriceMultiplier(player);
+        totalCost *= getTeamBuyMultiplier(player);
         totalCost = EconomyUtils.normalizeCurrency(totalCost);
         if (totalCost <= 0) {
             return ShopTransactionResult.failure(errorMessages.invalidBuyPrice());
@@ -350,6 +379,7 @@ public class ShopTransactionService {
         double totalGain = pricingManager.estimateBulkTotal(material, amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.SELL);
         totalGain = EconomyUtils.normalizeCurrency(totalGain);
         totalGain *= getSellPriceMultiplier(player);
+        totalGain *= getTeamSellMultiplier(player);
         if (totalGain <= 0) {
             return ShopTransactionResult.failure(errorMessages.invalidSellPrice());
         }
@@ -368,6 +398,7 @@ public class ShopTransactionService {
         }
 
         pricingManager.handleSale(material, amount);
+        doTreasurySplit(player, totalGain);
         ShopTransactionResult result = ShopTransactionResult.success(successMessages.sale(amount,
                 ChatColor.AQUA + friendlyMaterialName(material), formatCurrency(totalGain)));
         return result;
@@ -403,6 +434,7 @@ public class ShopTransactionService {
         double totalGain = pricingManager.estimateBulkTotal(priceKey, amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.SELL);
         totalGain = EconomyUtils.normalizeCurrency(totalGain);
         totalGain *= getSellPriceMultiplier(player);
+        totalGain *= getTeamSellMultiplier(player);
         if (totalGain <= 0) {
             return ShopTransactionResult.failure(errorMessages.invalidSellPrice());
         }
@@ -421,6 +453,7 @@ public class ShopTransactionService {
         }
 
         pricingManager.handleSale(priceKey, amount);
+        doTreasurySplit(player, totalGain);
         ShopTransactionResult result = ShopTransactionResult.success(successMessages.sale(amount,
                 ChatColor.AQUA + friendlyMaterialName(item.material()), formatCurrency(totalGain)));
         if (hookService != null && item != null) {
@@ -486,6 +519,7 @@ public class ShopTransactionService {
 
         totalGain = EconomyUtils.normalizeCurrency(totalGain);
         totalGain *= getSellPriceMultiplier(player);
+        totalGain *= getTeamSellMultiplier(player);
         if (totalGain <= 0) {
             return ShopTransactionResult.failure(errorMessages.noSellablePrices());
         }
@@ -507,6 +541,7 @@ public class ShopTransactionService {
         for (Map.Entry<Material, Integer> entry : soldAmounts.entrySet()) {
             pricingManager.handleSale(entry.getKey(), entry.getValue());
         }
+        doTreasurySplit(player, totalGain);
 
         String soldItems = formatSoldInventorySummary(soldAmounts);
         return ShopTransactionResult.success(successMessages.sellInventory(soldItems, formatCurrency(totalGain)));

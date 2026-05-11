@@ -154,3 +154,24 @@ stock:
 # Set to null or remove to disable the player-facing message.
 hooks:
   player-lacking-permission-message: "{translate:hooks.player-lacking-permission-message}"
+
+# TeamsAPI Integration (https://modrinth.com/plugin/teams-api)
+# Requires TeamsAPI plugin to be installed on the server.
+# When disabled, /teamshop sends an "unavailable" message and no price bonuses apply.
+teams-integration:
+  enabled: true
+  # Sell price multipliers per role (1.10 = +10%)
+  sell-multiplier:
+    member: 1
+    admin: 1
+    owner: 1
+  # Buy price discounts per role (0.95 = -5%)
+  buy-discount:
+    member: 1
+    admin: 1
+    owner: 1
+  # Fraction of each successful sale auto-deposited to the team treasury.
+  # Set to 0.0 to disable. Maximum: 1.0
+  treasury-split: 0.0
+  # Enable the shared team stock pool (/teamshop stocks).
+  shared-stock: false
