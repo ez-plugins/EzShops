@@ -19,7 +19,7 @@ Key methods
 - `String id()`
 - `Map<String,Object> properties()`
 - `Map<String,ShopItem> items()`
-- `Map<String,Object> toMap()` — YAML-friendly representation
+- `Map<String,Object> toMap()`  -  YAML-friendly representation
 
 Usage
 -----

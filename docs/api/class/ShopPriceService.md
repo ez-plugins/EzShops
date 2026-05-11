@@ -16,8 +16,8 @@ Overview
 
 Key methods
 -----------
-- `OptionalDouble findBuyPrice(ItemStack itemStack)` — total cost to purchase the given stack from a shop
-- `OptionalDouble findSellPrice(ItemStack itemStack)` — total payout when selling the given stack to a shop
+- `OptionalDouble findBuyPrice(ItemStack itemStack)`  -  total cost to purchase the given stack from a shop
+- `OptionalDouble findSellPrice(ItemStack itemStack)`  -  total payout when selling the given stack to a shop
 
 Usage
 -----

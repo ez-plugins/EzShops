@@ -13,15 +13,15 @@ This page explains EzShops' dynamic pricing system for server owners: what it do
 **Summary**
 - Dynamic pricing makes item buy/sell prices change over time based on player trades.
 - Two systems use it in the plugin:
-	- Shop pricing (`shop.yml`) — per-material `DynamicSettings` that modify a stored `multiplier`.
-	- Stock market (`stock` commands / GUI) — a market price per product that moves on trades.
+	- Shop pricing (`shop.yml`)  -  per-material `DynamicSettings` that modify a stored `multiplier`.
+	- Stock market (`stock` commands / GUI)  -  a market price per product that moves on trades.
 - The plugin uses per-unit multiplicative updates and provides a non-mutating estimator to compute bulk totals (the sum of progressively changing per-unit prices) for previews and GUI displays.
 
 **Key concepts**
 - Base unit price: the configured buy/sell price for a single item.
 - Multiplier: a factor that scales the base price. Multipliers are clamped between configured `minMultiplier` and `maxMultiplier`.
 - Per-unit change: each unit traded updates the multiplier (or market price) multiplicatively. For example, a 1% buyChange per unit will multiply the multiplier by 1.01 for each unit bought.
-- Bulk estimate: when showing totals for N items, the plugin computes the sum of per-unit prices using the current multiplier/price and simulating N per-unit updates — without changing saved state. This produces a larger (progressive) total than simply `unit_price * N` when change ≠ 0.
+- Bulk estimate: when showing totals for N items, the plugin computes the sum of per-unit prices using the current multiplier/price and simulating N per-unit updates  -  without changing saved state. This produces a larger (progressive) total than simply `unit_price * N` when change ≠ 0.
 
 Configuration
 -------------
@@ -80,11 +80,11 @@ With the settings above, buying 10 diamonds does not simply charge `100 * 10`. I
 
 Edit `shop.yml` entries under each material. The relevant `dynamic-pricing` fields:
 
-- `starting-multiplier` (double) — initial multiplier (default: `1.0`).
-- `min-multiplier` (double) — minimum allowed multiplier.
-- `max-multiplier` (double) — maximum allowed multiplier.
-- `buy-change` (double) — per-unit fractional increase when buying (e.g. `0.01` = +1%).
-- `sell-change` (double) — per-unit fractional decrease when selling (e.g. `0.01` = -1%).
+- `starting-multiplier` (double)  -  initial multiplier (default: `1.0`).
+- `min-multiplier` (double)  -  minimum allowed multiplier.
+- `max-multiplier` (double)  -  maximum allowed multiplier.
+- `buy-change` (double)  -  per-unit fractional increase when buying (e.g. `0.01` = +1%).
+- `sell-change` (double)  -  per-unit fractional decrease when selling (e.g. `0.01` = -1%).
 
 ### Per-item price keys (`price-id`) (optional)
 
@@ -125,7 +125,7 @@ Stock market tuning is in `stock-gui.yml` / `config.yml` (see `StockMarketConfig
 
 	multiplier := clamp(multiplier * (1 - sellChange)) on sells
 
-- Bulk totals are computed by simulating N per-unit updates and summing the per-unit prices. The estimator does not mutate saved state — it is only used for previews and GUI displays.
+- Bulk totals are computed by simulating N per-unit updates and summing the per-unit prices. The estimator does not mutate saved state  -  it is only used for previews and GUI displays.
 
 ---
 
@@ -156,7 +156,7 @@ cp target/*.jar /path/to/paper/plugins/
 Basic checks:
 
 - Confirm plugin loaded: `/plugins` and look for `EzShops`.
-- Open the shop GUI and inspect items with `dynamic-pricing` configured — bulk lines use `{buy_bulk_total}` and `{sell_bulk_total}` placeholders.
+- Open the shop GUI and inspect items with `dynamic-pricing` configured  -  bulk lines use `{buy_bulk_total}` and `{sell_bulk_total}` placeholders.
 
 Preview (stock market):
 
@@ -180,9 +180,9 @@ The plugin charges the estimated total (based on progressive per-unit prices) an
 
 Administrators can inspect and manage dynamic pricing state using the `/pricingadmin` admin command (also documented in the main commands reference). The command provides the following subcommands:
 
-- `/pricingadmin set <item> <price>` — Set the configured base price for a configured shop item. This updates the configured buy/sell price while preserving any saved dynamic multiplier state. Permission: `ezshops.pricing.admin.set`.
-- `/pricingadmin reset <item>` — Reset the dynamic pricing state (multiplier) for a single configured item, returning it to its configured base behavior. Permission: `ezshops.pricing.admin.reset`.
-- `/pricingadmin resetall` — Reset dynamic pricing for all configured items. This clears saved multipliers for every item and returns them to their configured base prices. Permission: `ezshops.pricing.admin.resetall`.
+- `/pricingadmin set <item> <price>`  -  Set the configured base price for a configured shop item. This updates the configured buy/sell price while preserving any saved dynamic multiplier state. Permission: `ezshops.pricing.admin.set`.
+- `/pricingadmin reset <item>`  -  Reset the dynamic pricing state (multiplier) for a single configured item, returning it to its configured base behavior. Permission: `ezshops.pricing.admin.reset`.
+- `/pricingadmin resetall`  -  Reset dynamic pricing for all configured items. This clears saved multipliers for every item and returns them to their configured base prices. Permission: `ezshops.pricing.admin.resetall`.
 
 Examples:
 ```

@@ -11,8 +11,8 @@ description: "Per-item page assignment in category GUIs."
 EzShops supports assigning shop items to a specific GUI page and provides configuration to improve pagination behaviour for category menus.
 
 **Summary**
-- `page` — optional per-item integer (1-based) to pin an item to a specific category menu page.
-- `preserve-last-row` — optional category `menu` flag (boolean, default `true`) that reserves the entire last inventory row for navigation/back buttons and prevents auto-filling items into that row.
+- `page`  -  optional per-item integer (1-based) to pin an item to a specific category menu page.
+- `preserve-last-row`  -  optional category `menu` flag (boolean, default `true`) that reserves the entire last inventory row for navigation/back buttons and prevents auto-filling items into that row.
 
 Configuration
 -------------

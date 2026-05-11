@@ -3,13 +3,13 @@ layout: default
 title: TeamsAPI
 parent: Integrations
 nav_order: 5
-description: "Shared faction shop features powered by TeamsAPI — role multipliers, team treasury, and shared stock."
+description: "Shared faction shop features powered by TeamsAPI  -  role multipliers, team treasury, and shared stock."
 ---
 
 # TeamsAPI Integration
 
 EzShops integrates with [TeamsAPI](https://modrinth.com/plugin/teams-api) to deliver shared faction-shop features.  
-TeamsAPI is a **soft dependency** — all features degrade gracefully when it is not installed or not enabled.
+TeamsAPI is a **soft dependency**  -  all features degrade gracefully when it is not installed or not enabled.
 
 ---
 
@@ -75,7 +75,7 @@ Enable the integration in `plugins/EzShops/config.yml`:
 
 ```yaml
 teams-integration:
-  # Master switch — set to false to disable all TeamsAPI features.
+  # Master switch  -  set to false to disable all TeamsAPI features.
   enabled: true
 
   # Sell price multipliers per role (applied after EzBoost).

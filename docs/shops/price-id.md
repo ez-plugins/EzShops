@@ -55,7 +55,7 @@ In this example the two `EXPERIENCE_BOTTLE` entries maintain independent dynamic
 
 **Best practices**
 - Use short, descriptive, and unique `price-id` values (letters, digits, underscores). Avoid characters that may confuse command parsing (spaces, colons).
-- Prefer a stable `price-id` if you plan to rename the item id or display name later — the `price-id` is the persistent key used for pricing history and adjustments.
+- Prefer a stable `price-id` if you plan to rename the item id or display name later  -  the `price-id` is the persistent key used for pricing history and adjustments.
 
 **Troubleshooting**
 - If items show `N/A` prices in the GUI, ensure the configured `price-id` matches the key used in your dynamic pricing store (or omit `price-id` to use material name fallback).

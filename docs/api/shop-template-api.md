@@ -34,9 +34,9 @@ ShopTemplateService svc = p != null ? p.getProvider() : null;
 
 ## API surface
 
-- `void registerTemplate(ShopTemplate template)` — register or replace a template (persists to `plugins/EzShops/templates/`)
-- `Collection<ShopTemplate> listTemplates()` — list registered templates
-- `Optional<ShopTemplate> importTemplate(String templateId)` — import a template by id
+- `void registerTemplate(ShopTemplate template)`  -  register or replace a template (persists to `plugins/EzShops/templates/`)
+- `Collection<ShopTemplate> listTemplates()`  -  list registered templates
+- `Optional<ShopTemplate> importTemplate(String templateId)`  -  import a template by id
 
 Source: [src/main/java/com/skyblockexp/ezshops/shop/api/ShopTemplateService.java](src/main/java/com/skyblockexp/ezshops/shop/api/ShopTemplateService.java)
 
@@ -87,7 +87,7 @@ String yaml = TemplateWriter.templateToYaml(template);
 
 ## See also
 
-- [docs/api.md](docs/api.md) — canonical API reference
+- [docs/api.md](docs/api.md)  -  canonical API reference
 - Source: [src/main/java/com/skyblockexp/ezshops/shop/api/ShopTemplateBuilder.java](src/main/java/com/skyblockexp/ezshops/shop/api/ShopTemplateBuilder.java)
 Exporting templates via command
 

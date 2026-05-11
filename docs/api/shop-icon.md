@@ -6,7 +6,7 @@ nav_order: 2
 description: "ShopIcon API guide."
 ---
 
-## ShopIcon — visual representation for shop items
+## ShopIcon  -  visual representation for shop items
 
 **Purpose:** a compact representation of the visual/icon definition used by `ShopItem` entries. It supports lightweight fields (material, amount, name, lore) and an optional full `ItemStack` serialized as Base64.
 

@@ -16,9 +16,9 @@ Overview
 
 Key methods
 -----------
-- `void registerTemplate(ShopTemplate template)` — persist and register a template
-- `Collection<ShopTemplate> listTemplates()` — list registered templates
-- `Optional<ShopTemplate> importTemplate(String templateId)` — import by id
+- `void registerTemplate(ShopTemplate template)`  -  persist and register a template
+- `Collection<ShopTemplate> listTemplates()`  -  list registered templates
+- `Optional<ShopTemplate> importTemplate(String templateId)`  -  import by id
 
 Usage
 -----

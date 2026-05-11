@@ -1,39 +1,37 @@
 # EzShops
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Java](https://img.shields.io/badge/java-17%2B-blue)](https://adoptium.net/)
+[![Java](https://img.shields.io/badge/java-21%2B-blue)](https://adoptium.net/)
 [![Release](https://img.shields.io/github/v/release/ez-plugins/EzShops)](https://github.com/ez-plugins/EzShops/releases/latest)
 [![Stars](https://img.shields.io/github/stars/ez-plugins/EzShops?style=social)](https://github.com/ez-plugins/EzShops/stargazers)
 [![Issues](https://img.shields.io/github/issues/ez-plugins/EzShops)](https://github.com/ez-plugins/EzShops/issues)
 [![CI](https://github.com/ez-plugins/EzShops/actions/workflows/ci.yml/badge.svg)](https://github.com/ez-plugins/EzShops/actions)
+[![Docs](https://github.com/ez-plugins/EzShops/actions/workflows/docs.yml/badge.svg)](https://ez-plugins.github.io/EzShops)
+[![Modrinth](https://img.shields.io/modrinth/v/zaW55ehx?label=modrinth&color=00AF5C)](https://modrinth.com/plugin/ezshops)
 
-**EzShops** is a modern, feature-rich Minecraft shop plugin for Skyblock and Survival servers. It provides guided storefront menus, dynamic pricing, rotating daily specials, sign shop mirroring, player-run marketplaces, and a live stock market system.
+**EzShops** is a modern, feature-rich Minecraft shop plugin for Paper 1.21+ servers. It provides guided storefront menus, dynamic pricing, rotating daily specials, sign shop mirroring, player-run marketplaces, a live stock market system, and team-based shop bonuses via [TeamsAPI](https://modrinth.com/plugin/teams-api).
 
 ---
 
 ## 📑 Table of Contents
-- [EzShops](#ezshops)
-  - [📑 Table of Contents](#-table-of-contents)
-  - [📦 Requirements](#-requirements)
-  - [🚀 Installation](#-installation)
-  - [✨ Features](#-features)
-  - [⚙️ Configuration](#️-configuration)
-  - [🛡️ Permissions \& Commands](#️-permissions--commands)
-  - [📚 Documentation](#-documentation)
-  - [🛠️ Usage Examples](#️-usage-examples)
-    - [Opening the Shop](#opening-the-shop)
-    - [Using the Stock Market](#using-the-stock-market)
-    - [Creating a Player Shop](#creating-a-player-shop)
-  - [🤝 Contributing](#-contributing)
-  - [🛡️ Support \& Community](#️-support--community)
-  - [📄 License](#-license)
+- [Requirements](#-requirements)
+- [Installation](#-installation)
+- [Features](#-features)
+- [Configuration](#️-configuration)
+- [Permissions & Commands](#️-permissions--commands)
+- [Documentation](#-documentation)
+- [Usage Examples](#️-usage-examples)
+- [Contributing](#-contributing)
+- [Support & Community](#️-support--community)
+- [License](#-license)
 
 ---
 
 ## 📦 Requirements
-- Java 17 or higher ([Adoptium](https://adoptium.net/))
-- Bukkit/Spigot/Paper server (1.17+ recommended, 1.21.4+ for latest features)
-- Vault economy plugin
+- Java 21 or higher ([Adoptium](https://adoptium.net/))
+- Paper / Purpur / Folia 1.21.4+
+- [Vault](https://www.spigotmc.org/resources/vault.34315/) + a compatible economy plugin
+- *(Optional)* [TeamsAPI ≥ 1.4.1](https://modrinth.com/plugin/teams-api) for team shop features
 
 ## 🚀 Installation
 1. Download the latest EzShops JAR from the releases page.
@@ -43,16 +41,17 @@
 5. Configure the plugin as needed (see below).
 
 ## ✨ Features
-- **Guided storefront menus**: Category icons, quantity pickers, bulk buttons, and lore templates
-- **Smart price automation**: Dynamic buy/sell multipliers that adjust after each transaction
-- **Rotating daily specials**: Schedule weighted or sequential rotations from shop/rotations/
-- **Sign shop mirroring**: Sync right-click signs with menu entries and customize headers/formats
-- **Specialty entries**: Sell spawners with correct block states, minion/vote crate keys
-- **Player-run marketplaces**: `[shop]` signs convert into owner-branded listings from linked chests
-- **Stock market system**: Real-time pricing based on supply/demand with admin controls
-- **Category commands**: Run server commands when clicking category icons (warps, info, etc.)
-- **Live config reload**: Use `/shop reload` to instantly reload configurations
-- **Multi-language support**: Bundled with English, Spanish, Dutch, and Chinese translations
+- **Guided storefront menus** - Category icons, quantity pickers, bulk buttons, and lore templates
+- **Smart price automation** - Dynamic buy/sell multipliers that adjust after each transaction
+- **Rotating daily specials** - Schedule weighted or sequential rotations from `shop/rotations/`
+- **Sign shop mirroring** - Sync right-click signs with menu entries and customize headers/formats
+- **Specialty entries** - Sell spawners with correct block states, minion/vote crate keys
+- **Player-run marketplaces** - `[shop]` signs convert into owner-branded listings from linked chests
+- **Stock market system** - Real-time pricing based on supply/demand with admin controls
+- **Category commands** - Run server commands when clicking category icons (warps, info, etc.)
+- **Live config reload** - Use `/shop reload` to instantly reload configurations
+- **Multi-language support** - Bundled with English, Spanish, Dutch, and Chinese translations
+- **TeamsAPI integration** - Role-based sell multipliers & buy discounts, shared team treasury, and pooled stock for faction servers
 
 ## ⚙️ Configuration
 Default configuration files are generated on first run in `plugins/EzShops/`.
@@ -83,18 +82,25 @@ See the [Configuration Guide](docs/configuration.md) for full details.
 | `/playershop`          | Create player shop sign            | `ezshops.playershop.create` |
 | `/stock buy <item> <amount>` | Buy stock market item    | `ezshops.stock.view`      |
 | `/stock sell <item> <amount>` | Sell stock market item  | `ezshops.stock.view`      |
+| `/teamshop`             | Open team shop dashboard           | `ezshops.teamshop`        |
+| `/teamshop treasury`    | View/deposit/withdraw team funds   | `ezshops.teamshop`        |
+| `/teamshop stocks`      | Browse team shared stock           | `ezshops.teamshop`        |
 
 See the [Commands](docs/commands.md) and [Permissions](docs/permissions.md) documentation for complete lists.
 
 ## 📚 Documentation
-- [API Reference](docs/api/): Public classes, methods, and integration examples
-- [Commands](docs/commands.md): All commands and their usage
-- [Permissions](docs/permissions.md): All permissions and defaults
-- [Configuration Guide](docs/configuration.md): Complete configuration reference
- - [Shop Pagination](docs/shops/pagination.md): Pagination and per-item page configuration for shop menus
- - [Pricing & Dynamic Pricing](docs/shops/pricing/dynamic-pricing.md): Dynamic pricing and `price-id` configuration details
- - [Price ID](docs/shops/price-id.md): When to use `price-id` for per-item pricing keys
- - [Integrations](docs/integrations/README.md): Third-party plugin integration guides (EzBoost, Vault, etc.)
+
+Full documentation is available at **<https://ez-plugins.github.io/EzShops>**.
+
+| Page | Description |
+|------|-------------|
+| [Commands](https://ez-plugins.github.io/EzShops/commands) | All commands and their usage |
+| [Permissions](https://ez-plugins.github.io/EzShops/permissions) | All permissions and defaults |
+| [Configuration](https://ez-plugins.github.io/EzShops/configuration) | Complete configuration reference |
+| [Shops](https://ez-plugins.github.io/EzShops/shops) | Pagination, price IDs, dynamic pricing, stock market |
+| [Integrations](https://ez-plugins.github.io/EzShops/integrations) | Vault, EzBoost, EzAuction, TeamsAPI, Adventure |
+| [API Reference](https://ez-plugins.github.io/EzShops/api) | Public classes, methods, and integration examples |
+| [MiniMessage](https://ez-plugins.github.io/EzShops/minimessage) | Text formatting guide |
 
 ## 🛠️ Usage Examples
 
@@ -129,4 +135,4 @@ EzShops is licensed under the [MIT License](LICENSE). Copyright (c) 2026 ez-plug
 
 ---
 
-For full documentation, see the [docs/](docs/) folder. For support, open an issue or contact the maintainers.
+For full documentation, visit [ez-plugins.github.io/EzShops](https://ez-plugins.github.io/EzShops). For support, open an issue or join the [Discord](https://discord.gg/yWP95XfmBS).
