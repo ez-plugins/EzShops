@@ -1,3 +1,11 @@
+---
+layout: default
+title: Menu Layout
+parent: Configuration
+nav_order: 4
+description: "Customise the GUI size, titles and filler slots."
+---
+
 # 🖥️ Shop Menu Layout (menu.yml)
 
 Customize the visual appearance of your shop. You can adjust the GUI size, titles, and filler items to match your server's theme.

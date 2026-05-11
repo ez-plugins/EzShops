@@ -1,0 +1,63 @@
+remote_theme: just-the-docs/just-the-docs
+
+title: EzShops
+description: >-
+  A feature-rich Minecraft shop plugin for Paper/Spigot servers with dynamic
+  pricing, stock markets, player shops, and TeamsAPI integration.
+
+url: "https://ez-plugins.github.io"
+baseurl: "/EzShops"
+
+# ── Appearance ────────────────────────────────────────────────────────────────
+color_scheme: ezshops
+heading_anchors: true
+
+# ── Header links ──────────────────────────────────────────────────────────────
+aux_links:
+  "GitHub":
+    - "https://github.com/ez-plugins/EzShops"
+  "Modrinth":
+    - "https://modrinth.com/plugin/ezshops"
+
+aux_links_new_tab: true
+
+# ── Navigation ────────────────────────────────────────────────────────────────
+nav_sort: case_insensitive
+nav_external_links:
+  - title: Changelog
+    url: "https://github.com/ez-plugins/EzShops/releases"
+    hide_icon: false
+
+# ── Search ────────────────────────────────────────────────────────────────────
+search_enabled: true
+search:
+  heading_level:        2
+  previews:             3
+  preview_words_before: 5
+  preview_words_after:  10
+  tokenizer_separator: /[\s/]+/
+
+# ── Footer ────────────────────────────────────────────────────────────────────
+back_to_top:      true
+back_to_top_text: "Back to top"
+
+footer_content: >-
+  Copyright &copy; 2024&ndash;2026 Gyvex.
+  Distributed under the
+  <a href="https://github.com/ez-plugins/EzShops/blob/main/LICENSE">MIT License</a>.
+
+# ── Kramdown ──────────────────────────────────────────────────────────────────
+kramdown:
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
+
+# ── Plugins ───────────────────────────────────────────────────────────────────
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+
+# ── Build exclusions ──────────────────────────────────────────────────────────
+exclude:
+  - Gemfile
+  - Gemfile.lock

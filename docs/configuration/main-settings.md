@@ -1,3 +1,11 @@
+---
+layout: default
+title: Main Settings
+parent: Configuration
+nav_order: 1
+description: "config.yml reference — dynamic pricing, teams, player shops."
+---
+
 # ⚙️ Main Configuration (config.yml)
 
 The `config.yml` file contains the global settings for EzShops. This is the heart of the plugin where you define how the economy, pricing, and special systems behave across your server.
@@ -104,3 +112,50 @@ The stock market calculates price fluctuations using the following formula:
 ```text
 New price = max(min-price, current price × (1 + (demand × demand-multiplier) + random volatility))
 ```
+
+---
+
+## 🤝 Teams Integration
+
+Requires [TeamsAPI ≥ 1.4.1](../integrations/teams-api). All options are ignored when TeamsAPI is absent.
+
+```yaml
+teams-integration:
+  # Master switch. Set to false to disable all TeamsAPI features without
+  # removing TeamsAPI from the server.
+  enabled: true
+
+  # Sell price multipliers applied per team role.
+  # Value is the factor applied to the base sell price (1.0 = no bonus).
+  sell-multiplier:
+    member: 1.05   # +5 %
+    admin:  1.10   # +10 %
+    owner:  1.15   # +15 %
+
+  # Buy price discounts applied per team role.
+  # Value is the fraction subtracted from 1.0 (0.05 = 5 % cheaper).
+  buy-discount:
+    member: 0.05
+    admin:  0.10
+    owner:  0.15
+
+  # Fraction of every sell transaction deposited into the team treasury.
+  # 0.05 means 5 % of the sell revenue goes to the team pool.
+  treasury-split: 0.05
+
+  # When true, all team members share one combined stock pool.
+  # When false, each player's stock is tracked individually (default behaviour).
+  shared-stock: true
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | boolean | `true` | Enable/disable all team features |
+| `sell-multiplier.member` | decimal | `1.05` | Sell bonus for members |
+| `sell-multiplier.admin` | decimal | `1.10` | Sell bonus for admins |
+| `sell-multiplier.owner` | decimal | `1.15` | Sell bonus for owners |
+| `buy-discount.member` | decimal | `0.05` | Buy discount for members |
+| `buy-discount.admin` | decimal | `0.10` | Buy discount for admins |
+| `buy-discount.owner` | decimal | `0.15` | Buy discount for owners |
+| `treasury-split` | decimal | `0.05` | Treasury deduction from each sell |
+| `shared-stock` | boolean | `true` | Share stock pool across team |

@@ -1,3 +1,11 @@
+---
+layout: default
+title: Price IDs
+parent: Shops
+nav_order: 2
+description: "Stable per-item pricing keys."
+---
+
 **Price-ID**
 
 - **What:** A configurable per-item identifier used to separate pricing and dynamic state from the Minecraft `Material` name.

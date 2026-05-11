@@ -1,3 +1,11 @@
+---
+layout: default
+title: Shop Items
+parent: Configuration
+nav_order: 2
+description: "shop.yml reference — defining items and prices."
+---
+
 # 📦 Shop Items & Pricing (shop.yml)
 
 The `shop.yml` file is where you define every item available in your server's shop, along with its base price and special properties.

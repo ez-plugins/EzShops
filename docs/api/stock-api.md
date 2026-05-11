@@ -1,3 +1,11 @@
+---
+layout: default
+title: Stock API
+parent: API
+nav_order: 5
+description: "StockAPI developer guide."
+---
+
 ## Stock API
 
 Purpose

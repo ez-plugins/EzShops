@@ -1,3 +1,11 @@
+---
+layout: default
+title: Vault
+parent: Integrations
+nav_order: 1
+description: "Vault economy provider setup."
+---
+
 # Vault Integration
 
 EzShops uses [Vault](https://www.spigotmc.org/resources/vault.34315/) as its economy provider interface.

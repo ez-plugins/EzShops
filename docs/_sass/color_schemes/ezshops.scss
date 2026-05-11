@@ -1,0 +1,42 @@
+// EzShops — dark/yellow/white color scheme for just-the-docs
+//
+// Palette:
+//   Background   #141414  (body)
+//   Surface      #1c1c1c  (sidebar, cards)
+//   Elevated     #222222  (code blocks, search, table rows)
+//   Border       #2e2e2e
+//   Text         #d0d0d0  (body)   /  #ffffff (headings)
+//   Accent       #f5c518  (yellow — links, nav highlight, buttons)
+//   Accent dim   #c9a418  (hover state)
+
+$color-scheme: dark;
+
+// ── Surfaces ─────────────────────────────────────────────────────────────────
+$body-background-color: #141414;
+$sidebar-color:         #1c1c1c;
+$feedback-color:        #181818;
+
+// ── Typography ────────────────────────────────────────────────────────────────
+$body-text-color:    #d0d0d0;
+$body-heading-color: #ffffff;
+
+// ── Links & accent ───────────────────────────────────────────────────────────
+$link-color:        #f5c518;
+$btn-primary-color: #f5c518;
+
+// ── Borders ───────────────────────────────────────────────────────────────────
+$border-color: #2e2e2e;
+
+// ── Code ─────────────────────────────────────────────────────────────────────
+$code-background-color: #222222;
+
+// ── Tables ────────────────────────────────────────────────────────────────────
+$table-background-color: #1a1a1a;
+
+// ── Search ───────────────────────────────────────────────────────────────────
+$search-background-color: #222222;
+$search-foreground-color:  #c0c0c0;
+$search-border-color:      #333333;
+
+// ── Buttons ───────────────────────────────────────────────────────────────────
+$base-button-color: #252525;

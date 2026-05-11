@@ -1,3 +1,10 @@
+---
+layout: default
+title: ShopTemplateCategory
+parent: API
+nav_order: 11
+---
+
 # ShopTemplateCategory
 
 Package: com.skyblockexp.ezshops.shop.api

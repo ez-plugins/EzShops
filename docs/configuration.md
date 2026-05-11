@@ -1,3 +1,12 @@
+---
+layout: default
+title: Configuration
+nav_order: 4
+has_children: true
+description: "Overview of all EzShops configuration files."
+permalink: /configuration
+---
+
 # 🛠️ Configuration Guide
 
 Welcome to the EzShops configuration guide. We have split the documentation into focused sections to help you find what you need quickly and keep your server running smoothly.

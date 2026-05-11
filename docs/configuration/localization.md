@@ -1,3 +1,11 @@
+---
+layout: default
+title: Localization
+parent: Configuration
+nav_order: 3
+description: "Translate every EzShops message."
+---
+
 # 🌍 Messages & Localization
 
 EzShops supports full localization, allowing you to translate every message and interface element to your server's language.

@@ -1,3 +1,11 @@
+---
+layout: default
+title: EzShopsAPI
+parent: API
+nav_order: 6
+description: "EzShopsAPI class reference."
+---
+
 # EzShopsAPI
 
 Package: com.skyblockexp.ezshops.api

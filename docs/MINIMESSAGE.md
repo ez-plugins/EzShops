@@ -1,3 +1,11 @@
+---
+layout: default
+title: MiniMessage
+nav_order: 8
+description: "MiniMessage text formatting guide for EzShops."
+permalink: /minimessage
+---
+
 # MiniMessage Support in EzShops
 
 EzShops now supports both legacy color codes and modern MiniMessage formatting for all configurable messages and titles.

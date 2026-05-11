@@ -1,3 +1,10 @@
+---
+layout: default
+title: ShopItem
+parent: API
+nav_order: 8
+---
+
 # ShopItem
 
 Package: com.skyblockexp.ezshops.shop.api

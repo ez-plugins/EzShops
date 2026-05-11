@@ -1,3 +1,11 @@
+---
+layout: default
+title: Permissions
+nav_order: 3
+description: "Full permission node reference for EzShops."
+permalink: /permissions
+---
+
 # EzShops Permissions
 
 This document lists all permissions available in the EzShops plugin, their default values, and a description of what each permission allows.
@@ -215,6 +223,18 @@ While EzShops doesn't explicitly define wildcard nodes, most permission plugins 
 - `ezshops.stock.*` - All stock market permissions
 
 **Note:** Wildcards are permission plugin features and may behave differently depending on your configuration.
+
+---
+
+## Team Permissions
+
+Permissions for the [TeamsAPI integration](integrations/teams-api.md). These nodes have no effect when TeamsAPI is not installed.
+
+| Permission | Default | Description |
+|------------|---------|-------------|
+| `ezshops.teamshop` | true | Access `/teamshop`, `/teamshop stocks`, and view the treasury GUI |
+| `ezshops.teamshop.treasury.withdraw` | true | Withdraw funds from the team treasury |
+| `ezshops.teamshop.admin` | op | Administrative access to team stock data (view/clear any team's stock) |
 
 ---
 

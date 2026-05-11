@@ -1,3 +1,11 @@
+---
+layout: default
+title: Adventure / MiniMessage
+parent: Integrations
+nav_order: 4
+description: "Modern text formatting with Adventure and MiniMessage."
+---
+
 # Adventure Integration
 
 EzShops uses the [Adventure](https://docs.adventure.kyori.net/) library for modern Minecraft text formatting and messaging.
