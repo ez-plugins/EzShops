@@ -175,3 +175,6 @@ teams-integration:
   treasury-split: 0.0
   # Enable the shared team stock pool (/teamshop stocks).
   shared-stock: false
+  # Price step sizes for the team market listing GUI (small, medium, large).
+  # Players click ± buttons in these amounts when setting a listing price.
+  market-price-steps: [1000, 10000, 1000000]

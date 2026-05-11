@@ -69,12 +69,20 @@ commands:
       /pricingadmin list [page]
     permission: ezshops.pricing.admin
   teamshop:
-    description: Open the team shop dashboard (treasury, shared stocks, perks)
+    description: Open the team shop dashboard (treasury, shared stocks, team market)
     usage: |
       /teamshop
       /teamshop treasury
       /teamshop stocks
+      /teamshop market
     permission: ezshops.teamshop
+  shopadmin:
+    description: Admin GUI to inspect all active player shops and team market listings
+    usage: |
+      /shopadmin
+      /shopadmin browse
+      /shopadmin market
+    permission: ezshops.shop.admin
 
 permissions:
   ezshops.shop:
@@ -128,11 +136,17 @@ permissions:
   ezshops.teamshop:
     description: Open the team shop (/teamshop)
     default: true
+  ezshops.teamshop.market:
+    description: Access the team P2P market (list and purchase items from teammates)
+    default: true
   ezshops.teamshop.treasury.withdraw:
     description: Withdraw from team treasury (OWNER/ADMIN role also required)
     default: true
   ezshops.teamshop.admin:
     description: Admin override for team shop features
+    default: op
+  ezshops.shop.admin:
+    description: Open the /shopadmin moderation GUI (inspect and remove any shop or market listing)
     default: op
   ezshops.pricing.admin.set:
     description: Set configured base price for an item

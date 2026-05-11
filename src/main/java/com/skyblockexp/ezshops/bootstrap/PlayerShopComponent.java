@@ -111,6 +111,11 @@ public final class PlayerShopComponent implements PluginComponent {
         return enabled;
     }
 
+    /** Returns the active {@link PlayerShopManager}, or {@code null} if player shops are disabled. */
+    public PlayerShopManager getManager() {
+        return manager;
+    }
+
     public String disabledCommandMessage() {
         if (disabledMessage != null && !disabledMessage.isBlank()) {
             return disabledMessage;

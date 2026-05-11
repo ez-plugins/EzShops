@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.5.0] - 2026-05-11
 
+This version we focussed on adding **Team Shops**, a full team-based economy layer built on top of [TeamsAPI](https://modrinth.com/plugin/teams-api). Teams get their own market, shared treasury, stock pool, and role-based pricing, all accessible through a new `/teamshop` command.
+
+![Team Market GUI](https://i.ibb.co/bgtM010v/image.png)
+
 ### Added
 
 - **TeamsAPI integration** — EzShops now integrates with [TeamsAPI](https://modrinth.com/plugin/teams-api) as a soft dependency; all features degrade gracefully when TeamsAPI is absent.

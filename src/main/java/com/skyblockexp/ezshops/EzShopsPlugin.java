@@ -78,6 +78,7 @@ public class EzShopsPlugin extends JavaPlugin {
         components.add(playerShopComponent);
         components.add(new SignShopComponent(coreComponent));
         components.add(new MetricsComponent());
+        components.add(new com.skyblockexp.ezshops.bootstrap.ShopAdminComponent(playerShopComponent, teamShopComponent));
 
         try {
             for (PluginComponent component : components) {

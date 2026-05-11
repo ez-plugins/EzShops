@@ -37,7 +37,7 @@ public class TeamStockGui {
         Team team = teamOpt.get();
 
         List<String> ownedStocks = teamStockManager.getTeamOwnedStocks(team.getId());
-        Inventory inv = Bukkit.createInventory(null, 54, TITLE + " \u2014 " + team.getName());
+        Inventory inv = Bukkit.createInventory(null, 54, TITLE + " - " + team.getName());
 
         int slot = 0;
         for (String productId : ownedStocks) {
