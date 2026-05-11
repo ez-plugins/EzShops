@@ -1,6 +1,7 @@
 package com.skyblockexp.ezshops.teams.command;
 
 import com.skyblockexp.ezshops.gui.teams.TeamDashboardGui;
+import com.skyblockexp.ezshops.gui.teams.TeamMarketGui;
 import com.skyblockexp.ezshops.gui.teams.TeamStockGui;
 import com.skyblockexp.ezshops.gui.teams.TeamTreasuryGui;
 import org.bukkit.ChatColor;
@@ -16,18 +17,30 @@ import java.util.List;
 
 /**
  * Handles the {@code /teamshop} command.
- * Subcommands: (none) = dashboard, treasury, stocks
+ *
+ * <p>Subcommands:
+ * <ul>
+ *   <li>(none)     – opens the team shop dashboard</li>
+ *   <li>treasury   – opens the treasury GUI</li>
+ *   <li>stocks     – opens the shared-stock GUI</li>
+ *   <li>market     – opens the team P2P market GUI (core feature)</li>
+ * </ul>
  */
 public class TeamShopCommand implements CommandExecutor, TabCompleter {
 
     private final TeamDashboardGui dashboardGui;
-    private final TeamTreasuryGui treasuryGui;
-    private final TeamStockGui stockGui;
+    private final TeamTreasuryGui  treasuryGui;
+    private final TeamStockGui     stockGui;
+    private final TeamMarketGui    marketGui;
 
-    public TeamShopCommand(TeamDashboardGui dashboardGui, TeamTreasuryGui treasuryGui, TeamStockGui stockGui) {
+    public TeamShopCommand(TeamDashboardGui dashboardGui,
+                           TeamTreasuryGui  treasuryGui,
+                           TeamStockGui     stockGui,
+                           TeamMarketGui    marketGui) {
         this.dashboardGui = dashboardGui;
-        this.treasuryGui = treasuryGui;
-        this.stockGui = stockGui;
+        this.treasuryGui  = treasuryGui;
+        this.stockGui     = stockGui;
+        this.marketGui    = marketGui;
     }
 
     @Override
@@ -48,15 +61,16 @@ public class TeamShopCommand implements CommandExecutor, TabCompleter {
         }
 
         switch (args[0].toLowerCase()) {
-            case "treasury" -> {
-                if (!player.hasPermission("ezshops.teamshop")) {
-                    player.sendMessage(ChatColor.RED + "No permission.");
+            case "treasury" -> treasuryGui.open(player);
+            case "stocks"   -> stockGui.open(player);
+            case "market"   -> {
+                if (!player.hasPermission("ezshops.teamshop.market")) {
+                    player.sendMessage(ChatColor.RED + "You do not have permission to access the team market.");
                     return true;
                 }
-                treasuryGui.open(player);
+                marketGui.open(player);
             }
-            case "stocks" -> stockGui.open(player);
-            default -> player.sendMessage(ChatColor.RED + "Usage: /teamshop [treasury|stocks]");
+            default -> player.sendMessage(ChatColor.RED + "Usage: /teamshop [treasury|stocks|market]");
         }
         return true;
     }
@@ -65,7 +79,7 @@ public class TeamShopCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
             String current = args[0].toLowerCase();
-            return Arrays.asList("treasury", "stocks").stream()
+            return Arrays.asList("treasury", "stocks", "market").stream()
                     .filter(s -> s.startsWith(current))
                     .toList();
         }

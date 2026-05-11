@@ -18,7 +18,8 @@ import org.bukkit.inventory.Inventory;
 import java.util.Optional;
 
 /**
- * Handles click events inside all team shop GUIs.
+ * Handles click events inside all team shop GUIs (dashboard and treasury).
+ * Market GUI clicks are delegated to {@link TeamMarketGuiListener}.
  */
 public class TeamGuiListener implements Listener {
 
@@ -28,41 +29,52 @@ public class TeamGuiListener implements Listener {
     private final TeamTreasury teamTreasury;
     private final TeamDashboardGui dashboardGui;
     private final TeamTreasuryGui treasuryGui;
+    private final TeamStockGui stockGui;
+    private final TeamMarketGui marketGui;
     private final Economy economy;
 
     public TeamGuiListener(TeamsIntegration teamsIntegration,
                            TeamTreasury teamTreasury,
                            TeamDashboardGui dashboardGui,
                            TeamTreasuryGui treasuryGui,
+                           TeamStockGui stockGui,
+                           TeamMarketGui marketGui,
                            Economy economy) {
         this.teamsIntegration = teamsIntegration;
         this.teamTreasury = teamTreasury;
         this.dashboardGui = dashboardGui;
         this.treasuryGui = treasuryGui;
+        this.stockGui = stockGui;
+        this.marketGui = marketGui;
         this.economy = economy;
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
-        Inventory inv = event.getInventory();
-        String title = inv.getType().getDefaultTitle();
-        if (event.getView() != null) {
-            title = event.getView().getTitle();
-        }
+        String title = event.getView().getTitle();
 
+        // ── Dashboard ──────────────────────────────────────────────────────
         if (title.startsWith(TeamDashboardGui.TITLE_PREFIX)) {
             event.setCancelled(true);
             if (event.getCurrentItem() == null) return;
-            Material clicked = event.getCurrentItem().getType();
             switch (event.getRawSlot()) {
-                case 11 -> treasuryGui.open(player); // Treasury
-                case 22 -> player.closeInventory();   // Close
-                default -> { /* no-op */ }
+                case TeamDashboardGui.SLOT_TREASURY -> treasuryGui.open(player);
+                case TeamDashboardGui.SLOT_MARKET   -> {
+                    if (!player.hasPermission("ezshops.teamshop.market")) {
+                        player.sendMessage(ChatColor.RED + "You do not have permission to access the team market.");
+                        return;
+                    }
+                    marketGui.open(player);
+                }
+                case TeamDashboardGui.SLOT_STOCKS   -> stockGui.open(player);
+                case TeamDashboardGui.SLOT_CLOSE    -> player.closeInventory();
+                default -> { /* info/bonus slots — no action */ }
             }
             return;
         }
 
+        // ── Treasury ───────────────────────────────────────────────────────
         String treasuryTitle = ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "Team Treasury";
         if (title.equals(treasuryTitle)) {
             event.setCancelled(true);
@@ -76,36 +88,29 @@ public class TeamGuiListener implements Listener {
             Team team = teamOpt.get();
 
             if (slot == 11) { // Deposit
-                if (!player.hasPermission("ezshops.teamshop.treasury.withdraw")) {
-                    player.sendMessage(ChatColor.RED + "You do not have permission to deposit.");
-                    return;
-                }
                 if (economy.getBalance(player) < DEFAULT_AMOUNT) {
                     player.sendMessage(ChatColor.RED + "You do not have enough money to deposit.");
                     return;
                 }
-                teamTreasury.deposit(team.getId(), player, DEFAULT_AMOUNT);
-                player.sendMessage(ChatColor.GREEN + "Deposited $" + String.format("%.0f", DEFAULT_AMOUNT) + " into team treasury.");
-                treasuryGui.open(player); // refresh
+                if (teamTreasury.deposit(team.getId(), player, DEFAULT_AMOUNT)) {
+                    player.sendMessage(ChatColor.GREEN + "Deposited $" + String.format("%.0f", DEFAULT_AMOUNT) + " into team treasury.");
+                } else {
+                    player.sendMessage(ChatColor.RED + "Deposit failed.");
+                }
+                treasuryGui.open(player);
             } else if (slot == 15) { // Withdraw
                 TeamRole role = teamsIntegration.getMemberRole(team.getId(), player.getUniqueId())
                         .orElse(TeamRole.MEMBER);
-                if (!role.canManage(TeamRole.MEMBER)) {
-                    player.sendMessage(ChatColor.RED + "Only admins and owners can withdraw.");
-                    return;
-                }
                 if (!player.hasPermission("ezshops.teamshop.treasury.withdraw")) {
                     player.sendMessage(ChatColor.RED + "You do not have permission to withdraw.");
                     return;
                 }
-                double balance = teamTreasury.getBalance(team.getId());
-                if (balance < DEFAULT_AMOUNT) {
-                    player.sendMessage(ChatColor.RED + "Team treasury balance is too low.");
-                    return;
+                if (teamTreasury.withdraw(team.getId(), player, DEFAULT_AMOUNT)) {
+                    player.sendMessage(ChatColor.GREEN + "Withdrew $" + String.format("%.0f", DEFAULT_AMOUNT) + " from team treasury.");
+                } else {
+                    player.sendMessage(ChatColor.RED + "Treasury balance is too low.");
                 }
-                teamTreasury.withdraw(team.getId(), player, DEFAULT_AMOUNT);
-                player.sendMessage(ChatColor.GREEN + "Withdrew $" + String.format("%.0f", DEFAULT_AMOUNT) + " from team treasury.");
-                treasuryGui.open(player); // refresh
+                treasuryGui.open(player);
             } else if (slot == 22) {
                 player.closeInventory();
             }

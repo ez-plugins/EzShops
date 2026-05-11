@@ -3,8 +3,12 @@ package com.skyblockexp.ezshops.bootstrap;
 import com.skyblockexp.ezshops.EzShopsPlugin;
 import com.skyblockexp.ezshops.gui.teams.TeamDashboardGui;
 import com.skyblockexp.ezshops.gui.teams.TeamGuiListener;
+import com.skyblockexp.ezshops.gui.teams.TeamMarketGui;
+import com.skyblockexp.ezshops.gui.teams.TeamMarketGuiListener;
+import com.skyblockexp.ezshops.gui.teams.TeamMarketListGui;
 import com.skyblockexp.ezshops.gui.teams.TeamStockGui;
 import com.skyblockexp.ezshops.gui.teams.TeamTreasuryGui;
+import com.skyblockexp.ezshops.teams.TeamMarketManager;
 import com.skyblockexp.ezshops.teams.TeamStockManager;
 import com.skyblockexp.ezshops.teams.TeamTreasury;
 import com.skyblockexp.ezshops.teams.TeamsEventListener;
@@ -28,6 +32,7 @@ public final class TeamShopComponent implements PluginComponent {
     private TeamsIntegration teamsIntegration;
     private TeamStockManager teamStockManager;
     private TeamTreasury teamTreasury;
+    private TeamMarketManager teamMarketManager;
     private boolean enabled = false;
 
     public TeamShopComponent(Economy economy) {
@@ -40,44 +45,54 @@ public final class TeamShopComponent implements PluginComponent {
         boolean cfgEnabled = cfg == null || cfg.getBoolean("enabled", true);
 
         if (!cfgEnabled) {
-            plugin.getLogger().info("[EzShops] teams-integration is disabled in config.yml — skipping.");
+            plugin.getLogger().info("[EzShops] teams-integration is disabled in config.yml - skipping.");
             return;
         }
 
         if (!TeamsAPI.isAvailable()) {
-            plugin.getLogger().info("[EzShops] TeamsAPI not found — team shop features disabled.");
+            plugin.getLogger().info("[EzShops] TeamsAPI not found - team shop features disabled.");
             return;
         }
 
         try {
-            teamsIntegration = new TeamsIntegration(cfg);
-            teamStockManager = new TeamStockManager(plugin.getDataFolder());
-            teamTreasury = new TeamTreasury(plugin.getDataFolder(), economy);
+            teamsIntegration  = new TeamsIntegration(cfg);
+            teamStockManager  = new TeamStockManager(plugin.getDataFolder());
+            teamTreasury      = new TeamTreasury(plugin.getDataFolder(), economy);
+            teamMarketManager = new TeamMarketManager(
+                    plugin.getDataFolder(), economy, teamsIntegration, plugin.getLogger());
+            teamMarketManager.onEnable();
 
-            // GUI instances
-            TeamDashboardGui dashboardGui = new TeamDashboardGui(teamsIntegration, teamTreasury);
-            TeamTreasuryGui treasuryGui = new TeamTreasuryGui(teamsIntegration, teamTreasury, economy);
-            TeamStockGui stockGui = new TeamStockGui(teamsIntegration, teamStockManager);
+            // ── GUI instances ──────────────────────────────────────────────
+            TeamMarketListGui marketListGui = new TeamMarketListGui(teamsIntegration, teamMarketManager);
+            TeamMarketGui marketGui = new TeamMarketGui(teamsIntegration, teamMarketManager, marketListGui);
 
-            // Listeners
+            TeamDashboardGui dashboardGui = new TeamDashboardGui(teamsIntegration, teamTreasury, marketGui);
+            TeamTreasuryGui  treasuryGui  = new TeamTreasuryGui(teamsIntegration, teamTreasury, economy);
+            TeamStockGui     stockGui     = new TeamStockGui(teamsIntegration, teamStockManager);
+
+            // ── Listeners ──────────────────────────────────────────────────
             TeamsEventListener eventListener = new TeamsEventListener(teamStockManager, teamTreasury);
-            TeamGuiListener guiListener = new TeamGuiListener(teamsIntegration, teamTreasury, dashboardGui, treasuryGui, economy);
+            TeamGuiListener guiListener = new TeamGuiListener(
+                    teamsIntegration, teamTreasury, dashboardGui, treasuryGui, stockGui, marketGui, economy);
+            TeamMarketGuiListener marketGuiListener = new TeamMarketGuiListener(
+                    marketGui, marketListGui, teamMarketManager, teamsIntegration);
+
             plugin.getServer().getPluginManager().registerEvents(eventListener, plugin);
             plugin.getServer().getPluginManager().registerEvents(guiListener, plugin);
+            plugin.getServer().getPluginManager().registerEvents(marketGuiListener, plugin);
 
-            // Command
-            TeamShopCommand command = new TeamShopCommand(dashboardGui, treasuryGui, stockGui);
+            // ── Command ────────────────────────────────────────────────────
+            TeamShopCommand command = new TeamShopCommand(dashboardGui, treasuryGui, stockGui, marketGui);
             PluginCommand pluginCommand = plugin.getCommand("teamshop");
             if (pluginCommand != null) {
                 pluginCommand.setExecutor(command);
                 pluginCommand.setTabCompleter(command);
             } else {
-                plugin.getLogger().warning("[EzShops] 'teamshop' command not found in plugin.yml — check configuration.");
+                plugin.getLogger().warning("[EzShops] 'teamshop' command not found in plugin.yml - check configuration.");
             }
 
-            // Wire into CoreShopComponent if already constructed (safe guard; normally CoreShopComponent wires itself)
+            // ── Wire TeamsData into CoreShopComponent ──────────────────────
             if (plugin.getCoreComponent() != null) {
-                double split = plugin.getConfig().getDouble("teams-integration.treasury-split", 0.05);
                 plugin.getCoreComponent().setTeamsData(teamsIntegration, teamTreasury);
             }
 
@@ -85,33 +100,28 @@ public final class TeamShopComponent implements PluginComponent {
             plugin.getLogger().info("[EzShops] TeamsAPI integration enabled.");
         } catch (Exception e) {
             plugin.getLogger().severe("[EzShops] Failed to enable TeamsAPI integration: " + e.getMessage());
-            teamsIntegration = null;
-            teamTreasury = null;
-            teamStockManager = null;
+            teamsIntegration  = null;
+            teamTreasury      = null;
+            teamStockManager  = null;
+            teamMarketManager = null;
         }
     }
 
     @Override
     public void disable() {
+        if (teamMarketManager != null) {
+            teamMarketManager.onDisable();
+            teamMarketManager = null;
+        }
         teamsIntegration = null;
         teamStockManager = null;
-        teamTreasury = null;
-        enabled = false;
+        teamTreasury     = null;
+        enabled          = false;
     }
 
-    public TeamsIntegration getTeamsIntegration() {
-        return teamsIntegration;
-    }
-
-    public TeamTreasury getTeamTreasury() {
-        return teamTreasury;
-    }
-
-    public TeamStockManager getTeamStockManager() {
-        return teamStockManager;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
+    public TeamsIntegration  getTeamsIntegration()  { return teamsIntegration; }
+    public TeamTreasury      getTeamTreasury()       { return teamTreasury; }
+    public TeamStockManager  getTeamStockManager()   { return teamStockManager; }
+    public TeamMarketManager getTeamMarketManager()  { return teamMarketManager; }
+    public boolean           isEnabled()             { return enabled; }
 }
