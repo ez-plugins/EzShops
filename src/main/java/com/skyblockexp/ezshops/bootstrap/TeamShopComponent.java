@@ -63,7 +63,14 @@ public final class TeamShopComponent implements PluginComponent {
             teamMarketManager.onEnable();
 
             // ── GUI instances ──────────────────────────────────────────────
-            TeamMarketListGui marketListGui = new TeamMarketListGui(teamsIntegration, teamMarketManager);
+            // Read configurable price step sizes (small, medium, large)
+            double[] priceSteps = TeamMarketListGui.DEFAULT_PRICE_STEPS;
+            java.util.List<Double> stepCfg = cfg == null
+                    ? java.util.List.of() : cfg.getDoubleList("market-price-steps");
+            if (stepCfg.size() >= 3) {
+                priceSteps = new double[]{stepCfg.get(0), stepCfg.get(1), stepCfg.get(2)};
+            }
+            TeamMarketListGui marketListGui = new TeamMarketListGui(teamsIntegration, teamMarketManager, priceSteps);
             TeamMarketGui marketGui = new TeamMarketGui(teamsIntegration, teamMarketManager, marketListGui);
 
             TeamDashboardGui dashboardGui = new TeamDashboardGui(teamsIntegration, teamTreasury, marketGui);

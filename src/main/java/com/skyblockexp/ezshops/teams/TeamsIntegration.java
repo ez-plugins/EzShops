@@ -16,6 +16,7 @@ import java.util.UUID;
 public final class TeamsIntegration {
 
     private final boolean configEnabled;
+    private final boolean sharedStock;
     private final double sellMember;
     private final double sellAdmin;
     private final double sellOwner;
@@ -25,6 +26,7 @@ public final class TeamsIntegration {
 
     public TeamsIntegration(ConfigurationSection cfg) {
         this.configEnabled = cfg != null && cfg.getBoolean("enabled", true);
+        this.sharedStock   = cfg != null && cfg.getBoolean("shared-stock", false);
         ConfigurationSection sell = cfg != null ? cfg.getConfigurationSection("sell-multiplier") : null;
         ConfigurationSection buy  = cfg != null ? cfg.getConfigurationSection("buy-discount") : null;
         this.sellMember = read(sell, "member", 1.10);
@@ -42,6 +44,11 @@ public final class TeamsIntegration {
     /** True when TeamsAPI is installed AND enabled in config. */
     public boolean isEnabled() {
         return configEnabled && TeamsAPI.isAvailable();
+    }
+
+    /** True when the shared team stock pool is enabled in config. */
+    public boolean isSharedStockEnabled() {
+        return sharedStock;
     }
 
     public Optional<Team> getPlayerTeam(UUID uuid) {

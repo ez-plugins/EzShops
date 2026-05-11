@@ -2,7 +2,6 @@ package com.skyblockexp.ezshops.gui.teams;
 
 import com.skyblockexp.ezshops.teams.TeamMarketManager;
 import com.skyblockexp.ezshops.teams.TeamsIntegration;
-import com.skyblockexp.teamsapi.model.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -16,67 +15,90 @@ import java.util.*;
 /**
  * 54-slot GUI for creating a new team market listing.
  *
- * <p>Slot layout:
+ * <p>Slot layout (mirrored: qty row centred like price row):
  * <pre>
- *  Row 0:  [filler] ... [item preview @ 4] ...
- *  Row 1:  [qty -8 @ 9] [qty -1 @ 10] [qty display @ 11] [qty +1 @ 12] [qty +8 @ 13]
- *  Row 2:  [price -100 @ 18] [price -10 @ 19] [price display @ 22] [price +10 @ 25] [price +100 @ 26]
- *  Row 3:  (spare)
- *  Row 4:  (spare)
- *  Row 5:  [back @ 45] ... [cancel @ 49] ... [confirm @ 53]
+ *  Row 0:  [filler…] [item preview @ 4] [filler…]
+ *  Row 1:  [MIN@9] [−8@10] [−1@11] [filler@12] [qty display@13] [filler@14] [+1@15] [+8@16] [MAX@17]
+ *  Row 2:  [−L@18] [−M@19] [−S@20] [filler@21] [price display@22] [filler@23] [+S@24] [+M@25] [+L@26]
+ *  Row 3:  [filler…] [instructions@31] [filler…]
+ *  Row 4:  [filler…] [inv hint@40] [filler…]
+ *  Row 5:  [back@45] [filler…] [cancel@49] [filler…] [confirm@53]
  * </pre>
  *
  * <p>The player selects the item by clicking it from their own inventory
- * (the lower half of the open inventory view).
+ * (the lower half of the open inventory view). The clicked stack's amount is
+ * used as the initial quantity.
  */
 public final class TeamMarketListGui {
 
     public static final String TITLE = ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "List Item for Sale";
 
-    // Row 0
-    private static final int SLOT_ITEM_PREVIEW = 4;
-    // Row 1 — quantity
-    private static final int SLOT_QTY_MINUS_8  =  9;
-    private static final int SLOT_QTY_MINUS_1  = 10;
-    private static final int SLOT_QTY_DISPLAY  = 11;
-    private static final int SLOT_QTY_PLUS_1   = 12;
-    private static final int SLOT_QTY_PLUS_8   = 13;
-    // Row 2 — price
-    private static final int SLOT_PRICE_MINUS_100 = 18;
-    private static final int SLOT_PRICE_MINUS_10  = 19;
-    private static final int SLOT_PRICE_MINUS_1   = 20;
-    private static final int SLOT_PRICE_DISPLAY   = 22;
-    private static final int SLOT_PRICE_PLUS_1    = 24;
-    private static final int SLOT_PRICE_PLUS_10   = 25;
-    private static final int SLOT_PRICE_PLUS_100  = 26;
-    // Row 3 — instructions panel (centre)
-    private static final int SLOT_INSTRUCTIONS    = 31;
-    // Row 4 — inventory separator hint (centre)
-    private static final int SLOT_INV_HINT        = 40;
+    // Row 0 — item preview
+    static final int SLOT_ITEM_PREVIEW = 4;
+
+    // Row 1 — quantity (9 slots, 9-17, symmetric around slot 13)
+    static final int SLOT_QTY_MIN     =  9;
+    static final int SLOT_QTY_MINUS_8 = 10;
+    static final int SLOT_QTY_MINUS_1 = 11;
+    // 12 = filler
+    static final int SLOT_QTY_DISPLAY = 13;
+    // 14 = filler
+    static final int SLOT_QTY_PLUS_1  = 15;
+    static final int SLOT_QTY_PLUS_8  = 16;
+    static final int SLOT_QTY_MAX     = 17;
+
+    // Row 2 — price (9 slots, 18-26, symmetric around slot 22)
+    static final int SLOT_PRICE_MINUS_LRG = 18;
+    static final int SLOT_PRICE_MINUS_MED = 19;
+    static final int SLOT_PRICE_MINUS_SML = 20;
+    // 21 = filler
+    static final int SLOT_PRICE_DISPLAY   = 22;
+    // 23 = filler
+    static final int SLOT_PRICE_PLUS_SML  = 24;
+    static final int SLOT_PRICE_PLUS_MED  = 25;
+    static final int SLOT_PRICE_PLUS_LRG  = 26;
+
+    // Row 3 — instructions panel
+    static final int SLOT_INSTRUCTIONS = 31;
+
+    // Row 4 — inventory separator hint
+    static final int SLOT_INV_HINT     = 40;
+
     // Row 5 — actions
-    private static final int SLOT_BACK    = 45;
-    private static final int SLOT_CANCEL  = 49;
-    private static final int SLOT_CONFIRM = 53;
+    static final int SLOT_BACK    = 45;
+    static final int SLOT_CANCEL  = 49;
+    static final int SLOT_CONFIRM = 53;
 
     private static final Set<Integer> CONTROL_SLOTS = Set.of(
             SLOT_ITEM_PREVIEW,
-            SLOT_QTY_MINUS_8, SLOT_QTY_MINUS_1, SLOT_QTY_DISPLAY, SLOT_QTY_PLUS_1, SLOT_QTY_PLUS_8,
-            SLOT_PRICE_MINUS_100, SLOT_PRICE_MINUS_10, SLOT_PRICE_MINUS_1,
+            SLOT_QTY_MIN, SLOT_QTY_MINUS_8, SLOT_QTY_MINUS_1,
+            SLOT_QTY_DISPLAY,
+            SLOT_QTY_PLUS_1, SLOT_QTY_PLUS_8, SLOT_QTY_MAX,
+            SLOT_PRICE_MINUS_LRG, SLOT_PRICE_MINUS_MED, SLOT_PRICE_MINUS_SML,
             SLOT_PRICE_DISPLAY,
-            SLOT_PRICE_PLUS_1, SLOT_PRICE_PLUS_10, SLOT_PRICE_PLUS_100,
+            SLOT_PRICE_PLUS_SML, SLOT_PRICE_PLUS_MED, SLOT_PRICE_PLUS_LRG,
             SLOT_INSTRUCTIONS, SLOT_INV_HINT,
             SLOT_BACK, SLOT_CANCEL, SLOT_CONFIRM);
+
+    /** Default price step sizes: small=1 000, medium=10 000, large=1 000 000. */
+    public static final double[] DEFAULT_PRICE_STEPS = {1_000, 10_000, 1_000_000};
+
+    // ── State ─────────────────────────────────────────────────────────────────
 
     public static final class State {
         public ItemStack selectedItem = null;
         public int quantity = 1;
-        public double price = 10.0;
+        public double price = 1_000.0;
     }
+
+    // ── Fields ────────────────────────────────────────────────────────────────
 
     private final TeamsIntegration teamsIntegration;
     private final TeamMarketManager marketManager;
+    /** Three price step sizes: [0]=small, [1]=medium, [2]=large. */
+    private final double[] priceSteps;
 
-    /** Tracks open listing GUIs: playerUUID -> listing state */
+    /** Tracks open listing GUIs: playerUUID -> listing state. */
     private final Map<UUID, State> openStates = new HashMap<>();
     /**
      * Players whose inventory is currently being redrawn. Prevents the
@@ -84,11 +106,18 @@ public final class TeamMarketListGui {
      */
     private final Set<UUID> redrawingPlayers = new HashSet<>();
 
+    // ── Constructor ───────────────────────────────────────────────────────────
+
     public TeamMarketListGui(TeamsIntegration teamsIntegration,
-                             TeamMarketManager marketManager) {
+                             TeamMarketManager marketManager,
+                             double[] priceSteps) {
         this.teamsIntegration = teamsIntegration;
         this.marketManager = marketManager;
+        this.priceSteps = (priceSteps != null && priceSteps.length >= 3)
+                ? priceSteps : DEFAULT_PRICE_STEPS;
     }
+
+    // ── Public API ────────────────────────────────────────────────────────────
 
     public void open(Player player) {
         openStates.computeIfAbsent(player.getUniqueId(), k -> new State());
@@ -107,7 +136,7 @@ public final class TeamMarketListGui {
         return openStates.containsKey(player.getUniqueId());
     }
 
-    /** Returns true while a redraw {@code openInventory} call is in-flight. */
+    /** Returns true while a {@code redraw} openInventory call is in-flight. */
     public boolean isRedrawing(Player player) {
         return redrawingPlayers.contains(player.getUniqueId());
     }
@@ -117,19 +146,26 @@ public final class TeamMarketListGui {
         return openStates.keySet();
     }
 
-    /** Re-renders the GUI into a new inventory and opens it. */
+    /**
+     * Returns the price step amount for the given size index.
+     * @param index 0=small, 1=medium, 2=large
+     */
+    public double priceStep(int index) {
+        return priceSteps[index];
+    }
+
+    /** Re-renders the GUI into a new inventory and opens it for the player. */
     public void redraw(Player player) {
         State state = openStates.get(player.getUniqueId());
         if (state == null) return;
 
         Inventory inv = Bukkit.createInventory(null, 54, TITLE);
-
         ItemStack filler = buildPane(Material.GRAY_STAINED_GLASS_PANE, " ");
         for (int i = 0; i < 54; i++) {
             if (!CONTROL_SLOTS.contains(i)) inv.setItem(i, filler);
         }
 
-        // ── Item preview (row 0, centre) ─────────────────────────────────────
+        // ── Row 0: item preview ───────────────────────────────────────────────
         int heldCount = state.selectedItem != null ? countMatching(player, state.selectedItem) : 0;
         if (state.selectedItem != null) {
             ItemStack preview = state.selectedItem.clone();
@@ -138,7 +174,7 @@ public final class TeamMarketListGui {
             if (pm != null) {
                 pm.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD
                         + TeamMarketManager.friendlyName(state.selectedItem)
-                        + ChatColor.RESET + ChatColor.YELLOW + " ✔");
+                        + ChatColor.RESET + ChatColor.YELLOW + " \u2714");
                 pm.setLore(List.of(
                         ChatColor.GRAY + "You have: " + ChatColor.WHITE + heldCount + " in your inventory",
                         ChatColor.GRAY + "Click a different item below to change"));
@@ -151,11 +187,14 @@ public final class TeamMarketListGui {
                     ChatColor.WHITE + "Click any item from your inventory",
                     ChatColor.WHITE + "below this window to select it.",
                     "",
-                    ChatColor.YELLOW + "▼  Your inventory is at the bottom  ▼"));
+                    ChatColor.YELLOW + "\u25bc  Your inventory is at the bottom  \u25bc"));
         }
 
-        // ── Quantity controls (row 1, slots 9-13) ────────────────────────────
+        // ── Row 1: quantity controls ──────────────────────────────────────────
         int maxQty = state.selectedItem != null ? Math.max(1, heldCount) : 64;
+        inv.setItem(SLOT_QTY_MIN, buildPane(Material.MAGENTA_STAINED_GLASS_PANE,
+                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "MIN",
+                ChatColor.GRAY + "Set quantity to 1"));
         inv.setItem(SLOT_QTY_MINUS_8, buildPane(Material.RED_STAINED_GLASS_PANE,
                 ChatColor.RED + "" + ChatColor.BOLD + "-8",
                 ChatColor.GRAY + "Decrease quantity by 8"));
@@ -169,52 +208,52 @@ public final class TeamMarketListGui {
         inv.setItem(SLOT_QTY_PLUS_8, buildPane(Material.GREEN_STAINED_GLASS_PANE,
                 ChatColor.GREEN + "" + ChatColor.BOLD + "+8",
                 ChatColor.GRAY + "Increase quantity by 8"));
+        inv.setItem(SLOT_QTY_MAX, buildPane(Material.MAGENTA_STAINED_GLASS_PANE,
+                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "MAX",
+                ChatColor.GRAY + "Set quantity to " + maxQty));
 
-        // ── Price controls (row 2, slots 18-26) ─────────────────────────────
-        inv.setItem(SLOT_PRICE_MINUS_100, buildPane(Material.RED_STAINED_GLASS_PANE,
-                ChatColor.RED + "" + ChatColor.BOLD + "-$100",
-                ChatColor.GRAY + "Decrease price by $100"));
-        inv.setItem(SLOT_PRICE_MINUS_10, buildPane(Material.ORANGE_STAINED_GLASS_PANE,
-                ChatColor.GOLD + "" + ChatColor.BOLD + "-$10",
-                ChatColor.GRAY + "Decrease price by $10"));
-        inv.setItem(SLOT_PRICE_MINUS_1, buildPane(Material.YELLOW_STAINED_GLASS_PANE,
-                ChatColor.YELLOW + "" + ChatColor.BOLD + "-$1",
-                ChatColor.GRAY + "Decrease price by $1"));
+        // ── Row 2: price controls ─────────────────────────────────────────────
+        inv.setItem(SLOT_PRICE_MINUS_LRG, buildPane(Material.RED_STAINED_GLASS_PANE,
+                ChatColor.RED + "" + ChatColor.BOLD + "-" + formatPrice(priceSteps[2]),
+                ChatColor.GRAY + "Decrease price by " + formatPrice(priceSteps[2])));
+        inv.setItem(SLOT_PRICE_MINUS_MED, buildPane(Material.ORANGE_STAINED_GLASS_PANE,
+                ChatColor.GOLD + "" + ChatColor.BOLD + "-" + formatPrice(priceSteps[1]),
+                ChatColor.GRAY + "Decrease price by " + formatPrice(priceSteps[1])));
+        inv.setItem(SLOT_PRICE_MINUS_SML, buildPane(Material.YELLOW_STAINED_GLASS_PANE,
+                ChatColor.YELLOW + "" + ChatColor.BOLD + "-" + formatPrice(priceSteps[0]),
+                ChatColor.GRAY + "Decrease price by " + formatPrice(priceSteps[0])));
         inv.setItem(SLOT_PRICE_DISPLAY, buildPriceDisplay(state.price, state.quantity));
-        inv.setItem(SLOT_PRICE_PLUS_1, buildPane(Material.YELLOW_STAINED_GLASS_PANE,
-                ChatColor.YELLOW + "" + ChatColor.BOLD + "+$1",
-                ChatColor.GRAY + "Increase price by $1"));
-        inv.setItem(SLOT_PRICE_PLUS_10, buildPane(Material.LIME_STAINED_GLASS_PANE,
-                ChatColor.GREEN + "" + ChatColor.BOLD + "+$10",
-                ChatColor.GRAY + "Increase price by $10"));
-        inv.setItem(SLOT_PRICE_PLUS_100, buildPane(Material.GREEN_STAINED_GLASS_PANE,
-                ChatColor.GREEN + "" + ChatColor.BOLD + "+$100",
-                ChatColor.GRAY + "Increase price by $100"));
+        inv.setItem(SLOT_PRICE_PLUS_SML, buildPane(Material.YELLOW_STAINED_GLASS_PANE,
+                ChatColor.YELLOW + "" + ChatColor.BOLD + "+" + formatPrice(priceSteps[0]),
+                ChatColor.GRAY + "Increase price by " + formatPrice(priceSteps[0])));
+        inv.setItem(SLOT_PRICE_PLUS_MED, buildPane(Material.LIME_STAINED_GLASS_PANE,
+                ChatColor.GREEN + "" + ChatColor.BOLD + "+" + formatPrice(priceSteps[1]),
+                ChatColor.GRAY + "Increase price by " + formatPrice(priceSteps[1])));
+        inv.setItem(SLOT_PRICE_PLUS_LRG, buildPane(Material.GREEN_STAINED_GLASS_PANE,
+                ChatColor.GREEN + "" + ChatColor.BOLD + "+" + formatPrice(priceSteps[2]),
+                ChatColor.GRAY + "Increase price by " + formatPrice(priceSteps[2])));
 
-        // ── How-to instructions (row 3, slot 31) ─────────────────────────────
+        // ── Row 3: instructions ───────────────────────────────────────────────
         inv.setItem(SLOT_INSTRUCTIONS, buildPane(Material.BOOK,
                 ChatColor.AQUA + "" + ChatColor.BOLD + "How to Create a Listing",
                 ChatColor.GRAY + "1. " + ChatColor.WHITE + "Click an item from your inventory below",
-                ChatColor.GRAY + "2. " + ChatColor.WHITE + "Use " + ChatColor.RED + "-"
-                        + ChatColor.WHITE + " / " + ChatColor.GREEN + "+"
-                        + ChatColor.WHITE + " buttons in row 2 to set qty",
-                ChatColor.GRAY + "3. " + ChatColor.WHITE + "Use " + ChatColor.RED + "-"
-                        + ChatColor.WHITE + " / " + ChatColor.GREEN + "+"
-                        + ChatColor.WHITE + " buttons in row 3 to set price",
+                ChatColor.GRAY + "2. " + ChatColor.WHITE + "Set " + ChatColor.YELLOW + "quantity"
+                        + ChatColor.WHITE + " using the row above",
+                ChatColor.GRAY + "3. " + ChatColor.WHITE + "Set " + ChatColor.GOLD + "price"
+                        + ChatColor.WHITE + " using the row above that",
                 ChatColor.GRAY + "4. " + ChatColor.WHITE + "Click "
                         + ChatColor.GREEN + "Confirm Listing" + ChatColor.WHITE + " when ready"));
 
-        // ── Inventory separator hint (row 4, slot 40) ────────────────────────
+        // ── Row 4: inventory separator hint ──────────────────────────────────
         inv.setItem(SLOT_INV_HINT, buildPane(Material.CYAN_STAINED_GLASS_PANE,
-                ChatColor.AQUA + "" + ChatColor.BOLD + "▼  Your Inventory  ▼",
+                ChatColor.AQUA + "" + ChatColor.BOLD + "\u25bc  Your Inventory  \u25bc",
                 ChatColor.GRAY + "Click any item below to select it for listing"));
 
-        // ── Actions (row 5) ───────────────────────────────────────────────────
+        // ── Row 5: actions ────────────────────────────────────────────────────
         inv.setItem(SLOT_BACK, buildPane(Material.ARROW, ChatColor.YELLOW + "Back to Market"));
         inv.setItem(SLOT_CANCEL, buildPane(Material.BARRIER, ChatColor.RED + "Cancel"));
 
-        boolean canConfirm = state.selectedItem != null;
-        if (canConfirm) {
+        if (state.selectedItem != null) {
             double total = state.price * state.quantity;
             inv.setItem(SLOT_CONFIRM, buildPane(Material.EMERALD,
                     ChatColor.GREEN + "" + ChatColor.BOLD + "Confirm Listing",
@@ -239,22 +278,16 @@ public final class TeamMarketListGui {
         redrawingPlayers.remove(player.getUniqueId());
     }
 
-    // ── Slot constants exposed for listener ───────────────────────────────────
+    // ── Package-private helpers ───────────────────────────────────────────────
 
-    static int slotQtyMinus8()    { return SLOT_QTY_MINUS_8; }
-    static int slotQtyMinus1()    { return SLOT_QTY_MINUS_1; }
-    static int slotQtyPlus1()     { return SLOT_QTY_PLUS_1; }
-    static int slotQtyPlus8()     { return SLOT_QTY_PLUS_8; }
-    static int slotPriceMinus100(){ return SLOT_PRICE_MINUS_100; }
-    static int slotPriceMinus10() { return SLOT_PRICE_MINUS_10; }
-    static int slotPriceMinus1()  { return SLOT_PRICE_MINUS_1; }
-    static int slotPricePlus1()   { return SLOT_PRICE_PLUS_1; }
-    static int slotPricePlus10()  { return SLOT_PRICE_PLUS_10; }
-    static int slotPricePlus100() { return SLOT_PRICE_PLUS_100; }
-    static int slotBack()         { return SLOT_BACK; }
-    static int slotCancel()       { return SLOT_CANCEL; }
-    static int slotConfirm()      { return SLOT_CONFIRM; }
-    static int slotItemPreview()  { return SLOT_ITEM_PREVIEW; }
+    /** Counts how many items matching {@code template} the player holds (ignores amount). */
+    static int countMatching(Player player, ItemStack template) {
+        int count = 0;
+        for (ItemStack s : player.getInventory().getContents()) {
+            if (s != null && s.isSimilar(template)) count += s.getAmount();
+        }
+        return count;
+    }
 
     // ── Private helpers ───────────────────────────────────────────────────────
 
@@ -288,6 +321,24 @@ public final class TeamMarketListGui {
         return item;
     }
 
+    /**
+     * Formats a price step value compactly for button labels.
+     * Examples: 1000 → "$1k", 10000 → "$10k", 1500000 → "$1.5M"
+     */
+    static String formatPrice(double amount) {
+        if (amount >= 1_000_000) {
+            double m = amount / 1_000_000;
+            return "$" + (m == (long) m
+                    ? String.valueOf((long) m) : String.format("%.1f", m)) + "M";
+        }
+        if (amount >= 1_000) {
+            double k = amount / 1_000;
+            return "$" + (k == (long) k
+                    ? String.valueOf((long) k) : String.format("%.1f", k)) + "k";
+        }
+        return "$" + String.format("%.2f", amount);
+    }
+
     private static ItemStack buildPane(Material mat, String name, String... lore) {
         ItemStack item = new ItemStack(mat);
         ItemMeta meta = item.getItemMeta();
@@ -296,13 +347,5 @@ public final class TeamMarketListGui {
         if (lore.length > 0) meta.setLore(List.of(lore));
         item.setItemMeta(meta);
         return item;
-    }
-
-    static int countMatching(Player player, ItemStack template) {
-        int count = 0;
-        for (ItemStack s : player.getInventory().getContents()) {
-            if (s != null && s.isSimilar(template)) count += s.getAmount();
-        }
-        return count;
     }
 }

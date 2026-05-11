@@ -1,0 +1,237 @@
+[CENTER][IMG]https://i.ibb.co/N6Y8gZ9W/ezshops-minecraft-plugin.png[/IMG]
+[COLOR=#00bfff]Skyblock-ready shop menus with smart pricing, sign trading, and API integrations[/COLOR]
+[COLOR=#888888]Paper/Purpur 1.21.4+ • Vault economy • ShopPriceService API • Dynamic pricing engine[/COLOR]
+[COLOR=#ff6600]Requires Vault and a compatible economy plugin to process currency.[/COLOR]
+[B][URL='https://discord.gg/yWP95XfmBS'][COLOR=#7289da]Join our Discord server[/COLOR][/URL][/B]
+[COLOR=#ffcc00]⚠ Integrates with [URL='https://www.spigotmc.org/resources/1-21-%E2%AD%90-ezauction-%E2%AD%90-buy-orders-configurable-shop-price-integration.129779/'][B]EzAuction[/B][/URL][/COLOR][/CENTER]
+
+[CENTER][IMG]https://ezbanners.org/shields/plugins/73ab8f99-e37c-4a42-b4b3-45683d5b5792/modrinth-downloads.png[/IMG] [IMG]https://ezbanners.org/shields/plugins/73ab8f99-e37c-4a42-b4b3-45683d5b5792/modrinth-followers.png[/IMG] [IMG]https://ezbanners.org/shields/plugins/73ab8f99-e37c-4a42-b4b3-45683d5b5792/github-stars.png[/IMG] [IMG]https://ezbanners.org/shields/plugins/73ab8f99-e37c-4a42-b4b3-45683d5b5792/license.png[/IMG][/CENTER]
+
+
+[B][COLOR=#00bfff]★ What makes EzShops different?[/COLOR][/B]
+[LIST]
+[*][B]Guided storefront menus[/B]: Category icons, quantity pickers, bulk buttons, and lore templates keep every purchase clear for players and staff.
+[*][B]Smart price automation[/B]: Dynamic buy/sell multipliers nudge values after each transaction and persist to shop-dynamic.yml so your market keeps evolving between restarts.
+[*][B]Rotating daily specials[/B]: Schedule weighted or sequential rotations from shop/rotations/ and highlight limited-time offers without rewriting your categories.
+[*][B]Sign shop mirroring[/B]: Sync right-click signs with any menu entry, customize headers and line formats, and let towns trade without opening the GUI.
+[*][B]Specialty entries out of the box[/B]: Sell spawners with correctly tagged block states, issue minion or vote crate keys, and keep cosmetic minion heads restricted to crates.
+[*][B]Player-run marketplaces[/B]: [icode][shop][/icode] signs convert into owner-branded listings that pull stock from linked chests while enforcing permissions and chest access rules.
+[*][B]Category commands[/B]: Instantly run a server command when a category icon is clicked, instead of opening a shop. Use this for warps, info, or custom features (see config example below).
+[*][B]Sell boosts: [/B]Add sell boosts through our [URL='https://modrinth.com/plugin/ezboost']EzBoost plugin[/URL] integration
+[*][B]Live config reload[/B]: Use [icode]/shop reload[/icode] (permission [icode]ezshops.reload[/icode]) to instantly reload all shop configuration files and update menus without restarting your server.
+[/LIST]
+
+[B][COLOR=#00bfff]⚡ Player-facing commands[/COLOR][/B]
+[LIST]
+[*][B]/shop[/B]: Open the menu or browse a flat paginated list when categories are disabled.
+[*][B]/shop buy & /shop sell[/B]: Trade directly from chat with material names and optional amounts.
+[*][B]/sellhand & /sellinventory[/B]: Cash out specific stacks or an entire inventory in one click, with summary receipts.
+[*][B]/price[/B]: Let players and staff quote live buy/sell totals using tab-complete across every configured material.
+[*][B]/shop reload[/B]: Instantly reload all shop configuration files and update menus (permission [icode]ezshops.reload[/icode]).
+[/LIST]
+
+[B][COLOR=#ff9900]⛃ Stock Market Features[/COLOR][/B]
+[LIST]
+[*][B]Live Stock Market Pricing[/B]: Certain shop items use a real-time stock market price that changes based on player trading activity and random market events.
+[*][B]Configurable controls[/B]: Admins can block or override specific items from the stock market via config, and all trading commands are permission-based with optional per-player cooldowns.
+[*][B]Persistent state[/B]: Frozen prices and admin overrides are saved and persist across server restarts.
+[*][B]How It Works:[/B] The price for these items is calculated as follows:
+[/LIST]
+[quote]
+New price = max(1.0, current price × (1 + (demand × 0.02) + random volatility))
+
+Where:
+- [B]demand[/B] is positive for player purchases, negative for sales
+- [B]random volatility[/B] is a value between -10% and +10% per update
+- Prices never fall below 1.0 coins
+[/quote]
+This means buying increases the price, selling decreases it, and random market swings keep things interesting!
+
+[B][COLOR=#ff9900]⛃ Stock Market Commands[/COLOR][/B]
+[LIST]
+[*][B]/stock buy <item> <amount>[/B]: Buy shares in a stock market item at the current price.
+[*][B]/stock sell <item> <amount>[/B]: Sell your shares for the current market price.
+[*][B]/stock info <item>[/B]: View the current price, recent changes, and volatility for a specific item.
+[*][B]/stock list[/B]: See all stock market items and their current prices.
+[/LIST]
+
+[B][COLOR=#ff9900]⛃ Admin Stock Market Controls[/COLOR][/B]
+[LIST]
+[*][B]/stockadmin freeze <item>[/B]: Freeze or unfreeze the price of a stock market item (requires [icode]ezshops.stock.admin.freeze[/icode]). Frozen state persists across restarts.
+[*][B]/stockadmin set <item> <price>[/B]: Set the price of a stock market item directly (requires [icode]ezshops.stock.admin.set[/icode]).
+[*][B]/stockadmin list [page][/B]: List all stock market items, their prices, and frozen status, with pagination and metadata showing who/when (requires [icode]ezshops.stock.admin.list[/icode]).
+[*][B]/stockadmin info <item>[/B]: View detailed info, including who froze an item and when (requires [icode]ezshops.stock.admin.info[/icode]).
+[/LIST]
+
+[B][COLOR=#ff9900]⛃ Stock Market Permissions[/COLOR][/B]
+[LIST]
+[*][icode]ezshops.stock.buy[/icode]: Allow buying stock market items.
+[*][icode]ezshops.stock.sell[/icode]: Allow selling stock market items.
+[*][icode]ezshops.stock.info[/icode]: Allow viewing stock info.
+[*][icode]ezshops.stock.list[/icode]: Allow listing all stock market items.
+[*][icode]ezshops.stock.admin.freeze[/icode]: Allow freezing/unfreezing items.
+[*][icode]ezshops.stock.admin.set[/icode]: Allow setting prices directly.
+[*][icode]ezshops.stock.admin.list[/icode]: Allow listing all items with admin details.
+[*][icode]ezshops.stock.admin.info[/icode]: Allow viewing admin info for items.
+[/LIST]
+
+[B][COLOR=#00bfff]️ Configuration toolkit[/COLOR][/B]
+[LIST]
+[*][B]Instant defaults[/B]: First launch seeds shop.yml, menu layouts, and category presets so you can adjust icons, lore, and prices immediately.
+[*][B]Flexible layouts[/B]: Pick per-category sizes, filler items, back buttons, and slot placements or fall back to a flat /shop list.
+[*][B]Category commands[/B]: Add a command: field to any category config (e.g. shop/categories/warp.yml). When clicked, the command runs for the player (supports {player} placeholder). Example:
+[code=yaml]
+menu-title: '&bWarp Menu'
+icon:
+  material: ENDER_PEARL
+  display-name: '&bWarps'
+slot: 0
+command: 'warp main {player}'
+[/code]
+[*][B]Rotations and specials[/B]: Build timed lineups in shop/rotations/, assign them via rotation-group, and let the plugin cycle icons, menu titles, and items automatically.
+[*][B]Dynamic pricing defaults[/B]: Tune global multipliers in config.yml and override them per entry to automate supply-and-demand swings.
+[*][B]Sign formatting[/B]: Adjust accepted headers and line colors to match your branding without breaking existing signage.
+[*][B]Player shop tuning[/B]: Toggle the entire system with [icode]player-shops.enabled[/icode], enforce quantity or price limits, and rewrite owner/item/stock lines through the dedicated sign-format placeholders.
+[*][B]/playershop setup flow[/B]: Give creators a menu-driven way to prefill quantity and pricing, complete with +/- buttons that honor your configured minimums and caps before they ever place a sign.
+[*][B]Localized messaging[/B]: Point [icode]language[/icode] in [icode]config.yml[/icode] to files like [icode]messages/messages_fr.yml[/icode]. Bundle new locales inside your jar (and add them to [icode]EzShopsPlugin.DEFAULT_SHOP_RESOURCES[/icode]) so they copy to [icode]plugins/EzShops/messages/[/icode] on first launch.
+[/LIST]
+
+[IMG]https://i.ibb.co/XvgPdSZ/ez-shops-category.png[/IMG]
+[IMG]https://i.ibb.co/0yYvMjQf/ez-shops-item-overview.png[/IMG]
+
+[B][COLOR=#00bfff] Configuring item pricing[/COLOR][/B]
+[LIST]
+[*][B]Open the entry file[/B]: Each category lives under [icode]plugins/EzShops/shop/categories/[/icode]; edit the item section (for example [icode]farming.yml[/icode] ➝ [icode]wheat_seeds[/icode]).
+[*][B]Set your base totals[/B]: Update the [icode]buy[/icode] and [icode]sell[/icode] values to control the price for the configured [icode]amount[/icode]; EzShops scales shift-click totals for you, and [icode]bulk-amount[/icode] changes the alternative stack size.
+[*][B]Enable dynamic swings[/B]: Add an optional [icode]dynamic-pricing[/icode] block with [icode]enabled[/icode], [icode]starting-multiplier[/icode], [icode]min-multiplier[/icode], [icode]max-multiplier[/icode], [icode]buy-change[/icode], and [icode]sell-change[/icode] to let prices respond automatically to trades.
+[*][B]Apply changes[/B]: Save the file and reload EzShops (or restart the server) to push the updated numbers live to menus, signs, and API consumers.
+[/LIST]
+[code=yaml]
+wheat_seeds:
+  material: WHEAT_SEEDS
+  slot: 10
+  amount: 16
+  bulk-amount: 64
+  buy: 15.0
+  sell: 3.8
+  dynamic-pricing:
+    enabled: true
+    starting-multiplier: 1.0
+    min-multiplier: 0.7
+    max-multiplier: 2.1
+    buy-change: 0.018
+    sell-change: 0.012
+[/code]
+
+[B][COLOR=#00bfff] Configuring rotating specials[/COLOR][/B]
+[LIST]
+[*][B]Define the schedule[/B]: Edit plugins/EzShops/shop/rotations/daily-specials.yml (or create a new file under shop/rotations/). Set interval to an ISO-8601 duration like PT6H or compact shorthand such as 6h, choose a mode of sequential or random, and pick a default-option for fresh installs.
+[*][B]Wire the category[/B]: Point rotation-group inside the matching category file (the bundle ships shop/categories/daily_specials.yml). The optional rotation-defaults block supplies the shared icon, menu title, and baseline item data that every option inherits.
+[*][B]Override per option[/B]: Inside each option’s items block, override only the fields you need (material, prices, amounts, lore, or icons). Add weight values when using random mode to bias how often each option appears.
+[*][B]Reload and monitor[/B]: Reload EzShops or restart the server. The plugin copies active selections to shop-rotations.yml so admins can track timers or pin a specific option between rotations.
+[/LIST]
+[code=yaml]
+rotations:
+  daily-specials:
+    interval: 12h
+    mode: random
+    default-option: farming-frenzy
+    options:
+      farming-frenzy:
+        menu-title: '&aDaily Special: Farming Frenzy'
+      monster-madness:
+        weight: 2
+        items:
+          harvest_bundle:
+            material: ROTTEN_FLESH
+            buy: 24.0
+            sell: 9.5
+[/code]
+
+[B][COLOR=#00bfff] Sign shops[/COLOR][/B]
+[IMG]https://i.ibb.co/0RFSYmLC/ez-shops-sign-shops.png[/IMG]
+[LIST]
+[*][B]Mirror menu offers[/B]: Tie a sign to any priced [icode]Material[/icode]; EzShops pulls the same buy/sell data used by your GUI entries.
+[*][B]Quick setup[/B]: Place [icode][shop][/icode] on line one, [icode]buy[/icode] or [icode]sell[/icode] on line two, the item (for example [icode]DIAMOND_BLOCK[/icode]) on line three, and the stack amount on line four.
+[*][B]Example layout[/B]: [icode][shop][/icode] / [icode]buy[/icode] / [icode]DIAMOND_BLOCK[/icode] / [icode]1[/icode] instantly rewrites to your themed header, action text, item name, and formatted price.
+[*][B]Granular permissions[/B]: Lock creation behind [icode]ezshops.shop.sign.create[/icode] while letting standard shop permissions govern who can buy or sell through the sign.
+[*][B]Player feedback[/B]: Players receive chat confirmations while the sign updates its colored price line after each trade.
+[*][B]Batch generator GUI[/B]: Run [icode]/signshop[/icode] (permission [icode]ezshops.shop.sign.setup[/icode]) to open a planner GUI that pulls items from your inventory, flips between buy/sell modes, sets a shared backing block, tweaks spacing and rows, and chains together as many synchronized signs as you need before confirmation.
+[IMG]https://i.ibb.co/0RLw862m/ez-shops-sign-setup-gui.png[/IMG]
+[*][B]One-click placement[/B]: Look at the block you want behind the first sign and hit confirm; EzShops lays down the backing line and wall signs in front of you using your configured formatting, stack sizes, and stored metadata so they trade immediately.
+[/LIST]
+
+[B][COLOR=#00bfff] How to use the sign shop generator[/COLOR][/B]
+[LIST=1]
+[*][B]Open the planner[/B]: Run [icode]/signshop[/icode] (permission [icode]ezshops.shop.sign.setup[/icode]) to open the generator GUI and pull eligible materials from your inventory.
+[*][B]Select your template item[/B]: Click an item in your inventory pane to add it to the plan. EzShops copies its material, display name, lore, and buy/sell prices straight from the linked menu entry.
+[*][B]Choose buy or sell mode[/B]: Use the toggle buttons to decide whether every generated sign handles purchases or sales, and set the stack amount if you need something other than the default.
+[*][B]Configure the layout[/B]: Pick the backing block, adjust spacing and row count, and preview the final sign text so you know exactly how the strip will look in-game.
+[*][B]Confirm placement[/B]: Stand where you want the line to begin, look at the supporting block, and press the confirm item; EzShops places the backing and every formatted sign using the plan you just saved.
+[*][B]Reuse saved plans[/B]: The generator keeps your last configuration so you can rerun [icode]/signshop[/icode], tweak a detail, and redeploy another set of synchronized buy or sell signs in seconds.
+[/LIST]
+
+[B][COLOR=#00bfff] Scanning sign shops[/COLOR][/B]
+[LIST]
+[*][B]/signshop scan[/B]: Sweep the nearby area for EzShops-formatted signs and highlight any that no longer match their linked GUI entry or have invalid headers.
+[*][B]Permission gated[/B]: Limit the audit tool to trusted staff with [icode]ezshops.shop.sign.scan[/icode] so regular players can’t spam alerts.
+[*][B]Instant feedback[/B]: Scans summarize the number of corrected signs, orphaned headers, or skipped locations right in chat so you know where to investigate.
+[*][B]One-click fixes[/B]: Choose the optional autofix prompt to rewrite outdated lines, reapply pricing, and restore proper formatting without touching each sign manually.
+[*][B]Perfect for expansions[/B]: Run a scan after big layout changes or world edits to ensure every strip still points at a valid backing block before opening your new district.
+[/LIST]
+
+[B][COLOR=#00bfff] Player shops[/COLOR][/B]
+[IMG]https://i.ibb.co/6cWJNW5w/ez-shops-player-setup.png[/IMG]
+[IMG]https://i.ibb.co/bjsBpvpN/ez-shops-player-shop-sign.png[/IMG]
+[LIST]
+[*][B]Let the community sell[/B]: Players place [icode][playershop][/icode] on a sign attached to their chest, add the quantity and price (or reuse saved defaults), and EzShops validates the stock before activating the listing.
+[*][B]Automatic formatting[/B]: Successful shops rewrite their signs with color-coded headers, owner names, item summaries, and price lines that reflect stock status.
+[*][B]Offline earnings[/B]: Purchases withdraw money from buyers, deposit it into the owner's account, and send notifications when the seller is online.
+[*][B]Secure storage[/B]: Only owners (or admins with [icode]ezshops.playershop.admin[/icode]) can break signs or open connected chests, preventing grief and theft.
+[*][B]Permission tiers[/B]: Grant [icode]ezshops.playershop.create[/icode] to trusted builders, [icode]ezshops.playershop.buy[/icode] to the wider community, and reserve [icode]ezshops.playershop.admin[/icode] for staff oversight.
+[*][B]Configurable rules[/B]: Require stocked chests, clamp quantity or pricing ranges, or disable the feature entirely using the [icode]player-shops[/icode] block inside [icode]config.yml[/icode].
+[*][B]Double-chest ready[/B]: Listings automatically bind to both sides of a double chest and refresh their signs whenever stock changes so the status is always accurate.
+[/LIST]
+
+[B][COLOR=#00bfff] How to open a player shop[/COLOR][/B]
+[LIST=1]
+[*][B]Preset your values (optional)[/B]: Run [icode]/playershop[/icode] to open the setup menu. Use the +/- buttons to lock in a quantity and price that respect your configured limits; the plugin saves these until you change them again.
+[*][B]Stock a chest[/B]: Place the item you want to sell inside the chest (or both sides of a double chest) so EzShops can detect the template stack.
+[*][B]Add the sign[/B]: Attach a sign to the chest and write [icode][playershop][/icode] (or another allowed header) on the first line.
+[*][B]Enter quantity and price[/B]: Fill in the second line with the amount to sell per purchase (e.g. [icode]x16[/icode]) and the third line with the total cost (numbers only). Leave either line blank to reuse the values you saved with [icode]/playershop[/icode].
+[*][B]Let EzShops verify[/B]: When you place the sign, the plugin checks ownership, chest stock, and any price or quantity guards before rewriting the sign with your themed formatting.
+[*][B]Maintain stock[/B]: Keep the chest supplied; EzShops instantly flags the sign as out of stock and flips it back when you restock or close the chest inventory.
+[*][B]Collect earnings[/B]: Every sale deposits money into your account, notifies you if you are online, and keeps the sign synced with the remaining stock.
+[/LIST]
+
+[B][COLOR=#00bfff] ShopPriceService API examples[/COLOR][/B]
+[LIST]
+[*][B]Lookup the service[/B]
+[code=java]
+RegisteredServiceProvider<ShopPriceService> provider = Bukkit.getServicesManager().getRegistration(ShopPriceService.class);
+ShopPriceService prices = provider != null ? provider.getProvider() : null;
+[/code]
+[*][B]Query buy and sell totals[/B]
+[code=java]
+ItemStack stack = new ItemStack(Material.DIAMOND, 16);
+prices.findBuyPrice(stack).ifPresent(total -> player.sendMessage("Buy price: " + total));
+prices.findSellPrice(stack).ifPresent(total -> player.sendMessage("Sell price: " + total));
+[/code]
+[*][B]Cache your reference[/B]: Grab the provider during plugin enable and reuse it for commands, GUIs, and scheduled tasks.
+[/LIST]
+
+[B][COLOR=#00bfff] Quick start[/COLOR][/B]
+[LIST]
+[*]Install Vault and an economy provider like [URL='https://www.spigotmc.org/resources/1-21-ezeconomy-modern-vault-economy-plugin-for-minecraft-servers.130975/']EzEconomy[/URL], then drop [icode]EzShops.jar[/icode] into [icode]plugins/[/icode].
+[*]Restart the server to generate default shop categories, sign formats, and dynamic pricing storage.
+[*]Edit [icode]plugins/EzShops/shop.yml[/icode] (or the files under [icode]plugins/EzShops/shop/[/icode]) to tailor categories, prices, and display copy.
+[*]Grant [icode]ezshops.shop.sign.create[/icode] to trusted builders so they can post buy/sell signs around your spawn.
+[/LIST]
+
+[CENTER][I][COLOR=#ff9900]⛃ Deliver a polished ingame shop with EzShops today![/COLOR][/I][/CENTER]
+
+[B][COLOR=#00bfff] Related Plugins[/COLOR][/B]
+[LIST]
+[*][URL='https://www.spigotmc.org/resources/1-21-%E2%AD%90-ezauction-%E2%AD%90-buy-orders-advanced-gui-show-shop-price.129779/']⭐ EzAuction: Buy Orders, Advanced GUI, Show Shop Price[/URL]
+[*][URL='https://www.spigotmc.org/resources/ezeconomy-modern-vault-economy-plugin-for-minecraft-servers.130975/'] EzEconomy: Modern Vault Economy Plugin[/URL]
+[/LIST]

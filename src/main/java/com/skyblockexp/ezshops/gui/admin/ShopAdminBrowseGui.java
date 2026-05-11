@@ -33,8 +33,8 @@ public final class ShopAdminBrowseGui {
 
     public enum Mode { PLAYER_SHOPS, TEAM_MARKET }
 
-    public static final String TITLE_PLAYER_SHOPS = ChatColor.DARK_RED + "" + ChatColor.BOLD + "Shop Admin \u2014 Player Shops";
-    public static final String TITLE_TEAM_MARKET  = ChatColor.DARK_RED + "" + ChatColor.BOLD + "Shop Admin \u2014 Team Market";
+    public static final String TITLE_PLAYER_SHOPS = ChatColor.DARK_RED + "" + ChatColor.BOLD + "Shop Admin - Player Shops";
+    public static final String TITLE_TEAM_MARKET  = ChatColor.DARK_RED + "" + ChatColor.BOLD + "Shop Admin - Team Market";
 
     private static final int ITEMS_PER_PAGE = 45;
     private static final int SLOT_PREV   = 45;

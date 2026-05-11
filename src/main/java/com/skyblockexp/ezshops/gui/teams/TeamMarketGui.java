@@ -70,7 +70,7 @@ public final class TeamMarketGui {
         int p = Math.min(Math.max(page, 0), maxPage);
 
         Inventory inv = Bukkit.createInventory(null, 54,
-                TITLE_PREFIX + ChatColor.DARK_GRAY + " \u2014 " + ChatColor.RESET + team.getName()
+                TITLE_PREFIX + ChatColor.DARK_GRAY + " - " + ChatColor.RESET + team.getName()
                 + ChatColor.DARK_GRAY + " [" + (p + 1) + "/" + (maxPage + 1) + "]");
 
         // Fill listing slots

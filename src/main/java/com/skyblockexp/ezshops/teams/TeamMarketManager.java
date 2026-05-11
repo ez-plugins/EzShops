@@ -350,6 +350,16 @@ public final class TeamMarketManager {
         if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
             return org.bukkit.ChatColor.stripColor(item.getItemMeta().getDisplayName());
         }
+        // For shulker boxes, append a contents count so sellers know what is inside
+        if (item.getItemMeta() instanceof org.bukkit.inventory.meta.BlockStateMeta bsm
+                && bsm.getBlockState() instanceof org.bukkit.block.ShulkerBox shulker) {
+            long filled = Arrays.stream(shulker.getInventory().getContents())
+                    .filter(s -> s != null && s.getType() != org.bukkit.Material.AIR)
+                    .count();
+            String raw = item.getType().name().replace('_', ' ');
+            String base = raw.charAt(0) + raw.substring(1).toLowerCase(Locale.ROOT);
+            return filled > 0 ? base + " (" + filled + " items)" : base;
+        }
         String raw = item.getType().name().replace('_', ' ');
         return raw.charAt(0) + raw.substring(1).toLowerCase(Locale.ROOT);
     }

@@ -133,12 +133,11 @@ public final class TeamMarketGuiListener implements Listener {
             TeamMarketListGui.State state = listGui.getState(player);
             if (state == null) return;
 
-            // Reject air / meta-only items
             state.selectedItem = clicked.clone();
             state.selectedItem.setAmount(1);
-            // Cap quantity to how many the player actually holds
-            int held = countMatching(player, clicked);
-            state.quantity = Math.min(state.quantity, Math.max(1, held));
+            // Pre-fill quantity to the clicked stack's amount, capped to what the player holds
+            int held = TeamMarketListGui.countMatching(player, clicked);
+            state.quantity = Math.min(Math.max(1, clicked.getAmount()), Math.max(1, held));
             listGui.redraw(player);
             return;
         }
@@ -149,54 +148,56 @@ public final class TeamMarketGuiListener implements Listener {
         TeamMarketListGui.State state = listGui.getState(player);
         if (state == null) return;
 
-        if (rawSlot == TeamMarketListGui.slotQtyMinus8())    { adjustQty(player, state, -8); return; }
-        if (rawSlot == TeamMarketListGui.slotQtyMinus1())    { adjustQty(player, state, -1); return; }
-        if (rawSlot == TeamMarketListGui.slotQtyPlus1())     { adjustQty(player, state,  1); return; }
-        if (rawSlot == TeamMarketListGui.slotQtyPlus8())     { adjustQty(player, state,  8); return; }
-        if (rawSlot == TeamMarketListGui.slotPriceMinus100()){ adjustPrice(player, state, -100); return; }
-        if (rawSlot == TeamMarketListGui.slotPriceMinus10()) { adjustPrice(player, state, -10);  return; }
-        if (rawSlot == TeamMarketListGui.slotPriceMinus1())  { adjustPrice(player, state,  -1);  return; }
-        if (rawSlot == TeamMarketListGui.slotPricePlus1())   { adjustPrice(player, state,   1);  return; }
-        if (rawSlot == TeamMarketListGui.slotPricePlus10())  { adjustPrice(player, state,  10);  return; }
-        if (rawSlot == TeamMarketListGui.slotPricePlus100()) { adjustPrice(player, state, 100);  return; }
+        switch (rawSlot) {
+            case TeamMarketListGui.SLOT_QTY_MIN     -> setQty(player, state, 1);
+            case TeamMarketListGui.SLOT_QTY_MINUS_8 -> adjustQty(player, state, -8);
+            case TeamMarketListGui.SLOT_QTY_MINUS_1 -> adjustQty(player, state, -1);
+            case TeamMarketListGui.SLOT_QTY_PLUS_1  -> adjustQty(player, state,  1);
+            case TeamMarketListGui.SLOT_QTY_PLUS_8  -> adjustQty(player, state,  8);
+            case TeamMarketListGui.SLOT_QTY_MAX     -> {
+                int max = state.selectedItem != null
+                        ? Math.max(1, TeamMarketListGui.countMatching(player, state.selectedItem))
+                        : 1;
+                setQty(player, state, max);
+            }
+            case TeamMarketListGui.SLOT_PRICE_MINUS_LRG -> adjustPrice(player, state, -listGui.priceStep(2));
+            case TeamMarketListGui.SLOT_PRICE_MINUS_MED -> adjustPrice(player, state, -listGui.priceStep(1));
+            case TeamMarketListGui.SLOT_PRICE_MINUS_SML -> adjustPrice(player, state, -listGui.priceStep(0));
+            case TeamMarketListGui.SLOT_PRICE_PLUS_SML  -> adjustPrice(player, state,  listGui.priceStep(0));
+            case TeamMarketListGui.SLOT_PRICE_PLUS_MED  -> adjustPrice(player, state,  listGui.priceStep(1));
+            case TeamMarketListGui.SLOT_PRICE_PLUS_LRG  -> adjustPrice(player, state,  listGui.priceStep(2));
+            case TeamMarketListGui.SLOT_BACK   -> { listGui.close(player); marketGui.open(player); }
+            case TeamMarketListGui.SLOT_CANCEL -> { listGui.close(player); player.closeInventory(); }
+            case TeamMarketListGui.SLOT_CONFIRM -> handleConfirm(player, state);
+        }
+    }
 
-        if (rawSlot == TeamMarketListGui.slotBack()) {
-            listGui.close(player);
-            marketGui.open(player);
+    private void handleConfirm(Player player, TeamMarketListGui.State state) {
+        if (state.selectedItem == null) {
+            player.sendMessage(ChatColor.RED + "Please select an item first.");
             return;
         }
-        if (rawSlot == TeamMarketListGui.slotCancel()) {
+        Optional<Team> teamOpt = teamsIntegration.getPlayerTeam(player.getUniqueId());
+        if (teamOpt.isEmpty()) {
+            player.sendMessage(ChatColor.RED + "You are not in a team.");
             listGui.close(player);
             player.closeInventory();
             return;
         }
-        if (rawSlot == TeamMarketListGui.slotConfirm()) {
-            if (state.selectedItem == null) {
-                player.sendMessage(ChatColor.RED + "Please select an item first.");
-                return;
-            }
-            Optional<Team> teamOpt = teamsIntegration.getPlayerTeam(player.getUniqueId());
-            if (teamOpt.isEmpty()) {
-                player.sendMessage(ChatColor.RED + "You are not in a team.");
-                listGui.close(player);
-                player.closeInventory();
-                return;
-            }
-            Team team = teamOpt.get();
+        Team team = teamOpt.get();
 
-            TeamMarketListing listing = marketManager.addListing(
-                    team.getId(), player, state.selectedItem, state.quantity, state.price);
-            if (listing == null) {
-                player.sendMessage(ChatColor.RED + "You do not have enough of that item in your inventory.");
-                listGui.redraw(player); // refresh in case qty is now wrong
-                return;
-            }
-            player.sendMessage(ChatColor.GREEN + "Listed " + listing.quantity() + "x "
-                    + TeamMarketManager.friendlyName(listing.item())
-                    + ChatColor.GREEN + " for $" + String.format("%.2f", listing.price()) + ".");
-            listGui.close(player);
-            marketGui.open(player);
+        TeamMarketListing listing = marketManager.addListing(
+                team.getId(), player, state.selectedItem, state.quantity, state.price);
+        if (listing == null) {
+            player.sendMessage(ChatColor.RED + "You do not have enough of that item in your inventory.");
+            listGui.redraw(player);
+            return;
         }
+        player.sendMessage(ChatColor.GREEN + "Listed " + listing.quantity() + "x "
+                + TeamMarketManager.friendlyName(listing.item())
+                + ChatColor.GREEN + " for $" + String.format("%.2f", listing.price()) + ".");
+        listGui.close(player);
+        marketGui.open(player);
     }
 
     @EventHandler
@@ -217,8 +218,16 @@ public final class TeamMarketGuiListener implements Listener {
 
     // ── Helpers ───────────────────────────────────────────────────────────────
 
+    private void setQty(Player player, TeamMarketListGui.State state, int qty) {
+        int held = state.selectedItem != null
+                ? Math.max(1, TeamMarketListGui.countMatching(player, state.selectedItem)) : 64;
+        state.quantity = Math.max(1, Math.min(qty, held));
+        listGui.redraw(player);
+    }
+
     private void adjustQty(Player player, TeamMarketListGui.State state, int delta) {
-        int held = state.selectedItem != null ? countMatching(player, state.selectedItem) : 64;
+        int held = state.selectedItem != null
+                ? TeamMarketListGui.countMatching(player, state.selectedItem) : 64;
         state.quantity = Math.max(1, Math.min(state.quantity + delta, Math.max(1, held)));
         listGui.redraw(player);
     }
@@ -226,13 +235,5 @@ public final class TeamMarketGuiListener implements Listener {
     private void adjustPrice(Player player, TeamMarketListGui.State state, double delta) {
         state.price = Math.max(0.01, state.price + delta);
         listGui.redraw(player);
-    }
-
-    private static int countMatching(Player player, ItemStack template) {
-        int count = 0;
-        for (ItemStack s : player.getInventory().getContents()) {
-            if (s != null && s.isSimilar(template)) count += s.getAmount();
-        }
-        return count;
     }
 }

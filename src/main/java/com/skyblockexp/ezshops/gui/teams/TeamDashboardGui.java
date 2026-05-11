@@ -62,7 +62,7 @@ public class TeamDashboardGui {
         }
         Team team = teamOpt.get();
 
-        Inventory inv = Bukkit.createInventory(null, 27, TITLE_PREFIX + " \u2014 " + team.getName());
+        Inventory inv = Bukkit.createInventory(null, 27, TITLE_PREFIX + " - " + team.getName());
 
         // ── Team info ──────────────────────────────────────────────────────
         TeamRole role = teamsIntegration.getMemberRole(team.getId(), player.getUniqueId())
@@ -85,10 +85,12 @@ public class TeamDashboardGui {
                 ChatColor.GRAY + "Buy and sell items with",
                 ChatColor.GRAY + "your team members."));
 
-        // ── Team Stocks ────────────────────────────────────────────────────
-        inv.setItem(SLOT_STOCKS, buildItem(Material.GOLD_INGOT,
-                ChatColor.GOLD + "Team Stocks",
-                ChatColor.GRAY + "View your team's shared stock pool."));
+        // ── Team Stocks — only shown when shared-stock is enabled ─────────
+        if (teamsIntegration.isSharedStockEnabled()) {
+            inv.setItem(SLOT_STOCKS, buildItem(Material.GOLD_INGOT,
+                    ChatColor.GOLD + "Team Stocks",
+                    ChatColor.GRAY + "View your team's shared stock pool."));
+        }
 
         // ── Sell bonus — only if multiplier is active (> 1.0) ─────────────
         double sellMult = teamsIntegration.getSellMultiplier(player);
