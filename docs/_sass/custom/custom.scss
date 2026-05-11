@@ -1,0 +1,98 @@
+// Custom overrides for EzShops dark theme
+//
+// just-the-docs imports this file after everything else, so these
+// declarations win over the default Rouge syntax highlighting.
+
+// ── Inline code ──────────────────────────────────────────────────────────────
+code {
+  color: #e0e0e0;
+}
+
+// ── Fenced code blocks: Monokai-inspired dark syntax highlighting ─────────────
+// Neutral base
+.highlight {
+  background-color: #222222;
+  color: #e0e0e0;
+}
+
+// Comments — muted gray
+.highlight .c,
+.highlight .cm,
+.highlight .cp,
+.highlight .c1,
+.highlight .cs { color: #6c6c6c; font-style: italic; }
+
+// Keywords — yellow accent
+.highlight .k,
+.highlight .kc,
+.highlight .kd,
+.highlight .kn,
+.highlight .kr { color: #f5c518; font-weight: bold; }
+.highlight .kp { color: #f5c518; }
+
+// Types — light blue
+.highlight .kt { color: #8fbcdb; font-weight: bold; }
+
+// Strings — sky blue
+.highlight .s,
+.highlight .s1,
+.highlight .s2,
+.highlight .sb,
+.highlight .sc,
+.highlight .sd,
+.highlight .sh,
+.highlight .si,
+.highlight .ss,
+.highlight .sx { color: #87ceeb; }
+
+// Numbers — soft purple
+.highlight .m,
+.highlight .mi,
+.highlight .mf,
+.highlight .mh,
+.highlight .mo,
+.highlight .il { color: #b5a0e8; }
+
+// Names / identifiers — neutral light
+.highlight .n,
+.highlight .nb,
+.highlight .ni,
+.highlight .nl,
+.highlight .nv  { color: #e0e0e0; }
+
+// Class / function / namespace names — light blue
+.highlight .na,
+.highlight .nc,
+.highlight .ne,
+.highlight .nf,
+.highlight .nn,
+.highlight .nx  { color: #8fbcdb; }
+
+// Decorator / constant / tag names — yellow accent
+.highlight .nd,
+.highlight .no,
+.highlight .nt  { color: #f5c518; }
+
+// Operators — neutral light
+.highlight .o   { color: #c0c0c0; }
+.highlight .ow  { color: #f5c518; font-weight: bold; }
+
+// Punctuation — neutral light
+.highlight .p,
+.highlight .pi  { color: #c0c0c0; }
+
+// Errors — bright red, no garish background
+.highlight .err { color: #ff5555; background-color: transparent; border: none; }
+
+// Diff colors
+.highlight .gd { color: #ff5555; }
+.highlight .gi { color: #50fa7b; }
+.highlight .gp { color: #f5c518; font-weight: bold; }
+.highlight .gh { color: #e0e0e0; font-weight: bold; }
+.highlight .gu { color: #6c6c6c; font-weight: bold; }
+.highlight .ge { font-style: italic; }
+.highlight .gs { font-weight: bold; }
+
+// XML/YAML/properties literal blocks
+.highlight .l,
+.highlight .ld  { color: #87ceeb; }

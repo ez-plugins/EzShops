@@ -1,3 +1,10 @@
+---
+layout: default
+title: ShopPriceService
+parent: API
+nav_order: 9
+---
+
 # ShopPriceService
 
 Package: com.skyblockexp.ezshops.shop.api

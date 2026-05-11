@@ -1,3 +1,11 @@
+---
+layout: default
+title: Commands
+nav_order: 2
+description: "Every command available in EzShops, with usage and permissions."
+permalink: /commands
+---
+
 # EzShops Commands
 
 This document lists all commands available in the EzShops plugin, their usage, descriptions, and required permissions.
@@ -325,6 +333,30 @@ List configured shop price keys and their current buy/sell prices. Paginated; de
 
 **Notes:**
 - Operators have access to admin commands by default. Use a permissions plugin to grant fine-grained access to the `ezshops.pricing.admin.*` nodes.
+
+---
+
+## Team Commands
+
+These commands require [TeamsAPI ≥ 1.4.1](integrations/teams-api) to be installed. They degrade gracefully when TeamsAPI is absent.
+
+##### `/teamshop`
+Opens the **Team Shop Dashboard** showing your team's name, current role bonuses and quick links to the treasury and stock browser.
+
+**Permission:** `ezshops.teamshop` (default: true)  
+**Tab completion:** `treasury`, `stocks`
+
+##### `/teamshop treasury`
+Opens the **Team Treasury GUI**. View the shared balance, deposit, and (with the appropriate permission) withdraw funds.
+
+**Permission:** `ezshops.teamshop.treasury.withdraw` (default: true)  
+**Example:** `/teamshop treasury`
+
+##### `/teamshop stocks`
+Opens the **Team Stock GUI**, listing all items currently in the team's shared stock pool.
+
+**Permission:** `ezshops.teamshop` (default: true)  
+**Example:** `/teamshop stocks`
 
 ---
 

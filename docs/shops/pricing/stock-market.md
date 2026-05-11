@@ -1,3 +1,11 @@
+---
+layout: default
+title: Stock Market
+parent: Shops
+nav_order: 4
+description: "Volatile market system driven by player activity."
+---
+
 # 📉 Stock Market System
 
 The Stock Market system introduces a global economic layer where item prices fluctuate based on volatility and player demand.

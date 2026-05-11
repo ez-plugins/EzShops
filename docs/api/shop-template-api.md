@@ -1,3 +1,11 @@
+---
+layout: default
+title: Shop Template API
+parent: API
+nav_order: 4
+description: "ShopTemplateService and builder API guide."
+---
+
 # Shop Template API
 
 ---

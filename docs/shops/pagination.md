@@ -1,3 +1,11 @@
+---
+layout: default
+title: Pagination
+parent: Shops
+nav_order: 1
+description: "Per-item page assignment in category GUIs."
+---
+
 # Shop Pagination and Per-item Pages
 
 EzShops supports assigning shop items to a specific GUI page and provides configuration to improve pagination behaviour for category menus.

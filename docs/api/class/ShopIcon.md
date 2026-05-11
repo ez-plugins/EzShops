@@ -1,3 +1,10 @@
+---
+layout: default
+title: ShopIcon (class)
+parent: API
+nav_order: 7
+---
+
 # ShopIcon
 
 Package: com.skyblockexp.ezshops.shop.api

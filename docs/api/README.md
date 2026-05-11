@@ -1,3 +1,11 @@
+---
+layout: default
+title: API Overview
+parent: API
+nav_order: 1
+description: "Getting started with the EzShops developer API."
+---
+
 
 # EzShops API
 

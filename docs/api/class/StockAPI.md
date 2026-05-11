@@ -1,3 +1,10 @@
+---
+layout: default
+title: StockAPI (class)
+parent: API
+nav_order: 14
+---
+
 # StockAPI
 
 Package: com.skyblockexp.ezshops.api

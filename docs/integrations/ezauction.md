@@ -1,3 +1,11 @@
+---
+layout: default
+title: EzAuction
+parent: Integrations
+nav_order: 3
+description: "Display shop prices in EzAuction menus."
+---
+
 # EzAuction Integration
 
 EzShops integrates with [EzAuction](https://www.spigotmc.org/resources/1-21-%E2%AD%90-ezauction-%E2%AD%90-buy-orders-advanced-gui-show-shop-price.129779/) to display shop pricing information in auction menus.

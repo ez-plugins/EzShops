@@ -1,3 +1,11 @@
+---
+layout: default
+title: Shop Pricing
+parent: API
+nav_order: 3
+description: "ShopPriceService API guide."
+---
+
 ## Shop Pricing API
 
 Purpose

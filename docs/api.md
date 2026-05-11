@@ -1,3 +1,12 @@
+---
+layout: default
+title: API
+nav_order: 7
+has_children: true
+description: "Developer API reference for EzShops."
+permalink: /api
+---
+
 # EzShops Plugin API Documentation
 
 This document provides a comprehensive reference for developers integrating with the EzShops plugin. All public classes, methods, and extension points are documented with usage examples.

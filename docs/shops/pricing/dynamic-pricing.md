@@ -1,3 +1,11 @@
+---
+layout: default
+title: Dynamic Pricing
+parent: Shops
+nav_order: 3
+description: "Supply/demand driven price adjustments."
+---
+
 # Dynamic Pricing
 
 This page explains EzShops' dynamic pricing system for server owners: what it does, how it behaves, how to configure it, and how to test it in-game.

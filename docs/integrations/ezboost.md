@@ -1,3 +1,11 @@
+---
+layout: default
+title: EzBoost
+parent: Integrations
+nav_order: 2
+description: "Sell price boost integration."
+---
+
 # EzBoost Integration
 
 EzShops supports integration with [EzBoost](https://modrinth.com/plugin/ezboost) to provide sell price boosts for players.
