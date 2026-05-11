@@ -6,7 +6,7 @@ Check our latest project: [PvPIndex]([https://pvpindex.com/](https://modrinth.co
 
 ![Ez Shops Minecraft Plugin Header](https://i.ibb.co/tMvtk3KG/ezshops-header.png)
 
-[![ez shops plugin documentation button](https://i.ibb.co/dskCvgLP/documentation-button-1.png)](https://github.com/ez-plugins/EzShops/blob/main/README.md)
+[![ez shops plugin documentation button](https://i.ibb.co/dskCvgLP/documentation-button-1.png)](https://ez-plugins.github.io/EzShops)
 [![ez shops plugin support button](https://i.ibb.co/Wpy2w1cH/support-button-1.png)](https://discord.gg/yWP95XfmBS)
 
 ![Minecraft Versions](https://ezbanners.org/shields/plugins/73ab8f99-e37c-4a42-b4b3-45683d5b5792/minecraft-versions.png)
@@ -16,7 +16,7 @@ Check our latest project: [PvPIndex]([https://pvpindex.com/](https://modrinth.co
 - **Requires Vault & compatible economy plugin**
 - **Dynamic pricing engine & persistent market state**
 - **ShopPriceService API for plugin integration**
-- **Full documentation:** [EzShops on GitHub](https://github.com/ez-plugins/EzShops)
+- **Full documentation:** [EzShops Docs](https://ez-plugins.github.io/EzShops)
 
 > **Note:** Vault and an economy plugin are required for currency transactions.
 
@@ -33,7 +33,7 @@ Check our latest project: [PvPIndex]([https://pvpindex.com/](https://modrinth.co
 - **Player Shops:** Let players run their own chest shops with secure, branded signs and automated stock management.
 - **Stock Market System:** Enable real-time, demand-driven pricing for select items, with admin controls and persistent overrides.
 - **Instant Config Reload:** Use `/shop reload` to update all configs and menus live, no server restart required.
-- **Sell boosts**: Option for sell boosts through integration with our [EzBoost plugin](https://modrinth.com/plugin/ezboost) 
+- **Sell boosts**: Option for sell boosts through integration with our [EzBoost plugin](https://modrinth.com/plugin/ezboost) - see the [EzBoost integration docs](https://ez-plugins.github.io/EzShops/integrations/ezboost).
 - **API Ready:** Integrate with other plugins or custom features using the robust ShopPriceService API.
 
 ![Category Menu](https://i.ibb.co/XvgPdSZ/ez-shops-category.png)
@@ -64,7 +64,7 @@ Check our latest project: [PvPIndex]([https://pvpindex.com/](https://modrinth.co
 - `/stock overview` – View all stock market items and their current prices.
 - `/stockadmin` – Full admin controls for the stock market.
 
-See the [full command list](https://github.com/ez-plugins/EzShops/blob/main/docs/commands.md) and [permissions](https://github.com/ez-plugins/EzShops/blob/main/docs/permissions.md).
+See the [full command list](https://ez-plugins.github.io/EzShops/commands) and [permissions](https://ez-plugins.github.io/EzShops/permissions).
 
 ---
 
@@ -77,7 +77,7 @@ See the [full command list](https://github.com/ez-plugins/EzShops/blob/main/docs
 - **Player Shops:** Empower your community to create secure, automated chest shops.
 - **Localization:** Support for English, Spanish, Dutch, Chinese, and more.
 
-Full setup and config details: [Configuration Guide](https://github.com/ez-plugins/EzShops/blob/main/docs/configuration.md)
+Full setup and config details: [Configuration Guide](https://ez-plugins.github.io/EzShops/configuration) - including [shop items](https://ez-plugins.github.io/EzShops/configuration/shop-items), [menu layout](https://ez-plugins.github.io/EzShops/configuration/menu-layout), and [localization](https://ez-plugins.github.io/EzShops/configuration/localization).
 
 ---
 
@@ -96,7 +96,7 @@ Full setup and config details: [Configuration Guide](https://github.com/ez-plugi
 - **Stock Market API:** Real-time price updates, player holdings, and admin controls.
 - **Ready for EzAuction & EzEconomy:** Out-of-the-box integration with other EzPlugins.
 
-See [API Reference & Examples](https://github.com/ez-plugins/EzShops/blob/main/docs/api.md)
+See [API Reference & Examples](https://ez-plugins.github.io/EzShops/api)
 
 ---
 
@@ -112,7 +112,7 @@ See [API Reference & Examples](https://github.com/ez-plugins/EzShops/blob/main/d
 
 **Deliver a next-level shop experience on your Minecraft server with EzShops!**
 
-🔗 [Full Documentation & Downloads on GitHub](https://github.com/ez-plugins/EzShops)
+🔗 [Full Documentation](https://ez-plugins.github.io/EzShops) · [GitHub](https://github.com/ez-plugins/EzShops)
 
 ---
 

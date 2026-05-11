@@ -27,7 +27,7 @@ Add `TeamsAPI` to your server alongside EzShops. No further installation steps a
 ## Features
 
 ![Team Market GUI](https://i.ibb.co/bgtM010v/image.png)
-*The Team Market browse GUI — players can list and purchase items with their teammates.*
+*The Team Market browse GUI - players can list and purchase items with their teammates.*
 
 ### Role-based sell multipliers
 

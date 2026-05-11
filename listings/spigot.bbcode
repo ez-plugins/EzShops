@@ -17,7 +17,7 @@
 [*][B]Specialty entries out of the box[/B]: Sell spawners with correctly tagged block states, issue minion or vote crate keys, and keep cosmetic minion heads restricted to crates.
 [*][B]Player-run marketplaces[/B]: [icode][shop][/icode] signs convert into owner-branded listings that pull stock from linked chests while enforcing permissions and chest access rules.
 [*][B]Category commands[/B]: Instantly run a server command when a category icon is clicked, instead of opening a shop. Use this for warps, info, or custom features (see config example below).
-[*][B]Sell boosts: [/B]Add sell boosts through our [URL='https://modrinth.com/plugin/ezboost']EzBoost plugin[/URL] integration
+[*][B]Sell boosts: [/B]Add sell boosts through our [URL='https://modrinth.com/plugin/ezboost']EzBoost plugin[/URL] integration - [URL='https://ez-plugins.github.io/EzShops/integrations/ezboost']integration docs[/URL]
 [*][B]Live config reload[/B]: Use [icode]/shop reload[/icode] (permission [icode]ezshops.reload[/icode]) to instantly reload all shop configuration files and update menus without restarting your server.
 [/LIST]
 
@@ -29,6 +29,7 @@
 [*][B]/price[/B]: Let players and staff quote live buy/sell totals using tab-complete across every configured material.
 [*][B]/shop reload[/B]: Instantly reload all shop configuration files and update menus (permission [icode]ezshops.reload[/icode]).
 [/LIST]
+[B][URL='https://ez-plugins.github.io/EzShops/commands']Full command reference →[/URL] · [URL='https://ez-plugins.github.io/EzShops/permissions']Permissions reference →[/URL][/B]
 
 [B][COLOR=#ff9900]⛃ Stock Market Features[/COLOR][/B]
 [LIST]
@@ -74,6 +75,7 @@ This means buying increases the price, selling decreases it, and random market s
 [*][icode]ezshops.stock.admin.list[/icode]: Allow listing all items with admin details.
 [*][icode]ezshops.stock.admin.info[/icode]: Allow viewing admin info for items.
 [/LIST]
+[B][URL='https://ez-plugins.github.io/EzShops/permissions']Full permissions reference →[/URL][/B]
 
 [B][COLOR=#00bfff]️ Configuration toolkit[/COLOR][/B]
 [LIST]
@@ -95,6 +97,7 @@ command: 'warp main {player}'
 [*][B]/playershop setup flow[/B]: Give creators a menu-driven way to prefill quantity and pricing, complete with +/- buttons that honor your configured minimums and caps before they ever place a sign.
 [*][B]Localized messaging[/B]: Point [icode]language[/icode] in [icode]config.yml[/icode] to files like [icode]messages/messages_fr.yml[/icode]. Bundle new locales inside your jar (and add them to [icode]EzShopsPlugin.DEFAULT_SHOP_RESOURCES[/icode]) so they copy to [icode]plugins/EzShops/messages/[/icode] on first launch.
 [/LIST]
+[B][URL='https://ez-plugins.github.io/EzShops/configuration']Full configuration reference →[/URL] · [URL='https://ez-plugins.github.io/EzShops/configuration/shop-items']Shop items →[/URL] · [URL='https://ez-plugins.github.io/EzShops/configuration/menu-layout']Menu layout →[/URL] · [URL='https://ez-plugins.github.io/EzShops/configuration/localization']Localization →[/URL][/B]
 
 [IMG]https://i.ibb.co/XvgPdSZ/ez-shops-category.png[/IMG]
 [IMG]https://i.ibb.co/0yYvMjQf/ez-shops-item-overview.png[/IMG]
@@ -122,6 +125,7 @@ wheat_seeds:
     buy-change: 0.018
     sell-change: 0.012
 [/code]
+[B][URL='https://ez-plugins.github.io/EzShops/configuration/shop-items']Shop items configuration reference →[/URL][/B]
 
 [B][COLOR=#00bfff] Configuring rotating specials[/COLOR][/B]
 [LIST]
@@ -219,6 +223,7 @@ prices.findSellPrice(stack).ifPresent(total -> player.sendMessage("Sell price: "
 [/code]
 [*][B]Cache your reference[/B]: Grab the provider during plugin enable and reuse it for commands, GUIs, and scheduled tasks.
 [/LIST]
+[B][URL='https://ez-plugins.github.io/EzShops/api']Full API reference →[/URL][/B]
 
 [B][COLOR=#00bfff] Quick start[/COLOR][/B]
 [LIST]
@@ -227,6 +232,7 @@ prices.findSellPrice(stack).ifPresent(total -> player.sendMessage("Sell price: "
 [*]Edit [icode]plugins/EzShops/shop.yml[/icode] (or the files under [icode]plugins/EzShops/shop/[/icode]) to tailor categories, prices, and display copy.
 [*]Grant [icode]ezshops.shop.sign.create[/icode] to trusted builders so they can post buy/sell signs around your spawn.
 [/LIST]
+[B][URL='https://ez-plugins.github.io/EzShops']Read the full documentation →[/URL][/B]
 
 [CENTER][I][COLOR=#ff9900]⛃ Deliver a polished ingame shop with EzShops today![/COLOR][/I][/CENTER]
 
