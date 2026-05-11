@@ -16,8 +16,8 @@ Documentation for EzShops' pricing interfaces and helpers. Use this page to lear
 Primary interfaces
 ------------------
 
-- `com.skyblockexp.ezshops.shop.api.ShopPriceService` — recommended public interface for price lookups (see source).
-- `ShopPricingManager` — internal pricing manager used by the plugin for price resolution and dynamic pricing rules (consult source when extending behavior).
+- `com.skyblockexp.ezshops.shop.api.ShopPriceService`  -  recommended public interface for price lookups (see source).
+- `ShopPricingManager`  -  internal pricing manager used by the plugin for price resolution and dynamic pricing rules (consult source when extending behavior).
 
 Service acquisition
 -------------------
@@ -39,8 +39,8 @@ ShopPriceService svc = p != null ? p.getProvider() : null;
 Core methods
 ------------
 
-- `OptionalDouble findBuyPrice(ItemStack itemStack)` — total price to buy the provided stack from a shop
-- `OptionalDouble findSellPrice(ItemStack itemStack)` — total price the shop will pay for the provided stack
+- `OptionalDouble findBuyPrice(ItemStack itemStack)`  -  total price to buy the provided stack from a shop
+- `OptionalDouble findSellPrice(ItemStack itemStack)`  -  total price the shop will pay for the provided stack
 
 Usage notes
 -----------

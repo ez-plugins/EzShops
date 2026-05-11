@@ -3,7 +3,7 @@ layout: default
 title: Shop Items
 parent: Configuration
 nav_order: 2
-description: "shop.yml reference — defining items and prices."
+description: "shop.yml reference  -  defining items and prices."
 ---
 
 # 📦 Shop Items & Pricing (shop.yml)

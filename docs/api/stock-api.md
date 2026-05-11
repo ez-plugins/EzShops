@@ -28,14 +28,14 @@ if (!EzShopsAPI.getInstance().isStockAPIAvailable()) {
 Core capabilities
 -----------------
 
-- `double getStockPrice(String productId)` — get the current market price for a product
-- `void setStockPrice(String productId, double price)` — set/override a product price
-- `void updateStockPrice(String productId, int demand)` — adjust price due to simulated demand
-- `int getPlayerStockAmount(Player player, String productId)` — query player holdings
-- `boolean addPlayerStock(Player player, String productId, int amount)` — add stock to player
-- `boolean removePlayerStock(Player player, String productId, int amount)` — remove stock from player
-- `List<String> getPlayerOwnedStocks(Player player)` — list a player's stock entries
-- `Set<String> getAllProductIds()` — list tradable product ids
+- `double getStockPrice(String productId)`  -  get the current market price for a product
+- `void setStockPrice(String productId, double price)`  -  set/override a product price
+- `void updateStockPrice(String productId, int demand)`  -  adjust price due to simulated demand
+- `int getPlayerStockAmount(Player player, String productId)`  -  query player holdings
+- `boolean addPlayerStock(Player player, String productId, int amount)`  -  add stock to player
+- `boolean removePlayerStock(Player player, String productId, int amount)`  -  remove stock from player
+- `List<String> getPlayerOwnedStocks(Player player)`  -  list a player's stock entries
+- `Set<String> getAllProductIds()`  -  list tradable product ids
 
 Thread-safety
 -------------
@@ -71,4 +71,4 @@ Notes
 -----
 
 - Validate `productId` inputs (non-null, non-empty) before calling; methods throw `IllegalArgumentException` on invalid input.
-- When calling `setStockPrice` or updating prices, coordinate with server admin policies — programmatic overrides can affect gameplay balance.
+- When calling `setStockPrice` or updating prices, coordinate with server admin policies  -  programmatic overrides can affect gameplay balance.

@@ -33,7 +33,7 @@ EzShops exposes three primary public surfaces for integrations:
 Recommended acquisition pattern
 -------------------------------
 
-Use the unified `EzShopsAPI` entry point where possible — it is initialized by the plugin and provides convenient helpers for each feature:
+Use the unified `EzShopsAPI` entry point where possible  -  it is initialized by the plugin and provides convenient helpers for each feature:
 
 ```java
 EzShopsAPI api = EzShopsAPI.getInstance();
@@ -55,11 +55,11 @@ Service lifecycle & guidance
 Class reference links
 ---------------------
 
-- `EzShopsAPI` — [docs/api/class/EzShopsAPI.md](docs/api/class/EzShopsAPI.md) — entry point
-- `ShopPriceService` — [docs/api/class/ShopPriceService.md](docs/api/class/ShopPriceService.md) — price lookups
-- `ShopTemplateService` — [docs/api/class/ShopTemplateService.md](docs/api/class/ShopTemplateService.md) — template management
-- `StockAPI` — [docs/api/class/StockAPI.md](docs/api/class/StockAPI.md) — stock market operations
-- `ShopItem`, `ShopIcon`, `ShopTemplateBuilder` and category builders — see [docs/api/class/](docs/api/class/)
+- `EzShopsAPI`  -  [docs/api/class/EzShopsAPI.md](docs/api/class/EzShopsAPI.md)  -  entry point
+- `ShopPriceService`  -  [docs/api/class/ShopPriceService.md](docs/api/class/ShopPriceService.md)  -  price lookups
+- `ShopTemplateService`  -  [docs/api/class/ShopTemplateService.md](docs/api/class/ShopTemplateService.md)  -  template management
+- `StockAPI`  -  [docs/api/class/StockAPI.md](docs/api/class/StockAPI.md)  -  stock market operations
+- `ShopItem`, `ShopIcon`, `ShopTemplateBuilder` and category builders  -  see [docs/api/class/](docs/api/class/)
 
 Contributing
 ------------

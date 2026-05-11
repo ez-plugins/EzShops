@@ -16,7 +16,7 @@ Overview
 
 Construction
 ------------
-- `ShopIcon.builder()` — fluent builder with setters for `material`, `amount`, `displayName`, `lore`, and `serializedItem(String base64)`.
+- `ShopIcon.builder()`  -  fluent builder with setters for `material`, `amount`, `displayName`, `lore`, and `serializedItem(String base64)`.
 
 Key methods
 -----------
@@ -24,8 +24,8 @@ Key methods
 - `int amount()`
 - `String displayName()`
 - `List<String> lore()`
-- `String serializedItem()` — optional Base64 itemstack
-- `Map<String,Object> toMap()` / `static ShopIcon fromMap(Map)` — YAML serialization helpers
+- `String serializedItem()`  -  optional Base64 itemstack
+- `Map<String,Object> toMap()` / `static ShopIcon fromMap(Map)`  -  YAML serialization helpers
 
 Usage
 -----

@@ -16,7 +16,7 @@ Helper for programmatically building `ShopTemplate` instances. Provides methods 
 
 Key methods
 -----------
-- `ShopTemplateBuilder(String id, String name)` — constructor
+- `ShopTemplateBuilder(String id, String name)`  -  constructor
 - `addCategory(ShopTemplateCategory category)`
 - `addCategory(String id, Map<String,Object> properties)`
 - `addItemToCategory(String categoryId, String itemId, ShopItem item)`

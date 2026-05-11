@@ -3,7 +3,7 @@ layout: default
 title: Main Settings
 parent: Configuration
 nav_order: 1
-description: "config.yml reference — dynamic pricing, teams, player shops."
+description: "config.yml reference  -  dynamic pricing, teams, player shops."
 ---
 
 # ⚙️ Main Configuration (config.yml)
