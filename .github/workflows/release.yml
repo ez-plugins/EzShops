@@ -144,9 +144,9 @@ jobs:
             folia
           changelog-file: release-notes.md
           dependencies: |
-            vault | required
-            teams-api | optional
-            ezboost | optional
+            teams-api(optional)
+            ezboost(optional)
+            ezauction(optional)
 
       # ──────────────────────────────────────────────────────────────────────
       #  8. DISCORD NOTIFICATION

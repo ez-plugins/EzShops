@@ -130,9 +130,9 @@ jobs:
             folia
           changelog-file: changelog.md
           dependencies: |
-            vault | required
-            teams-api | optional
-            ezboost | optional
+            teams-api(optional)
+            ezboost(optional)
+            ezauction(optional)
 
       - name: Create and push nightly tag
         if: steps.changes.outputs.has_changes == 'true'
