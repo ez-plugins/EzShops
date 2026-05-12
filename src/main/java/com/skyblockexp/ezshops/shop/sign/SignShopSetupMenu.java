@@ -133,7 +133,7 @@ public final class SignShopSetupMenu implements Listener {
         state.awaitingSearchInput = false;
         state.selectionInventory = null;
         state.inventory = null;
-        Bukkit.getScheduler().runTask(plugin, () -> {
+        com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, () -> {
             if (player.isOnline()) {
                 player.closeInventory();
             }
@@ -288,7 +288,7 @@ public final class SignShopSetupMenu implements Listener {
                 return;
             }
             if (state.inventory != null && openMenus.containsKey(player.getUniqueId())) {
-                Bukkit.getScheduler().runTask(plugin, () -> {
+                com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, () -> {
                     if (!player.getOpenInventory().getTopInventory().equals(state.inventory)
                             && player.isOnline()) {
                         player.openInventory(state.inventory);
@@ -326,7 +326,7 @@ public final class SignShopSetupMenu implements Listener {
         }
         event.setCancelled(true);
         String message = event.getMessage();
-        Bukkit.getScheduler().runTask(plugin, () -> handleCatalogSearchInput(player, state, message));
+        com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, () -> handleCatalogSearchInput(player, state, message));
     }
 
     private void handlePlayerInventoryClick(InventoryClickEvent event, Player player, MenuState state) {
@@ -477,7 +477,7 @@ public final class SignShopSetupMenu implements Listener {
             state.pendingItemSlot = -1;
             state.reopenToPlanner = true;
             state.awaitingSearchInput = false;
-            Bukkit.getScheduler().runTask(plugin, () -> player.openInventory(state.inventory));
+            com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, () -> player.openInventory(state.inventory));
             return;
         }
         if (slot == CATALOG_SLOT_SOURCE_TOGGLE) {
@@ -532,7 +532,7 @@ public final class SignShopSetupMenu implements Listener {
         state.pendingItemSlot = -1;
         state.awaitingSearchInput = false;
         state.reopenToPlanner = true;
-        Bukkit.getScheduler().runTask(plugin, () -> player.openInventory(state.inventory));
+        com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, () -> player.openInventory(state.inventory));
     }
 
     private void handleCategorySelection(Player player, MenuState state, CatalogEntry entry) {
@@ -596,7 +596,7 @@ public final class SignShopSetupMenu implements Listener {
 
         state.awaitingSearchInput = false;
         state.reopenToPlanner = true;
-        Bukkit.getScheduler().runTask(plugin, () -> player.openInventory(state.inventory));
+        com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, () -> player.openInventory(state.inventory));
     }
 
     private void handleCatalogSearchClick(Player player, MenuState state, ClickType click) {
@@ -1159,7 +1159,7 @@ public final class SignShopSetupMenu implements Listener {
         player.sendMessage((result.success() ? ChatColor.GREEN : ChatColor.RED) + result.message());
         if (result.success()) {
             openMenus.remove(player.getUniqueId());
-            Bukkit.getScheduler().runTask(plugin, () -> player.closeInventory());
+            com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, () -> player.closeInventory());
         }
     }
 

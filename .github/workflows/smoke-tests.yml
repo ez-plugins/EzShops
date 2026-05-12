@@ -1,0 +1,47 @@
+name: Smoke Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Cache Maven local repository
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-smoke-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-smoke-
+
+      - name: Build plugin
+        run: mvn -B -DskipTests package
+
+      - name: Run smoke tests
+        run: |
+          mvn -B \
+            -Dpaper.version=1.21.11-R0.1-SNAPSHOT \
+            -Dmockbukkit.artifactId=mockbukkit-v1.21 \
+            -Dmockbukkit.version=4.101.0 \
+            -Dtest=EzShopsPluginFeatureTest,PluginLifecycleFeatureTest,EzShopsAPITest \
+            test
+
+      - name: Upload jar artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: EzShops-smoke-${{ github.sha }}
+          path: target/*.jar
+          retention-days: 7

@@ -22,6 +22,7 @@ public final class CompatibilityUtil {
     
     private static Boolean isPaper = null;
     private static Boolean isSpigot = null;
+    private static Boolean isFolia = null;
     private static Boolean hasPersistentData = null;
     private static Integer minecraftVersion = null;
 
@@ -82,12 +83,33 @@ public final class CompatibilityUtil {
     }
 
     /**
+     * Detects if the server is running Folia (the threaded-region fork of Paper).
+     * On Folia, the standard BukkitScheduler sync tasks are unsupported; callers must
+     * use the region or global-region schedulers instead.
+     *
+     * @return true if Folia is detected
+     */
+    public static boolean isFolia() {
+        if (isFolia == null) {
+            try {
+                Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
+                isFolia = true;
+            } catch (ClassNotFoundException e) {
+                isFolia = false;
+            }
+        }
+        return isFolia;
+    }
+
+    /**
      * Gets the server type as a string for logging/debugging.
      *
-     * @return "Paper", "Spigot", or "Bukkit"
+     * @return "Folia", "Paper", "Spigot", or "Bukkit"
      */
     public static String getServerType() {
-        if (isPaper()) {
+        if (isFolia()) {
+            return "Folia";
+        } else if (isPaper()) {
             return "Paper";
         } else if (isSpigot()) {
             return "Spigot";

@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -187,9 +188,11 @@ public class QuickSellMenu implements Listener {
         }
 
         // Allow the drag; schedule a price refresh for the next tick
-        Bukkit.getScheduler().runTask(
-                Bukkit.getPluginManager().getPlugin("EzShops"),
-                () -> refreshPriceDisplay(topInv, player));
+        Plugin ezShopsPlugin = Bukkit.getPluginManager().getPlugin("EzShops");
+        if (ezShopsPlugin != null) {
+            com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(ezShopsPlugin,
+                    () -> refreshPriceDisplay(topInv, player));
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

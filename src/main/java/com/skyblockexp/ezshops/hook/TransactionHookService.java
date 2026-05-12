@@ -61,7 +61,7 @@ public class TransactionHookService {
             formatted.add(replaced);
         }
 
-        plugin.getServer().getScheduler().runTask(plugin, () -> {
+        com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, () -> {
             boolean effectiveConsole = runAsConsole;
             if (!effectiveConsole) {
                 // require explicit permission to run commands as the player

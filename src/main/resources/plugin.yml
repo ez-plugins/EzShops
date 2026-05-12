@@ -4,6 +4,7 @@ main: com.skyblockexp.ezshops.EzShopsPlugin
 author: Shadow48402
 description: Standalone plugin providing the Skyblock shop command, sign shops, and player chest shops.
 api-version: 1.13
+folia-supported: true
 depend: [Vault]
 softdepend: [SkyblockExperience, EzScoreboard, SkyblockExperienceCommon, EzEconomy, EzBoost, TeamsAPI]
 commands:
