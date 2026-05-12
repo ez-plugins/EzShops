@@ -120,7 +120,7 @@ public class ShopSignListener implements Listener {
 
         Block block = event.getBlock();
         if (block != null) {
-            Bukkit.getScheduler().runTask(plugin, () -> storeSignData(block, action, material, amount));
+            com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, () -> storeSignData(block, action, material, amount));
         }
 
         if (player != null) {

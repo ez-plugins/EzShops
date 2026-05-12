@@ -88,6 +88,7 @@ public final class CoreShopComponent implements PluginComponent {
 
         pricingManager = new ShopPricingManager(plugin, dynamicPricingConfiguration);
         transactionService = new ShopTransactionService(pricingManager, economy, transactionMessages);
+        transactionService.setEzBoostBridge(new com.skyblockexp.ezshops.shop.EzBoostBridge(plugin.getLogger()));
         // Hook service for executing commands on buy/sell
         com.skyblockexp.ezshops.hook.TransactionHookService hookService = new com.skyblockexp.ezshops.hook.TransactionHookService(plugin);
         transactionService.setTransactionHookService(hookService);

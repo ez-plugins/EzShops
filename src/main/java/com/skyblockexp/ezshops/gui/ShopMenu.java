@@ -172,7 +172,7 @@ public class ShopMenu implements Listener {
         if (Bukkit.isPrimaryThread()) {
             refreshTask.run();
         } else {
-            plugin.getServer().getScheduler().runTask(plugin, refreshTask);
+            com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, refreshTask);
         }
     }
 
@@ -241,7 +241,7 @@ public class ShopMenu implements Listener {
             return;
         }
         if (ShopInventoryComposer.ACTION_OPEN_MAIN_MENU.equalsIgnoreCase(action)) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> openMainMenu(player));
+            com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, () -> openMainMenu(player));
             return;
         }
         if (ShopInventoryComposer.ACTION_PLAY_SOUND.equalsIgnoreCase(action)) {
@@ -259,7 +259,7 @@ public class ShopMenu implements Listener {
             if (cmd != null) {
                 player.closeInventory();
                 String resolved = cmd.replace("{player}", player.getName());
-                plugin.getServer().getScheduler().runTask(plugin,
+                com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin,
                         () -> player.performCommand(resolved));
             }
             return;
@@ -289,13 +289,13 @@ public class ShopMenu implements Listener {
         }
 
         if (ShopInventoryComposer.ACTION_BACK.equalsIgnoreCase(action)) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> openMainMenu((Player) event.getWhoClicked()));
+            com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, () -> openMainMenu((Player) event.getWhoClicked()));
             return;
         }
 
         if (ShopInventoryComposer.ACTION_PREVIOUS.equalsIgnoreCase(action)) {
             if (categoryHolder.hasPreviousPage()) {
-                plugin.getServer().getScheduler().runTask(plugin, () -> inventoryComposer.openCategoryMenu(
+                com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, () -> inventoryComposer.openCategoryMenu(
                         player, categoryHolder.category(), categoryHolder.page() - 1, resolvePlayerIslandLevel(player),
                         ignoreIslandRequirements));
             }
@@ -304,7 +304,7 @@ public class ShopMenu implements Listener {
 
         if (ShopInventoryComposer.ACTION_NEXT.equalsIgnoreCase(action)) {
             if (categoryHolder.hasNextPage()) {
-                plugin.getServer().getScheduler().runTask(plugin, () -> inventoryComposer.openCategoryMenu(
+                com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, () -> inventoryComposer.openCategoryMenu(
                         player, categoryHolder.category(), categoryHolder.page() + 1, resolvePlayerIslandLevel(player),
                         ignoreIslandRequirements));
             }
@@ -330,7 +330,7 @@ public class ShopMenu implements Listener {
         String action = CompatibilityUtil.get(container, actionKey, PersistentDataType.STRING);
         if (ShopInventoryComposer.ACTION_PREVIOUS.equalsIgnoreCase(action)) {
             if (holder.hasPreviousPage()) {
-                plugin.getServer().getScheduler().runTask(plugin,
+                com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin,
                         () -> inventoryComposer.populateFlatMenu(holder, holder.page() - 1,
                                 resolvePlayerIslandLevel(player), ignoreIslandRequirements));
             }
@@ -339,7 +339,7 @@ public class ShopMenu implements Listener {
 
         if (ShopInventoryComposer.ACTION_NEXT.equalsIgnoreCase(action)) {
             if (holder.hasNextPage()) {
-                plugin.getServer().getScheduler().runTask(plugin,
+                com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin,
                         () -> inventoryComposer.populateFlatMenu(holder, holder.page() + 1,
                                 resolvePlayerIslandLevel(player), ignoreIslandRequirements));
             }
@@ -369,7 +369,7 @@ public class ShopMenu implements Listener {
         event.setCancelled(true);
         pendingCustomInputs.remove(playerId);
 
-        plugin.getServer().getScheduler().runTask(plugin,
+        com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin,
                 () -> handleCustomTransactionInput(event.getPlayer(), pending, event.getMessage()));
     }
 
@@ -394,7 +394,7 @@ public class ShopMenu implements Listener {
                     player.closeInventory();
                     plugin.getServer().dispatchCommand(player, commandToRun);
                 } else {
-                    plugin.getServer().getScheduler().runTask(plugin, () -> openCategory(player, category));
+                    com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, () -> openCategory(player, category));
                 }
                 return;
             }
@@ -406,7 +406,7 @@ public class ShopMenu implements Listener {
             PersistentDataContainer container) {
         String action = CompatibilityUtil.get(container, actionKey, PersistentDataType.STRING);
         if (ShopInventoryComposer.ACTION_BACK.equalsIgnoreCase(action)) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> openCategory(player, holder.category()));
+            com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, () -> openCategory(player, holder.category()));
             return;
         }
 
@@ -444,7 +444,7 @@ public class ShopMenu implements Listener {
                 player.sendMessage(guiMessages.common().itemCannotBePurchased());
                 return;
             }
-            plugin.getServer().getScheduler().runTask(plugin,
+            com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin,
                     () -> openQuantityMenu(player, category, item, ShopTransactionType.BUY));
             return;
         }
@@ -454,7 +454,7 @@ public class ShopMenu implements Listener {
             return;
         }
 
-        plugin.getServer().getScheduler().runTask(plugin,
+        com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin,
                 () -> openQuantityMenu(player, category, item, ShopTransactionType.SELL));
     }
 
@@ -595,7 +595,7 @@ public class ShopMenu implements Listener {
         }
 
         int islandLevel = resolvePlayerIslandLevel(player);
-        plugin.getServer().getScheduler().runTask(plugin,
+        com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin,
                 () -> openQuantityMenu(player, category, item, holder.type(), islandLevel));
     }
 

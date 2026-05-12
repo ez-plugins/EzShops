@@ -183,7 +183,7 @@ public final class PlayerShopSetupMenu implements Listener {
         }
         event.setCancelled(true);
         String message = event.getMessage();
-        plugin.getServer().getScheduler().runTask(plugin, () -> handleChatInput(event.getPlayer(), message));
+        com.skyblockexp.ezshops.common.SchedulerAdapter.runTask(plugin, () -> handleChatInput(event.getPlayer(), message));
     }
 
     @EventHandler

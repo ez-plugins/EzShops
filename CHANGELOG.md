@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.1] - 2026-05-12
+
+### Added
+- **Folia support** — EzShops now runs on Folia servers. All scheduler calls are routed through a new `SchedulerAdapter` that transparently delegates to `GlobalRegionScheduler` / `AsyncScheduler` on Folia and to `BukkitScheduler` on Paper/Spigot/Bukkit. The `folia-supported: true` flag has been added to `plugin.yml`.
+
+### Changed
+- **EzBoost engine improvement** — reflective access to EzBoost's price-multiplier API is now cached after the first lookup. `Class.forName`, `getMethod`, and `getPlugin` are no longer called on every transaction; instead, resolved `Method` references are reused for the lifetime of the server.
+
 ## [2.5.0] - 2026-05-11
 
 This version we focussed on adding **Team Shops**, a full team-based economy layer built on top of [TeamsAPI](https://modrinth.com/plugin/teams-api). Teams get their own market, shared treasury, stock pool, and role-based pricing, all accessible through a new `/teamshop` command.

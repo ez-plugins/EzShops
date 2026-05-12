@@ -10,10 +10,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
+import com.skyblockexp.ezshops.common.SchedulerAdapter;
+import com.skyblockexp.ezshops.common.TaskHandle;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 
 /**
  * Handles automatic advancement of configured shop rotations.
@@ -25,7 +26,7 @@ public final class ShopRotationManager {
     private final ShopMenu shopMenu;
     private final File stateFile;
     private final Map<String, RotationState> rotationStates = new LinkedHashMap<>();
-    private BukkitTask task;
+    private TaskHandle task;
 
     public ShopRotationManager(JavaPlugin plugin, ShopPricingManager pricingManager, ShopMenu shopMenu) {
         this.plugin = Objects.requireNonNull(plugin, "plugin");
@@ -51,7 +52,7 @@ public final class ShopRotationManager {
         if (task != null) {
             task.cancel();
         }
-        task = plugin.getServer().getScheduler().runTaskTimer(plugin, this::tick, 20L, 20L);
+        task = SchedulerAdapter.runTaskTimer(plugin, this::tick, 20L, 20L);
     }
 
     public void disable() {

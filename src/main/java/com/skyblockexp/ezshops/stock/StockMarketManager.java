@@ -1,8 +1,9 @@
 package com.skyblockexp.ezshops.stock;
 
+import com.skyblockexp.ezshops.common.SchedulerAdapter;
+import com.skyblockexp.ezshops.common.TaskHandle;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitTask;
 import com.skyblockexp.ezshops.gui.shop.ShopTransactionType;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -31,7 +32,7 @@ public class StockMarketManager {
     private final StockHistoryManager historyManager = new StockHistoryManager();
 
     // Persistence
-    private BukkitTask saveTask;
+    private TaskHandle saveTask;
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
     /**
      * Call this during plugin/component enable to set up persistence.
@@ -52,7 +53,7 @@ public class StockMarketManager {
         }
         // Schedule periodic async save
         if (saveTask != null) saveTask.cancel();
-        saveTask = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this::savePrices, saveIntervalTicks, saveIntervalTicks);
+        saveTask = SchedulerAdapter.runTaskTimerAsync(plugin, this::savePrices, saveIntervalTicks, saveIntervalTicks);
     }
 
     public void disablePersistence() {

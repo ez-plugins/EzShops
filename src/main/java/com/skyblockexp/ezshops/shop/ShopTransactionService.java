@@ -49,6 +49,7 @@ public class ShopTransactionService {
     private com.skyblockexp.ezshops.teams.TeamsIntegration teamsIntegration;
     private com.skyblockexp.ezshops.teams.TeamTreasury teamTreasury;
     private double treasurySplit = 0.0;
+    private EzBoostBridge ezBoostBridge;
 
     public ShopTransactionService(ShopPricingManager pricingManager, Economy economy,
             ShopMessageConfiguration.TransactionMessages transactionMessages) {
@@ -58,6 +59,10 @@ public class ShopTransactionService {
         this.successMessages = transactionMessages.success();
         this.notificationMessages = transactionMessages.notifications();
         this.customItemMessages = transactionMessages.customItems();
+    }
+
+    public void setEzBoostBridge(EzBoostBridge bridge) {
+        this.ezBoostBridge = bridge;
     }
 
     public void setTransactionHookService(com.skyblockexp.ezshops.hook.TransactionHookService hookService) {
@@ -83,122 +88,13 @@ public class ShopTransactionService {
     }
 
     private double getSellPriceMultiplier(Player player) {
-        try {
-            // Get the EzBoost plugin instance to access its class loader
-            org.bukkit.plugin.Plugin ezBoostPlugin = org.bukkit.Bukkit.getPluginManager().getPlugin("EzBoost");
-            if (ezBoostPlugin == null) {
-                return 1.0;
-            }
-            ClassLoader ezBoostClassLoader = ezBoostPlugin.getClass().getClassLoader();
-
-            // Check if EzBoost classes are available using the plugin's class loader
-            Class<?> ezBoostAPIClass = Class.forName("com.skyblockexp.ezboost.api.EzBoostAPI", true, ezBoostClassLoader);
-
-            java.lang.reflect.Method getBoostManagerMethod = ezBoostAPIClass.getMethod("getBoostManager");
-            Object boostManager = getBoostManagerMethod.invoke(null);
-            if (boostManager == null) {
-                return 1.0;
-            }
-
-            java.lang.reflect.Method getBoostsMethod = boostManager.getClass().getMethod("getBoosts", Player.class);
-            @SuppressWarnings("unchecked")
-            Map<String, Object> boosts = (Map<String, Object>) getBoostsMethod.invoke(boostManager, player);
-            double multiplier = 1.0;
-
-            for (Object boost : boosts.values()) {
-                java.lang.reflect.Method isActiveMethod = boostManager.getClass().getMethod("isActive", Player.class, String.class);
-                java.lang.reflect.Method getKeyMethod = boost.getClass().getMethod("key");
-                String key = (String) getKeyMethod.invoke(boost);
-
-                Boolean isActive = (Boolean) isActiveMethod.invoke(boostManager, player, key);
-                if (isActive) {
-                    java.lang.reflect.Method getEffectsMethod = boost.getClass().getMethod("effects");
-                    @SuppressWarnings("unchecked")
-                    java.util.Collection<Object> effects = (java.util.Collection<Object>) getEffectsMethod.invoke(boost);
-
-                    for (Object effect : effects) {
-                        java.lang.reflect.Method getCustomNameMethod = effect.getClass().getMethod("customName");
-                        String customName = (String) getCustomNameMethod.invoke(effect);
-                        if ("ezshops_sellprice".equals(customName)) {
-                            java.lang.reflect.Method getAmplifierMethod = effect.getClass().getMethod("amplifier");
-                            Number amplifier = (Number) getAmplifierMethod.invoke(effect);
-                            multiplier += amplifier.doubleValue() / 100.0;
-                        }
-                    }
-                }
-            }
-            return multiplier;
-        } catch (ClassNotFoundException e) {
-            // EzBoost not available, return default multiplier
-            return 1.0;
-        } catch (Exception e) {
-            // EzBoost integration failed, return default multiplier
-            return 1.0;
-        }
+        if (ezBoostBridge == null) return EzBoostBridge.NEUTRAL;
+        return ezBoostBridge.getSellMultiplier(player);
     }
 
     private double getBuyPriceMultiplier(Player player) {
-        /**
-         * Retrieves the active EzBoost discount boost for the player and converts it
-         * into a price multiplier.
-         *
-         * Example:
-         *  - 20% discount boost -> returns 0.8
-         *  - 50% discount boost -> returns 0.5
-         *
-         * If EzBoost is not present or an error occurs, defaults to 1.0 (no discount).
-         * Multiplier is clamped to a minimum of 0.0 to prevent negative prices.
-         */
-        try {
-            org.bukkit.plugin.Plugin ezBoostPlugin = org.bukkit.Bukkit.getPluginManager().getPlugin("EzBoost");
-            if (ezBoostPlugin == null) {
-                return 1.0;
-            }
-
-            ClassLoader ezBoostClassLoader = ezBoostPlugin.getClass().getClassLoader();
-            Class<?> ezBoostAPIClass = Class.forName("com.skyblockexp.ezboost.api.EzBoostAPI", true, ezBoostClassLoader);
-
-            java.lang.reflect.Method getBoostManagerMethod = ezBoostAPIClass.getMethod("getBoostManager");
-            Object boostManager = getBoostManagerMethod.invoke(null);
-            if (boostManager == null) {
-                return 1.0;
-            }
-
-            java.lang.reflect.Method getBoostsMethod = boostManager.getClass().getMethod("getBoosts", Player.class);
-            @SuppressWarnings("unchecked")
-            Map<String, Object> boosts = (Map<String, Object>) getBoostsMethod.invoke(boostManager, player);
-
-            double multiplier = 1.0;
-
-            for (Object boost : boosts.values()) {
-                java.lang.reflect.Method isActiveMethod = boostManager.getClass().getMethod("isActive", Player.class, String.class);
-                java.lang.reflect.Method getKeyMethod = boost.getClass().getMethod("key");
-                String key = (String) getKeyMethod.invoke(boost);
-
-                Boolean isActive = (Boolean) isActiveMethod.invoke(boostManager, player, key);
-                if (isActive) {
-                    java.lang.reflect.Method getEffectsMethod = boost.getClass().getMethod("effects");
-                    @SuppressWarnings("unchecked")
-                    Collection<Object> effects = (Collection<Object>) getEffectsMethod.invoke(boost);
-
-                    for (Object effect : effects) {
-                        java.lang.reflect.Method getCustomNameMethod = effect.getClass().getMethod("customName");
-                        String customName = (String) getCustomNameMethod.invoke(effect);
-
-                        if ("ezshops_discountboost".equals(customName)) {
-                            java.lang.reflect.Method getAmplifierMethod = effect.getClass().getMethod("amplifier");
-                            Number amplifier = (Number) getAmplifierMethod.invoke(effect);
-
-                            multiplier -= amplifier.doubleValue() / 100.0;
-                        }
-                    }
-                }
-            }
-
-            return Math.max(0.0, multiplier);
-        } catch (Exception e) {
-            return 1.0;
-        }
+        if (ezBoostBridge == null) return EzBoostBridge.NEUTRAL;
+        return ezBoostBridge.getBuyMultiplier(player);
     }
 
     private double getTeamSellMultiplier(Player player) {
