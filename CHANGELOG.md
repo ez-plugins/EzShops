@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.2] - 2026-05-12
+
+### Fixed
+- **TeamsAPI optional integration** — `NoClassDefFoundError` no longer crashes plugin startup when TeamsAPI is absent from the classpath. The availability check is now wrapped in a `NoClassDefFoundError` catch block so the integration degrades gracefully whether the JAR is missing entirely or the plugin is simply not loaded.
+
 ## [2.5.1] - 2026-05-12
 
 ### Added

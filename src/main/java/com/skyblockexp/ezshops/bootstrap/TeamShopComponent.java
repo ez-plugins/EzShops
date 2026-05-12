@@ -49,7 +49,12 @@ public final class TeamShopComponent implements PluginComponent {
             return;
         }
 
-        if (!TeamsAPI.isAvailable()) {
+        try {
+            if (!TeamsAPI.isAvailable()) {
+                plugin.getLogger().info("[EzShops] TeamsAPI not found - team shop features disabled.");
+                return;
+            }
+        } catch (NoClassDefFoundError ignored) {
             plugin.getLogger().info("[EzShops] TeamsAPI not found - team shop features disabled.");
             return;
         }
