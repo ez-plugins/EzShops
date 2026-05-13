@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.3] - 2026-05-14
+
+### Fixed
+- **TeamTreasury transaction safety** — `deposit` now refunds the player's Vault balance if the YAML save fails, preventing money from being lost on a failed write. `withdraw` debits the treasury *before* paying the player so a failed save aborts the operation without creating currency from nothing.
+- **TeamStockManager negative-amount guard** — `removeTeamStock` now returns `false` immediately when `amount <= 0`, preventing invalid stock mutations.
+
 ## [2.5.2] - 2026-05-12
 
 ### Fixed
