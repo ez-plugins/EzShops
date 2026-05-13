@@ -43,6 +43,7 @@ public final class TeamStockManager {
     }
 
     public boolean removeTeamStock(UUID teamId, String productId, int amount) {
+        if (amount <= 0) return false;
         File f = fileFor(teamId);
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(f);
         int current = yaml.getInt(key(productId), 0);
