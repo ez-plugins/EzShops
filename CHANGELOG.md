@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.5] - 2026-05-15
+
+### Fixed
+- **Quick Sell GUI shows "Nothing to sell" when sell fails after shift-click** — `handleConfirm` now distinguishes between a genuinely empty GUI and a GUI that has items but whose `sellDirect` call failed (e.g. economy down, dynamic price driven to $0.00 by a previous sale, rotation expired). The actual failure reason is shown to the player instead of the misleading "No items to sell." message. Items that failed to sell remain in the GUI so the player can retry.
+
 ## [2.5.4] - 2026-05-14
 
 ### Fixed
