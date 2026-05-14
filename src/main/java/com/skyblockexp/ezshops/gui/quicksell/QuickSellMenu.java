@@ -370,7 +370,9 @@ public class QuickSellMenu implements Listener {
             ItemStack item = topInv.getItem(slot);
             if (item == null || item.getType() == Material.AIR) continue;
 
-            ShopTransactionResult result = transactionService.sell(player, item.getType(), item.getAmount());
+            // Items in the GUI are no longer in the player's inventory, so use sellDirect which
+            // skips the countMaterial / removeItems check on the player's own inventory.
+            ShopTransactionResult result = transactionService.sellDirect(player, item.getType(), item.getAmount());
             if (result.success()) {
                 topInv.setItem(slot, null);
                 // Accumulate the sell value from the pricing manager for the summary
