@@ -102,6 +102,66 @@ public class QuickSellMenuShiftClickTest extends AbstractEzShopsTest {
         assertTrue(slot5 == null || slot5.getType() == Material.AIR, "Slot 5 should be empty");
     }
 
+    /**
+     * When items ARE present in the GUI but sellDirect fails for a real reason (e.g. the economy
+     * rejects the deposit), handleConfirm must show the actual failure reason, not the misleading
+     * "No items to sell." message.
+     *
+     * <p>This is a regression test for the secondary symptom of GitHub issue
+     * "sell GUI sometimes fails to detect items added with shift-click":
+     * after a first successful sale drives dynamic pricing down to $0, the second
+     * attempt returns an invalidSellPrice failure and the player would incorrectly
+     * see "Nothing to sell" even though items are clearly visible in the GUI.
+     */
+    @Test
+    void confirm_shows_sell_failure_reason_not_nothing_to_sell_when_economy_rejects_deposit() throws Exception {
+        Economy econ = mock(Economy.class);
+        when(econ.format(anyDouble())).thenReturn("$0.00");
+        // Economy deliberately fails — simulates the deposit being rejected
+        when(econ.depositPlayer(any(Player.class), anyDouble()))
+                .thenReturn(new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Bank offline"));
+        loadProviderPlugin(econ);
+
+        EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
+        CoreShopComponent core = plugin.getCoreShopComponent();
+        assertNotNull(core);
+
+        Field quickSellField = CoreShopComponent.class.getDeclaredField("quickSellMenu");
+        quickSellField.setAccessible(true);
+        QuickSellMenu quickSellMenu = (QuickSellMenu) quickSellField.get(core);
+        assertNotNull(quickSellMenu);
+
+        Player player = server.addPlayer("economy-fail-player");
+        player.addAttachment(plugin, ShopTransactionService.PERMISSION_SELL, true);
+        quickSellMenu.open(player);
+
+        Inventory guiInv = player.getOpenInventory().getTopInventory();
+        assertNotNull(guiInv);
+
+        // Items are in the GUI only (simulates shift-click)
+        player.getInventory().remove(Material.DIAMOND);
+        guiInv.setItem(0, new ItemStack(Material.DIAMOND, 16));
+
+        Method handleConfirm = QuickSellMenu.class.getDeclaredMethod("handleConfirm", Player.class, Inventory.class);
+        handleConfirm.setAccessible(true);
+        handleConfirm.invoke(quickSellMenu, player, guiInv);
+
+        // Economy was reached — items in the GUI were found and a sell was attempted
+        verify(econ, atLeastOnce()).depositPlayer(eq(player), anyDouble());
+
+        // The item must still be in the GUI slot (sell failed → not cleared)
+        ItemStack remaining = guiInv.getItem(0);
+        assertNotNull(remaining, "GUI slot should still have the item after a failed sell");
+        assertNotEquals(Material.AIR, remaining.getType(), "GUI slot should still have the item after a failed sell");
+
+        // The player must NOT see "No items to sell." — that message is only for an actually empty GUI.
+        // The real failure reason (transaction failed) should be shown instead.
+        String message = ((org.mockbukkit.mockbukkit.entity.PlayerMock) player).nextMessage();
+        assertNotNull(message, "Player should have received an error message");
+        assertFalse(message.contains("No items to sell"),
+                "Expected the sell-failure reason to be shown, but got 'No items to sell': " + message);
+    }
+
     private static int countMaterial(Player player, Material material) {
         int count = 0;
         for (ItemStack stack : player.getInventory().getStorageContents()) {

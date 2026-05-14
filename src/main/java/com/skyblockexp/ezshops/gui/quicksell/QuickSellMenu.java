@@ -365,11 +365,14 @@ public class QuickSellMenu implements Listener {
     private void handleConfirm(Player player, Inventory topInv) {
         double total = 0.0;
         boolean soldAnything = false;
+        boolean hadItems = false;
+        String lastFailureMessage = null;
 
         for (int slot = 0; slot < ITEM_SLOT_COUNT; slot++) {
             ItemStack item = topInv.getItem(slot);
             if (item == null || item.getType() == Material.AIR) continue;
 
+            hadItems = true;
             // Items in the GUI are no longer in the player's inventory, so use sellDirect which
             // skips the countMaterial / removeItems check on the player's own inventory.
             ShopTransactionResult result = transactionService.sellDirect(player, item.getType(), item.getAmount());
@@ -379,12 +382,21 @@ public class QuickSellMenu implements Listener {
                 total += pricingManager.estimateBulkTotal(
                         item.getType().name(), item.getAmount(), ShopTransactionType.SELL);
                 soldAnything = true;
+            } else {
+                lastFailureMessage = result.message();
+                // Failed items remain in the slot; onInventoryClose will return them
             }
-            // Failed items remain in the slot; onInventoryClose will return them
         }
 
         if (!soldAnything) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.nothingToSell()));
+            // If items were present but every sellDirect call failed (e.g. economy down,
+            // dynamic price driven to $0.00 after a previous sale, rotation expired), show
+            // the actual failure reason instead of the misleading "No items to sell." message.
+            if (hadItems && lastFailureMessage != null) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', lastFailureMessage));
+            } else {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.nothingToSell()));
+            }
             return;
         }
 
