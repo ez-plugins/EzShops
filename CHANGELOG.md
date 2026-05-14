@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.4] - 2026-05-14
+
+### Fixed
+- **Quick Sell GUI "Nothing to sell" after shift-click** - `handleConfirm` now calls a new `ShopTransactionService.sellDirect()` method that skips the player-inventory item count/removal steps. Previously, shift-clicking items into the GUI moved them out of the player's inventory, so the old `sell()` path found zero items and reported nothing to sell.
+
 ## [2.5.3] - 2026-05-14
 
 ### Fixed
