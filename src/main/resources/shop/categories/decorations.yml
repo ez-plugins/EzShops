@@ -1,4 +1,6 @@
 # EzShops category configuration for "decorations".
+# For valid material names see: docs/configuration/material-names.md
+# or https://jd.papermc.io/paper/1.21/org/bukkit/Material.html
 categories:
   decorations:
     name: "{translate:shop.categories.decorations.name}"

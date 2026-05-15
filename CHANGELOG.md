@@ -7,15 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.5.5] - 2026-05-15
-
-### Fixed
-- **Quick Sell GUI shows "Nothing to sell" when sell fails after shift-click** — `handleConfirm` now distinguishes between a genuinely empty GUI and a GUI that has items but whose `sellDirect` call failed (e.g. economy down, dynamic price driven to $0.00 by a previous sale, rotation expired). The actual failure reason is shown to the player instead of the misleading "No items to sell." message. Items that failed to sell remain in the GUI so the player can retry.
-
 ## [2.5.4] - 2026-05-14
 
 ### Fixed
-- **Quick Sell GUI "Nothing to sell" after shift-click** - `handleConfirm` now calls a new `ShopTransactionService.sellDirect()` method that skips the player-inventory item count/removal steps. Previously, shift-clicking items into the GUI moved them out of the player's inventory, so the old `sell()` path found zero items and reported nothing to sell.
+- **Quick Sell GUI "Nothing to sell" after shift-click** — `handleConfirm` now calls a new `ShopTransactionService.sellDirect()` method that skips the player-inventory item count/removal steps. Previously, shift-clicking items into the GUI moved them out of the player's inventory, so the old `sell()` path found zero items and reported nothing to sell.
+- **Quick Sell GUI shows "Nothing to sell" when sell fails after shift-click** — `handleConfirm` now distinguishes between a genuinely empty GUI and a GUI that has items but whose `sellDirect` call failed (e.g. economy down, dynamic price driven to $0.00 by a previous sale, rotation expired). The actual failure reason is shown to the player instead of the misleading "No items to sell." message. Items that failed to sell remain in the GUI so the player can retry.
+- **Quick Sell GUI rejects rotation items even when directly sellable** — `sellDirect` and `isSellable` both applied a rotation-visibility check that belongs only in the main shop menu. The Quick Sell GUI is designed to accept any item with a configured sell price; rotation restrictions are now only enforced in `sell()`, which is the path used when a player types `/sell` or `/sellhand`.
+- **Legacy `shop.yml` item keys not found when using lowercase material names** — `loadLegacyEntries` now normalises every price key to `Material.name()` (e.g. `BIRCH_LOG`) before registering it in the price map. Previously, a config entry written as `birch_log:` was stored under the lowercase key, so `getPrice(Material.BIRCH_LOG)` could not find it, silently treating the item as unpriced.
 
 ## [2.5.3] - 2026-05-14
 

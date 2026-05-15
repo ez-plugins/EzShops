@@ -304,6 +304,10 @@ public class ShopTransactionService {
      * Sells {@code amount} of {@code material} on behalf of {@code player} without checking or removing
      * items from the player's own inventory. Use this when the items have already been removed from an
      * external inventory (e.g. the Quick Sell GUI) before calling this method.
+     *
+     * <p>Unlike {@link #sell(Player, Material, int)}, this method does <em>not</em> apply the rotation
+     * restriction. The Quick Sell GUI accepts any item that has a configured sell price, regardless of
+     * which rotation option is currently active.</p>
      */
     public ShopTransactionResult sellDirect(Player player, Material material, int amount) {
         if (economy == null) {
@@ -316,10 +320,6 @@ public class ShopTransactionService {
 
         if (amount <= 0) {
             return ShopTransactionResult.failure(errorMessages.amountPositive());
-        }
-
-        if (!pricingManager.isVisibleInMenu(material) && pricingManager.isPartOfRotation(material)) {
-            return ShopTransactionResult.failure(errorMessages.notInRotation());
         }
 
         ShopPrice price = pricingManager.getPrice(material).orElse(null);

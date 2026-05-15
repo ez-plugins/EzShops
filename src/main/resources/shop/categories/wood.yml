@@ -1,4 +1,6 @@
 # EzShops category configuration for "wood".
+# For valid material names see: docs/configuration/material-names.md
+# or https://jd.papermc.io/paper/1.21/org/bukkit/Material.html
 categories:
   wood:
     name: "{translate:shop.categories.wood.name}"

@@ -47,7 +47,7 @@ The specific slot position in the category GUI where this item will appear.
 
 ### Material (`material`)
 **Type:** `string`
-The valid Minecraft Material name (e.g., `DIAMOND_SWORD`, `STONE`).
+The valid Minecraft Material name (e.g., `DIAMOND_SWORD`, `STONE`). Names are **case-insensitive**. See [Material Names](material-names.md) for a full reference, including a list of historical renames and new materials added in each version.
 
 ### Display Name (`display-name`)
 **Type:** `string`

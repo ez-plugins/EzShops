@@ -461,15 +461,12 @@ public class QuickSellMenu implements Listener {
     }
 
     /**
-     * Returns {@code true} if the material has a configured sell price and is
-     * currently available (visible / not rotation-hidden).
+     * Returns {@code true} if the material has a configured sell price.
+     * The Quick Sell GUI intentionally ignores rotation restrictions so that
+     * players can sell any item that is configured in any shop category.
      */
     private boolean isSellable(Material material) {
         if (material == null || material == Material.AIR) return false;
-        // Rotation check: if the item is part of a rotation but not currently visible, reject it
-        if (!pricingManager.isVisibleInMenu(material) && pricingManager.isPartOfRotation(material)) {
-            return false;
-        }
         return pricingManager.getPrice(material)
                 .map(ShopPrice::canSell)
                 .orElse(false);

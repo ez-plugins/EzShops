@@ -1,4 +1,6 @@
 # Example category wired to the bundled daily-specials rotation group.
+# For valid material names see: docs/configuration/material-names.md
+# or https://jd.papermc.io/paper/1.21/org/bukkit/Material.html
 #
 # Any category can opt into a rotation by setting rotation-group to the ID from
 # shop/rotations/*.yml. The menu pulls shared defaults from rotation-defaults

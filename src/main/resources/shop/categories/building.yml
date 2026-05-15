@@ -1,4 +1,6 @@
 # EzShops category configuration for "building".
+# For valid material names see: docs/configuration/material-names.md
+# or https://jd.papermc.io/paper/1.21/org/bukkit/Material.html
 categories:
   building:
     name: "{translate:shop.categories.building.name}"
@@ -28,10 +30,6 @@ categories:
         - "{translate:shop.common.shift-click-line}"
         buy: 64.0
         sell: 32.0
-        on-buy:
-          execute-as: console
-          commands:
-          - "broadcast test 1 2 3"
       glass:
         material: GLASS
         slot: 11
