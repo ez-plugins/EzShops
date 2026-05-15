@@ -82,6 +82,27 @@ public class WoodCategoryConfigLoadingTest extends AbstractEzShopsTest {
             assertTrue(price.get().canSell(),
                     log.name() + " should have a positive sell price (canSell == true)");
         }
+
+        // All stripped log variants added to the bundled wood.yml defaults
+        Material[] expectedStrippedLogs = {
+                Material.STRIPPED_OAK_LOG,
+                Material.STRIPPED_SPRUCE_LOG,
+                Material.STRIPPED_BIRCH_LOG,
+                Material.STRIPPED_JUNGLE_LOG,
+                Material.STRIPPED_ACACIA_LOG,
+                Material.STRIPPED_DARK_OAK_LOG,
+                Material.STRIPPED_MANGROVE_LOG,
+                Material.STRIPPED_PALE_OAK_LOG,
+                Material.STRIPPED_CHERRY_LOG,
+        };
+
+        for (Material stripped : expectedStrippedLogs) {
+            Optional<ShopPrice> price = pm.getPrice(stripped);
+            assertTrue(price.isPresent(),
+                    stripped.name() + " should be present in the price map after loading the bundled wood.yml");
+            assertTrue(price.get().canSell(),
+                    stripped.name() + " should have a positive sell price (canSell == true)");
+        }
     }
 
     /**
@@ -207,35 +228,41 @@ public class WoodCategoryConfigLoadingTest extends AbstractEzShopsTest {
     // -----------------------------------------------------------------------
 
     /**
-     * STRIPPED_JUNGLE_LOG is not in the bundled config — this should return
-     * "not configured", which is the correct/expected behaviour.
+     * STRIPPED_JUNGLE_LOG must appear in the price map now that it has been
+     * added to the bundled wood.yml defaults.
      */
     @Test
-    void stripped_jungle_log_is_not_configured() throws Exception {
+    void stripped_jungle_log_is_priced_and_sellable() throws Exception {
         Economy econ = mock(Economy.class);
         loadProviderPlugin(econ);
 
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         ShopPricingManager pm = getPricingManager(plugin);
 
-        assertFalse(pm.getPrice(Material.STRIPPED_JUNGLE_LOG).isPresent(),
-                "STRIPPED_JUNGLE_LOG is not in the bundled config and should not be priced");
+        Optional<ShopPrice> price = pm.getPrice(Material.STRIPPED_JUNGLE_LOG);
+        assertTrue(price.isPresent(),
+                "STRIPPED_JUNGLE_LOG must be present in the price map after loading the bundled wood.yml");
+        assertTrue(price.get().canSell(),
+                "STRIPPED_JUNGLE_LOG must have a positive sell price");
     }
 
     /**
-     * OAK_PLANKS is not in the bundled config — this should return "not
-     * configured", which is the correct/expected behaviour.
+     * OAK_PLANKS must appear in the price map now that planks have been added
+     * to the bundled building.yml defaults.
      */
     @Test
-    void oak_planks_is_not_configured() throws Exception {
+    void oak_planks_is_priced_and_sellable() throws Exception {
         Economy econ = mock(Economy.class);
         loadProviderPlugin(econ);
 
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         ShopPricingManager pm = getPricingManager(plugin);
 
-        assertFalse(pm.getPrice(Material.OAK_PLANKS).isPresent(),
-                "OAK_PLANKS is not in the bundled config and should not be priced");
+        Optional<ShopPrice> price = pm.getPrice(Material.OAK_PLANKS);
+        assertTrue(price.isPresent(),
+                "OAK_PLANKS must be present in the price map after loading the bundled building.yml");
+        assertTrue(price.get().canSell(),
+                "OAK_PLANKS must have a positive sell price");
     }
 
     // -----------------------------------------------------------------------

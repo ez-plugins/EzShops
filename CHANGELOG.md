@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Quick Sell GUI rejects rotation items even when directly sellable** — `sellDirect` and `isSellable` both applied a rotation-visibility check that belongs only in the main shop menu. The Quick Sell GUI is designed to accept any item with a configured sell price; rotation restrictions are now only enforced in `sell()`, which is the path used when a player types `/sell` or `/sellhand`.
 - **Legacy `shop.yml` item keys not found when using lowercase material names** — `loadLegacyEntries` now normalises every price key to `Material.name()` (e.g. `BIRCH_LOG`) before registering it in the price map. Previously, a config entry written as `birch_log:` was stored under the lowercase key, so `getPrice(Material.BIRCH_LOG)` could not find it, silently treating the item as unpriced.
 
+### Added
+- **Stripped log variants in the wood category** — all 9 stripped log types (`STRIPPED_OAK_LOG`, `STRIPPED_SPRUCE_LOG`, `STRIPPED_BIRCH_LOG`, `STRIPPED_JUNGLE_LOG`, `STRIPPED_ACACIA_LOG`, `STRIPPED_DARK_OAK_LOG`, `STRIPPED_MANGROVE_LOG`, `STRIPPED_PALE_OAK_LOG`, `STRIPPED_CHERRY_LOG`) are now included in the default `wood.yml` config so players can sell stripped logs with `/sellhand` and the Quick Sell GUI out of the box.
+- **Plank variants in the building category** — all 9 plank types (`OAK_PLANKS`, `SPRUCE_PLANKS`, `BIRCH_PLANKS`, `JUNGLE_PLANKS`, `ACACIA_PLANKS`, `DARK_OAK_PLANKS`, `MANGROVE_PLANKS`, `PALE_OAK_PLANKS`, `CHERRY_PLANKS`) are now included in the default `building.yml` config.
+
 ## [2.5.3] - 2026-05-14
 
 ### Fixed
