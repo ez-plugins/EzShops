@@ -365,24 +365,38 @@ public class QuickSellMenu implements Listener {
     private void handleConfirm(Player player, Inventory topInv) {
         double total = 0.0;
         boolean soldAnything = false;
+        boolean hadItems = false;
+        String lastFailureMessage = null;
 
         for (int slot = 0; slot < ITEM_SLOT_COUNT; slot++) {
             ItemStack item = topInv.getItem(slot);
             if (item == null || item.getType() == Material.AIR) continue;
 
-            ShopTransactionResult result = transactionService.sell(player, item.getType(), item.getAmount());
+            hadItems = true;
+            // Items in the GUI are no longer in the player's inventory, so use sellDirect which
+            // skips the countMaterial / removeItems check on the player's own inventory.
+            ShopTransactionResult result = transactionService.sellDirect(player, item.getType(), item.getAmount());
             if (result.success()) {
                 topInv.setItem(slot, null);
                 // Accumulate the sell value from the pricing manager for the summary
                 total += pricingManager.estimateBulkTotal(
                         item.getType().name(), item.getAmount(), ShopTransactionType.SELL);
                 soldAnything = true;
+            } else {
+                lastFailureMessage = result.message();
+                // Failed items remain in the slot; onInventoryClose will return them
             }
-            // Failed items remain in the slot; onInventoryClose will return them
         }
 
         if (!soldAnything) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.nothingToSell()));
+            // If items were present but every sellDirect call failed (e.g. economy down,
+            // dynamic price driven to $0.00 after a previous sale, rotation expired), show
+            // the actual failure reason instead of the misleading "No items to sell." message.
+            if (hadItems && lastFailureMessage != null) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', lastFailureMessage));
+            } else {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.nothingToSell()));
+            }
             return;
         }
 
@@ -447,15 +461,12 @@ public class QuickSellMenu implements Listener {
     }
 
     /**
-     * Returns {@code true} if the material has a configured sell price and is
-     * currently available (visible / not rotation-hidden).
+     * Returns {@code true} if the material has a configured sell price.
+     * The Quick Sell GUI intentionally ignores rotation restrictions so that
+     * players can sell any item that is configured in any shop category.
      */
     private boolean isSellable(Material material) {
         if (material == null || material == Material.AIR) return false;
-        // Rotation check: if the item is part of a rotation but not currently visible, reject it
-        if (!pricingManager.isVisibleInMenu(material) && pricingManager.isPartOfRotation(material)) {
-            return false;
-        }
         return pricingManager.getPrice(material)
                 .map(ShopPrice::canSell)
                 .orElse(false);

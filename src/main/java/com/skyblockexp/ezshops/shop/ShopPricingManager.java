@@ -97,6 +97,8 @@ public class ShopPricingManager {
         parseRotations(root);
         menuLayout = loadMenuLayout(root);
         cleanupDynamicState();
+        int categories = menuLayout != null ? menuLayout.categories().size() : 0;
+        logger.info("Shop configuration loaded: " + priceMap.size() + " item(s) across " + categories + " categor" + (categories == 1 ? "y" : "ies") + ".");
     }
 
     public Optional<ShopPrice> getPrice(Material material) {
@@ -325,8 +327,10 @@ public class ShopPricingManager {
 
             ShopPrice price = new ShopPrice(Double.isNaN(buyPrice) ? -1.0D : buyPrice,
                     Double.isNaN(sellPrice) ? -1.0D : sellPrice);
-            DynamicSettings dynamicSettings = parseDynamicSettings(priceSection, key);
-            registerPrice(key, price, dynamicSettings);
+            // Use the canonical material name as the price key so that getPrice(Material)
+            // can always find the entry regardless of the letter-case used in the config file.
+            DynamicSettings dynamicSettings = parseDynamicSettings(priceSection, material.name());
+            registerPrice(material.name(), price, dynamicSettings);
         }
     }
 
@@ -961,27 +965,17 @@ public class ShopPricingManager {
     }
 
     private void adjustDynamicMultiplier(Material material, int amount, boolean purchase) {
-        if (amount <= 0) {
-            return;
-        }
-        if (material == null) {
+        if (amount <= 0 || material == null) {
             return;
         }
         String nameKey = material.name();
         PriceEntry entry = priceMap.get(nameKey);
-        String foundKey = nameKey;
-        if (entry == null) {
-            // fallback: some price keys are stored using the item id (lowercase), try that too
-            String lowerKey = nameKey.toLowerCase(Locale.ENGLISH);
-            entry = priceMap.get(lowerKey);
-            foundKey = lowerKey;
-        }
         if (entry == null || !entry.hasDynamicPricing()) {
             return;
         }
         boolean changed = purchase ? entry.adjustAfterPurchase(amount) : entry.adjustAfterSale(amount);
         if (changed) {
-            saveDynamicState(foundKey, entry);
+            saveDynamicState(nameKey, entry);
         }
     }
 

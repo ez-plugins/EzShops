@@ -1,4 +1,6 @@
 # EzShops category configuration for "building".
+# For valid material names see: docs/configuration/material-names.md
+# or https://jd.papermc.io/paper/1.21/org/bukkit/Material.html
 categories:
   building:
     name: "{translate:shop.categories.building.name}"
@@ -28,10 +30,6 @@ categories:
         - "{translate:shop.common.shift-click-line}"
         buy: 64.0
         sell: 32.0
-        on-buy:
-          execute-as: console
-          commands:
-          - "broadcast test 1 2 3"
       glass:
         material: GLASS
         slot: 11
@@ -318,3 +316,121 @@ categories:
         - "{translate:shop.common.shift-click-line}"
         buy: 56.0
         sell: 26.0
+      # --- Planks (crafted from logs; lower unit value than logs) ---
+      oak_planks:
+        material: OAK_PLANKS
+        slot: 37
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 6.0
+        sell: 2.5
+      spruce_planks:
+        material: SPRUCE_PLANKS
+        slot: 38
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 6.5
+        sell: 2.75
+      birch_planks:
+        material: BIRCH_PLANKS
+        slot: 39
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 6.5
+        sell: 2.75
+      jungle_planks:
+        material: JUNGLE_PLANKS
+        slot: 40
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 7.0
+        sell: 3.0
+      acacia_planks:
+        material: ACACIA_PLANKS
+        slot: 41
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 7.0
+        sell: 3.0
+      dark_oak_planks:
+        material: DARK_OAK_PLANKS
+        slot: 42
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 7.0
+        sell: 3.0
+      mangrove_planks:
+        material: MANGROVE_PLANKS
+        slot: 43
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 7.0
+        sell: 3.0
+      pale_oak_planks:
+        material: PALE_OAK_PLANKS
+        slot: 44
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 8.0
+        sell: 3.5
+      cherry_planks:
+        material: CHERRY_PLANKS
+        slot: 46
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 7.5
+        sell: 3.25

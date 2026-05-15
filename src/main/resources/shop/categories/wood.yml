@@ -1,4 +1,6 @@
 # EzShops category configuration for "wood".
+# For valid material names see: docs/configuration/material-names.md
+# or https://jd.papermc.io/paper/1.21/org/bukkit/Material.html
 categories:
   wood:
     name: "{translate:shop.categories.wood.name}"
@@ -122,6 +124,242 @@ categories:
       cherry_log:
         material: CHERRY_LOG
         slot: 19
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 30.0
+        sell: 13.0
+      # --- Stripped logs (bark removed; slightly lower value than full logs) ---
+      stripped_oak_log:
+        material: STRIPPED_OAK_LOG
+        slot: 20
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 19.0
+        sell: 8.0
+      stripped_spruce_log:
+        material: STRIPPED_SPRUCE_LOG
+        slot: 21
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 21.0
+        sell: 9.0
+      stripped_birch_log:
+        material: STRIPPED_BIRCH_LOG
+        slot: 22
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 21.0
+        sell: 9.0
+      stripped_jungle_log:
+        material: STRIPPED_JUNGLE_LOG
+        slot: 23
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 22.0
+        sell: 9.5
+      stripped_acacia_log:
+        material: STRIPPED_ACACIA_LOG
+        slot: 24
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 22.0
+        sell: 9.5
+      stripped_dark_oak_log:
+        material: STRIPPED_DARK_OAK_LOG
+        slot: 25
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 22.0
+        sell: 9.5
+      stripped_mangrove_log:
+        material: STRIPPED_MANGROVE_LOG
+        slot: 26
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 22.0
+        sell: 9.5
+      stripped_pale_oak_log:
+        material: STRIPPED_PALE_OAK_LOG
+        slot: 28
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 26.0
+        sell: 11.0
+      stripped_cherry_log:
+        material: STRIPPED_CHERRY_LOG
+        slot: 29
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 24.0
+        sell: 10.5
+      # --- Wood blocks (all-bark logs; same value as the equivalent log) ---
+      oak_wood:
+        material: OAK_WOOD
+        slot: 37
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 24.0
+        sell: 10.0
+      spruce_wood:
+        material: SPRUCE_WOOD
+        slot: 38
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 26.0
+        sell: 11.0
+      birch_wood:
+        material: BIRCH_WOOD
+        slot: 39
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 26.0
+        sell: 11.0
+      jungle_wood:
+        material: JUNGLE_WOOD
+        slot: 40
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 27.0
+        sell: 11.5
+      acacia_wood:
+        material: ACACIA_WOOD
+        slot: 41
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 27.0
+        sell: 11.5
+      dark_oak_wood:
+        material: DARK_OAK_WOOD
+        slot: 42
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 28.0
+        sell: 12.0
+      mangrove_wood:
+        material: MANGROVE_WOOD
+        slot: 43
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 28.0
+        sell: 12.0
+      pale_oak_wood:
+        material: PALE_OAK_WOOD
+        slot: 44
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 32.0
+        sell: 13.5
+      cherry_wood:
+        material: CHERRY_WOOD
+        slot: 46
         amount: 16
         bulk-amount: 64
         icon-amount: 16

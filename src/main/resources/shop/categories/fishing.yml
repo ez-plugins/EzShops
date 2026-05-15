@@ -1,4 +1,6 @@
 # EzShops category configuration for "fishing".
+# For valid material names see: docs/configuration/material-names.md
+# or https://jd.papermc.io/paper/1.21/org/bukkit/Material.html
 categories:
   fishing:
     name: "{translate:shop.categories.fishing.name}"

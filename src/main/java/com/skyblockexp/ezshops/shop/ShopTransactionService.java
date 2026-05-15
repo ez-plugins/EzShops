@@ -300,6 +300,57 @@ public class ShopTransactionService {
         return result;
     }
 
+    /**
+     * Sells {@code amount} of {@code material} on behalf of {@code player} without checking or removing
+     * items from the player's own inventory. Use this when the items have already been removed from an
+     * external inventory (e.g. the Quick Sell GUI) before calling this method.
+     *
+     * <p>Unlike {@link #sell(Player, Material, int)}, this method does <em>not</em> apply the rotation
+     * restriction. The Quick Sell GUI accepts any item that has a configured sell price, regardless of
+     * which rotation option is currently active.</p>
+     */
+    public ShopTransactionResult sellDirect(Player player, Material material, int amount) {
+        if (economy == null) {
+            return ShopTransactionResult.failure(errorMessages.noEconomy());
+        }
+
+        if (!player.hasPermission(PERMISSION_SELL)) {
+            return ShopTransactionResult.failure(errorMessages.noSellPermission());
+        }
+
+        if (amount <= 0) {
+            return ShopTransactionResult.failure(errorMessages.amountPositive());
+        }
+
+        ShopPrice price = pricingManager.getPrice(material).orElse(null);
+        if (price == null) {
+            return ShopTransactionResult.failure(errorMessages.notConfigured());
+        }
+
+        if (!price.canSell()) {
+            return ShopTransactionResult.failure(errorMessages.notSellable());
+        }
+
+        double totalGain = pricingManager.estimateBulkTotal(material, amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.SELL);
+        totalGain = EconomyUtils.normalizeCurrency(totalGain);
+        totalGain *= getSellPriceMultiplier(player);
+        totalGain *= getTeamSellMultiplier(player);
+        if (totalGain <= 0) {
+            return ShopTransactionResult.failure(errorMessages.invalidSellPrice());
+        }
+
+        // Items are already outside the player's inventory — skip countMaterial / removeItems.
+        EconomyResponse response = economy.depositPlayer(player, totalGain);
+        if (!response.transactionSuccess()) {
+            return ShopTransactionResult.failure(errorMessages.transactionFailed(response.errorMessage));
+        }
+
+        pricingManager.handleSale(material, amount);
+        doTreasurySplit(player, totalGain);
+        return ShopTransactionResult.success(successMessages.sale(amount,
+                ChatColor.AQUA + friendlyMaterialName(material), formatCurrency(totalGain)));
+    }
+
     public ShopTransactionResult sell(Player player, com.skyblockexp.ezshops.shop.ShopMenuLayout.Item item, int amount) {
         if (economy == null) {
             return ShopTransactionResult.failure(errorMessages.noEconomy());
