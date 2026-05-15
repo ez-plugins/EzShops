@@ -103,6 +103,28 @@ public class WoodCategoryConfigLoadingTest extends AbstractEzShopsTest {
             assertTrue(price.get().canSell(),
                     stripped.name() + " should have a positive sell price (canSell == true)");
         }
+
+        // All wood (all-bark) variants added to the bundled wood.yml defaults.
+        // "Birch Wood" (BIRCH_WOOD) is the item players commonly confuse with "Birch Log".
+        Material[] expectedWoodBlocks = {
+                Material.OAK_WOOD,
+                Material.SPRUCE_WOOD,
+                Material.BIRCH_WOOD,
+                Material.JUNGLE_WOOD,
+                Material.ACACIA_WOOD,
+                Material.DARK_OAK_WOOD,
+                Material.MANGROVE_WOOD,
+                Material.PALE_OAK_WOOD,
+                Material.CHERRY_WOOD,
+        };
+
+        for (Material wood : expectedWoodBlocks) {
+            Optional<ShopPrice> price = pm.getPrice(wood);
+            assertTrue(price.isPresent(),
+                    wood.name() + " should be present in the price map after loading the bundled wood.yml");
+            assertTrue(price.get().canSell(),
+                    wood.name() + " should have a positive sell price (canSell == true)");
+        }
     }
 
     /**
@@ -226,6 +248,26 @@ public class WoodCategoryConfigLoadingTest extends AbstractEzShopsTest {
     // -----------------------------------------------------------------------
     // Expected-failure tests (items genuinely not in the shop)
     // -----------------------------------------------------------------------
+
+    /**
+     * BIRCH_WOOD (the all-bark "Birch Wood" block) must appear in the price map.
+     * Players sometimes have this item instead of BIRCH_LOG and expect to be able
+     * to sell it via /sellhand.
+     */
+    @Test
+    void birch_wood_is_priced_and_sellable() throws Exception {
+        Economy econ = mock(Economy.class);
+        loadProviderPlugin(econ);
+
+        EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
+        ShopPricingManager pm = getPricingManager(plugin);
+
+        Optional<ShopPrice> price = pm.getPrice(Material.BIRCH_WOOD);
+        assertTrue(price.isPresent(),
+                "BIRCH_WOOD must be present in the price map after loading the bundled wood.yml");
+        assertTrue(price.get().canSell(),
+                "BIRCH_WOOD must have a positive sell price");
+    }
 
     /**
      * STRIPPED_JUNGLE_LOG must appear in the price map now that it has been

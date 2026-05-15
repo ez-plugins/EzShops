@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Stripped log variants in the wood category** — all 9 stripped log types (`STRIPPED_OAK_LOG`, `STRIPPED_SPRUCE_LOG`, `STRIPPED_BIRCH_LOG`, `STRIPPED_JUNGLE_LOG`, `STRIPPED_ACACIA_LOG`, `STRIPPED_DARK_OAK_LOG`, `STRIPPED_MANGROVE_LOG`, `STRIPPED_PALE_OAK_LOG`, `STRIPPED_CHERRY_LOG`) are now included in the default `wood.yml` config so players can sell stripped logs with `/sellhand` and the Quick Sell GUI out of the box.
+- **Wood (all-bark) block variants in the wood category** — all 9 wood block types (`OAK_WOOD`, `SPRUCE_WOOD`, `BIRCH_WOOD`, `JUNGLE_WOOD`, `ACACIA_WOOD`, `DARK_OAK_WOOD`, `MANGROVE_WOOD`, `PALE_OAK_WOOD`, `CHERRY_WOOD`) are now included. Previously, attempting to `/sellhand` a "Birch Wood" block (as opposed to a "Birch Log") would return "That item is not configured in the shop."
 - **Plank variants in the building category** — all 9 plank types (`OAK_PLANKS`, `SPRUCE_PLANKS`, `BIRCH_PLANKS`, `JUNGLE_PLANKS`, `ACACIA_PLANKS`, `DARK_OAK_PLANKS`, `MANGROVE_PLANKS`, `PALE_OAK_PLANKS`, `CHERRY_PLANKS`) are now included in the default `building.yml` config.
 
 ## [2.5.3] - 2026-05-14
