@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.5] - 2026-05-18
+
+### Fixed
+- **`on-sell` commands not executing for `item-type: COMMAND` items** — `sell()` no longer checks or removes physical items from the player's inventory when the item's delivery type is `COMMAND`. Previously the transaction exited early with "insufficient items" because the player had no material to hand over, preventing sell commands from running at all.
+- **`on-sell execute-as` overridden by `on-buy execute-as`** — `ShopPricingManager` now tracks `execute-as` independently for the `on-buy` and `on-sell` blocks. Previously a single shared flag meant that setting `on-buy: execute-as: player` would silently override `on-sell: execute-as: console`, causing sell commands to run as the player instead of the console.
+
+### Added
+- **Code coverage reporting** — JaCoCo is now configured in the Maven build (`jacoco-maven-plugin 0.8.12`). Coverage reports (`jacoco.xml`) are generated on every `mvn test` run and uploaded to Codecov by the CI workflow for both unit-test and feature-test jobs.
+
 ## [2.5.4] - 2026-05-14
 
 ### Fixed

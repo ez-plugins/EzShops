@@ -105,6 +105,56 @@ public class ShopItemTypeFeatureTest extends AbstractEzShopsTest {
     }
 
     @Test
+    void sell_command_delivery_succeeds_without_physical_items_and_runs_hooks() {
+        loadProviderPlugin(Mockito.mock(Economy.class));
+        var plugin = loadPlugin(com.skyblockexp.ezshops.EzShopsPlugin.class);
+
+        ShopPricingManager pricingManager = Mockito.mock(ShopPricingManager.class);
+        Economy econ = Mockito.mock(Economy.class);
+
+        ShopPrice price = new ShopPrice(10.0, 5.0);
+        when(pricingManager.getPrice(eq("DIAMOND"))).thenReturn(Optional.of(price));
+        when(pricingManager.estimateBulkTotal(eq("DIAMOND"), eq(1), any())).thenReturn(5.0);
+
+        when(econ.depositPlayer((org.bukkit.OfflinePlayer) any(), anyDouble()))
+                .thenReturn(new EconomyResponse(0.0, 5.0, EconomyResponse.ResponseType.SUCCESS, "ok"));
+
+        ShopTransactionService svc = new ShopTransactionService(pricingManager, econ,
+                com.skyblockexp.ezshops.config.ShopMessageConfiguration.load(plugin).transactions());
+
+        TransactionHookService hook = Mockito.mock(TransactionHookService.class);
+        svc.setTransactionHookService(hook);
+
+        // Player has NO DIAMOND in their inventory — a COMMAND sell should not require it
+        Player player = server.addPlayer("seller_cmd");
+        player.addAttachment(plugin, ShopTransactionService.PERMISSION_SELL, true);
+
+        ShopMenuLayout.ItemDecoration decoration =
+                new ShopMenuLayout.ItemDecoration(Material.DIAMOND, 1, "", List.of());
+        List<String> sellCommands = List.of("give {player} diamond 1");
+        ShopMenuLayout.Item item = new ShopMenuLayout.Item("diamond_command_sell", Material.DIAMOND, decoration,
+                0, 0, 1, 1, price, ShopMenuLayout.ItemType.MATERIAL, null, Map.of(), 0,
+                ShopPriceType.STATIC, List.of(), sellCommands, Boolean.TRUE, null, DeliveryType.COMMAND);
+
+        ShopTransactionResult result = svc.sell(player, item, 1);
+
+        assertTrue(result.success(), "COMMAND-delivery sell should succeed even without physical items: " + result.message());
+
+        // Economy should have deposited the sell price
+        verify(econ).depositPlayer((org.bukkit.OfflinePlayer) any(), eq(5.0));
+
+        // Inventory must be untouched
+        int remaining = player.getInventory().all(Material.DIAMOND).values().stream()
+                .mapToInt(ItemStack::getAmount).sum();
+        assertEquals(0, remaining, "COMMAND-delivery sell must not remove items from the player's inventory");
+
+        // Sell hooks must still run
+        ArgumentCaptor<Map> tokensCaptor = ArgumentCaptor.forClass(Map.class);
+        verify(hook).executeHooks(eq(player), eq(sellCommands), eq(Boolean.TRUE), tokensCaptor.capture());
+        assertEquals("1", tokensCaptor.getValue().get("amount"));
+    }
+
+    @Test
     void buy_item_type_none_charges_but_no_item_and_no_hooks() {
         loadProviderPlugin(Mockito.mock(Economy.class));
         var plugin = loadPlugin(com.skyblockexp.ezshops.EzShopsPlugin.class);

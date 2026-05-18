@@ -386,16 +386,20 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.invalidSellPrice());
         }
 
-        int sellableAmount = countMaterial(player, item.material());
-        if (sellableAmount < amount) {
-            return ShopTransactionResult.failure(errorMessages.insufficientItems());
+        if (item.delivery() != DeliveryType.COMMAND) {
+            int sellableAmount = countMaterial(player, item.material());
+            if (sellableAmount < amount) {
+                return ShopTransactionResult.failure(errorMessages.insufficientItems());
+            }
+            removeItems(player, item.material(), amount);
         }
 
-        removeItems(player, item.material(), amount);
         EconomyResponse response = economy.depositPlayer(player, totalGain);
         if (!response.transactionSuccess()) {
-            List<ItemStack> leftovers = giveItems(player, item.material(), amount);
-            handleLeftoverItems(player, leftovers);
+            if (item.delivery() != DeliveryType.COMMAND) {
+                List<ItemStack> leftovers = giveItems(player, item.material(), amount);
+                handleLeftoverItems(player, leftovers);
+            }
             return ShopTransactionResult.failure(errorMessages.transactionFailed(response.errorMessage));
         }
 
@@ -411,7 +415,7 @@ public class ShopTransactionService {
             tokens.put("display", item.display() != null ? item.display().displayName() : "");
             tokens.put("price", item.price() != null ? formatCurrency(item.price().sellPrice()) : "");
             tokens.put("total", formatCurrency(totalGain));
-            hookService.executeHooks(player, item.sellCommands(), item.commandsRunAsConsole() == null ? true : item.commandsRunAsConsole(), tokens);
+            hookService.executeHooks(player, item.sellCommands(), item.sellCommandsRunAsConsole() == null ? true : item.sellCommandsRunAsConsole(), tokens);
             org.bukkit.Bukkit.getPluginManager().callEvent(new com.skyblockexp.ezshops.event.ShopSaleEvent(player, new ItemStack(item.material(), Math.max(1, amount)), amount, totalGain));
         }
         return result;
