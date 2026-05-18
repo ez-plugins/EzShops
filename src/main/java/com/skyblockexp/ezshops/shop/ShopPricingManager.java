@@ -742,7 +742,8 @@ public class ShopPricingManager {
         // parse optional command hooks
         java.util.List<String> buyCommands = section.getStringList("buy-commands");
         java.util.List<String> sellCommands = section.getStringList("sell-commands");
-        Boolean commandsRunAsConsole = null;
+        Boolean buyCommandsRunAsConsole = null;
+        Boolean sellCommandsRunAsConsole = null;
         // support 'on-buy'/'on-sell' blocks with execute-as and commands
         if (section.isConfigurationSection("on-buy")) {
             org.bukkit.configuration.ConfigurationSection onBuy = section.getConfigurationSection("on-buy");
@@ -751,18 +752,20 @@ public class ShopPricingManager {
                     buyCommands = onBuy.getStringList("commands");
                 }
                 String exec = onBuy.getString("execute-as", null);
-                if (exec != null && exec.equalsIgnoreCase("player")) {
-                    commandsRunAsConsole = Boolean.FALSE;
+                if (exec != null) {
+                    buyCommandsRunAsConsole = !exec.equalsIgnoreCase("player");
                 }
             }
         }
         if (section.isConfigurationSection("on-sell")) {
             org.bukkit.configuration.ConfigurationSection onSell = section.getConfigurationSection("on-sell");
-            if (onSell != null && onSell.isSet("commands")) {
-                sellCommands = onSell.getStringList("commands");
+            if (onSell != null) {
+                if (onSell.isSet("commands")) {
+                    sellCommands = onSell.getStringList("commands");
+                }
                 String exec = onSell.getString("execute-as", null);
-                if (exec != null && exec.equalsIgnoreCase("player")) {
-                    commandsRunAsConsole = Boolean.FALSE;
+                if (exec != null) {
+                    sellCommandsRunAsConsole = !exec.equalsIgnoreCase("player");
                 }
             }
         }
@@ -770,7 +773,7 @@ public class ShopPricingManager {
         DeliveryType delivery = DeliveryType.fromConfig(section.getString("item-type"));
         return new ShopMenuLayout.Item(itemId, material, decoration, slot, page, amount, bulkAmount, price, type,
             spawnerEntity, enchantments, requiredIslandLevel, priceType, buyCommands, sellCommands,
-            commandsRunAsConsole, configuredPriceId, delivery);
+            buyCommandsRunAsConsole, sellCommandsRunAsConsole, configuredPriceId, delivery);
     }
 
     private Map<String, Map<String, Object>> readItemData(ConfigurationSection section) {

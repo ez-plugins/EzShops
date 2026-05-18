@@ -176,6 +176,7 @@ public final class ShopMenuLayout {
         private final java.util.List<String> buyCommands;
         private final java.util.List<String> sellCommands;
         private final Boolean commandsRunAsConsole;
+        private final Boolean sellCommandsRunAsConsole;
         private final int requiredIslandLevel;
         private final ShopPriceType priceType;
         private final String priceId;
@@ -198,6 +199,14 @@ public final class ShopMenuLayout {
                 ShopPrice price, ItemType type, EntityType spawnerEntity,
                 Map<Enchantment, Integer> enchantments, int requiredIslandLevel, ShopPriceType priceType,
                 java.util.List<String> buyCommands, java.util.List<String> sellCommands, Boolean commandsRunAsConsole, String priceId, DeliveryType delivery) {
+            this(id, material, display, slot, page, amount, bulkAmount, price, type, spawnerEntity, enchantments, requiredIslandLevel, priceType, buyCommands, sellCommands, commandsRunAsConsole, null, priceId, delivery);
+        }
+
+        public Item(String id, Material material, ItemDecoration display, int slot, int page, int amount, int bulkAmount,
+                ShopPrice price, ItemType type, EntityType spawnerEntity,
+                Map<Enchantment, Integer> enchantments, int requiredIslandLevel, ShopPriceType priceType,
+                java.util.List<String> buyCommands, java.util.List<String> sellCommands, Boolean commandsRunAsConsole,
+                Boolean sellCommandsRunAsConsole, String priceId, DeliveryType delivery) {
             this.id = Objects.requireNonNull(id, "id");
             this.page = Math.max(0, page);
             this.material = Objects.requireNonNull(material, "material");
@@ -212,6 +221,7 @@ public final class ShopMenuLayout {
             this.buyCommands = buyCommands == null ? List.of() : List.copyOf(buyCommands);
             this.sellCommands = sellCommands == null ? List.of() : List.copyOf(sellCommands);
             this.commandsRunAsConsole = commandsRunAsConsole == null ? Boolean.TRUE : commandsRunAsConsole;
+            this.sellCommandsRunAsConsole = sellCommandsRunAsConsole;
             this.requiredIslandLevel = Math.max(0, requiredIslandLevel);
             this.priceType = priceType == null ? ShopPriceType.STATIC : priceType;
             this.priceId = priceId == null ? material.name() : priceId;
@@ -284,6 +294,10 @@ public final class ShopMenuLayout {
 
         public Boolean commandsRunAsConsole() {
             return commandsRunAsConsole;
+        }
+
+        public Boolean sellCommandsRunAsConsole() {
+            return sellCommandsRunAsConsole != null ? sellCommandsRunAsConsole : commandsRunAsConsole;
         }
 
         public DeliveryType delivery() {
