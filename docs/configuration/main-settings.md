@@ -86,7 +86,7 @@ player-shops:
 
 ### Configuration (`config.yml`)
 
-The stock section controls which items are tradeable and how the GUI presents them. Volatility and demand parameters are internal engine constants and are **not configurable** via `config.yml`.
+The stock section controls which items are tradeable and how the GUI presents them. Price-engine parameters (volatility, demand factor, minimum price, and save interval) are configurable via `config.yml`.
 
 ```yaml
 stock:
@@ -95,6 +95,19 @@ stock:
 
   # Per-player cooldown between trades in milliseconds. 0 = no cooldown.
   cooldown-millis: 10000
+
+  # Price volatility range: random noise applied per trade (fraction of price).
+  volatility-min: -0.10
+  volatility-max: 0.10
+
+  # Demand multiplier: fraction of price change per unit bought (+) or sold (-).
+  demand-multiplier: 0.02
+
+  # Minimum price floor: prices cannot drop below this value.
+  min-price: 1.0
+
+  # How often (in minutes) market prices are saved to disk.
+  update-interval: 5
 
   # Materials that cannot be traded on the stock market.
   blocked:
@@ -120,26 +133,19 @@ stock:
 |-----|------|---------|-------------|
 | `enabled` | boolean | `true` | Enable/disable all stock features |
 | `cooldown-millis` | integer | `0` | Milliseconds between player trades |
+| `volatility-min` | decimal | `-0.10` | Lower bound of random volatility per trade (-10 %) |
+| `volatility-max` | decimal | `0.10` | Upper bound of random volatility per trade (+10 %) |
+| `demand-multiplier` | decimal | `0.02` | Price change per unit traded (2 % per unit) |
+| `min-price` | decimal | `1.0` | Absolute price floor |
+| `update-interval` | integer | `5` | Minutes between automatic price saves to disk |
 | `blocked` | list | `[]` | Materials blocked from trading |
 | `overrides` | list | `[]` | Custom items with display names and reference prices |
 | `categories` | map | `{}` | Named category → list of item groupings |
 
-### Internal Price Engine
-
-The following values are hardcoded engine constants and **cannot be changed in `config.yml`**:
-
-| Constant | Value | Description |
-|----------|-------|-------------|
-| Starting price | 100.0 | Default price for any item not yet traded |
-| Demand factor | ±2 % per unit | Price rises 2 % per unit bought, falls 2 % per unit sold |
-| Random volatility | ±10 % per trade | Random noise added on top of demand factor |
-| Price floor | 1.0 | Prices cannot drop below this value |
-| Auto-save interval | 5 minutes | How often market prices are persisted to disk |
-
 ### Price Calculation Formula
 ```text
-Per-unit change = (±2% demand factor) + random(−10%, +10%)
-New price after N units = current × (1 + per-unit-change)^N,  floor at 1.0
+Per-unit change = (±demand-multiplier) + random(volatility-min, volatility-max)
+New price after N units = current × (1 + per-unit-change)^N,  floor at min-price
 ```
 
 ---

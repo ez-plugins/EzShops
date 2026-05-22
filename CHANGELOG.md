@@ -7,11 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.6] - 2026-05-22
+
+Through time we've made the stock market more stable, by doing this the documentation got outdated and configuration options that existed before got phased out. This version there was focus on updating the documentation and adding back options that got phased out in a more stable way.
+
+### Added
+- **Configurable stock price-engine parameters** — `volatility-min`, `volatility-max`, `demand-multiplier`, `min-price`, and `update-interval` are now real `config.yml` options under the `stock:` section. The plugin reads them on startup and applies them to the price engine. All defaults match the previously hardcoded values so existing behaviour is preserved.
+
 ### Fixed
-- **`/sell` command missing from documentation** — the Quick Sell GUI command (`/sell`) is now documented in the Commands reference with its behavior and permission node.
-- **`/shopadmin` command missing from documentation** — `/shopadmin [browse|market]` is now documented under Admin Commands including both the player-shops and team-market views.
-- **`/teamshop market` subcommand missing from documentation** — the team P2P market subcommand is now documented in Commands, the TeamsAPI integration page, and the tab-completion list for `/teamshop`.
-- **Missing permission nodes in documentation** — the following nodes were present in `plugin.yml` but absent from the Permissions reference; they are now documented:
+- **Incorrect stock-market configuration documented** - `docs/configuration/main-settings.md` and `docs/shops/pricing/stock-market.md` previously documented a non-existent `stock-market:` config block. Both pages now document the real `stock:` section (`enabled`, `cooldown-millis`, `blocked`, `overrides`, `categories`). Price-engine parameters (`volatility-min`, `volatility-max`, `demand-multiplier`, `min-price`, `update-interval`) are now implemented as real config options (see Unreleased → Added).
+- **`/sell` command missing from documentation** - the Quick Sell GUI command (`/sell`) is now documented in the Commands reference with its behavior and permission node.
+- **`/shopadmin` command missing from documentation** - `/shopadmin [browse|market]` is now documented under Admin Commands including both the player-shops and team-market views.
+- **`/teamshop market` subcommand missing from documentation** - the team P2P market subcommand is now documented in Commands, the TeamsAPI integration page, and the tab-completion list for `/teamshop`.
+- **Missing permission nodes in documentation** - the following nodes were present in `plugin.yml` but absent from the Permissions reference; they are now documented:
   - `ezshops.shop.admin` (open `/shopadmin` GUI)
   - `ezshops.teamshop.market` (access team P2P market)
   - `ezshops.pricing.admin.set`, `ezshops.pricing.admin.disable`, `ezshops.pricing.admin.list` (granular pricing-admin nodes)
@@ -21,7 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - **`on-sell` commands not executing for `item-type: COMMAND` items** — `sell()` no longer checks or removes physical items from the player's inventory when the item's delivery type is `COMMAND`. Previously the transaction exited early with "insufficient items" because the player had no material to hand over, preventing sell commands from running at all.
 - **`on-sell execute-as` overridden by `on-buy execute-as`** — `ShopPricingManager` now tracks `execute-as` independently for the `on-buy` and `on-sell` blocks. Previously a single shared flag meant that setting `on-buy: execute-as: player` would silently override `on-sell: execute-as: console`, causing sell commands to run as the player instead of the console.
-- **Incorrect stock-market configuration documented** — `docs/configuration/main-settings.md` and `docs/shops/pricing/stock-market.md` previously documented a non-existent `stock-market:` config block with keys `volatility-min`, `volatility-max`, `demand-multiplier`, `min-price`, and `update-interval`. None of these keys are read by the plugin. Both pages now document the real `stock:` section (`enabled`, `cooldown-millis`, `blocked`, `overrides`, `categories`) and clarify that volatility/demand constants are hardcoded engine values, not configurable options.
 
 ### Added
 - **Code coverage reporting** — JaCoCo is now configured in the Maven build (`jacoco-maven-plugin 0.8.12`). Coverage reports (`jacoco.xml`) are generated on every `mvn test` run and uploaded to Codecov by the CI workflow for both unit-test and feature-test jobs.

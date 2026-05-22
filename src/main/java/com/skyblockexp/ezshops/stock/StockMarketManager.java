@@ -25,11 +25,26 @@ public class StockMarketManager {
     private final Map<String, Double> prices = new HashMap<>();
     private final Random random = new Random();
     private static final double BASE_PRICE = 100.0;
-    private static final double MAX_CHANGE = 0.10;
-    // per-unit deterministic demand factor (matches previous aggregated 0.02 per unit)
-    private static final double PER_UNIT_DEMAND_FACTOR = 0.02;
+    // Engine parameters – defaults match original hardcoded values; override via configure().
+    private double volatilityMin = -0.10;
+    private double volatilityMax =  0.10;
+    private double demandFactor  =  0.02;
+    private double minPrice      =  1.0;
     private StockMarketRepository stockMarketRepository;
     private final StockHistoryManager historyManager = new StockHistoryManager();
+
+    /**
+     * Apply configurable price-engine parameters.
+     * Call this before {@link #enablePersistence} so the loaded prices are
+     * immediately governed by the configured floor.
+     */
+    public void configure(double volatilityMin, double volatilityMax,
+                          double demandFactor, double minPrice) {
+        this.volatilityMin = volatilityMin;
+        this.volatilityMax = volatilityMax;
+        this.demandFactor  = Math.max(0.0, demandFactor);
+        this.minPrice      = Math.max(0.0, minPrice);
+    }
 
     // Persistence
     private TaskHandle saveTask;
@@ -116,12 +131,12 @@ public class StockMarketManager {
                 return;
             }
             // Compute a single random component for the entire bulk operation (preserves similar randomness scale)
-            double randomComponent = (random.nextDouble() * 2 - 1) * MAX_CHANGE;
+            double randomComponent = volatilityMin + random.nextDouble() * (volatilityMax - volatilityMin);
             // per-unit change (positive for buys, negative for sells) plus shared random
-            double perUnitChange = (demand > 0 ? PER_UNIT_DEMAND_FACTOR : -PER_UNIT_DEMAND_FACTOR) + randomComponent;
+            double perUnitChange = (demand > 0 ? demandFactor : -demandFactor) + randomComponent;
             int steps = Math.abs(demand);
             for (int i = 0; i < steps; i++) {
-                current = Math.max(1.0, current * (1.0 + perUnitChange));
+                current = Math.max(minPrice, current * (1.0 + perUnitChange));
             }
             prices.put(productId, current);
             historyManager.recordPrice(productId, current);
@@ -156,15 +171,15 @@ public class StockMarketManager {
         boolean isBuy = type == ShopTransactionType.BUY;
         for (int i = 0; i < amount; i++) {
             total += sim;
-            double change = isBuy ? PER_UNIT_DEMAND_FACTOR : -PER_UNIT_DEMAND_FACTOR;
-            sim = Math.max(1.0, sim * (1.0 + change));
+            double change = isBuy ? demandFactor : -demandFactor;
+            sim = Math.max(minPrice, sim * (1.0 + change));
         }
         return total;
     }
 
 
     public void setPrice(String productId, double price) {
-        double p = Math.max(1.0, price);
+        double p = Math.max(minPrice, price);
         lock.writeLock().lock();
         try {
             prices.put(productId, p);

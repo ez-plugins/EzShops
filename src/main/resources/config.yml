@@ -137,6 +137,15 @@ stock:
   # Use /stock overview to see all available stocks and their prices.
   enabled: true
   cooldown-millis: 10000
+  # Price volatility range: random noise added per trade (as a fraction of price).
+  volatility-min: -0.10
+  volatility-max: 0.10
+  # Demand multiplier: fraction of price applied per unit bought (+) or sold (-).
+  demand-multiplier: 0.02
+  # Minimum price floor: prices cannot drop below this value.
+  min-price: 1.0
+  # How often (in minutes) market prices are saved to disk.
+  update-interval: 5
   # List of item names (Material) to block from stock trading
   blocked:
     - BEDROCK
