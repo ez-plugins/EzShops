@@ -78,39 +78,68 @@ player-shops:
 
 ---
 
-## 📉 Stock Market & Price Calculation
+## 📉 Stock Market
 
 *(For a full deep-dive into the Stock Market system, check out the [Stock Market Documentation](../shops/pricing/stock-market.md))*
 
-**Version 2.0.0+ Security Improvements:**
-- All stock sales now require confirmation through a GUI
-- Fixed infinite money glitch vulnerability
-- Enhanced transaction validation
+**All stock sales require confirmation through a GUI before the transaction is finalised.**
 
-### Available Settings Overview
+### Configuration (`config.yml`)
+
+The stock section controls which items are tradeable and how the GUI presents them. Volatility and demand parameters are internal engine constants and are **not configurable** via `config.yml`.
+
 ```yaml
-stock-market:
-  # Enable stock market system
+stock:
+  # Master switch – set to false to disable all /stock commands and GUIs.
   enabled: true
 
-  # Price volatility range (-10% to +10% by default)
-  volatility-min: -0.10
-  volatility-max: 0.10
+  # Per-player cooldown between trades in milliseconds. 0 = no cooldown.
+  cooldown-millis: 10000
 
-  # Demand multiplier for price changes
-  demand-multiplier: 0.02
+  # Materials that cannot be traded on the stock market.
+  blocked:
+    - BEDROCK
+    - COMMAND_BLOCK
 
-  # Minimum price floor (prevents prices from going too low)
-  min-price: 1.0
+  # Custom items to expose in the stock market.
+  # 'display' sets the GUI label; 'base-price' is the reference price shown
+  # in the all-stocks listing (the live trading price evolves independently).
+  overrides:
+    - id: "DIAMOND"
+      display: "&bDiamond"
+      base-price: 100.0
 
-  # Auto-update interval in minutes
-  update-interval: 15
+  # Optional: group items under named category tabs in the GUI.
+  categories:
+    gems:
+      - DIAMOND
+      - EMERALD
 ```
 
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `enabled` | boolean | `true` | Enable/disable all stock features |
+| `cooldown-millis` | integer | `0` | Milliseconds between player trades |
+| `blocked` | list | `[]` | Materials blocked from trading |
+| `overrides` | list | `[]` | Custom items with display names and reference prices |
+| `categories` | map | `{}` | Named category → list of item groupings |
+
+### Internal Price Engine
+
+The following values are hardcoded engine constants and **cannot be changed in `config.yml`**:
+
+| Constant | Value | Description |
+|----------|-------|-------------|
+| Starting price | 100.0 | Default price for any item not yet traded |
+| Demand factor | ±2 % per unit | Price rises 2 % per unit bought, falls 2 % per unit sold |
+| Random volatility | ±10 % per trade | Random noise added on top of demand factor |
+| Price floor | 1.0 | Prices cannot drop below this value |
+| Auto-save interval | 5 minutes | How often market prices are persisted to disk |
+
 ### Price Calculation Formula
-The stock market calculates price fluctuations using the following formula:
 ```text
-New price = max(min-price, current price × (1 + (demand × demand-multiplier) + random volatility))
+Per-unit change = (±2% demand factor) + random(−10%, +10%)
+New price after N units = current × (1 + per-unit-change)^N,  floor at 1.0
 ```
 
 ---
