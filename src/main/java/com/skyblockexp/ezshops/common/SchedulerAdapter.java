@@ -41,7 +41,7 @@ public final class SchedulerAdapter {
      */
     public static TaskHandle runTask(Plugin plugin, Runnable task) {
         if (FOLIA) {
-            var scheduled = Bukkit.getGlobalRegionScheduler().run(plugin, st -> task.run());
+            Object scheduled = Bukkit.getGlobalRegionScheduler().run(plugin, st -> task.run());
             return foliaHandle(scheduled);
         }
         BukkitTask bt = Bukkit.getScheduler().runTask(plugin, task);
@@ -60,7 +60,7 @@ public final class SchedulerAdapter {
      */
     public static TaskHandle runTaskTimer(Plugin plugin, Runnable task, long delayTicks, long periodTicks) {
         if (FOLIA) {
-            var scheduled = Bukkit.getGlobalRegionScheduler()
+            Object scheduled = Bukkit.getGlobalRegionScheduler()
                     .runAtFixedRate(plugin, st -> task.run(), Math.max(1, delayTicks), Math.max(1, periodTicks));
             return foliaHandle(scheduled);
         }
@@ -81,7 +81,7 @@ public final class SchedulerAdapter {
      */
     public static TaskHandle runTaskAsync(Plugin plugin, Runnable task) {
         if (FOLIA) {
-            var scheduled = Bukkit.getAsyncScheduler().runNow(plugin, st -> task.run());
+            Object scheduled = Bukkit.getAsyncScheduler().runNow(plugin, st -> task.run());
             return foliaHandle(scheduled);
         }
         BukkitTask bt = Bukkit.getScheduler().runTaskAsynchronously(plugin, task);
@@ -101,7 +101,7 @@ public final class SchedulerAdapter {
         if (FOLIA) {
             long delayMs = Math.max(MILLIS_PER_TICK, delayTicks * MILLIS_PER_TICK);
             long periodMs = Math.max(MILLIS_PER_TICK, periodTicks * MILLIS_PER_TICK);
-            var scheduled = Bukkit.getAsyncScheduler()
+            Object scheduled = Bukkit.getAsyncScheduler()
                     .runAtFixedRate(plugin, st -> task.run(), delayMs, periodMs, TimeUnit.MILLISECONDS);
             return foliaHandle(scheduled);
         }
@@ -127,16 +127,33 @@ public final class SchedulerAdapter {
         };
     }
 
-    private static TaskHandle foliaHandle(io.papermc.paper.threadedregions.scheduler.ScheduledTask st) {
+    /**
+     * Wraps a Folia {@code ScheduledTask} in a platform-agnostic {@link TaskHandle}.
+     * <p>
+     * The parameter is typed as {@code Object} — not as
+     * {@code io.papermc.paper.threadedregions.scheduler.ScheduledTask} — so that the
+     * JVM does not need to resolve the Folia-specific type when {@code SchedulerAdapter}
+     * is loaded on non-Folia servers (Spigot, Bukkit, etc.).  At call sites this method
+     * is only reached when {@code FOLIA == true}, so the cast is always safe.
+     */
+    private static TaskHandle foliaHandle(Object st) {
         return new TaskHandle() {
             @Override
             public void cancel() {
-                st.cancel();
+                try {
+                    st.getClass().getMethod("cancel").invoke(st);
+                } catch (ReflectiveOperationException ignored) {
+                    // ScheduledTask.cancel() always exists on Folia
+                }
             }
 
             @Override
             public boolean isCancelled() {
-                return st.isCancelled();
+                try {
+                    return (Boolean) st.getClass().getMethod("isCancelled").invoke(st);
+                } catch (ReflectiveOperationException e) {
+                    return false;
+                }
             }
         };
     }

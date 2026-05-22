@@ -51,10 +51,105 @@ jobs:
             -Dtest=EzShopsPluginFeatureTest,PluginLifecycleFeatureTest,EzShopsAPITest \
             test
 
+  smoke-server:
+    # Real server startup tests.  Verifies the plugin JAR is recognised and
+    # loaded by the server without class-loading errors on every supported
+    # platform (Folia via PaperMC API; Purpur as a Spigot-compatible proxy —
+    # plain Spigot JARs require BuildTools and are impractical to download
+    # in CI).
+    name: Server (${{ matrix.name }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: "Folia 1.21.4"
+            project: folia
+            download: |
+              BUILD=$(curl -fsSL "https://api.papermc.io/v2/projects/folia/versions/1.21.4/builds" | \
+                python3 -c "import sys,json; b=json.load(sys.stdin)['builds']; print(b[-1]['build'])")
+              JAR=$(curl -fsSL "https://api.papermc.io/v2/projects/folia/versions/1.21.4/builds/$BUILD" | \
+                python3 -c "import sys,json; d=json.load(sys.stdin); print(d['downloads']['application']['name'])")
+              curl -fsSL "https://api.papermc.io/v2/projects/folia/versions/1.21.4/builds/$BUILD/downloads/$JAR" \
+                -o server/server.jar
+          - name: "Purpur 1.21.4 (Spigot-compatible)"
+            project: purpur
+            download: |
+              curl -fsSL "https://api.purpurmc.org/v2/purpur/1.21.4/latest/download" \
+                -o server/server.jar
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Cache Maven local repository
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-build-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-build-
+
+      - name: Build plugin
+        run: mvn -B -DskipTests package
+
+      - name: Set up server directory
+        run: |
+          mkdir -p server/plugins
+          cp target/EzShops-*.jar server/plugins/
+          echo "eula=true" > server/eula.txt
+          printf "server-port=25565\nonline-mode=false\n" > server/server.properties
+
+      - name: Download ${{ matrix.name }} JAR
+        run: ${{ matrix.download }}
+
+      - name: Start server and verify EzShops loads
+        run: |
+          cd server
+          java -jar server.jar --nogui &
+          SERVER_PID=$!
+          # Wait up to 120 s for EzShops to appear in the log, then stop early
+          for i in $(seq 1 60); do
+            sleep 2
+            if [ -f logs/latest.log ] && grep -qi "ezshops" logs/latest.log; then
+              break
+            fi
+          done
+          kill $SERVER_PID 2>/dev/null || true
+          wait $SERVER_PID 2>/dev/null || true
+          # EzShops must appear in the server log (even if it self-disables
+          # due to Vault being absent — that is expected and not a failure).
+          if ! grep -qi "ezshops" logs/latest.log 2>/dev/null; then
+            echo "EzShops was not recognised by the server"
+            cat logs/latest.log
+            exit 1
+          fi
+          # Any unhandled exception during onEnable would produce this line.
+          if grep -q "Error occurred while enabling EzShops" logs/latest.log 2>/dev/null; then
+            echo "EzShops encountered an unexpected error during enable:"
+            grep -A 20 "Error occurred while enabling EzShops" logs/latest.log
+            exit 1
+          fi
+          echo "Smoke test passed"
+
+      - name: Upload server log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-log-${{ matrix.project }}-${{ github.sha }}
+          path: server/logs/latest.log
+          retention-days: 7
+
   package:
     name: Package (default)
     runs-on: ubuntu-latest
-    needs: smoke
+    needs: [smoke, smoke-server]
 
     steps:
       - name: Checkout
