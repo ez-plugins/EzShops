@@ -9,6 +9,13 @@ public class StockMarketConfig {
     private final Set<String> blocked;
     private final Map<String, OverrideItem> overrides;
 
+    // Price-engine parameters (configurable, defaults match original hardcoded values)
+    private final double volatilityMin;
+    private final double volatilityMax;
+    private final double demandFactor;
+    private final double minPrice;
+    private final int saveIntervalMinutes;
+
     public StockMarketConfig(FileConfiguration config) {
         this.blocked = new HashSet<>();
         this.overrides = new HashMap<>();
@@ -41,8 +48,25 @@ public class StockMarketConfig {
                     }
                 }
             }
+            this.volatilityMin      = stockSection.getDouble("volatility-min", -0.10);
+            this.volatilityMax      = stockSection.getDouble("volatility-max",  0.10);
+            this.demandFactor       = stockSection.getDouble("demand-multiplier", 0.02);
+            this.minPrice           = stockSection.getDouble("min-price", 1.0);
+            this.saveIntervalMinutes = stockSection.getInt("update-interval", 5);
+        } else {
+            this.volatilityMin      = -0.10;
+            this.volatilityMax      =  0.10;
+            this.demandFactor       =  0.02;
+            this.minPrice           =  1.0;
+            this.saveIntervalMinutes = 5;
         }
     }
+
+    public double getVolatilityMin()      { return volatilityMin; }
+    public double getVolatilityMax()      { return volatilityMax; }
+    public double getDemandFactor()       { return demandFactor; }
+    public double getMinPrice()           { return minPrice; }
+    public int    getSaveIntervalMinutes(){ return saveIntervalMinutes; }
 
     public boolean isBlocked(String id) {
         return blocked.contains(id.toUpperCase(Locale.ROOT));

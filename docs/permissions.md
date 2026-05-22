@@ -84,10 +84,12 @@ EzShops uses a hierarchical permission system. Permissions are organized into ca
 | Permission Node              | Default | Description                                      |
 |-----------------------------|---------|--------------------------------------------------|
 | `ezshops.reload`            | op      | Reload shop configuration with `/shop reload`    |
+| `ezshops.shop.admin`        | op      | Open `/shopadmin` moderation GUI                 |
 | `ezshops.shop.admin.minionhead` | op  | Purchase minion heads directly (bypass restrictions) |
 
 **Details:**
 - `ezshops.reload` - Allows reloading all shop configurations, menus, categories, and pricing without server restart
+- `ezshops.shop.admin` - Opens the admin browse GUI to inspect and remove any player shop or team market listing
 - `ezshops.shop.admin.minionhead` - Bypasses normal restrictions on minion heads (usually crate-only items)
 
 ### Sign Shop Management
@@ -233,6 +235,7 @@ Permissions for the [TeamsAPI integration](integrations/teams-api.md). These nod
 | Permission | Default | Description |
 |------------|---------|-------------|
 | `ezshops.teamshop` | true | Access `/teamshop`, `/teamshop stocks`, and view the treasury GUI |
+| `ezshops.teamshop.market` | true | Access the team P2P market via `/teamshop market` |
 | `ezshops.teamshop.treasury.withdraw` | true | Withdraw funds from the team treasury |
 | `ezshops.teamshop.admin` | op | Administrative access to team stock data (view/clear any team's stock) |
 

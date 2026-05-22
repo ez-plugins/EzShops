@@ -45,9 +45,16 @@ public final class StockComponent implements PluginComponent, TabCompleter {
         StockMarketRepository repository = new YmlStockMarketRepository(plugin.getDataFolder());
         this.frozenStore = new StockMarketFrozenStore(repository);
         this.stockMarketManager = new StockMarketManager();
+        this.stockMarketManager.configure(
+                stockMarketConfig.getVolatilityMin(),
+                stockMarketConfig.getVolatilityMax(),
+                stockMarketConfig.getDemandFactor(),
+                stockMarketConfig.getMinPrice()
+        );
         this.stockMarketManager.setStockMarketRepository(repository);
-        // Enable async periodic persistence (every 5 minutes = 6000 ticks)
-        this.stockMarketManager.enablePersistence(plugin, 6000L);
+        // Enable async periodic persistence using the configured interval.
+        long saveIntervalTicks = stockMarketConfig.getSaveIntervalMinutes() * 60L * 20L;
+        this.stockMarketManager.enablePersistence(plugin, saveIntervalTicks);
         this.cooldownMillis = config.getConfigurationSection("stock") != null ? config.getLong("stock.cooldown-millis", 0L) : 0L;
         registerCommand("stock", new StockCommand(plugin, stockMarketManager, cooldownMillis, stockMarketConfig, frozenStore));
         registerCommand("stockadmin", new StockAdminCommand(stockMarketManager, frozenStore, stockMarketConfig));

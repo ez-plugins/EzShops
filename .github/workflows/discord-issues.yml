@@ -9,6 +9,7 @@ on:
 jobs:
   notify:
     runs-on: ubuntu-latest
+    if: "!(github.event_name == 'issue_comment' && github.event.comment.user.login == 'codecov-commenter')"
 
     steps:
       - name: Send issue or comment to Discord

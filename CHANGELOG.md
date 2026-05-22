@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.6] - 2026-05-22
+
+Through time we've made the stock market more stable, by doing this the documentation got outdated and configuration options that existed before got phased out. This version there was focus on updating the documentation and adding back options that got phased out in a more stable way.
+
+### Added
+- **Configurable stock price-engine parameters** - `volatility-min`, `volatility-max`, `demand-multiplier`, `min-price`, and `update-interval` are now real `config.yml` options under the `stock:` section. The plugin reads them on startup and applies them to the price engine. All defaults match the previously hardcoded values so existing behaviour is preserved.
+
+### Fixed
+- **Incorrect stock-market configuration documented** - `docs/configuration/main-settings.md` and `docs/shops/pricing/stock-market.md` previously documented a non-existent `stock-market:` config block. Both pages now document the real `stock:` section (`enabled`, `cooldown-millis`, `blocked`, `overrides`, `categories`). Price-engine parameters (`volatility-min`, `volatility-max`, `demand-multiplier`, `min-price`, `update-interval`) are now implemented as real config options (see Unreleased → Added).
+- **`/sell` command missing from documentation** - the Quick Sell GUI command (`/sell`) is now documented in the Commands reference with its behavior and permission node.
+- **`/shopadmin` command missing from documentation** - `/shopadmin [browse|market]` is now documented under Admin Commands including both the player-shops and team-market views.
+- **`/teamshop market` subcommand missing from documentation** - the team P2P market subcommand is now documented in Commands, the TeamsAPI integration page, and the tab-completion list for `/teamshop`.
+- **Missing permission nodes in documentation** - the following nodes were present in `plugin.yml` but absent from the Permissions reference; they are now documented:
+  - `ezshops.shop.admin` (open `/shopadmin` GUI)
+  - `ezshops.teamshop.market` (access team P2P market)
+  - `ezshops.pricing.admin.set`, `ezshops.pricing.admin.disable`, `ezshops.pricing.admin.list` (granular pricing-admin nodes)
+
 ## [2.5.5] - 2026-05-18
 
 ### Fixed

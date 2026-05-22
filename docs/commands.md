@@ -66,6 +66,20 @@ You can also use the category display name (case-insensitive, color codes ignore
 
 ### Trading Commands
 
+#### `/sell`
+Opens the Quick Sell GUI, allowing you to drag items in and sell them all at once.
+
+**Usage:** `/sell`  
+**Permission:** `ezshops.shop.sell`  
+**Aliases:** None
+
+**Behavior:**
+- Opens a chest-style GUI where you can place items to sell
+- Confirm to sell all items at once and receive combined earnings
+- Can be disabled per-server via the configuration
+
+---
+
 #### `/sellhand`
 Sells the item currently held in your hand to the shop.
 
@@ -199,6 +213,36 @@ Quick overview of cached stock quotes with pagination.
 ---
 
 ## Admin Commands
+
+### Shop Administration
+
+#### `/shopadmin`
+Opens the admin moderation GUI for inspecting and removing any active player shop or team market listing.
+
+**Usage:**
+```
+/shopadmin
+/shopadmin browse
+/shopadmin market
+```
+**Permission:** `ezshops.shop.admin`  
+**Aliases:** None
+
+**Subcommands:**
+
+##### `/shopadmin` / `/shopadmin browse`
+Opens the paginated **Player Shops** view listing all active player-owned chest shops. Admins can remove any listing directly from the GUI.
+
+**Permission:** `ezshops.shop.admin`  
+**Example:** `/shopadmin browse`
+
+##### `/shopadmin market`
+Switches the browse GUI to the **Team Market** view, showing all active team market listings across every team.
+
+**Permission:** `ezshops.shop.admin`  
+**Example:** `/shopadmin market`
+
+---
 
 ### Sign Shop Setup
 
@@ -344,7 +388,7 @@ These commands require [TeamsAPI ≥ 1.4.1](integrations/teams-api) to be instal
 Opens the **Team Shop Dashboard** showing your team's name, current role bonuses and quick links to the treasury and stock browser.
 
 **Permission:** `ezshops.teamshop` (default: true)  
-**Tab completion:** `treasury`, `stocks`
+**Tab completion:** `treasury`, `stocks`, `market`
 
 ##### `/teamshop treasury`
 Opens the **Team Treasury GUI**. View the shared balance, deposit, and (with the appropriate permission) withdraw funds.
@@ -357,6 +401,12 @@ Opens the **Team Stock GUI**, listing all items currently in the team's shared s
 
 **Permission:** `ezshops.teamshop` (default: true)  
 **Example:** `/teamshop stocks`
+
+##### `/teamshop market`
+Opens the **Team P2P Market GUI** where players can list items for sale and purchase listings from teammates.
+
+**Permission:** `ezshops.teamshop.market` (default: true)  
+**Example:** `/teamshop market`
 
 ---
 
