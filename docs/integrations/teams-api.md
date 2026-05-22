@@ -135,11 +135,21 @@ Opens the **Team Stock GUI**, listing all items your team currently has in the s
 
 ---
 
+### `/teamshop market`
+
+Opens the **Team P2P Market GUI** where players can list items for sale and purchase listings from teammates.
+
+**Permission:** `ezshops.teamshop.market`  
+**Default:** true
+
+---
+
 ## Permissions
 
 | Node | Default | Description |
 |------|---------|-------------|
 | `ezshops.teamshop` | true | Access `/teamshop` and sub-GUIs |
+| `ezshops.teamshop.market` | true | Access the team P2P market via `/teamshop market` |
 | `ezshops.teamshop.treasury.withdraw` | true | Withdraw funds from the team treasury |
 | `ezshops.teamshop.admin` | op | Administrative access to team stock data |
 
