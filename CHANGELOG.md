@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Through time we've made the stock market more stable, by doing this the documentation got outdated and configuration options that existed before got phased out. This version there was focus on updating the documentation and adding back options that got phased out in a more stable way.
 
 ### Added
-- **Configurable stock price-engine parameters** — `volatility-min`, `volatility-max`, `demand-multiplier`, `min-price`, and `update-interval` are now real `config.yml` options under the `stock:` section. The plugin reads them on startup and applies them to the price engine. All defaults match the previously hardcoded values so existing behaviour is preserved.
+- **Configurable stock price-engine parameters** - `volatility-min`, `volatility-max`, `demand-multiplier`, `min-price`, and `update-interval` are now real `config.yml` options under the `stock:` section. The plugin reads them on startup and applies them to the price engine. All defaults match the previously hardcoded values so existing behaviour is preserved.
 
 ### Fixed
 - **Incorrect stock-market configuration documented** - `docs/configuration/main-settings.md` and `docs/shops/pricing/stock-market.md` previously documented a non-existent `stock-market:` config block. Both pages now document the real `stock:` section (`enabled`, `cooldown-millis`, `blocked`, `overrides`, `categories`). Price-engine parameters (`volatility-min`, `volatility-max`, `demand-multiplier`, `min-price`, `update-interval`) are now implemented as real config options (see Unreleased → Added).
