@@ -216,6 +216,8 @@
                                     <include>net.kyori:adventure-text-minimessage</include>
                                     <include>net.kyori:examination-api</include>
                                     <include>com.github.EzFramework:jaloquent</include>
+                                    <include>com.github.EzFramework:JavaQueryBuilder</include>
+                                    <include>com.github.EzFramework:Jaker</include>
                                     <include>com.mysql:mysql-connector-j</include>
                                 </includes>
                             </artifactSet>
