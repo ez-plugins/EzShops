@@ -152,6 +152,11 @@ jobs:
           echo "eula=true" > server/eula.txt
           printf "server-port=25565\nonline-mode=false\n" > server/server.properties
 
+      - name: Download Vault dependency plugin
+        run: |
+          curl -fsSL "https://github.com/MilkBowl/Vault/releases/download/1.7.3/Vault.jar" \
+            -o server/plugins/Vault.jar
+
       - name: Download ${{ matrix.name }} JAR
         run: ${{ matrix.download }}
 
@@ -216,7 +221,7 @@ jobs:
             ${{ runner.os }}-m2-
 
       - name: Build plugin (default compatibility)
-        run: mvn -B -DskipTests package
+        run: mvn -B -Dmaven.test.skip=true package
 
       - name: Upload jar artifact
         uses: actions/upload-artifact@v4
