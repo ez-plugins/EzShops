@@ -90,6 +90,9 @@ jobs:
           - name: "Paper 1.20.4 (Java 17)"
             project: paper-j17
             java: "17"
+            economy-download: |
+              curl -fsSL "https://github.com/ez-plugins/EzEconomy/releases/latest/download/EzEconomy.jar" \
+                -o server/plugins/EzEconomy.jar
             download: |
               BUILD=$(curl -fsSL "https://api.papermc.io/v2/projects/paper/versions/1.20.4/builds" | \
                 python3 -c "import sys,json; b=json.load(sys.stdin)['builds']; print(b[-1]['build'])")
@@ -100,6 +103,7 @@ jobs:
           - name: "Paper 1.21.4"
             project: paper
             java: "21"
+            economy-download: ""
             download: |
               BUILD=$(curl -fsSL "https://api.papermc.io/v2/projects/paper/versions/1.21.4/builds" | \
                 python3 -c "import sys,json; b=json.load(sys.stdin)['builds']; print(b[-1]['build'])")
@@ -110,6 +114,7 @@ jobs:
           - name: "Folia 1.21.4"
             project: folia
             java: "21"
+            economy-download: ""
             download: |
               BUILD=$(curl -fsSL "https://api.papermc.io/v2/projects/folia/versions/1.21.4/builds" | \
                 python3 -c "import sys,json; b=json.load(sys.stdin)['builds']; print(b[-1]['build'])")
@@ -120,6 +125,7 @@ jobs:
           - name: "Purpur 1.21.4 (Spigot-compatible)"
             project: purpur
             java: "21"
+            economy-download: ""
             download: |
               curl -fsSL "https://api.purpurmc.org/v2/purpur/1.21.4/latest/download" \
                 -o server/server.jar
@@ -156,6 +162,10 @@ jobs:
         run: |
           curl -fsSL "https://github.com/MilkBowl/Vault/releases/download/1.7.3/Vault.jar" \
             -o server/plugins/Vault.jar
+
+      - name: Download optional economy provider plugin
+        if: ${{ matrix.economy-download != '' }}
+        run: ${{ matrix.economy-download }}
 
       - name: Download ${{ matrix.name }} JAR
         run: ${{ matrix.download }}
