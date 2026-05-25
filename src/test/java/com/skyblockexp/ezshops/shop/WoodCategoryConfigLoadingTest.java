@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Set;
 
@@ -71,9 +72,12 @@ public class WoodCategoryConfigLoadingTest extends AbstractEzShopsTest {
                 Material.ACACIA_LOG,
                 Material.DARK_OAK_LOG,
                 Material.MANGROVE_LOG,
-                Material.PALE_OAK_LOG,
-                Material.CHERRY_LOG,
+                requiredMaterial("CHERRY_LOG"),
         };
+        Material paleOakLog = optionalMaterial("PALE_OAK_LOG");
+        if (paleOakLog != null) {
+            expectedLogs = append(expectedLogs, paleOakLog);
+        }
 
         for (Material log : expectedLogs) {
             Optional<ShopPrice> price = pm.getPrice(log);
@@ -92,9 +96,12 @@ public class WoodCategoryConfigLoadingTest extends AbstractEzShopsTest {
                 Material.STRIPPED_ACACIA_LOG,
                 Material.STRIPPED_DARK_OAK_LOG,
                 Material.STRIPPED_MANGROVE_LOG,
-                Material.STRIPPED_PALE_OAK_LOG,
-                Material.STRIPPED_CHERRY_LOG,
+                requiredMaterial("STRIPPED_CHERRY_LOG"),
         };
+        Material strippedPaleOakLog = optionalMaterial("STRIPPED_PALE_OAK_LOG");
+        if (strippedPaleOakLog != null) {
+            expectedStrippedLogs = append(expectedStrippedLogs, strippedPaleOakLog);
+        }
 
         for (Material stripped : expectedStrippedLogs) {
             Optional<ShopPrice> price = pm.getPrice(stripped);
@@ -114,9 +121,12 @@ public class WoodCategoryConfigLoadingTest extends AbstractEzShopsTest {
                 Material.ACACIA_WOOD,
                 Material.DARK_OAK_WOOD,
                 Material.MANGROVE_WOOD,
-                Material.PALE_OAK_WOOD,
-                Material.CHERRY_WOOD,
+                requiredMaterial("CHERRY_WOOD"),
         };
+        Material paleOakWood = optionalMaterial("PALE_OAK_WOOD");
+        if (paleOakWood != null) {
+            expectedWoodBlocks = append(expectedWoodBlocks, paleOakWood);
+        }
 
         for (Material wood : expectedWoodBlocks) {
             Optional<ShopPrice> price = pm.getPrice(wood);
@@ -412,6 +422,23 @@ public class WoodCategoryConfigLoadingTest extends AbstractEzShopsTest {
         ShopTransactionService svc = (ShopTransactionService) f.get(core);
         assertNotNull(svc, "ShopTransactionService must not be null");
         return svc;
+    }
+
+    private static Material requiredMaterial(String name) {
+        Material m = Material.matchMaterial(name);
+        assertNotNull(m, "Expected material to exist in this API version: " + name);
+        return m;
+    }
+
+    private static Material optionalMaterial(String name) {
+        return Material.matchMaterial(name);
+    }
+
+    private static Material[] append(Material[] base, Material extra) {
+        ArrayList<Material> out = new ArrayList<>(base.length + 1);
+        for (Material m : base) out.add(m);
+        out.add(extra);
+        return out.toArray(new Material[0]);
     }
 
     /**
