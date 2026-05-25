@@ -172,7 +172,24 @@ jobs:
               break
             fi
           done
-          kill $SERVER_PID 2>/dev/null || true
+
+          # Graceful shutdown first. SIGINT maps better to console Ctrl+C and
+          # avoids noisy ThreadDeath traces seen with abrupt termination.
+          kill -INT $SERVER_PID 2>/dev/null || true
+          for i in $(seq 1 20); do
+            if ! kill -0 $SERVER_PID 2>/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          # Fallback escalation only if the process is still alive.
+          if kill -0 $SERVER_PID 2>/dev/null; then
+            kill -TERM $SERVER_PID 2>/dev/null || true
+            sleep 3
+          fi
+          if kill -0 $SERVER_PID 2>/dev/null; then
+            kill -KILL $SERVER_PID 2>/dev/null || true
+          fi
           wait $SERVER_PID 2>/dev/null || true
           # EzShops must appear in the server log (even if it self-disables
           # due to Vault being absent — that is expected and not a failure).
