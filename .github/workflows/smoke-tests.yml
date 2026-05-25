@@ -91,13 +91,8 @@ jobs:
             project: paper-j17
             java: "17"
             economy-download: |
-              ASSET_URL=$(curl -fsSL "https://api.github.com/repos/ez-plugins/EzEconomy/releases/tags/2.5.0" | \
-                python3 -c "import sys,json; r=json.load(sys.stdin); assets=r.get('assets',[]); best=next((a for a in assets if a.get('name','').endswith('.jar') and 'bukkit' in a.get('name','').lower()), None); best=best or next((a for a in assets if a.get('name','').endswith('.jar')), None); print(best['browser_download_url'] if best else '')")
-              if [ -z "$ASSET_URL" ]; then
-                echo "No EzEconomy jar asset found in GitHub release tag 2.5.0"
-                exit 1
-              fi
-              curl -fsSL "$ASSET_URL" -o server/plugins/EzEconomy.jar
+              curl -fsSL "https://github.com/EssentialsX/Essentials/releases/download/2.20.1/EssentialsX-2.20.1.jar" \
+                -o server/plugins/EssentialsX.jar
             download: |
               BUILD=$(curl -fsSL "https://api.papermc.io/v2/projects/paper/versions/1.20.4/builds" | \
                 python3 -c "import sys,json; b=json.load(sys.stdin)['builds']; print(b[-1]['build'])")
