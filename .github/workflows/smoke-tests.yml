@@ -13,18 +13,18 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: "Paper 1.21.4"
-            paper-version: "1.21.4-R0.1-SNAPSHOT"
-            mockbukkit-artifact: "mockbukkit-v1.21"
-            mockbukkit-group: "org.mockbukkit.mockbukkit"
-            mockbukkit-version: "4.101.0"
-            java: "21"
-          - name: "Paper 1.21.11"
+          - name: "Paper 1.21.11 (MockBukkit-aligned)"
             paper-version: "1.21.11-R0.1-SNAPSHOT"
             mockbukkit-artifact: "mockbukkit-v1.21"
             mockbukkit-group: "org.mockbukkit.mockbukkit"
             mockbukkit-version: "4.101.0"
             java: "21"
+          - name: "Paper 1.21.11 (Java 25)"
+            paper-version: "1.21.11-R0.1-SNAPSHOT"
+            mockbukkit-artifact: "mockbukkit-v1.21"
+            mockbukkit-group: "org.mockbukkit.mockbukkit"
+            mockbukkit-version: "4.101.0"
+            java: "25"
 
     steps:
       - name: Checkout
