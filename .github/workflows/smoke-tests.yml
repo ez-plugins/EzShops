@@ -91,10 +91,10 @@ jobs:
             project: paper-j17
             java: "17"
             economy-download: |
-              ASSET_URL=$(curl -fsSL "https://api.github.com/repos/ez-plugins/EzEconomy/releases/latest" | \
+              ASSET_URL=$(curl -fsSL "https://api.github.com/repos/ez-plugins/EzEconomy/releases/tags/2.5.0" | \
                 python3 -c "import sys,json; r=json.load(sys.stdin); assets=r.get('assets',[]); best=next((a for a in assets if a.get('name','').endswith('.jar') and 'bukkit' in a.get('name','').lower()), None); best=best or next((a for a in assets if a.get('name','').endswith('.jar')), None); print(best['browser_download_url'] if best else '')")
               if [ -z "$ASSET_URL" ]; then
-                echo "No EzEconomy jar asset found in latest GitHub release"
+                echo "No EzEconomy jar asset found in GitHub release tag 2.5.0"
                 exit 1
               fi
               curl -fsSL "$ASSET_URL" -o server/plugins/EzEconomy.jar
