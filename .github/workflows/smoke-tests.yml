@@ -13,14 +13,22 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - name: "Paper 1.20.4 (Java 17)"
+            paper-version: "1.20.4-R0.1-SNAPSHOT"
+            mockbukkit-artifact: "MockBukkit-v1.20"
+            mockbukkit-group: "com.github.seeseemelk"
+            mockbukkit-version: "3.93.2"
+            java: "17"
           - name: "Paper 1.21.4"
             paper-version: "1.21.4-R0.1-SNAPSHOT"
             mockbukkit-artifact: "mockbukkit-v1.21"
+            mockbukkit-group: "org.mockbukkit.mockbukkit"
             mockbukkit-version: "4.101.0"
             java: "21"
           - name: "Paper 1.21.11"
             paper-version: "1.21.11-R0.1-SNAPSHOT"
             mockbukkit-artifact: "mockbukkit-v1.21"
+            mockbukkit-group: "org.mockbukkit.mockbukkit"
             mockbukkit-version: "4.101.0"
             java: "21"
 
@@ -46,25 +54,44 @@ jobs:
         run: |
           mvn -B \
             -Dpaper.version=${{ matrix.paper-version }} \
+            -Dmockbukkit.groupId=${{ matrix.mockbukkit-group }} \
             -Dmockbukkit.artifactId=${{ matrix.mockbukkit-artifact }} \
             -Dmockbukkit.version=${{ matrix.mockbukkit-version }} \
             -Dtest=EzShopsPluginFeatureTest,PluginLifecycleFeatureTest,EzShopsAPITest \
             test
 
   smoke-server:
-    # Real server startup tests.  Verifies the plugin JAR is recognised and
-    # loaded by the server without class-loading errors on every supported
-    # platform (Folia via PaperMC API; Purpur as a Spigot-compatible proxy —
-    # plain Spigot JARs require BuildTools and are impractical to download
-    # in CI).
+    # Real server startup tests. Verifies the plugin JAR is recognised and
+    # loaded by each supported runtime without startup/class-loading errors.
     name: Server (${{ matrix.name }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
+          - name: "Paper 1.20.4 (Java 17)"
+            project: paper-j17
+            java: "17"
+            download: |
+              BUILD=$(curl -fsSL "https://api.papermc.io/v2/projects/paper/versions/1.20.4/builds" | \
+                python3 -c "import sys,json; b=json.load(sys.stdin)['builds']; print(b[-1]['build'])")
+              JAR=$(curl -fsSL "https://api.papermc.io/v2/projects/paper/versions/1.20.4/builds/$BUILD" | \
+                python3 -c "import sys,json; d=json.load(sys.stdin); print(d['downloads']['application']['name'])")
+              curl -fsSL "https://api.papermc.io/v2/projects/paper/versions/1.20.4/builds/$BUILD/downloads/$JAR" \
+                -o server/server.jar
+          - name: "Paper 1.21.4"
+            project: paper
+            java: "21"
+            download: |
+              BUILD=$(curl -fsSL "https://api.papermc.io/v2/projects/paper/versions/1.21.4/builds" | \
+                python3 -c "import sys,json; b=json.load(sys.stdin)['builds']; print(b[-1]['build'])")
+              JAR=$(curl -fsSL "https://api.papermc.io/v2/projects/paper/versions/1.21.4/builds/$BUILD" | \
+                python3 -c "import sys,json; d=json.load(sys.stdin); print(d['downloads']['application']['name'])")
+              curl -fsSL "https://api.papermc.io/v2/projects/paper/versions/1.21.4/builds/$BUILD/downloads/$JAR" \
+                -o server/server.jar
           - name: "Folia 1.21.4"
             project: folia
+            java: "21"
             download: |
               BUILD=$(curl -fsSL "https://api.papermc.io/v2/projects/folia/versions/1.21.4/builds" | \
                 python3 -c "import sys,json; b=json.load(sys.stdin)['builds']; print(b[-1]['build'])")
@@ -72,21 +99,22 @@ jobs:
                 python3 -c "import sys,json; d=json.load(sys.stdin); print(d['downloads']['application']['name'])")
               curl -fsSL "https://api.papermc.io/v2/projects/folia/versions/1.21.4/builds/$BUILD/downloads/$JAR" \
                 -o server/server.jar
-          - name: "Purpur 1.21.4 (Spigot-compatible)"
-            project: purpur
+          - name: "Spigot 1.21.4"
+            project: spigot
+            java: "21"
             download: |
-              curl -fsSL "https://api.purpurmc.org/v2/purpur/1.21.4/latest/download" \
+              curl -fsSL "https://download.getbukkit.org/spigot/spigot-1.21.4.jar" \
                 -o server/server.jar
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
+      - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "21"
+          java-version: ${{ matrix.java }}
 
       - name: Cache Maven local repository
         uses: actions/cache@v4
