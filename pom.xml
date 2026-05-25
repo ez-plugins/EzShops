@@ -5,7 +5,7 @@
 
     <groupId>com.skyblockexp</groupId>
     <artifactId>ezshops</artifactId>
-    <version>2.5.6</version>
+    <version>2.5.7</version>
     <name>EzShops Plugin</name>
     <description>Standalone plugin providing the Skyblock shop command and sign shops.</description>
     <packaging>jar</packaging>
@@ -104,12 +104,46 @@
             <version>1.4.1</version>
             <scope>provided</scope>
         </dependency>
+        <!-- Jaloquent: Eloquent-style model/repository layer (EzFramework) -->
+        <dependency>
+            <groupId>com.github.EzFramework</groupId>
+            <artifactId>jaloquent</artifactId>
+            <version>${ezframework.jaloquent.version}</version>
+        </dependency>
+        <!-- Explicitly pin transitive EzFramework libs for predictable upgrades -->
+        <dependency>
+            <groupId>com.github.EzFramework</groupId>
+            <artifactId>JavaQueryBuilder</artifactId>
+            <version>${ezframework.javaquerybuilder.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.EzFramework</groupId>
+            <artifactId>Jaker</artifactId>
+            <version>${ezframework.jaker.version}</version>
+        </dependency>
+        <!-- MySQL Connector (shaded into plugin to allow JDBC access on servers without driver) -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.1.0</version>
+        </dependency>
+        <!-- H2 in-memory database for integration tests against JDBC adapters -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.2.220</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <properties>
-        <!-- Target Java 21 to match Paper API (class file version 65) -->
+        <!-- Java 17 compatibility baseline -->
+        <java.version>17</java.version>
         <!-- Allow CI to override the Paper API version with -Dpaper.version -->
-        <paper.version>1.21.11-R0.1-SNAPSHOT</paper.version>
+        <paper.version>1.20.6-R0.1-SNAPSHOT</paper.version>
+        <ezframework.jaloquent.version>1.3.3</ezframework.jaloquent.version>
+        <ezframework.javaquerybuilder.version>1.2.1</ezframework.javaquerybuilder.version>
+        <ezframework.jaker.version>1.0.7</ezframework.jaker.version>
         <!-- MockBukkit coordinates are configurable so CI can select the right artifact per Paper matrix entry -->
         <mockbukkit.groupId>org.mockbukkit.mockbukkit</mockbukkit.groupId>
         <mockbukkit.artifactId>mockbukkit-v1.21</mockbukkit.artifactId>
@@ -181,6 +215,8 @@
                                     <include>net.kyori:adventure-text-serializer-legacy</include>
                                     <include>net.kyori:adventure-text-minimessage</include>
                                     <include>net.kyori:examination-api</include>
+                                    <include>com.github.EzFramework:jaloquent</include>
+                                    <include>com.mysql:mysql-connector-j</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -206,8 +242,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>21</source>
-                    <target>21</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <compilerArgs>
                         <arg>-Xlint:-processing</arg>
                     </compilerArgs>

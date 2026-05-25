@@ -12,6 +12,27 @@ ezboost-integration: true
 
 language: en
 
+# Centralised database settings (preferred)
+#
+# Use this top-level `database` section to configure a single set of JDBC
+# connection settings for all SQL-backed storage in EzShops. When present,
+# components (player shops, transaction store, and others) will prefer these
+# settings over the per-feature `player-shops.storage.*` subsections.
+#
+# You can provide either a full JDBC `url` or the individual `host`/`port`/
+# `database` properties. `table-prefix` controls the database table name
+# prefix (default: "ez_"). Keep the legacy `player-shops.storage.*`
+# sections for backward compatibility if you need per-feature overrides.
+database:
+  # Optional full JDBC URL. If present, this will be used directly.
+  # url: jdbc:mysql://localhost:3306/minecraft?useSSL=false&serverTimezone=UTC
+  host: localhost
+  port: 3306
+  database: minecraft
+  username: root
+  password: ""
+  table-prefix: "ez_"
+
 signs:
   # Header tokens that count as shop signs. Include legacy values here if you
   # change the display header so existing signs keep working.
@@ -31,6 +52,46 @@ player-shops:
   # Recognized first-line tokens that trigger a player shop sign.
   headers:
     - "[playershop]"
+  # Storage backend for player shop data. Choose one `type` and configure
+  # the matching section below. Supported types: jaloquent, mysql, sqlite
+  # Default: jaloquent (recommended). If the configured backend cannot be
+  # initialised at startup the plugin will fall back to the YAML file backend
+  # (`player-shops.yml`).
+  storage:
+    # one of: jaloquent | mysql | sqlite
+    type: jaloquent
+
+    # Common optional settings that apply to most JDBC-backed backends.
+    # If provided, these are used to build a JDBC URL when a full `url` is
+    # not provided in the backend-specific section.
+    table-prefix: "ez_"
+
+    # MySQL configuration (used when storage.type = mysql)
+    mysql:
+      host: localhost
+      port: 3306
+      database: minecraft
+      username: root
+      password: ""
+
+    # SQLite configuration (used when storage.type = sqlite)
+    # The plugin will create the file if it does not exist.
+    sqlite:
+      # Path to the SQLite database file relative to the server working dir
+      # or absolute path. Example: plugins/EzShops/ezshops.sqlite
+      file: plugins/EzShops/ezshops.sqlite
+
+    # Jaloquent configuration (used when storage.type = jaloquent)
+    # Jaloquent is an ORM-style wrapper that uses a JDBC connection under the
+    # hood. You can provide either a full JDBC `url` or host/port/database.
+    jaloquent:
+      # Optional full JDBC URL (preferred when using custom flags/params)
+      # url: jdbc:mysql://localhost:3306/minecraft?useSSL=false&serverTimezone=UTC
+      host: localhost
+      port: 3306
+      database: minecraft
+      username: root
+      password: ""
   # When true, other players cannot open or break player shop chests/signs.
   # Set to false to allow other players to open the chest and break the sign.
   protection-enabled: true
@@ -45,13 +106,22 @@ player-shops:
   min-price: 0.0
   max-price: 0.0
   sign-format:
+    # Line 0: shown when in stock / out of stock.
+    # {item1} and {item2} let the item name span two lines automatically.
     available-header: "{translate:player-shops.sign-format.available-header}"
     out-of-stock-header: "{translate:player-shops.sign-format.out-of-stock-header}"
-    owner-format: "{translate:player-shops.sign-format.owner-prefix}{owner}{translate:player-shops.sign-format.owner-suffix}"
+    # Line 1: by default shows the second part of the item name ({item2}).
+    # Set to "&7{owner}" to display the shop owner's name instead.
+    owner-format: "&7{item2}"
     unknown-owner-name: "{translate:player-shops.sign-format.unknown-owner-name}"
-    item-format: "{translate:player-shops.sign-format.item-prefix}{amount}{translate:player-shops.sign-format.item-middle}{item}{translate:player-shops.sign-format.item-suffix}"
-    price-format: "{translate:player-shops.sign-format.price-prefix}{price}{translate:player-shops.sign-format.price-suffix}"
+    # Line 2: quantity.
+    item-format: "&b{amount}x"
+    # Line 3: price (in-stock) or out-of-stock message.
+    price-format: "&6{price}"
     out-of-stock-line: "{translate:player-shops.sign-format.out-of-stock-line}"
+    # Character limit at which the item name is split across lines 0 and 1.
+    # Word boundaries are preferred; hard-split only when no space is found.
+    item-split-length: 14
 
 categories:
   # Toggle whether the category-based /shop GUI is enabled. When disabled,

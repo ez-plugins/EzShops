@@ -30,7 +30,7 @@ Check our latest project: [PvPIndex]([https://pvpindex.com/](https://modrinth.co
 - **Dynamic Pricing:** Prices automatically adjust based on player activity, with persistent state across restarts.
 - **Rotating Specials:** Schedule daily or timed specials with weighted or random rotations, no manual recoding needed.
 - **Sign Shop Integration:** Create buy/sell signs that mirror menu prices and formats, perfect for towns and markets.
-- **Player Shops:** Let players run their own chest shops with secure, branded signs and automated stock management.
+- **Player Shops:** Let players run their own chest shops with secure, branded signs, automatic stock management, and smart item labels — sign names automatically show potion effects and enchantment details.
 - **Stock Market System:** Enable real-time, demand-driven pricing for select items, with admin controls and persistent overrides.
 - **Instant Config Reload:** Use `/shop reload` to update all configs and menus live, no server restart required.
 - **Sell boosts**: Option for sell boosts through integration with our [EzBoost plugin](https://modrinth.com/plugin/ezboost) - see the [EzBoost integration docs](https://ez-plugins.github.io/EzShops/integrations/ezboost).

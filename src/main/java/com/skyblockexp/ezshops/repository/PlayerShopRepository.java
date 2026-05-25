@@ -19,12 +19,13 @@ public interface PlayerShopRepository {
     Collection<PlayerShop> loadShops();
     
     /**
-     * Saves all player shops to storage.
+     * Saves all player shops to storage.  The repository is responsible for
+     * merging any deferred entries (shops whose worlds were not loaded at
+     * startup) back into the persisted file.
      *
-     * @param shopsBySign map of shops indexed by sign location key
-     * @param deferredEntries map of deferred shop entries for unloaded worlds
+     * @param shopsBySign map of active shops indexed by sign location key
      */
-    void saveShops(Map<String, PlayerShop> shopsBySign, Map<String, Map<String, Object>> deferredEntries);
+    void saveShops(Map<String, PlayerShop> shopsBySign);
     
     /**
      * Generates a location key for indexing.
@@ -49,11 +50,4 @@ public interface PlayerShopRepository {
      * @return the world name or null
      */
     String worldNameForKey(String key);
-    
-    /**
-     * Gets deferred shop entries for worlds not yet loaded.
-     *
-     * @return map of deferred entries
-     */
-    Map<String, Map<String, Object>> getDeferredEntries();
 }

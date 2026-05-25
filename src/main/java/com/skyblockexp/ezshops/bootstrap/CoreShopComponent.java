@@ -1,5 +1,8 @@
 package com.skyblockexp.ezshops.bootstrap;
 
+import com.skyblockexp.ezshops.shop.ShopTransactionPersistenceListener;
+import com.skyblockexp.ezshops.repository.transaction.TransactionRepository;
+
 import com.skyblockexp.ezshops.shop.command.PriceCommand;
 import com.skyblockexp.ezshops.shop.command.PricingAdminCommand;
 import com.skyblockexp.ezshops.shop.command.SellCommand;
@@ -63,6 +66,8 @@ public final class CoreShopComponent implements PluginComponent {
     private boolean ignoreIslandRequirements;
     private com.skyblockexp.ezshops.teams.TeamsIntegration teamsIntegration;
     private com.skyblockexp.ezshops.teams.TeamTreasury teamTreasury;
+    private TransactionRepository transactionRepository;
+    private Listener transactionPersistenceListener;
 
     public CoreShopComponent(Economy economy) {
         this.economy = economy;
@@ -92,6 +97,25 @@ public final class CoreShopComponent implements PluginComponent {
         // Hook service for executing commands on buy/sell
         com.skyblockexp.ezshops.hook.TransactionHookService hookService = new com.skyblockexp.ezshops.hook.TransactionHookService(plugin);
         transactionService.setTransactionHookService(hookService);
+        // Transaction persistence: create a repository and listener if configured.
+        try {
+            com.skyblockexp.ezshops.repository.transaction.TransactionRepository txRepo = null;
+            String type = plugin.getConfig().getString("player-shops.storage.type", "yaml");
+            if ("jaloquent".equalsIgnoreCase(type) || "mysql".equalsIgnoreCase(type)) {
+                java.util.Map<String, String> cfg = com.skyblockexp.ezshops.config.DatabaseConfig.from(plugin.getConfig());
+                txRepo = new com.skyblockexp.ezshops.database.jaloquent.JaloquentTransactionRepository(cfg);
+                plugin.getLogger().info("Shop transactions: using SQL-backed transaction repository.");
+            } else {
+                txRepo = new com.skyblockexp.ezshops.repository.yml.YmlTransactionRepository(plugin.getDataFolder());
+                plugin.getLogger().info("Shop transactions: using YAML transaction repository.");
+            }
+            ShopTransactionPersistenceListener listener = new ShopTransactionPersistenceListener(txRepo);
+            this.transactionRepository = txRepo;
+            this.transactionPersistenceListener = listener;
+            registerListener(plugin.getServer().getPluginManager(), listener);
+        } catch (Exception ex) {
+            plugin.getLogger().severe("Failed to initialise transaction repository: " + ex.getMessage());
+        }
         // Wire TeamsAPI integration if available
         if (teamsIntegration != null && teamTreasury != null) {
             double split = plugin.getConfig().getDouble("teams-integration.treasury-split", 0.05);
@@ -170,6 +194,20 @@ public final class CoreShopComponent implements PluginComponent {
 
         unregisterListener(shopMenu);
         unregisterListener(quickSellMenu);
+        if (transactionPersistenceListener != null) {
+            unregisterListener(transactionPersistenceListener);
+            transactionPersistenceListener = null;
+        }
+        if (transactionRepository != null) {
+            try {
+                transactionRepository.close();
+            } catch (Exception ex) {
+                if (plugin != null) {
+                    plugin.getLogger().warning("Failed to close transaction repository: " + ex.getMessage());
+                }
+            }
+            transactionRepository = null;
+        }
         if (plugin != null) {
             ServicesManager servicesManager = plugin.getServer().getServicesManager();
             if (shopPriceService != null) {

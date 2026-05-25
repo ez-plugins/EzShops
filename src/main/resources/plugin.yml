@@ -32,6 +32,10 @@ commands:
     description: Configure your player shop sign before placing it.
     usage: /<command>
     permission: ezshops.playershop.create
+  playershops:
+    description: Browse all active player shops and purchase items directly.
+    usage: /<command> [page]
+    permission: ezshops.playershop.browse
   signshop:
     description: Configure and generate shop signs with custom backings.
     usage: /<command>
@@ -106,6 +110,9 @@ permissions:
     default: true
   ezshops.playershop.buy:
     description: Allows players to purchase from player shops.
+    default: true
+  ezshops.playershop.browse:
+    description: Allows players to browse all player shops via /playershops.
     default: true
   ezshops.playershop.admin:
     description: Allows administrators to manage any player shop.

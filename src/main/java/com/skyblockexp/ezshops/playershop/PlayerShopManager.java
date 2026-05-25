@@ -30,7 +30,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.potion.PotionType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -395,13 +399,32 @@ public final class PlayerShopManager {
         String ownerName = Optional.ofNullable(Bukkit.getOfflinePlayer(shop.ownerId()).getName())
                 .filter(name -> !name.isBlank()).orElse(signFormat.unknownOwnerName());
         ItemStack template = shop.itemTemplate();
-        String itemName = friendlyItemName(template.getType());
+        String itemName = friendlyItemNameDetailed(template);
         String priceText = formatCurrency(shop.price());
         return signFormat.formatLines(ownerName, shop.quantityPerSale(), itemName, priceText, hasStock);
     }
 
     public void saveShops() {
-        repository.saveShops(shopsBySign, repository.getDeferredEntries());
+        repository.saveShops(shopsBySign);
+    }
+
+    /**
+     * Returns {@code true} if the shop's chest currently holds enough stock for
+     * at least one sale.
+     */
+    public boolean hasStock(PlayerShop shop) {
+        if (shop == null) {
+            return false;
+        }
+        Inventory inventory = getInventory(shop.primaryChestLocation());
+        return inventory != null && countItems(inventory, shop.itemTemplate()) >= shop.quantityPerSale();
+    }
+
+    /**
+     * Returns a human-readable formatted price string.
+     */
+    public String formatPrice(double price) {
+        return formatCurrency(price);
     }
 
     private List<Location> resolveChestLocations(Block block) {
@@ -605,6 +628,75 @@ public final class PlayerShopManager {
     private String friendlyItemName(Material material) {
         return material == null ? "Item"
                 : capitalize(material.name().replace('_', ' ').toLowerCase(Locale.US));
+    }
+
+    /**
+     * Returns a descriptive item name that includes potion type or enchantment
+     * details when available, falling back to the material name.
+     */
+    String friendlyItemNameDetailed(ItemStack item) {
+        if (item == null) {
+            return "Item";
+        }
+        ItemMeta meta = item.getItemMeta();
+        // Custom display name takes priority
+        if (meta != null && meta.hasDisplayName()) {
+            return ChatColor.stripColor(meta.getDisplayName());
+        }
+        Material material = item.getType();
+        // Potion-type items: show the specific effect name
+        if (meta instanceof PotionMeta potionMeta) {
+            String typeName = potionTypeFriendlyName(potionMeta);
+            if (typeName != null) {
+                String suffix = material == Material.SPLASH_POTION ? " Splash Pot"
+                        : material == Material.LINGERING_POTION ? " Ling. Pot"
+                        : " Potion";
+                return typeName + suffix;
+            }
+        }
+        // Enchanted book: show first stored enchantment with level
+        if (material == Material.ENCHANTED_BOOK && meta instanceof EnchantmentStorageMeta enchMeta) {
+            String enchName = firstStoredEnchantmentName(enchMeta);
+            if (enchName != null) {
+                return enchName + " Book";
+            }
+        }
+        return friendlyItemName(material);
+    }
+
+    private String potionTypeFriendlyName(PotionMeta potionMeta) {
+        try {
+            PotionType type = potionMeta.getBasePotionType();
+            if (type != null && type != PotionType.WATER && type != PotionType.MUNDANE
+                    && type != PotionType.THICK && type != PotionType.AWKWARD) {
+                return capitalize(type.name().replace('_', ' ').toLowerCase(Locale.US));
+            }
+        } catch (Exception ignored) {
+            // API unavailable on this server version; fall back to material name
+        }
+        return null;
+    }
+
+    private String firstStoredEnchantmentName(EnchantmentStorageMeta meta) {
+        Map<Enchantment, Integer> stored = meta.getStoredEnchants();
+        if (stored.isEmpty()) {
+            return null;
+        }
+        Map.Entry<Enchantment, Integer> entry = stored.entrySet().iterator().next();
+        String name = capitalize(entry.getKey().getKey().getKey().replace('_', ' ').toLowerCase(Locale.US));
+        String level = toRoman(entry.getValue());
+        return name + (level != null ? " " + level : " " + entry.getValue());
+    }
+
+    private static String toRoman(int level) {
+        return switch (level) {
+            case 1 -> "I";
+            case 2 -> "II";
+            case 3 -> "III";
+            case 4 -> "IV";
+            case 5 -> "V";
+            default -> null;
+        };
     }
 
     private String describeItem(ItemStack item, int amount) {

@@ -216,16 +216,9 @@ signs:
 
 player-shops:
   sign-format:
-    available-header: "&2[PlayerShop]"
-    out-of-stock-header: "&c[PlayerShop]"
-    owner-prefix: "&7"
-    owner-suffix: "'s"
+    available-header: "&b{item1}"
+    out-of-stock-header: "&c{item1}"
     unknown-owner-name: "Owner"
-    item-prefix: "&b"
-    item-middle: "&7x &b"
-    item-suffix: " -"
-    price-prefix: "&6"
-    price-suffix: " &7for &6{price}"
     out-of-stock-line: "&cOut of Stock"
   messages:
     menu:
