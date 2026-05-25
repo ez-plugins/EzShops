@@ -4,6 +4,7 @@ import com.skyblockexp.ezshops.AbstractEzShopsTest;
 import com.skyblockexp.ezshops.EzShopsPlugin;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
@@ -92,7 +93,7 @@ public class PlayerShopSignItemNameTest extends AbstractEzShopsTest {
         ItemStack potion = new ItemStack(Material.LINGERING_POTION);
         PotionMeta meta = (PotionMeta) potion.getItemMeta();
         assertNotNull(meta);
-        meta.setBasePotionType(PotionType.HEALING);
+        meta.setBasePotionType(requiredPotionType("HEALING", "INSTANT_HEAL"));
         potion.setItemMeta(meta);
 
         String name = manager.friendlyItemNameDetailed(potion);
@@ -120,7 +121,7 @@ public class PlayerShopSignItemNameTest extends AbstractEzShopsTest {
         ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
         assertNotNull(meta);
-        meta.addStoredEnchant(Enchantment.SHARPNESS, 5, true);
+        meta.addStoredEnchant(requiredEnchantment("sharpness"), 5, true);
         book.setItemMeta(meta);
 
         String name = manager.friendlyItemNameDetailed(book);
@@ -136,7 +137,7 @@ public class PlayerShopSignItemNameTest extends AbstractEzShopsTest {
         ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
         assertNotNull(meta);
-        meta.addStoredEnchant(Enchantment.UNBREAKING, 3, true);
+        meta.addStoredEnchant(requiredEnchantment("unbreaking"), 3, true);
         book.setItemMeta(meta);
 
         String name = manager.friendlyItemNameDetailed(book);
@@ -225,7 +226,7 @@ public class PlayerShopSignItemNameTest extends AbstractEzShopsTest {
         ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
         assertNotNull(meta);
-        meta.addStoredEnchant(Enchantment.UNBREAKING, 3, true);
+        meta.addStoredEnchant(requiredEnchantment("unbreaking"), 3, true);
         book.setItemMeta(meta);
 
         PlayerShop shop = new PlayerShop(java.util.UUID.randomUUID(), signLoc, chestLoc,
@@ -239,5 +240,23 @@ public class PlayerShopSignItemNameTest extends AbstractEzShopsTest {
                 "Line 1 should contain remainder: " + java.util.Arrays.toString(lines));
         // Line 2 should be the quantity, line 3 the price
         assertTrue(lines[2].contains("1"), "Line 2 should contain quantity: " + lines[2]);
+    }
+
+    private static PotionType requiredPotionType(String... candidates) {
+        for (String candidate : candidates) {
+            try {
+                return PotionType.valueOf(candidate);
+            } catch (IllegalArgumentException ignored) {
+                // try next candidate
+            }
+        }
+        fail("Expected one of potion types to exist: " + java.util.Arrays.toString(candidates));
+        return PotionType.WATER;
+    }
+
+    private static Enchantment requiredEnchantment(String key) {
+        Enchantment enchantment = Enchantment.getByKey(new NamespacedKey("minecraft", key));
+        assertNotNull(enchantment, "Missing enchantment key: " + key);
+        return enchantment;
     }
 }

@@ -125,7 +125,7 @@ jobs:
             ${{ runner.os }}-m2-build-
 
       - name: Build plugin
-        run: mvn -B -DskipTests package
+        run: mvn -B -Dmaven.test.skip=true package
 
       - name: Set up server directory
         run: |
