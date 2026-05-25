@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **API additions**: `PlayerShopManager` exposes `hasStock(PlayerShop)` and `formatPrice(double)` (public) to support the browse GUI and other integrations.
 - **Permissions & commands**: added the `playershops` command and the `ezshops.playershop.browse` permission (default: true).
 
+### Changed
+- **Build target baseline**: Maven compiler settings now target Java 17 (`source`/`target` via `java.version`), replacing the previous Java 21 compile target in `pom.xml`.
+- **Paper API baseline for Java 17 builds**: default `paper.version` changed to `1.20.6-R0.1-SNAPSHOT` to align with the Java 17 compatibility target.
+- **EzFramework dependency alignment**: pinned and updated persistence stack dependencies in `pom.xml`:
+  - `com.github.EzFramework:jaloquent` -> `1.3.3`
+  - `com.github.EzFramework:JavaQueryBuilder` -> `1.2.1`
+  - `com.github.EzFramework:Jaker` -> `1.0.7`
+
 ### Fixed
 - **Incorrect `sign-format` keys in `main-settings.md`** — the Player Shops configuration section documented non-existent keys (`header`, `owner-line`, `item-line`, `stock-line`, `price-line`, `{stock}` placeholder). It now documents the real keys (`available-header`, `out-of-stock-header`, `owner-format`, `unknown-owner-name`, `item-format`, `price-format`, `out-of-stock-line`) with the correct placeholders (`{owner}`, `{amount}`, `{item}`, `{price}`).
 
