@@ -8,9 +8,22 @@ jobs:
   unit-tests:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         include:
-          - paper-version: "1.21.11-R0.1-SNAPSHOT"
+          - java: "17"
+            paper-version: "1.20.6-R0.1-SNAPSHOT"
+            mockbukkit-groupId: "com.github.seeseemelk"
+            mockbukkit-artifactId: "MockBukkit-v1.20"
+            mockbukkit-version: "3.93.2"
+          - java: "21"
+            paper-version: "1.21.11-R0.1-SNAPSHOT"
+            mockbukkit-groupId: "org.mockbukkit.mockbukkit"
+            mockbukkit-artifactId: "mockbukkit-v1.21"
+            mockbukkit-version: "4.101.0"
+          - java: "25"
+            paper-version: "1.21.11-R0.1-SNAPSHOT"
+            mockbukkit-groupId: "org.mockbukkit.mockbukkit"
             mockbukkit-artifactId: "mockbukkit-v1.21"
             mockbukkit-version: "4.101.0"
 
@@ -18,28 +31,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
+      - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '21'
+          java-version: ${{ matrix.java }}
 
       - name: Cache Maven local repository
         uses: actions/cache@v4
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-m2-${{ matrix.paper-version }}-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-m2-${{ matrix.java }}-${{ matrix.paper-version }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-m2-${{ matrix.paper-version }}-
+            ${{ runner.os }}-m2-${{ matrix.java }}-${{ matrix.paper-version }}-
 
       - name: Run unit tests
-        run: mvn -B -Dpaper.version=${{ matrix.paper-version }} -Dmockbukkit.artifactId=${{ matrix.mockbukkit-artifactId }} -Dmockbukkit.version=${{ matrix.mockbukkit-version }} test
+        run: mvn -B -Dpaper.version=${{ matrix.paper-version }} -Dmockbukkit.groupId=${{ matrix.mockbukkit-groupId }} -Dmockbukkit.artifactId=${{ matrix.mockbukkit-artifactId }} -Dmockbukkit.version=${{ matrix.mockbukkit-version }} test
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           files: target/site/jacoco/jacoco.xml
-          flags: unit-tests
+          flags: unit-tests-jdk${{ matrix.java }}
           fail_ci_if_error: false
 
   feature-tests:
@@ -48,7 +61,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - paper-version: "1.21.11-R0.1-SNAPSHOT"
+          - java: "21"
+            paper-version: "1.21.11-R0.1-SNAPSHOT"
             mockbukkit-artifactId: "mockbukkit-v1.21"
             mockbukkit-version: "4.101.0"
 
@@ -56,11 +70,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
+      - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '21'
+          java-version: ${{ matrix.java }}
 
       - name: Cache Maven local repository
         uses: actions/cache@v4
