@@ -23,7 +23,7 @@ public final class ShopRotationManager {
 
     private final JavaPlugin plugin;
     private final ShopPricingManager pricingManager;
-    private final ShopMenu shopMenu;
+    private ShopMenu shopMenu;
     private final File stateFile;
     private final Map<String, RotationState> rotationStates = new LinkedHashMap<>();
     private TaskHandle task;
@@ -62,6 +62,11 @@ public final class ShopRotationManager {
         }
         saveState();
         rotationStates.clear();
+    }
+
+    /** Updates the shop menu reference (used when toggling categories via admin GUI). */
+    public void setShopMenu(ShopMenu shopMenu) {
+        this.shopMenu = shopMenu;
     }
 
     private void tick() {

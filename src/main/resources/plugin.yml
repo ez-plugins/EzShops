@@ -84,6 +84,11 @@ commands:
       /shopadmin browse
       /shopadmin market
     permission: ezshops.shop.admin
+  setupshops:
+    description: Admin GUI to configure shop features
+    usage: /<command>
+    permission: ezshops.setupshops
+    permission-message: You do not have permission to use this command.
 
 permissions:
   ezshops.shop:
@@ -148,6 +153,9 @@ permissions:
     default: op
   ezshops.shop.admin:
     description: Open the /shopadmin moderation GUI (inspect and remove any shop or market listing)
+    default: op
+  ezshops.setupshops:
+    description: Open the shop setup GUI to enable/disable features
     default: op
   ezshops.pricing.admin.set:
     description: Set configured base price for an item

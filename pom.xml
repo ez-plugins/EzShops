@@ -104,6 +104,12 @@
             <version>1.4.1</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.37.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -170,19 +176,20 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <artifactSet>
-                                <includes>
-                                    <include>org.bstats:bstats-bukkit</include>
-                                    <include>org.bstats:bstats-base</include>
-                                    <include>net.kyori:adventure-api</include>
-                                    <include>net.kyori:adventure-key</include>
-                                    <include>net.kyori:adventure-text-serializer-gson</include>
-                                    <include>net.kyori:adventure-text-serializer-plain</include>
-                                    <include>net.kyori:adventure-text-serializer-legacy</include>
-                                    <include>net.kyori:adventure-text-minimessage</include>
-                                    <include>net.kyori:examination-api</include>
-                                </includes>
-                            </artifactSet>
+<artifactSet>
+                                 <includes>
+                                     <include>org.bstats:bstats-bukkit</include>
+                                     <include>org.bstats:bstats-base</include>
+                                     <include>net.kyori:adventure-api</include>
+                                     <include>net.kyori:adventure-key</include>
+                                     <include>net.kyori:adventure-text-serializer-gson</include>
+                                     <include>net.kyori:adventure-text-serializer-plain</include>
+                                     <include>net.kyori:adventure-text-serializer-legacy</include>
+                                     <include>net.kyori:adventure-text-minimessage</include>
+                                     <include>net.kyori:examination-api</include>
+                                     <include>org.redisson:redisson</include>
+                                 </includes>
+                             </artifactSet>
                             <relocations>
                                 <relocation>
                                     <pattern>org.bstats</pattern>
@@ -195,6 +202,10 @@
                                 <relocation>
                                     <pattern>net.kyori.examination</pattern>
                                     <shadedPattern>com.skyblockexp.ezshops.libs.net.kyori.examination</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.redisson</pattern>
+                                    <shadedPattern>com.skyblockexp.ezshops.libs.org.redisson</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

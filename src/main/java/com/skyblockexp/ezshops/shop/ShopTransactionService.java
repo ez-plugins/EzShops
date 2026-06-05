@@ -246,6 +246,19 @@ public class ShopTransactionService {
     }
 
     public ShopTransactionResult sell(Player player, Material material, int amount) {
+        // Check daily sell limit for SMP mode
+        java.lang.Integer limit = getDailySellLimit(player);
+        if (limit != null) {
+            long soldToday = getSoldsToday(player);
+            long remaining = limit - soldToday;
+            if (remaining <= 0) {
+                return ShopTransactionResult.failure("§cYou have reached your daily sell limit of " + limit + " items.");
+            }
+            if (amount > remaining) {
+                return ShopTransactionResult.failure("§cYou can only sell " + remaining + " more items today (daily limit: " + limit + ").");
+            }
+        }
+
         if (economy == null) {
             return ShopTransactionResult.failure(errorMessages.noEconomy());
         }
@@ -293,11 +306,87 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.transactionFailed(response.errorMessage));
         }
 
+        recordSolds(player, amount);
         pricingManager.handleSale(material, amount);
         doTreasurySplit(player, totalGain);
         ShopTransactionResult result = ShopTransactionResult.success(successMessages.sale(amount,
                 ChatColor.AQUA + friendlyMaterialName(material), formatCurrency(totalGain)));
         return result;
+    }
+
+    private java.lang.Integer getDailySellLimit(Player player) {
+        if (player == null) return null;
+        org.bukkit.plugin.Plugin plugin = player.getServer().getPluginManager().getPlugin("EzShops");
+        if (plugin == null) return null;
+        
+        // Check if daily sell limits are enabled
+        boolean enabled = plugin.getConfig().getBoolean("daily-sell-limits.enabled", true);
+        if (!enabled) return null;
+        
+        String gameMode = plugin.getConfig().getString("game-mode", "prison");
+        
+        // Try new array format first
+        java.util.List<?> limitsList = plugin.getConfig().getList("daily-sell-limits.limits", new java.util.ArrayList<>());
+        if (limitsList != null && !limitsList.isEmpty()) {
+            for (Object entry : limitsList) {
+                if (entry instanceof org.bukkit.configuration.ConfigurationSection) {
+                    org.bukkit.configuration.ConfigurationSection section = (org.bukkit.configuration.ConfigurationSection) entry;
+                    String mode = section.getString("mode", "");
+                    if (mode != null && mode.equalsIgnoreCase(gameMode)) {
+                        return section.getInt("limit", -1);
+                    }
+                }
+            }
+            return null;
+        }
+        
+        // Fallback to legacy string format for backward compatibility
+        String limitsConfig = plugin.getConfig().getString("daily-sell-limits", "");
+        if (limitsConfig != null && !limitsConfig.isEmpty()) {
+            for (String entry : limitsConfig.split(",")) {
+                String[] parts = entry.trim().split(":");
+                if (parts.length == 2) {
+                    String mode = parts[0].trim();
+                    if (mode.equalsIgnoreCase(gameMode)) {
+                        try {
+                            return Integer.parseInt(parts[1].trim());
+                        } catch (NumberFormatException ignored) {}
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private long getSoldsToday(Player player) {
+        java.io.File dataFile = new java.io.File(player.getServer().getPluginManager().getPlugin("EzShops").getDataFolder(), 
+                "daily-sells/" + player.getUniqueId() + ".yml");
+        if (!dataFile.exists()) return 0L;
+        
+        org.bukkit.configuration.file.YamlConfiguration config = org.bukkit.configuration.file.YamlConfiguration.loadConfiguration(dataFile);
+        String today = java.time.LocalDate.now().toString();
+        return config.getLong(today, 0L);
+    }
+
+    private void recordSolds(Player player, int amount) {
+        org.bukkit.plugin.Plugin plugin = player.getServer().getPluginManager().getPlugin("EzShops");
+        if (plugin == null) return;
+        
+        java.io.File dataDir = new java.io.File(plugin.getDataFolder(), "daily-sells");
+        if (!dataDir.exists()) dataDir.mkdirs();
+        
+        java.io.File dataFile = new java.io.File(dataDir, player.getUniqueId() + ".yml");
+        org.bukkit.configuration.file.YamlConfiguration config = dataFile.exists() 
+                ? org.bukkit.configuration.file.YamlConfiguration.loadConfiguration(dataFile) 
+                : new org.bukkit.configuration.file.YamlConfiguration();
+        
+        String today = java.time.LocalDate.now().toString();
+        long current = config.getLong(today, 0L);
+        config.set(today, current + amount);
+        
+        try {
+            config.save(dataFile);
+        } catch (java.io.IOException ignored) {}
     }
 
     /**
@@ -310,6 +399,19 @@ public class ShopTransactionService {
      * which rotation option is currently active.</p>
      */
     public ShopTransactionResult sellDirect(Player player, Material material, int amount) {
+        // Check daily sell limit for SMP mode
+        java.lang.Integer limit = getDailySellLimit(player);
+        if (limit != null) {
+            long soldToday = getSoldsToday(player);
+            long remaining = limit - soldToday;
+            if (remaining <= 0) {
+                return ShopTransactionResult.failure("§cYou have reached your daily sell limit of " + limit + " items.");
+            }
+            if (amount > remaining) {
+                return ShopTransactionResult.failure("§cYou can only sell " + remaining + " more items today (daily limit: " + limit + ").");
+            }
+        }
+
         if (economy == null) {
             return ShopTransactionResult.failure(errorMessages.noEconomy());
         }
@@ -345,6 +447,7 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.transactionFailed(response.errorMessage));
         }
 
+        recordSolds(player, amount);
         pricingManager.handleSale(material, amount);
         doTreasurySplit(player, totalGain);
         return ShopTransactionResult.success(successMessages.sale(amount,
@@ -404,6 +507,7 @@ public class ShopTransactionService {
         }
 
         pricingManager.handleSale(priceKey, amount);
+        recordSolds(player, amount);
         doTreasurySplit(player, totalGain);
         ShopTransactionResult result = ShopTransactionResult.success(successMessages.sale(amount,
                 ChatColor.AQUA + friendlyMaterialName(item.material()), formatCurrency(totalGain)));
@@ -468,6 +572,20 @@ public class ShopTransactionService {
             return ShopTransactionResult.failure(errorMessages.noSellableItems());
         }
 
+        // Check daily sell limit for SMP mode
+        Integer limit = getDailySellLimit(player);
+        if (limit != null) {
+            long totalSold = soldAmounts.values().stream().mapToLong(Integer::longValue).sum();
+            long soldToday = getSoldsToday(player);
+            long remaining = limit - soldToday;
+            if (remaining <= 0) {
+                return ShopTransactionResult.failure("§cYou have reached your daily sell limit of " + limit + " items.");
+            }
+            if (totalSold > remaining) {
+                return ShopTransactionResult.failure("§cYou can only sell " + remaining + " more items today (daily limit: " + limit + ").");
+            }
+        }
+
         totalGain = EconomyUtils.normalizeCurrency(totalGain);
         totalGain *= getSellPriceMultiplier(player);
         totalGain *= getTeamSellMultiplier(player);
@@ -492,6 +610,8 @@ public class ShopTransactionService {
         for (Map.Entry<Material, Integer> entry : soldAmounts.entrySet()) {
             pricingManager.handleSale(entry.getKey(), entry.getValue());
         }
+        long totalSold = soldAmounts.values().stream().mapToLong(Integer::longValue).sum();
+        recordSolds(player, (int) totalSold);
         doTreasurySplit(player, totalGain);
 
         String soldItems = formatSoldInventorySummary(soldAmounts);
