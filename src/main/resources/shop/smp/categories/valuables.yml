@@ -1,0 +1,241 @@
+# EzShops category configuration for "valuables".
+# For valid material names see: docs/configuration/material-names.md
+# or https://jd.papermc.io/paper/1.21/org/bukkit/Material.html
+categories:
+  valuables:
+    name: "{translate:shop.categories.valuables.name}"
+    slot: 30
+    icon:
+      material: HEART_OF_THE_SEA
+      display-name: "{translate:shop.categories.valuables.icon-display-name}"
+      lore:
+      - "{translate:shop.categories.valuables.icon-lore}"
+    menu:
+      title: "{translate:shop.categories.valuables.menu.title}"
+      size: 54
+      fill:
+        material: LIGHT_GRAY_STAINED_GLASS_PANE
+        display-name: "{translate:shop.common.menu.fill-display-name}"
+    items:
+      emerald:
+        material: EMERALD
+        slot: 10
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
+        buy: 400.0
+        sell: 14.0
+      lapis_lazuli:
+        material: LAPIS_LAZULI
+        slot: 11
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
+        buy: 40.0
+        sell: 1.40
+      experience_bottle:
+        material: EXPERIENCE_BOTTLE
+        slot: 12
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.categories.valuables.experience-bottle-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.cannot-sell-line}"
+        - "{translate:shop.common.buy-only-shift-line}"
+        - "{translate:shop.categories.valuables.item-note}"
+        buy: 110.0
+        sell: -1.0
+      ancient_debris:
+        material: ANCIENT_DEBRIS
+        slot: 13
+        amount: 2
+        bulk-amount: 16
+        icon-amount: 2
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
+        buy: 1100.0
+        sell: 38.50
+      heart_of_the_sea:
+        material: HEART_OF_THE_SEA
+        slot: 14
+        amount: 1
+        bulk-amount: 8
+        icon-amount: 1
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
+        buy: 2400.0
+        sell: 84.0
+      breeze_rod:
+        material: BREEZE_ROD
+        slot: 15
+        amount: 4
+        bulk-amount: 32
+        icon-amount: 4
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
+        buy: 900.0
+        sell: 31.0
+      wind_charge:
+        material: WIND_CHARGE
+        slot: 16
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
+        buy: 280.0
+        sell: 10.0
+      enchanted_golden_apple:
+        material: ENCHANTED_GOLDEN_APPLE
+        slot: 19
+        amount: 1
+        bulk-amount: 8
+        icon-amount: 1
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.cannot-sell-line}"
+        - "{translate:shop.categories.valuables.item-note}"
+        buy: 3200.0
+        sell: -1.0
+      netherite_scrap:
+        material: NETHERITE_SCRAP
+        slot: 20
+        amount: 2
+        bulk-amount: 16
+        icon-amount: 2
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
+        buy: 960.0
+        sell: 33.60
+      beacon:
+        material: BEACON
+        slot: 21
+        amount: 1
+        bulk-amount: 8
+        icon-amount: 1
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.cannot-sell-line}"
+        - "{translate:shop.categories.valuables.item-note}"
+        buy: 5200.0
+        sell: -1.0
+      heavy_core:
+        material: HEAVY_CORE
+        slot: 22
+        amount: 1
+        bulk-amount: 4
+        icon-amount: 1
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
+        buy: 18000.0
+        sell: 540.0
+      mace:
+        material: MACE
+        slot: 23
+        amount: 1
+        bulk-amount: 4
+        icon-amount: 1
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
+        buy: 26000.0
+        sell: 780.0
+      trial_key:
+        material: TRIAL_KEY
+        slot: 24
+        amount: 1
+        bulk-amount: 16
+        icon-amount: 1
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
+        buy: 4600.0
+        sell: 150.0
+      ominous_trial_key:
+        material: OMINOUS_TRIAL_KEY
+        slot: 25
+        amount: 1
+        bulk-amount: 16
+        icon-amount: 1
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
+        buy: 8600.0
+        sell: 280.0
+      wolf_armor:
+        material: WOLF_ARMOR
+        slot: 28
+        amount: 1
+        bulk-amount: 8
+        icon-amount: 1
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
+        buy: 2200.0
+        sell: 72.0
+      armadillo_scute:
+        material: ARMADILLO_SCUTE
+        slot: 29
+        amount: 8
+        bulk-amount: 64
+        icon-amount: 8
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.valuables.item-note}"
+        buy: 320.0
+        sell: 11.20

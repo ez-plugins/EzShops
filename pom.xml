@@ -134,6 +134,13 @@
             <version>2.2.220</version>
             <scope>test</scope>
         </dependency>
+        <!-- Redisson for Redis-based transaction cache -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.37.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -219,6 +226,7 @@
                                     <include>com.github.EzFramework:JavaQueryBuilder</include>
                                     <include>com.github.EzFramework:Jaker</include>
                                     <include>com.mysql:mysql-connector-j</include>
+                                    <include>org.redisson:redisson</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -233,6 +241,10 @@
                                 <relocation>
                                     <pattern>net.kyori.examination</pattern>
                                     <shadedPattern>com.skyblockexp.ezshops.libs.net.kyori.examination</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.redisson</pattern>
+                                    <shadedPattern>com.skyblockexp.ezshops.libs.org.redisson</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

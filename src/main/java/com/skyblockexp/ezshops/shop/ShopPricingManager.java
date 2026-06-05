@@ -56,6 +56,7 @@ public class ShopPricingManager {
     private ShopMenuLayout.ItemDecoration mainMenuFillDecoration = null;
     private List<ShopMenuLayout.ConfigurableButton> defaultCategoryButtons = List.of();
     private List<ShopMenuLayout.ConfigurableButton> mainMenuButtons = List.of();
+    private String loadedSourceInfo = "unknown";
 
     public ShopPricingManager(JavaPlugin plugin, DynamicPricingConfiguration dynamicConfiguration) {
         this.plugin = plugin;
@@ -89,6 +90,7 @@ public class ShopPricingManager {
             dynamicStateConfiguration = new YamlConfiguration();
         }
 
+        loadedSourceInfo = buildSourceInfo();
         YamlConfiguration root = loadCombinedConfiguration();
         if (root == null) {
             return;
@@ -98,7 +100,7 @@ public class ShopPricingManager {
         menuLayout = loadMenuLayout(root);
         cleanupDynamicState();
         int categories = menuLayout != null ? menuLayout.categories().size() : 0;
-        logger.info("Shop configuration loaded: " + priceMap.size() + " item(s) across " + categories + " categor" + (categories == 1 ? "y" : "ies") + ".");
+        logger.info(loadedSourceInfo + ": Shop configuration loaded: " + priceMap.size() + " item(s) across " + categories + " categor" + (categories == 1 ? "y" : "ies") + ".");
     }
 
     public Optional<ShopPrice> getPrice(Material material) {
@@ -306,13 +308,13 @@ public class ShopPricingManager {
 
             Material material = Material.matchMaterial(key, false);
             if (material == null) {
-                logger.warning("Ignoring unknown material in shop pricing configuration: " + key);
+                logger.warning(loadedSourceInfo + ": Ignoring unknown material '" + key + "' in shop pricing configuration. Check for typos or invalid material names.");
                 continue;
             }
 
             ConfigurationSection priceSection = root.getConfigurationSection(key);
             if (priceSection == null) {
-                logger.warning("Ignoring price entry for material '" + key + "' because it is not a section.");
+                logger.warning(loadedSourceInfo + ": Ignoring entry '" + key + "' because it is not a section in shop pricing configuration.");
                 continue;
             }
 
@@ -320,8 +322,7 @@ public class ShopPricingManager {
             double sellPrice = readPrice(priceSection, key, "sell");
 
             if (Double.isNaN(buyPrice) && Double.isNaN(sellPrice)) {
-                logger.warning("Ignoring price entry for material '" + key
-                        + "' because no buy or sell price is defined.");
+                logger.warning(loadedSourceInfo + ": Ignoring entry '" + key + "' because no buy or sell price is defined.");
                 continue;
             }
 
@@ -993,8 +994,16 @@ public class ShopPricingManager {
             foundConfig = true;
         }
 
-        File directory = new File(dataFolder, "shop");
-        if (mergeDirectory(combined, directory)) {
+        // Load game-mode specific shop configuration
+        String gameMode = plugin.getConfig().getString("game-mode", "prison");
+        File modeSpecificDir = new File(dataFolder, "shop/" + gameMode);
+        if (mergeDirectory(combined, modeSpecificDir)) {
+            foundConfig = true;
+        }
+
+        // Fallback to legacy shop directory if no game-mode folder found
+        File legacyDir = new File(dataFolder, "shop");
+        if (!foundConfig && mergeDirectory(combined, legacyDir)) {
             foundConfig = true;
         }
 
@@ -1055,6 +1064,37 @@ public class ShopPricingManager {
         if (!dataFolder.exists() && !dataFolder.mkdirs()) {
             logger.warning("Unable to create plugin data folder for dynamic shop pricing state.");
         }
+    }
+
+    /** Builds a description of the configuration source files for error messages. */
+    private String buildSourceInfo() {
+        File dataFolder = plugin.getDataFolder();
+        String gameMode = plugin.getConfig().getString("game-mode", "prison");
+        StringBuilder info = new StringBuilder();
+        info.append("EzShops (").append(gameMode).append(" mode: ");
+        
+        List<String> sources = new ArrayList<>();
+        File modeDir = new File(dataFolder, "shop/" + gameMode);
+        if (modeDir.exists() && modeDir.isDirectory()) {
+            sources.add("shop/" + gameMode + "/");
+        }
+        File legacyDir = new File(dataFolder, "shop");
+        if (legacyDir.exists() && legacyDir.isDirectory()) {
+            if (sources.isEmpty() || !legacyDir.equals(modeDir)) {
+                sources.add("shop/");
+            }
+        }
+        File shopYml = new File(dataFolder, "shop.yml");
+        if (shopYml.exists()) {
+            sources.add("shop.yml");
+        }
+        
+        if (sources.isEmpty()) {
+            info.append("default config)");
+        } else {
+            info.append(String.join(", ", sources)).append(")");
+        }
+        return info.toString();
     }
 
     private double loadSavedMultiplier(String priceKey, DynamicSettings settings) {
@@ -1430,7 +1470,7 @@ public class ShopPricingManager {
         if (materialKey != null) {
             Material parsed = Material.matchMaterial(materialKey, false);
             if (parsed == null) {
-                logger.warning("Unknown material '" + materialKey + "' in menu decoration configuration.");
+                logger.warning(loadedSourceInfo + ": Unknown material '" + materialKey + "' in menu decoration configuration. Check for typos or invalid material names.");
             } else {
                 material = parsed;
             }

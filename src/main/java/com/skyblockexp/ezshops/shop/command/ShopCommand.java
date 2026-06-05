@@ -26,13 +26,13 @@ import org.bukkit.entity.Player;
  */
 public class ShopCommand implements CommandExecutor, TabCompleter {
 
-    private final ShopPricingManager pricingManager;
-    private final ShopTransactionService transactionService;
-    private final ShopMenu shopMenu;
-    private final boolean debug;
-    private final ShopMessageConfiguration.CommandMessages.ShopCommandMessages messages;
-    private final ShopMessageConfiguration.TransactionMessages.ErrorMessages errorMessages;
-    private final ShopMessageConfiguration.TransactionMessages.RestrictionMessages restrictionMessages;
+    private ShopPricingManager pricingManager;
+    private ShopTransactionService transactionService;
+    private ShopMenu shopMenu;
+    private boolean debug;
+    private ShopMessageConfiguration.CommandMessages.ShopCommandMessages messages;
+    private ShopMessageConfiguration.TransactionMessages.ErrorMessages errorMessages;
+    private ShopMessageConfiguration.TransactionMessages.RestrictionMessages restrictionMessages;
 
     public ShopCommand(ShopPricingManager pricingManager, ShopTransactionService transactionService,
             ShopMenu shopMenu, ShopMessageConfiguration.CommandMessages.ShopCommandMessages messages,
@@ -46,6 +46,11 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
         this.errorMessages = errorMessages;
         this.restrictionMessages = restrictionMessages;
         this.debug = debug;
+    }
+
+    /** Updates the shop menu reference (used when toggling categories via admin GUI). */
+    public void setShopMenu(ShopMenu shopMenu) {
+        this.shopMenu = shopMenu;
     }
 
     @Override
@@ -158,7 +163,8 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
 
             // Persist any template-provided categories as shop/category YAML files so pricing manager can load them
             var plugin = api.getPlugin();
-            java.io.File categoriesDir = new java.io.File(plugin.getDataFolder(), "shop/categories");
+            String gameMode = plugin.getConfig().getString("game-mode", "prison");
+            java.io.File categoriesDir = new java.io.File(plugin.getDataFolder(), "shop/" + gameMode + "/categories");
             if (!categoriesDir.exists()) categoriesDir.mkdirs();
             org.yaml.snakeyaml.Yaml yaml = new org.yaml.snakeyaml.Yaml();
             for (var e : template.categories().entrySet()) {

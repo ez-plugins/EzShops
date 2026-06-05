@@ -1,0 +1,110 @@
+# EzShops category configuration for "decorations".
+# For valid material names see: docs/configuration/material-names.md
+# or https://jd.papermc.io/paper/1.21/org/bukkit/Material.html
+categories:
+  decorations:
+    name: "{translate:shop.categories.decorations.name}"
+    slot: 34
+    icon:
+      material: FLOWER_POT
+      display-name: "{translate:shop.categories.decorations.icon-display-name}"
+      lore:
+      - "{translate:shop.categories.decorations.icon-lore}"
+    menu:
+      title: "{translate:shop.categories.decorations.menu.title}"
+      size: 54
+      fill:
+        material: LIGHT_GRAY_STAINED_GLASS_PANE
+        display-name: "{translate:shop.common.menu.fill-display-name}"
+    items:
+      flower_pot:
+        material: FLOWER_POT
+        slot: 10
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 45.0
+        sell: 2.0
+      lantern:
+        material: LANTERN
+        slot: 11
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 60.0
+        sell: 2.50
+      soul_lantern:
+        material: SOUL_LANTERN
+        slot: 12
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 70.0
+        sell: 3.0
+      painting:
+        material: PAINTING
+        slot: 19
+        amount: 4
+        bulk-amount: 16
+        icon-amount: 4
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 55.0
+        sell: 2.20
+      item_frame:
+        material: ITEM_FRAME
+        slot: 20
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 48.0
+        sell: 2.0
+      glowstone:
+        material: GLOWSTONE
+        slot: 21
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 65.0
+        sell: 2.80
+      sea_lantern:
+        material: SEA_LANTERN
+        slot: 22
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 95.0
+        sell: 4.50

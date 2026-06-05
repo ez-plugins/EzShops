@@ -1,0 +1,145 @@
+# EzShops category configuration for "mob_drops".
+# For valid material names see: docs/configuration/material-names.md
+# or https://jd.papermc.io/paper/1.21/org/bukkit/Material.html
+categories:
+  mob_drops:
+    name: "{translate:shop.categories.mob_drops.name}"
+    slot: 23
+    icon:
+      material: PHANTOM_MEMBRANE
+      display-name: "{translate:shop.categories.mob_drops.icon-display-name}"
+      lore:
+      - "{translate:shop.categories.mob_drops.icon-lore}"
+    menu:
+      title: "{translate:shop.categories.mob_drops.menu.title}"
+      size: 54
+      fill:
+        material: LIGHT_GRAY_STAINED_GLASS_PANE
+        display-name: "{translate:shop.common.menu.fill-display-name}"
+    items:
+      bone:
+        material: BONE
+        slot: 10
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
+        buy: 24.0
+        sell: 0.84
+      string:
+        material: STRING
+        slot: 11
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
+        buy: 22.0
+        sell: 0.77
+      gunpowder:
+        material: GUNPOWDER
+        slot: 12
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
+        buy: 60.0
+        sell: 2.10
+      ender_pearl:
+        material: ENDER_PEARL
+        slot: 19
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
+        buy: 120.0
+        sell: 4.20
+      blaze_rod:
+        material: BLAZE_ROD
+        slot: 20
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
+        buy: 130.0
+        sell: 4.55
+      slime_ball:
+        material: SLIME_BALL
+        slot: 21
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
+        buy: 90.0
+        sell: 3.15
+      rotten_flesh:
+        material: ROTTEN_FLESH
+        slot: 13
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
+        buy: 18.0
+        sell: 0.63
+      ghast_tear:
+        material: GHAST_TEAR
+        slot: 14
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
+        buy: 180.0
+        sell: 6.30
+      phantom_membrane:
+        material: PHANTOM_MEMBRANE
+        slot: 22
+        amount: 8
+        bulk-amount: 32
+        icon-amount: 8
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        - "{translate:shop.categories.mob_drops.item-note}"
+        buy: 140.0
+        sell: 4.90

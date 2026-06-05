@@ -37,8 +37,8 @@ permalink: /
 ```yaml
 items:
   DIAMOND:
-    buy-price: 250.0
-    sell-price: 125.0
+    buy: 250.0
+    sell: 125.0
 ```
 
 **3. Open the shop in-game:**

@@ -69,7 +69,7 @@ public final class CoreShopComponent implements PluginComponent {
     private TransactionRepository transactionRepository;
     private Listener transactionPersistenceListener;
 
-    public CoreShopComponent(Economy economy) {
+public CoreShopComponent(Economy economy) {
         this.economy = economy;
     }
 
@@ -137,6 +137,9 @@ public final class CoreShopComponent implements PluginComponent {
                     "Island level provider not detected; island requirements will be ignored.");
         }
 
+        PluginManager pluginManager = plugin.getServer().getPluginManager();
+
+        // Apply initial state based on config
         boolean categoriesEnabled = plugin.getConfig().getBoolean("categories.enabled", true);
         boolean singleListWhenDisabled = plugin.getConfig().getBoolean("categories.single-list-when-disabled", false);
         if (categoriesEnabled) {
@@ -157,31 +160,36 @@ public final class CoreShopComponent implements PluginComponent {
             }
         }
 
-        rotationManager = new ShopRotationManager(plugin, pricingManager, shopMenu);
-        rotationManager.enable();
-
         shopCommand = new ShopCommand(pricingManager, transactionService, shopMenu, commandMessages.shop(),
-            transactionMessages.errors(), transactionMessages.restrictions(), plugin.isDebugMode());
+                transactionMessages.errors(), transactionMessages.restrictions(), plugin.isDebugMode());
         sellHandCommand = new SellHandCommand(transactionService, pricingManager, commandMessages.sellHand());
         sellInventoryCommand = new SellInventoryCommand(transactionService, commandMessages.sellInventory());
         priceCommand = new PriceCommand(pricingManager, transactionService, commandMessages.price());
 
-        boolean quickSellEnabled = plugin.getConfig().getBoolean("quick-sell.enabled", true);
-        String confirmSound = plugin.getConfig().getString("quick-sell.confirm-sound.name", "entity.experience_orb.pickup");
-        float confirmSoundVolume = (float) plugin.getConfig().getDouble("quick-sell.confirm-sound.volume", 1.0);
-        float confirmSoundPitch = (float) plugin.getConfig().getDouble("quick-sell.confirm-sound.pitch", 1.0);
-        quickSellMenu = new QuickSellMenu(pricingManager, transactionService, commandMessages.sell(),
-                confirmSound, confirmSoundVolume, confirmSoundPitch);
-        sellCommand = new SellCommand(quickSellMenu, commandMessages.sell(), quickSellEnabled);
-
-        PluginManager pluginManager = plugin.getServer().getPluginManager();
         registerListener(pluginManager, shopMenu);
-        registerListener(pluginManager, quickSellMenu);
         registerCommand("shop", shopCommand);
         registerCommand("sellhand", sellHandCommand);
         registerCommand("sellinventory", sellInventoryCommand);
-        registerCommand("sell", sellCommand);
         registerCommand("price", priceCommand);
+
+        rotationManager = new ShopRotationManager(plugin, pricingManager, shopMenu);
+        rotationManager.enable();
+
+        boolean quickSellEnabled = plugin.getConfig().getBoolean("quick-sell.enabled", true);
+        if (quickSellEnabled) {
+            String confirmSound = plugin.getConfig().getString("quick-sell.confirm-sound.name", "entity.experience_orb.pickup");
+            float confirmSoundVolume = (float) plugin.getConfig().getDouble("quick-sell.confirm-sound.volume", 1.0);
+            float confirmSoundPitch = (float) plugin.getConfig().getDouble("quick-sell.confirm-sound.pitch", 1.0);
+            quickSellMenu = new QuickSellMenu(pricingManager, transactionService, commandMessages.sell(),
+                    confirmSound, confirmSoundVolume, confirmSoundPitch);
+            sellCommand = new SellCommand(quickSellMenu, commandMessages.sell(), true);
+        } else {
+            quickSellMenu = null;
+            sellCommand = new SellCommand(null, commandMessages.sell(), false);
+        }
+        registerListener(pluginManager, quickSellMenu);
+        registerCommand("sell", sellCommand);
+
         registerCommand("pricingadmin", new com.skyblockexp.ezshops.shop.command.PricingAdminCommand(pricingManager, commandMessages.pricingAdmin()));
     }
 
@@ -259,6 +267,75 @@ public final class CoreShopComponent implements PluginComponent {
 
     public boolean ignoreIslandRequirements() {
         return ignoreIslandRequirements;
+    }
+
+    /**
+     * Returns the currently registered shop menu, or null if categories are disabled.
+     */
+    public ShopMenu getShopMenu() {
+        return shopMenu;
+    }
+
+    /**
+     * Returns true if quick-sell is enabled and the menu is registered.
+     */
+    public boolean isQuickSellRegistered() {
+        return quickSellMenu != null;
+    }
+
+    /**
+     * Re-reads config and (re)registers core shop commands/listeners.
+     */
+    public void reloadFeatures() {
+        if (plugin == null) return;
+
+        PluginManager pluginManager = plugin.getServer().getPluginManager();
+        boolean categoriesEnabled = plugin.getConfig().getBoolean("categories.enabled", true);
+        boolean singleListWhenDisabled = plugin.getConfig().getBoolean("categories.single-list-when-disabled", false);
+
+        // Handle categories/shop GUI state
+        if (categoriesEnabled && this.shopMenu == null) {
+            ShopMessageConfiguration.GuiMessages guiMessages = messageConfiguration.gui();
+            ShopMessageConfiguration.TransactionMessages transactionMessages = messageConfiguration.transactions();
+            this.shopMenu = new ShopMenu(plugin, pricingManager, transactionService, islandLevelProvider,
+                    ignoreIslandRequirements, ShopMenu.DisplayMode.CATEGORIES, guiMessages,
+                    transactionMessages.restrictions());
+            registerListener(pluginManager, this.shopMenu);
+            this.rotationManager.setShopMenu(this.shopMenu);
+            this.shopCommand.setShopMenu(this.shopMenu);
+        } else if (singleListWhenDisabled && this.shopMenu == null) {
+            ShopMessageConfiguration.GuiMessages guiMessages = messageConfiguration.gui();
+            ShopMessageConfiguration.TransactionMessages transactionMessages = messageConfiguration.transactions();
+            this.shopMenu = new ShopMenu(plugin, pricingManager, transactionService, islandLevelProvider,
+                    ignoreIslandRequirements, ShopMenu.DisplayMode.FLAT_LIST, guiMessages,
+                    transactionMessages.restrictions());
+            registerListener(pluginManager, this.shopMenu);
+            this.rotationManager.setShopMenu(this.shopMenu);
+            this.shopCommand.setShopMenu(this.shopMenu);
+        } else if (!categoriesEnabled && !singleListWhenDisabled && this.shopMenu != null) {
+            unregisterListener(this.shopMenu);
+            this.shopMenu = null;
+            this.rotationManager.setShopMenu(null);
+            this.shopCommand.setShopMenu(null);
+        }
+
+        // Handle quick-sell state
+        boolean quickSellEnabled = plugin.getConfig().getBoolean("quick-sell.enabled", true);
+        if (quickSellEnabled && this.quickSellMenu == null) {
+            String confirmSound = plugin.getConfig().getString("quick-sell.confirm-sound.name", "entity.experience_orb.pickup");
+            float confirmSoundVolume = (float) plugin.getConfig().getDouble("quick-sell.confirm-sound.volume", 1.0);
+            float confirmSoundPitch = (float) plugin.getConfig().getDouble("quick-sell.confirm-sound.pitch", 1.0);
+            this.quickSellMenu = new QuickSellMenu(pricingManager, transactionService, messageConfiguration.commands().sell(),
+                    confirmSound, confirmSoundVolume, confirmSoundPitch);
+            registerListener(pluginManager, this.quickSellMenu);
+            this.sellCommand = new SellCommand(this.quickSellMenu, messageConfiguration.commands().sell(), true);
+            plugin.getCommand("sell").setExecutor(this.sellCommand);
+        } else if (!quickSellEnabled && this.quickSellMenu != null) {
+            unregisterListener(this.quickSellMenu);
+            this.quickSellMenu = null;
+            this.sellCommand = new SellCommand(null, messageConfiguration.commands().sell(), false);
+            plugin.getCommand("sell").setExecutor(this.sellCommand);
+        }
     }
 
     private void registerListener(PluginManager pluginManager, Listener listener) {

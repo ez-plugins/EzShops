@@ -5,6 +5,21 @@
 # Default: false
 debug: false
 
+# Game mode determines which shop configuration is loaded.
+# Available modes are determined by subdirectories in the shop/ folder.
+# Default: prison
+game-mode: prison
+
+# Per-mode daily sell limits. Configure mode and item limit pairs.
+# Players can only sell up to this many items total per day in the specified mode.
+# Set enabled: false to disable daily sell limits entirely.
+# Default: enabled: true, limits: [{mode: smp, limit: 512}]
+daily-sell-limits:
+  enabled: true
+  limits:
+    - mode: smp
+      limit: 512
+
 # Enable integration with EzBoost for sell price boosts.
 # Requires EzBoost plugin to be installed.
 # Default: true
@@ -191,6 +206,7 @@ stock:
   #   cooldown-millis: Per-player cooldown in milliseconds between trades (0 = no cooldown)
   #   blocked: List of item names (Material) to block from stock trading
   #   overrides: List of custom items to add to the stock market (must specify id, display, and base-price)
+  #   cache: Transaction cache configuration (LOCAL or REDIS)
   #
   # Example:
   # stock:
@@ -203,10 +219,24 @@ stock:
   #     - id: "DIAMOND"
   #       display: "&bDiamond"
   #       base-price: 100.0
+  #   cache:
+  #     type: LOCAL
+  #     redis:
+  #       host: localhost
+  #       port: 6379
+  #       password: ""
   #
   # Use /stock overview to see all available stocks and their prices.
   enabled: true
   cooldown-millis: 10000
+  # Cache configuration for transaction batching
+  cache:
+    # Cache type: LOCAL (in-memory, default) or REDIS
+    type: LOCAL
+    redis:
+      host: localhost
+      port: 6379
+      password: ""
   # Price volatility range: random noise added per trade (as a fraction of price).
   volatility-min: -0.10
   volatility-max: 0.10
@@ -225,7 +255,7 @@ stock:
     - id: "DIAMOND"
       display: "{translate:stock.overrides.diamond.display}"
       base-price: 100.0
-    # Add more overrides as needed
+      # Add more overrides as needed
 
 # Hooks
 # Message sent to players when a hook requests execution as the player but
