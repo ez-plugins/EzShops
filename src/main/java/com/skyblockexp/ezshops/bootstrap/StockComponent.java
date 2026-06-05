@@ -8,11 +8,15 @@ import com.skyblockexp.ezshops.stock.StockCommand;
 import com.skyblockexp.ezshops.config.StockMarketConfig;
 import com.skyblockexp.ezshops.stock.StockMarketFrozenStore;
 import com.skyblockexp.ezshops.stock.StockMarketManager;
+import com.skyblockexp.ezshops.data.LocalTransactionCache;
+import com.skyblockexp.ezshops.data.RedisTransactionCache;
+import com.skyblockexp.ezshops.data.TransactionCache;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import java.util.*;
 
@@ -25,6 +29,7 @@ public final class StockComponent implements PluginComponent, TabCompleter {
     private StockMarketManager stockMarketManager;
     private StockMarketConfig stockMarketConfig;
     private StockMarketFrozenStore frozenStore;
+    private TransactionCache transactionCache;
     private long cooldownMillis;
 
     @Override
@@ -56,6 +61,11 @@ public final class StockComponent implements PluginComponent, TabCompleter {
         long saveIntervalTicks = stockMarketConfig.getSaveIntervalMinutes() * 60L * 20L;
         this.stockMarketManager.enablePersistence(plugin, saveIntervalTicks);
         this.cooldownMillis = config.getConfigurationSection("stock") != null ? config.getLong("stock.cooldown-millis", 0L) : 0L;
+
+        TransactionCache cache = createTransactionCache(config);
+        this.transactionCache = cache;
+        this.stockMarketManager.setTransactionCache(cache);
+
         registerCommand("stock", new StockCommand(plugin, stockMarketManager, cooldownMillis, stockMarketConfig, frozenStore));
         registerCommand("stockadmin", new StockAdminCommand(stockMarketManager, frozenStore, stockMarketConfig));
         // Ensure the data-folder copy of stock-gui.yml contains required defaults
@@ -95,9 +105,6 @@ public final class StockComponent implements PluginComponent, TabCompleter {
     }
 
     private void ensureStockGuiDefaults(EzShopsPlugin plugin, java.io.File targetFile) {
-        // Only write the default file on first run. If the file already exists it
-        // is owned by the server operator; never overwrite or merge into it so that
-        // intentional removals and customisations persist across restarts.
         if (!targetFile.exists()) {
             try {
                 plugin.saveResource("stock-gui.yml", false);
@@ -107,16 +114,81 @@ public final class StockComponent implements PluginComponent, TabCompleter {
         }
     }
 
+    private TransactionCache createTransactionCache(FileConfiguration config) {
+        ConfigurationSection stockSection = config.getConfigurationSection("stock");
+        if (stockSection == null) {
+            return new LocalTransactionCache();
+        }
+        ConfigurationSection cacheSection = stockSection.getConfigurationSection("cache");
+        if (cacheSection == null) {
+            return new LocalTransactionCache();
+        }
+        String cacheType = cacheSection.getString("type", "LOCAL").toUpperCase(Locale.ROOT);
+        if ("REDIS".equals(cacheType)) {
+            ConfigurationSection redisSection = cacheSection.getConfigurationSection("redis");
+            if (redisSection == null) {
+                plugin.getLogger().warning("Redis cache type specified but redis config missing. Falling back to local cache.");
+                return new LocalTransactionCache();
+            }
+            String host = redisSection.getString("host", "localhost");
+            int port = redisSection.getInt("port", 6379);
+            String password = redisSection.getString("password", "");
+            return new RedisTransactionCache(host, port, password, plugin.getLogger());
+        }
+        return new LocalTransactionCache();
+    }
+
     @Override
     public void disable() {
         if (stockMarketManager != null) {
             stockMarketManager.disablePersistence();
+            stockMarketManager.shutdownCache();
         }
         plugin = null;
         stockMarketManager = null;
         stockMarketConfig = null;
         frozenStore = null;
-        cooldownMillis = 0L;
+        transactionCache = null;
+    }
+
+    /**
+     * Re-reads config and (un)registers stock commands/listeners.
+     * Call this after toggling the stock market feature via admin GUI.
+     */
+    public void reload() {
+        if (plugin == null) return;
+
+        FileConfiguration config = plugin.getConfig();
+        boolean stockEnabled = true;
+        if (config.getConfigurationSection("stock") != null) {
+            stockEnabled = config.getBoolean("stock.enabled", true);
+        }
+
+        if (!stockEnabled) {
+            // Disable stock market - unregister commands and listeners
+            if (plugin.getCommand("stock") != null) {
+                plugin.getCommand("stock").setExecutor(null);
+            }
+            if (plugin.getCommand("stockadmin") != null) {
+                plugin.getCommand("stockadmin").setExecutor(null);
+                plugin.getCommand("stockadmin").setTabCompleter(null);
+            }
+            if (stockMarketManager != null) {
+                stockMarketManager.disablePersistence();
+                stockMarketManager.shutdownCache();
+            }
+            stockMarketManager = null;
+            stockMarketConfig = null;
+            frozenStore = null;
+            transactionCache = null;
+            // Note: We'd need to track the listeners to unregister them. For now they'll be cleaned up on plugin disable.
+            return;
+        }
+
+        // Stock is enabled - ensure everything is initialized
+        if (stockMarketManager == null) {
+            enable(plugin);
+        }
     }
 
     private void registerCommand(String name, Object executor) {

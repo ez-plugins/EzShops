@@ -25,21 +25,21 @@ public class EzShopsPlugin extends JavaPlugin {
     private static final List<String> DEFAULT_SHOP_RESOURCES = List.of(
             "shop.yml",
             "stock-gui.yml",
-            "shop/menu.yml",
-            "shop/categories/building.yml",
-            "shop/categories/daily_specials.yml",
-            "shop/categories/decorations.yml",
-            "shop/categories/enchantments.yml",
-            "shop/categories/farming.yml",
-            "shop/categories/fishing.yml",
-            "shop/categories/food.yml",
-            "shop/categories/mining.yml",
-            "shop/categories/mob_drops.yml",
-            "shop/categories/redstone.yml",
-            "shop/categories/spawners.yml",
-            "shop/categories/valuables.yml",
-            "shop/categories/wood.yml",
-            "shop/rotations/daily-specials.yml",
+            "shop/prison/menu.yml",
+            "shop/prison/categories/building.yml",
+            "shop/prison/categories/daily_specials.yml",
+            "shop/prison/categories/decorations.yml",
+            "shop/prison/categories/enchantments.yml",
+            "shop/prison/categories/farming.yml",
+            "shop/prison/categories/fishing.yml",
+            "shop/prison/categories/food.yml",
+            "shop/prison/categories/mining.yml",
+            "shop/prison/categories/mob_drops.yml",
+            "shop/prison/categories/redstone.yml",
+            "shop/prison/categories/spawners.yml",
+            "shop/prison/categories/valuables.yml",
+            "shop/prison/categories/wood.yml",
+            "shop/prison/rotations/daily-specials.yml",
 
             // Add any bundled locale files here so they are copied alongside the defaults.
             "messages/messages_en.yml",
@@ -52,6 +52,7 @@ public class EzShopsPlugin extends JavaPlugin {
     private CoreShopComponent coreComponent;
     private StockComponent stockComponent;
     private TeamShopComponent teamShopComponent;
+    private PlayerShopComponent playerShopComponent;
     private boolean debugMode;
 
     @Override
@@ -69,7 +70,7 @@ public class EzShopsPlugin extends JavaPlugin {
 
         coreComponent = new CoreShopComponent(economy);
         teamShopComponent = new TeamShopComponent(economy);
-        PlayerShopComponent playerShopComponent = new PlayerShopComponent(economy, getConfig());
+        playerShopComponent = new PlayerShopComponent(economy, getConfig());
         stockComponent = new StockComponent();
         components = new ArrayList<>();
         components.add(teamShopComponent);  // MUST be first so services exist when CoreShopComponent.enable() runs
@@ -169,6 +170,16 @@ public class EzShopsPlugin extends JavaPlugin {
 
     public StockComponent getStockComponent() {
         return this.stockComponent;
+    }
+
+    public PlayerShopComponent getPlayerShopComponent() {
+        return this.playerShopComponent;
+    }
+
+    /** Reloads feature components after toggling via admin GUI. */
+    public void reloadFeatures() {
+        playerShopComponent.reload();
+        stockComponent.reload();
     }
 
     public boolean isDebugMode() {

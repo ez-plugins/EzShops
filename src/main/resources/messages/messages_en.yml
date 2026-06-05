@@ -516,3 +516,29 @@ shop:
 
 hooks:
   player-lacking-permission-message: "&cYou do not have permission to run shop hook commands."
+
+setup-shops:
+  title: "&bShop Setup"
+  core-shops:
+    name: "&aCore Shops"
+    description: "&7/shop GUI and /shop buy/sell commands"
+    enabled: "&aEnabled"
+    disabled: "&cDisabled"
+  quick-sell:
+    name: "&aQuick Sell GUI"
+    description: "&7/sell command for quick selling"
+    enabled: "&aEnabled"
+    disabled: "&cDisabled"
+  player-shops:
+    name: "&aPlayer Shops"
+    description: "&7Player chest shops"
+    enabled: "&aEnabled"
+    disabled: "&cDisabled"
+  stock-market:
+    name: "&aStock Market"
+    description: "&7/stock buy/sell/overview commands"
+    enabled: "&aEnabled"
+    disabled: "&cDisabled"
+  game-mode:
+    name: "&dGame Mode"
+    description: "&7Click to cycle shop configurations"

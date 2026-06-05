@@ -10,7 +10,7 @@ import java.util.Objects;
  * Represents a shop category for use within a ShopTemplate.
  *
  * This is a lightweight, flexible representation mirroring the structure
- * of the category YAML files under `shop/categories/*.yml`.
+ * of the category YAML files under `shop/<game-mode>/categories/*.yml`.
  */
 public final class ShopTemplateCategory {
     private final String id;

@@ -1,0 +1,436 @@
+# EzShops category configuration for "building".
+# For valid material names see: docs/configuration/material-names.md
+# or https://jd.papermc.io/paper/1.21/org/bukkit/Material.html
+categories:
+  building:
+    name: "{translate:shop.categories.building.name}"
+    slot: 14
+    icon:
+      material: BRICKS
+      display-name: "{translate:shop.categories.building.icon-display-name}"
+      lore:
+      - "{translate:shop.categories.building.icon-lore}"
+    menu:
+      title: "{translate:shop.categories.building.menu.title}"
+      size: 54
+      fill:
+        material: LIGHT_GRAY_STAINED_GLASS_PANE
+        display-name: "{translate:shop.common.menu.fill-display-name}"
+    items:
+      dirt:
+        material: DIRT
+        slot: 10
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 64.0
+        sell: 3.20
+      glass:
+        material: GLASS
+        slot: 11
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 18.0
+        sell: 0.75
+      bricks:
+        material: BRICKS
+        slot: 12
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 30.0
+        sell: 1.20
+      quartz_block:
+        material: QUARTZ_BLOCK
+        slot: 13
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 80.0
+        sell: 3.50
+      obsidian:
+        material: OBSIDIAN
+        slot: 14
+        amount: 8
+        bulk-amount: 64
+        icon-amount: 8
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 150.0
+        sell: 7.0
+      stone:
+        material: STONE
+        slot: 15
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 40.0
+        sell: 2.0
+      bucket:
+        material: BUCKET
+        slot: 16
+        amount: 1
+        bulk-amount: 16
+        icon-amount: 1
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.cannot-sell-line}"
+        - "{translate:shop.common.buy-only-shift-line}"
+        buy: 55.0
+        sell: -1.0
+      water_bucket:
+        material: WATER_BUCKET
+        slot: 17
+        amount: 1
+        bulk-amount: 16
+        icon-amount: 1
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.cannot-sell-line}"
+        - "{translate:shop.common.buy-only-shift-line}"
+        buy: 75.0
+        sell: -1.0
+      cobblestone:
+        material: COBBLESTONE
+        slot: 19
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 30.0
+        sell: 1.50
+      stone_bricks:
+        material: STONE_BRICKS
+        slot: 20
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 48.0
+        sell: 2.40
+      sand:
+        material: SAND
+        slot: 21
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 24.0
+        sell: 1.20
+      gravel:
+        material: GRAVEL
+        slot: 22
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 24.0
+        sell: 1.20
+      clay:
+        material: CLAY
+        slot: 23
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 36.0
+        sell: 1.80
+      terracotta:
+        material: TERRACOTTA
+        slot: 24
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 44.0
+        sell: 2.20
+      lava_bucket:
+        material: LAVA_BUCKET
+        slot: 25
+        amount: 1
+        bulk-amount: 16
+        icon-amount: 1
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.cannot-sell-line}"
+        - "{translate:shop.common.buy-only-shift-line}"
+        buy: 95.0
+        sell: -1.0
+      magma_block:
+        material: MAGMA_BLOCK
+        slot: 26
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 80.0
+        sell: 4.0
+      tuff:
+        material: TUFF
+        slot: 28
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 42.0
+        sell: 2.10
+      polished_tuff:
+        material: POLISHED_TUFF
+        slot: 29
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 48.0
+        sell: 2.30
+      tuff_bricks:
+        material: TUFF_BRICKS
+        slot: 30
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 52.0
+        sell: 2.40
+      chiseled_tuff:
+        material: CHISELED_TUFF
+        slot: 31
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 52.0
+        sell: 2.40
+      chiseled_tuff_bricks:
+        material: CHISELED_TUFF_BRICKS
+        slot: 32
+        amount: 32
+        bulk-amount: 64
+        icon-amount: 32
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 56.0
+        sell: 2.60
+      polished_tuff_stairs:
+        material: POLISHED_TUFF_STAIRS
+        slot: 33
+        amount: 16
+        bulk-amount: 32
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 50.0
+        sell: 2.30
+      tuff_brick_stairs:
+        material: TUFF_BRICK_STAIRS
+        slot: 34
+        amount: 16
+        bulk-amount: 32
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 56.0
+        sell: 2.60
+      # --- Planks (crafted from logs; lower unit value than logs) ---
+      oak_planks:
+        material: OAK_PLANKS
+        slot: 37
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 6.0
+        sell: 0.25
+      spruce_planks:
+        material: SPRUCE_PLANKS
+        slot: 38
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 6.5
+        sell: 0.28
+      birch_planks:
+        material: BIRCH_PLANKS
+        slot: 39
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 6.5
+        sell: 0.28
+      jungle_planks:
+        material: JUNGLE_PLANKS
+        slot: 40
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 7.0
+        sell: 0.30
+      acacia_planks:
+        material: ACACIA_PLANKS
+        slot: 41
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 7.0
+        sell: 0.30
+      dark_oak_planks:
+        material: DARK_OAK_PLANKS
+        slot: 42
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 7.0
+        sell: 0.30
+      mangrove_planks:
+        material: MANGROVE_PLANKS
+        slot: 43
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 7.0
+        sell: 0.30
+      pale_oak_planks:
+        material: PALE_OAK_PLANKS
+        slot: 44
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 8.0
+        sell: 0.35
+      cherry_planks:
+        material: CHERRY_PLANKS
+        slot: 46
+        amount: 16
+        bulk-amount: 64
+        icon-amount: 16
+        display-name: "{translate:shop.common.item-display-name}"
+        lore:
+        - "{translate:shop.common.buy-line}"
+        - "{translate:shop.common.sell-line}"
+        - "{translate:shop.common.shift-click-line}"
+        buy: 7.5
+        sell: 0.33

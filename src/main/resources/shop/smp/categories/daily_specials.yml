@@ -1,0 +1,73 @@
+# Example category wired to the bundled daily-specials rotation group.
+# For valid material names see: docs/configuration/material-names.md
+# or https://jd.papermc.io/paper/1.21/org/bukkit/Material.html
+#
+# Any category can opt into a rotation by setting rotation-group to the ID from
+# shop/rotations/*.yml. The menu pulls shared defaults from rotation-defaults
+# (icon, title, and baseline items) and each option in the rotation can override
+# those values. When no overrides are supplied the defaults are displayed.
+categories:
+  daily_specials:
+    name: "{translate:shop.categories.daily_specials.name}"
+    slot: 28
+    icon:
+      material: ENDER_CHEST
+      display-name: "{translate:shop.categories.daily_specials.icon-display-name}"
+      lore:
+      - "{translate:shop.categories.daily_specials.icon-lore}"
+    menu:
+      title: "{translate:shop.categories.daily_specials.menu.title}"
+      size: 54
+      fill:
+        material: WHITE_STAINED_GLASS_PANE
+        display-name: "{translate:shop.common.menu.fill-display-name}"
+    # Link this category to the rotation defined in shop/rotations/daily-specials.yml.
+    rotation-group: daily-specials
+    rotation-defaults:
+      icon:
+        material: ENDER_CHEST
+        display-name: "{translate:shop.categories.daily_specials.icon-display-name}"
+        lore:
+          - "{translate:shop.categories.daily_specials.rotation-defaults.visit-lore}"
+          - "{translate:shop.categories.daily_specials.rotation-defaults.admin-hint}"
+      menu-title: "{translate:shop.categories.daily_specials.menu.title}"
+      items:
+        harvest_bundle:
+          material: CARROT
+          slot: 20
+          amount: 32
+          bulk-amount: 64
+          icon-amount: 32
+          display-name: "{translate:shop.common.item-display-name}"
+          lore:
+          - "{translate:shop.common.buy-line}"
+          - "{translate:shop.common.sell-line}"
+          - "{translate:shop.categories.daily_specials.item-note}"
+          buy: 160.0
+          sell: 6.40
+        seasonal_treats:
+          material: HONEY_BOTTLE
+          slot: 21
+          amount: 12
+          bulk-amount: 24
+          icon-amount: 12
+          display-name: "{translate:shop.common.item-display-name}"
+          lore:
+          - "{translate:shop.common.buy-line}"
+          - "{translate:shop.common.sell-line}"
+          - "{translate:shop.categories.daily_specials.item-note}"
+          buy: 180.0
+          sell: 7.20
+        premium_pick:
+          material: BONE_MEAL
+          slot: 24
+          amount: 16
+          bulk-amount: 32
+          icon-amount: 16
+          display-name: "{translate:shop.common.item-display-name}"
+          lore:
+          - "{translate:shop.common.buy-line}"
+          - "{translate:shop.common.sell-line}"
+          - "{translate:shop.categories.daily_specials.item-note}"
+          buy: 64.0
+          sell: 2.40

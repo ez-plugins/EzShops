@@ -111,6 +111,24 @@ public final class PlayerShopComponent implements PluginComponent {
         return enabled;
     }
 
+    /** Re-reads config and (re)registers player shop commands/listeners. */
+    public void reload() {
+        if (plugin == null) return;
+
+        boolean wasEnabled = this.enabled;
+        boolean nowEnabled = configurationSource.getBoolean("player-shops.enabled", true);
+
+        if (wasEnabled && !nowEnabled) {
+            disable();
+            configuration = PlayerShopConfiguration.from(configurationSource, plugin.getLogger(), plugin.getCoreShopComponent().messageConfiguration());
+            disabledMessage = configuration.messages().commandDisabled();
+            registerFallbackCommand(pluginCommand);
+            enabled = false;
+        } else if (!wasEnabled && nowEnabled) {
+            enable(plugin);
+        }
+    }
+
     /** Returns the active {@link PlayerShopManager}, or {@code null} if player shops are disabled. */
     public PlayerShopManager getManager() {
         return manager;
