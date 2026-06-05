@@ -68,4 +68,28 @@ public class LocalTransactionCacheTest {
         
         assertThrows(UnsupportedOperationException.class, () -> snapshot.put("GOLD", 10));
     }
+
+    @Test
+    void add_negative_amount_works() {
+        LocalTransactionCache cache = new LocalTransactionCache();
+        cache.add("IRON", -50);
+        assertEquals(-50, cache.get("IRON"));
+    }
+
+    @Test
+    void multiple_adds_aggregate_correctly() {
+        LocalTransactionCache cache = new LocalTransactionCache();
+        cache.add("GOLD", 10);
+        cache.add("GOLD", 20);
+        cache.add("GOLD", 5);
+        assertEquals(35, cache.get("GOLD"));
+    }
+
+    @Test
+    void drain_on_empty_returns_empty_map() {
+        LocalTransactionCache cache = new LocalTransactionCache();
+        Map<String, Integer> drained = cache.drain();
+        assertNotNull(drained);
+        assertTrue(drained.isEmpty());
+    }
 }

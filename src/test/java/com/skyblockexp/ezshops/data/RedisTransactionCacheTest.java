@@ -55,4 +55,38 @@ public class RedisTransactionCacheTest {
         cache.clear();
         assertTrue(cache.isEmpty());
     }
+
+    @Test
+    void isEmpty_returns_true_for_empty_fallback_cache() {
+        RedisTransactionCache cache = new RedisTransactionCache("invalid-host", 9999, "", Logger.getLogger("test"));
+        assertTrue(cache.isEmpty());
+    }
+
+    @Test
+    void isEmpty_returns_false_for_non_empty_fallback_cache() {
+        RedisTransactionCache cache = new RedisTransactionCache("invalid-host", 9999, "", Logger.getLogger("test"));
+        cache.add("IRON", 100);
+        assertFalse(cache.isEmpty());
+    }
+
+    @Test
+    void get_returns_zero_for_missing_key_in_fallback() {
+        RedisTransactionCache cache = new RedisTransactionCache("invalid-host", 9999, "", Logger.getLogger("test"));
+        assertEquals(0, cache.get("UNKNOWN"));
+    }
+
+    @Test
+    void add_with_negative_amount_works_in_fallback() {
+        RedisTransactionCache cache = new RedisTransactionCache("invalid-host", 9999, "", Logger.getLogger("test"));
+        cache.add("DIAMOND", -50);
+        assertEquals(-50, cache.get("DIAMOND"));
+    }
+
+    @Test
+    void shutdown_noop_when_fallback() {
+        RedisTransactionCache cache = new RedisTransactionCache("invalid-host", 9999, "", Logger.getLogger("test"));
+        cache.add("DIAMOND", 10);
+        // Should not throw - shutdown is a no-op when in fallback mode
+        assertDoesNotThrow(() -> cache.shutdown());
+    }
 }
