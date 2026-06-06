@@ -3,10 +3,7 @@ package com.skyblockexp.ezshops.shop.command;
 import com.skyblockexp.ezshops.EzShopsPlugin;
 import com.skyblockexp.ezshops.AbstractEzShopsTest;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.inventory.Inventory;
 import org.junit.jupiter.api.Test;
 
@@ -54,8 +51,8 @@ public class ShopAdminCommandTest extends AbstractEzShopsTest {
 
         server.dispatchCommand(player, "shopadmin");
 
-        // No GUI should open
-        assertTrue(player.getOpenInventory().getTitle().isBlank());
+        // No GUI should open - top inventory should be null
+        assertNull(player.getOpenInventory().getTopInventory());
     }
 
     @Test
