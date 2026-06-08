@@ -50,12 +50,7 @@ public class YmlPlayerShopRepositoryTest extends AbstractEzShopsTest {
         Map<String, PlayerShop> shopsBySign = new HashMap<>();
         shopsBySign.put(repo.locationKey(signLoc), shop);
 
-        Map<String, Map<String, Object>> deferred = new HashMap<>();
-        Map<String, Object> deferredEntry = new HashMap<>();
-        deferredEntry.put("owner", owner.toString());
-        deferred.put("missingworld,0,0,0", deferredEntry);
-
-        repo.saveShops(shopsBySign, deferred);
+        repo.saveShops(shopsBySign);
 
         // Read raw file to verify
         File dataFile = new File(dataFolder, "player-shops.yml");
@@ -67,9 +62,5 @@ public class YmlPlayerShopRepositoryTest extends AbstractEzShopsTest {
         assertEquals(owner.toString(), cfg.getString("shops." + key + ".owner"));
         assertEquals(1, cfg.getInt("shops." + key + ".quantity"));
         assertEquals(12.5, cfg.getDouble("shops." + key + ".price"));
-
-        // Deferred entry present
-        assertNotNull(cfg.getConfigurationSection("shops.missingworld,0,0,0"));
-        assertEquals(owner.toString(), cfg.getString("shops.missingworld,0,0,0.owner"));
     }
 }

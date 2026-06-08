@@ -75,8 +75,7 @@ public class QuickSellMenu implements Listener {
      */
     public void open(Player player) {
         QuickSellMenuHolder holder = new QuickSellMenuHolder(player.getUniqueId());
-        Inventory inv = Bukkit.createInventory(holder, GUI_SIZE,
-                ChatColor.translateAlternateColorCodes('&', messages.guiTitle()));
+        Inventory inv = Bukkit.createInventory(holder, GUI_SIZE, messages.guiTitle());
         holder.setInventory(inv);
         populateControls(inv, 0.0, player);
         player.openInventory(inv);
@@ -135,7 +134,7 @@ public class QuickSellMenu implements Listener {
                     return;
                 }
                 if (!isSellable(clicked.getType())) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.unsellableItem()));
+                    player.sendMessage(messages.unsellableItem());
                     return;
                 }
                 // Find first empty slot in item area
@@ -183,7 +182,7 @@ public class QuickSellMenu implements Listener {
         }
         if (!isSellable(dragged.getType())) {
             event.setCancelled(true);
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.unsellableItem()));
+            player.sendMessage(messages.unsellableItem());
             return;
         }
 
@@ -237,7 +236,7 @@ public class QuickSellMenu implements Listener {
             case PLACE_ALL, PLACE_ONE, PLACE_SOME, SWAP_WITH_CURSOR -> {
                 if (!cursorHasItem) return;
                 if (!isSellable(cursor.getType())) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.unsellableItem()));
+                    player.sendMessage(messages.unsellableItem());
                     return;
                 }
                 // Let the server handle the actual placement by un-cancelling would be complex.
@@ -393,15 +392,14 @@ public class QuickSellMenu implements Listener {
             // dynamic price driven to $0.00 after a previous sale, rotation expired), show
             // the actual failure reason instead of the misleading "No items to sell." message.
             if (hadItems && lastFailureMessage != null) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', lastFailureMessage));
+                player.sendMessage(lastFailureMessage);
             } else {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.nothingToSell()));
+                player.sendMessage(messages.nothingToSell());
             }
             return;
         }
 
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                messages.soldSummary(transactionService.formatCurrency(total))));
+        player.sendMessage(messages.soldSummary(transactionService.formatCurrency(total)));
 
         if (confirmSound != null && !confirmSound.isEmpty()) {
             player.playSound(player.getLocation(), confirmSound, confirmSoundVolume, confirmSoundPitch);

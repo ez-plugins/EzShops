@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.7] - 2026-05-23
+
+### Added
+- **Player Shops documentation**: a dedicated [Player Shops guide](docs/shops/player-shops.md) covering the full setup flow (direct sign placement and `/playershop` GUI), commands, permissions, configuration reference, purchase flow, double-chest support, and tips.
+- **Player Shops: browse GUI**: added a `/playershops` command that opens a paginated, in-game inventory allowing players to browse all active player shops and purchase items without visiting each chest.
+- **Player Shops: MySQL storage**: added `MysqlPlayerShopRepository` and support for `player-shops.storage.type: mysql` (configurable `host`, `port`, `database`, `username`, `password`, `table-prefix`). The repository serialises item stacks as YAML and preserves deferred entries for worlds that are not loaded; the plugin falls back to the YAML backend if MySQL is unavailable at startup.
+- **Repository factory & wiring**: `PlayerShopComponent` now selects the configured storage backend (YAML or MySQL) at startup and registers the browse GUI and `/playershops` command when player shops are enabled.
+- **API additions**: `PlayerShopManager` exposes `hasStock(PlayerShop)` and `formatPrice(double)` (public) to support the browse GUI and other integrations.
+- **Permissions & commands**: added the `playershops` command and the `ezshops.playershop.browse` permission (default: true).
+
+### Changed
+- **Build target baseline**: Maven compiler settings now target Java 17 (`source`/`target` via `java.version`), replacing the previous Java 21 compile target in `pom.xml`.
+- **Paper API baseline for Java 17 builds**: default `paper.version` changed to `1.20.6-R0.1-SNAPSHOT` to align with the Java 17 compatibility target.
+- **EzFramework dependency alignment**: pinned and updated persistence stack dependencies in `pom.xml`:
+  - `com.github.EzFramework:jaloquent` -> `1.3.3`
+  - `com.github.EzFramework:JavaQueryBuilder` -> `1.2.1`
+  - `com.github.EzFramework:Jaker` -> `1.0.7`
+
+### Fixed
+- **Incorrect `sign-format` keys in `main-settings.md`** — the Player Shops configuration section documented non-existent keys (`header`, `owner-line`, `item-line`, `stock-line`, `price-line`, `{stock}` placeholder). It now documents the real keys (`available-header`, `out-of-stock-header`, `owner-format`, `unknown-owner-name`, `item-format`, `price-format`, `out-of-stock-line`) with the correct placeholders (`{owner}`, `{amount}`, `{item}`, `{price}`).
+
 ## [2.5.6] - 2026-05-22
 
 Through time we've made the stock market more stable, by doing this the documentation got outdated and configuration options that existed before got phased out. This version there was focus on updating the documentation and adding back options that got phased out in a more stable way.

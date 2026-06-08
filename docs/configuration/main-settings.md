@@ -59,22 +59,40 @@ player-shops:
   # Enable player-owned chest shop system
   enabled: true
 
-  # Minimum and maximum prices
-  min-price: 1.0
-  max-price: 1000000.0
+  # Sign header tokens that trigger shop creation (case-insensitive)
+  headers:
+    - "[playershop]"
 
-  # Quantity limits
+  # Whether the chest must already contain enough stock when the shop is created
+  require-stock-on-creation: true
+
+  # Prevent other players from breaking the shop chest or sign
+  protection-enabled: true
+
+  # Minimum and maximum quantities per sale (0 = no limit)
   min-quantity: 1
-  max-quantity: 64
+  max-quantity: 0
 
-  # Sign format configuration
+  # Minimum and maximum prices (0.0 = no limit)
+  min-price: 0.01
+  max-price: 0.0
+
+  # Sign format — controls what appears on each of the four sign lines.
+  # Placeholders: {owner}, {amount}, {item}, {price}
+  # Supports legacy color codes (&a, &b, etc.)
   sign-format:
-    header: "[shop]"
-    owner-line: "&b{owner}"
-    item-line: "&e{item}"
-    stock-line: "&7Stock: {stock}"
-    price-line: "&a${price}"
+    available-header: "&2[PlayerShop]"
+    out-of-stock-header: "&c[PlayerShop]"
+    owner-format: "&7{owner}"
+    unknown-owner-name: "Owner"
+    item-format: "&b{amount}&7x &b{item}"
+    price-format: "&6{price}"
+    out-of-stock-line: "&cOut of Stock"
 ```
+
+> **Smart item names:** The `{item}` placeholder automatically expands to a descriptive name — potion effects (e.g. `Strength Potion`), enchantment + level for enchanted books (e.g. `Sharpness V Book`), or the formatted material name for everything else. Custom display names set via an anvil are also respected and override the automatic label.
+
+See the [Player Shops guide](../shops/player-shops) for the full setup walkthrough, permissions, and purchase flow.
 
 ---
 
