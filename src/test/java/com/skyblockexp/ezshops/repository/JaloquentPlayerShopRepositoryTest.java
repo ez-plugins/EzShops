@@ -190,7 +190,7 @@ public class JaloquentPlayerShopRepositoryTest {
     }
 
     @Test
-    void loadShopsSkipsShopWithEmptyChestLocations() {
+    void loadShopsSkipsShopWithEmptyChestLocations() throws Exception {
         JaloquentClientAdapter adapter = new JaloquentClientAdapter() {
             @Override public void init(Map<String, String> config) {}
             @Override public void createTableIfAbsent() {}
@@ -214,7 +214,7 @@ public class JaloquentPlayerShopRepositoryTest {
     }
 
     @Test
-    void loadShopsSkipsShopWhenQuantityOrPriceInvalid() {
+    void loadShopsSkipsShopWhenQuantityOrPriceInvalid() throws Exception {
         JaloquentClientAdapter adapter = new JaloquentClientAdapter() {
             @Override public void init(Map<String, String> config) {}
             @Override public void createTableIfAbsent() {}
@@ -238,7 +238,7 @@ public class JaloquentPlayerShopRepositoryTest {
     }
 
     @Test
-    void loadShopsReturnsValidShop() {
+    void loadShopsReturnsValidShop() throws Exception {
         JaloquentClientAdapter adapter = new JaloquentClientAdapter() {
             @Override public void init(Map<String, String> config) {}
             @Override public void createTableIfAbsent() {}
@@ -262,7 +262,7 @@ public class JaloquentPlayerShopRepositoryTest {
     }
 
     @Test
-    void saveShopsPreservesDeferredEntries() {
+    void saveShopsPreservesDeferredEntries() throws Exception {
         List<Map<String, Object>> inserted = new ArrayList<>();
 
         JaloquentClientAdapter adapter = new JaloquentClientAdapter() {
