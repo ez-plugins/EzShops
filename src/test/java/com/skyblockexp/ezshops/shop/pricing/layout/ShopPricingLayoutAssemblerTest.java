@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ class ShopPricingLayoutAssemblerTest {
 
         ShopMenuLayout layout = assembler.loadMenuLayout(root, rotations, active, "test-source", simpleItemParser());
 
-        assertEquals("Main", layout.mainTitle());
+        assertEquals("Main", ChatColor.stripColor(layout.mainTitle()));
         assertEquals(1, layout.categories().size());
         assertEquals(1, layout.defaultCategoryButtons().size());
         assertEquals(1, layout.categories().get(0).items().size());

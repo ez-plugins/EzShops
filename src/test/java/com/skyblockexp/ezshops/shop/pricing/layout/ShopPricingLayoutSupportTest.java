@@ -33,7 +33,7 @@ public class ShopPricingLayoutSupportTest {
         ShopPricingLayoutSupport support = new ShopPricingLayoutSupport(Logger.getLogger("test"));
         YamlConfiguration buttons = new YamlConfiguration();
 
-        buttons.set("next.action", "next");
+        buttons.set("next.action", "back");
         buttons.set("next.slot", 50);
         buttons.set("next.material", "ARROW");
         buttons.set("next.display-name", "&aNext");

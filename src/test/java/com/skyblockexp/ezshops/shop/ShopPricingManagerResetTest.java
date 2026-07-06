@@ -56,8 +56,12 @@ public class ShopPricingManagerResetTest extends AbstractEzShopsTest {
         ShopPricingManager pm = core.pricingManager();
         assertNotNull(pm);
 
-        String wheatKey = Material.WHEAT_SEEDS.name();
-        String carrotKey = Material.CARROT.name();
+        String wheatKey = "TEST_WHEAT";
+        String carrotKey = "TEST_CARROT";
+        pm.putPriceEntryForTesting(wheatKey, new ShopPrice(10.0D, 4.0D),
+            1.0D, 0.5D, 2.0D, 0.10D, 0.10D, 1.0D);
+        pm.putPriceEntryForTesting(carrotKey, new ShopPrice(8.0D, 3.0D),
+            1.0D, 0.5D, 2.0D, 0.10D, 0.10D, 1.0D);
         Optional<ShopPrice> wBefore = pm.getPrice(wheatKey);
         Optional<ShopPrice> cBefore = pm.getPrice(carrotKey);
         assertTrue(wBefore.isPresent());
