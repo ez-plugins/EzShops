@@ -94,34 +94,28 @@ jobs:
               curl -fsSL "https://github.com/EssentialsX/Essentials/releases/download/2.20.1/EssentialsX-2.20.1.jar" \
                 -o server/plugins/EssentialsX.jar
             download: |
-              BUILD=$(curl -fsSL "https://api.papermc.io/v2/projects/paper/versions/1.20.4/builds" | \
-                python3 -c "import sys,json; b=json.load(sys.stdin)['builds']; print(b[-1]['build'])")
-              JAR=$(curl -fsSL "https://api.papermc.io/v2/projects/paper/versions/1.20.4/builds/$BUILD" | \
-                python3 -c "import sys,json; d=json.load(sys.stdin); print(d['downloads']['application']['name'])")
-              curl -fsSL "https://api.papermc.io/v2/projects/paper/versions/1.20.4/builds/$BUILD/downloads/$JAR" \
-                -o server/server.jar
+              USER_AGENT="EzShops-CI/1.0 (https://github.com/ez-plugins/EzShops)"
+              DOWNLOAD_URL=$(curl -fsSL -H "User-Agent: $USER_AGENT" "https://fill.papermc.io/v3/projects/paper/versions/1.20.4/builds" | \
+                python3 -c "import sys,json; builds=json.load(sys.stdin); f=lambda i: ((i.get('downloads') or {}).get('server:default') or {}).get('url'); u=next((f(i) for i in builds if i.get('channel')=='STABLE' and f(i)), None) or next((f(i) for i in builds if f(i)), None); print(u or ''); raise SystemExit(0 if u else 1)")
+              curl -fsSL -H "User-Agent: $USER_AGENT" "$DOWNLOAD_URL" -o server/server.jar
           - name: "Paper 1.21.4"
             project: paper
             java: "21"
             economy-download: ""
             download: |
-              BUILD=$(curl -fsSL "https://api.papermc.io/v2/projects/paper/versions/1.21.4/builds" | \
-                python3 -c "import sys,json; b=json.load(sys.stdin)['builds']; print(b[-1]['build'])")
-              JAR=$(curl -fsSL "https://api.papermc.io/v2/projects/paper/versions/1.21.4/builds/$BUILD" | \
-                python3 -c "import sys,json; d=json.load(sys.stdin); print(d['downloads']['application']['name'])")
-              curl -fsSL "https://api.papermc.io/v2/projects/paper/versions/1.21.4/builds/$BUILD/downloads/$JAR" \
-                -o server/server.jar
+              USER_AGENT="EzShops-CI/1.0 (https://github.com/ez-plugins/EzShops)"
+              DOWNLOAD_URL=$(curl -fsSL -H "User-Agent: $USER_AGENT" "https://fill.papermc.io/v3/projects/paper/versions/1.21.4/builds" | \
+                python3 -c "import sys,json; builds=json.load(sys.stdin); f=lambda i: ((i.get('downloads') or {}).get('server:default') or {}).get('url'); u=next((f(i) for i in builds if i.get('channel')=='STABLE' and f(i)), None) or next((f(i) for i in builds if f(i)), None); print(u or ''); raise SystemExit(0 if u else 1)")
+              curl -fsSL -H "User-Agent: $USER_AGENT" "$DOWNLOAD_URL" -o server/server.jar
           - name: "Folia 1.21.4"
             project: folia
             java: "21"
             economy-download: ""
             download: |
-              BUILD=$(curl -fsSL "https://api.papermc.io/v2/projects/folia/versions/1.21.4/builds" | \
-                python3 -c "import sys,json; b=json.load(sys.stdin)['builds']; print(b[-1]['build'])")
-              JAR=$(curl -fsSL "https://api.papermc.io/v2/projects/folia/versions/1.21.4/builds/$BUILD" | \
-                python3 -c "import sys,json; d=json.load(sys.stdin); print(d['downloads']['application']['name'])")
-              curl -fsSL "https://api.papermc.io/v2/projects/folia/versions/1.21.4/builds/$BUILD/downloads/$JAR" \
-                -o server/server.jar
+              USER_AGENT="EzShops-CI/1.0 (https://github.com/ez-plugins/EzShops)"
+              DOWNLOAD_URL=$(curl -fsSL -H "User-Agent: $USER_AGENT" "https://fill.papermc.io/v3/projects/folia/versions/1.21.4/builds" | \
+                python3 -c "import sys,json; builds=json.load(sys.stdin); f=lambda i: ((i.get('downloads') or {}).get('server:default') or {}).get('url'); u=next((f(i) for i in builds if i.get('channel')=='STABLE' and f(i)), None) or next((f(i) for i in builds if f(i)), None); print(u or ''); raise SystemExit(0 if u else 1)")
+              curl -fsSL -H "User-Agent: $USER_AGENT" "$DOWNLOAD_URL" -o server/server.jar
           - name: "Purpur 1.21.4 (Spigot-compatible)"
             project: purpur
             java: "21"
