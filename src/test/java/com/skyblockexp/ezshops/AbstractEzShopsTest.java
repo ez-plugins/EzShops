@@ -7,6 +7,7 @@ import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import sun.misc.Unsafe;
 
@@ -32,7 +33,18 @@ public abstract class AbstractEzShopsTest {
 
     @BeforeEach
     void setupMockBukkit() {
-        server = MockBukkit.mock();
+        try {
+            server = MockBukkit.mock();
+        } catch (Throwable throwable) {
+            String message = throwable.getMessage();
+            boolean incompatibleVersion = throwable.getClass().getName().contains("IncompatiblePaperVersionException")
+                    || (message != null && message.contains("Version Mismatch"));
+            if (incompatibleVersion) {
+                Assumptions.assumeTrue(false,
+                        "Skipping MockBukkit-backed test due to Paper/MockBukkit version mismatch");
+            }
+            throw throwable;
+        }
     }
 
     @AfterEach

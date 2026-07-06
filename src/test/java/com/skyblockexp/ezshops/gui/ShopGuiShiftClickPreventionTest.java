@@ -4,6 +4,7 @@ import com.skyblockexp.ezshops.AbstractEzShopsTest;
 import com.skyblockexp.ezshops.EzShopsPlugin;
 import com.skyblockexp.ezshops.bootstrap.CoreShopComponent;
 import com.skyblockexp.ezshops.shop.ShopMenuLayout;
+import com.skyblockexp.ezshops.shop.ShopPricingManager;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.ClickType;
@@ -50,12 +51,9 @@ public class ShopGuiShiftClickPreventionTest extends AbstractEzShopsTest {
         java.lang.reflect.Method handleCategory = shopMenu.getClass().getDeclaredMethod("handleCategoryClick", org.bukkit.entity.Player.class, String.class);
         handleCategory.setAccessible(true);
         // pick first category id from menu layout
-        java.lang.reflect.Field pricingField = CoreShopComponent.class.getDeclaredField("pricingManager");
-        pricingField.setAccessible(true);
-        Object pricingManager = pricingField.get(core);
-        java.lang.reflect.Field menuLayoutField = pricingManager.getClass().getDeclaredField("menuLayout");
-        menuLayoutField.setAccessible(true);
-        ShopMenuLayout layout = (ShopMenuLayout) menuLayoutField.get(pricingManager);
+        ShopPricingManager pricingManager = core.pricingManager();
+        assertNotNull(pricingManager);
+        ShopMenuLayout layout = pricingManager.getMenuLayout();
         assertNotNull(layout);
         assertFalse(layout.categories().isEmpty());
         String catId = layout.categories().get(0).id();

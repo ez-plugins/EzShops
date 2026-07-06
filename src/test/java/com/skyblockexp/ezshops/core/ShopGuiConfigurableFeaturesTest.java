@@ -4,6 +4,7 @@ import com.skyblockexp.ezshops.AbstractEzShopsTest;
 import com.skyblockexp.ezshops.EzShopsPlugin;
 import com.skyblockexp.ezshops.bootstrap.CoreShopComponent;
 import com.skyblockexp.ezshops.shop.ShopMenuLayout;
+import com.skyblockexp.ezshops.shop.ShopPricingManager;
 import com.skyblockexp.ezshops.gui.shop.ShopInventoryComposer;
 import com.skyblockexp.ezshops.common.CompatibilityUtil;
 import org.bukkit.Material;
@@ -32,13 +33,9 @@ public class ShopGuiConfigurableFeaturesTest extends AbstractEzShopsTest {
                 "Test Menu", 27, null, List.of(), false, List.of(), null, "say hello {player}");
         ShopMenuLayout layout = new ShopMenuLayout("Test Shop", 27, null, List.of(), List.of(), List.of(category));
 
-        // inject layout into pricing manager
-        java.lang.reflect.Field corePricingField = CoreShopComponent.class.getDeclaredField("pricingManager");
-        corePricingField.setAccessible(true);
-        Object pricingManager = corePricingField.get(core);
-        java.lang.reflect.Field menuLayoutField = pricingManager.getClass().getDeclaredField("menuLayout");
-        menuLayoutField.setAccessible(true);
-        menuLayoutField.set(pricingManager, layout);
+        ShopPricingManager pricingManager = core.pricingManager();
+        assertNotNull(pricingManager);
+        pricingManager.setMenuLayoutForTesting(layout);
 
         // open main menu and invoke handleCategoryClick directly
         java.lang.reflect.Field menuField = CoreShopComponent.class.getDeclaredField("shopMenu");
@@ -76,12 +73,9 @@ public class ShopGuiConfigurableFeaturesTest extends AbstractEzShopsTest {
                 "Category Menu", 27, null, List.of(backBtn), false, List.of(), null, null);
         ShopMenuLayout layout = new ShopMenuLayout("Test Shop", 27, null, List.of(), List.of(), List.of(category));
 
-        java.lang.reflect.Field corePricingField = CoreShopComponent.class.getDeclaredField("pricingManager");
-        corePricingField.setAccessible(true);
-        Object pricingManager = corePricingField.get(core);
-        java.lang.reflect.Field menuLayoutField = pricingManager.getClass().getDeclaredField("menuLayout");
-        menuLayoutField.setAccessible(true);
-        menuLayoutField.set(pricingManager, layout);
+        ShopPricingManager pricingManager = core.pricingManager();
+        assertNotNull(pricingManager);
+        pricingManager.setMenuLayoutForTesting(layout);
 
         java.lang.reflect.Field menuField = CoreShopComponent.class.getDeclaredField("shopMenu");
         menuField.setAccessible(true);
@@ -126,12 +120,9 @@ public class ShopGuiConfigurableFeaturesTest extends AbstractEzShopsTest {
         ShopMenuLayout.Category category = new ShopMenuLayout.Category("catq", "CatQ", icon, 0, "CatQ Menu", 27, null, List.of(), false, List.of(item), null, null);
         ShopMenuLayout layout = new ShopMenuLayout("Test Shop", 27, null, List.of(), List.of(), List.of(category));
 
-        java.lang.reflect.Field corePricingField = CoreShopComponent.class.getDeclaredField("pricingManager");
-        corePricingField.setAccessible(true);
-        Object pricingManager = corePricingField.get(core);
-        java.lang.reflect.Field menuLayoutField = pricingManager.getClass().getDeclaredField("menuLayout");
-        menuLayoutField.setAccessible(true);
-        menuLayoutField.set(pricingManager, layout);
+        ShopPricingManager pricingManager = core.pricingManager();
+        assertNotNull(pricingManager);
+        pricingManager.setMenuLayoutForTesting(layout);
 
         java.lang.reflect.Field menuField = CoreShopComponent.class.getDeclaredField("shopMenu");
         menuField.setAccessible(true);
