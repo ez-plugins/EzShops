@@ -160,7 +160,7 @@ public CoreShopComponent(Economy economy) {
             }
         }
 
-        shopCommand = new ShopCommand(pricingManager, transactionService, shopMenu, commandMessages.shop(),
+        shopCommand = new ShopCommand(plugin, pricingManager, transactionService, shopMenu, commandMessages.shop(),
                 transactionMessages.errors(), transactionMessages.restrictions(), plugin.isDebugMode());
         sellHandCommand = new SellHandCommand(transactionService, pricingManager, commandMessages.sellHand());
         sellInventoryCommand = new SellInventoryCommand(transactionService, commandMessages.sellInventory());
