@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Config persistence after reloads** — `/shop reload` now reloads `config.yml` from disk before refreshing pricing/features, and setup GUI toggles now reload config before saving. This prevents stale in-memory values from being written back over server-owner edits.
 - **Shop category parser resilience** — category parsing now isolates failures per category so one malformed entry can no longer break loading of the category set.
 - **Duplicate-material shop entries** — when multiple items intentionally share the same material (for example splash potion variants), pricing keys are now resolved per-item to prevent collisions that could cause broken/empty category behavior.
+- **List-style `on-buy` / `on-sell` hooks now execute** — command hook parsing now accepts both list syntax (`on-buy: - "cmd"`) and nested syntax (`on-buy.commands`) for compatibility with the documented format, preventing silent no-op purchases for `item-type: COMMAND` entries.
 
 ## [2.5.7] - 2026-05-23
 

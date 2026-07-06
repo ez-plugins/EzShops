@@ -6,6 +6,7 @@ import com.skyblockexp.ezshops.shop.ShopPrice;
 import com.skyblockexp.ezshops.shop.ShopPriceType;
 import com.skyblockexp.ezshops.shop.pricing.domain.ShopDynamicSettings;
 import com.skyblockexp.ezshops.shop.pricing.state.ShopDynamicPricingService;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import org.bukkit.Material;
@@ -153,24 +154,26 @@ public final class ShopPricingItemConfigParser {
         java.util.List<String> sellCommands = section.getStringList("sell-commands");
         Boolean buyCommandsRunAsConsole = null;
         Boolean sellCommandsRunAsConsole = null;
+        List<String> parsedOnBuyCommands = parseHookCommands(section, "on-buy");
+        if (!parsedOnBuyCommands.isEmpty()) {
+            buyCommands = parsedOnBuyCommands;
+        }
         if (section.isConfigurationSection("on-buy")) {
             ConfigurationSection onBuy = section.getConfigurationSection("on-buy");
             if (onBuy != null) {
-                if (onBuy.isSet("commands")) {
-                    buyCommands = onBuy.getStringList("commands");
-                }
                 String exec = onBuy.getString("execute-as", null);
                 if (exec != null) {
                     buyCommandsRunAsConsole = !exec.equalsIgnoreCase("player");
                 }
             }
         }
+        List<String> parsedOnSellCommands = parseHookCommands(section, "on-sell");
+        if (!parsedOnSellCommands.isEmpty()) {
+            sellCommands = parsedOnSellCommands;
+        }
         if (section.isConfigurationSection("on-sell")) {
             ConfigurationSection onSell = section.getConfigurationSection("on-sell");
             if (onSell != null) {
-                if (onSell.isSet("commands")) {
-                    sellCommands = onSell.getStringList("commands");
-                }
                 String exec = onSell.getString("execute-as", null);
                 if (exec != null) {
                     sellCommandsRunAsConsole = !exec.equalsIgnoreCase("player");
@@ -206,5 +209,26 @@ public final class ShopPricingItemConfigParser {
 
         logger.warning("Item '" + context + "' declares type '" + type + "' but material '" + material.name()
                 + "' is already registered as '" + previous + "'.");
+    }
+
+    private List<String> parseHookCommands(ConfigurationSection section, String key) {
+        if (!section.isSet(key)) {
+            return List.of();
+        }
+
+        // Support both legacy list syntax (on-buy: - "cmd") and object syntax
+        // (on-buy.commands: [...]) to keep existing configurations compatible.
+        if (section.isList(key)) {
+            return section.getStringList(key);
+        }
+
+        if (section.isConfigurationSection(key)) {
+            ConfigurationSection hookSection = section.getConfigurationSection(key);
+            if (hookSection != null && hookSection.isSet("commands")) {
+                return hookSection.getStringList("commands");
+            }
+        }
+
+        return List.of();
     }
 }

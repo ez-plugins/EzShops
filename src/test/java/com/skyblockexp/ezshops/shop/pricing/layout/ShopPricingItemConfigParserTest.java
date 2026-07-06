@@ -125,6 +125,76 @@ class ShopPricingItemConfigParserTest {
         assertNotNull(fixture.parser.parseItem("ctx", "spawner3", valid, 54, fixture.parsers));
     }
 
+    @Test
+    void parse_item_supports_list_style_on_buy_commands() throws IOException {
+        Fixture fixture = fixture();
+
+        YamlConfiguration section = new YamlConfiguration();
+        section.set("material", "PAPER");
+        section.set("slot", 1);
+        section.set("buy", 10.0D);
+        section.set("item-type", "COMMAND");
+        section.set("on-buy", java.util.List.of("say one", "say two"));
+
+        ShopMenuLayout.Item item = fixture.parser.parseItem("categories.special.items", "paper", section, 54, fixture.parsers);
+
+        assertNotNull(item);
+        assertEquals(java.util.List.of("say one", "say two"), item.buyCommands());
+    }
+
+    @Test
+    void parse_item_supports_section_style_on_buy_commands_and_execute_as() throws IOException {
+        Fixture fixture = fixture();
+
+        YamlConfiguration section = new YamlConfiguration();
+        section.set("material", "PAPER");
+        section.set("slot", 1);
+        section.set("buy", 10.0D);
+        section.set("item-type", "COMMAND");
+        section.set("on-buy.commands", java.util.List.of("say section"));
+        section.set("on-buy.execute-as", "player");
+
+        ShopMenuLayout.Item item = fixture.parser.parseItem("categories.special.items", "paper", section, 54, fixture.parsers);
+
+        assertNotNull(item);
+        assertEquals(java.util.List.of("say section"), item.buyCommands());
+        assertEquals(Boolean.FALSE, item.commandsRunAsConsole());
+    }
+
+    @Test
+    void parse_item_supports_list_style_on_sell_commands() throws IOException {
+        Fixture fixture = fixture();
+
+        YamlConfiguration section = new YamlConfiguration();
+        section.set("material", "PAPER");
+        section.set("slot", 1);
+        section.set("buy", 10.0D);
+        section.set("sell", 5.0D);
+        section.set("on-sell", java.util.List.of("say sold"));
+
+        ShopMenuLayout.Item item = fixture.parser.parseItem("categories.special.items", "paper", section, 54, fixture.parsers);
+
+        assertNotNull(item);
+        assertEquals(java.util.List.of("say sold"), item.sellCommands());
+    }
+
+    @Test
+    void parse_item_ignores_invalid_on_buy_shape_and_keeps_buy_commands() throws IOException {
+        Fixture fixture = fixture();
+
+        YamlConfiguration section = new YamlConfiguration();
+        section.set("material", "PAPER");
+        section.set("slot", 1);
+        section.set("buy", 10.0D);
+        section.set("buy-commands", java.util.List.of("legacy buy cmd"));
+        section.set("on-buy", "not-a-list-or-section");
+
+        ShopMenuLayout.Item item = fixture.parser.parseItem("categories.special.items", "paper", section, 54, fixture.parsers);
+
+        assertNotNull(item);
+        assertEquals(java.util.List.of("legacy buy cmd"), item.buyCommands());
+    }
+
     private static Fixture fixture() throws IOException {
         Logger logger = Logger.getLogger("ShopPricingItemConfigParserTest");
         Path tempDir = Files.createTempDirectory("shop-pricing-item-parser-test");
