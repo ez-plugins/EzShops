@@ -125,6 +125,23 @@ class ShopPricingItemConfigParserTest {
         assertNotNull(fixture.parser.parseItem("ctx", "spawner3", valid, 54, fixture.parsers));
     }
 
+    @Test
+    void parse_item_supports_list_style_on_buy_commands() throws IOException {
+        Fixture fixture = fixture();
+
+        YamlConfiguration section = new YamlConfiguration();
+        section.set("material", "PAPER");
+        section.set("slot", 1);
+        section.set("buy", 10.0D);
+        section.set("item-type", "COMMAND");
+        section.set("on-buy", java.util.List.of("say one", "say two"));
+
+        ShopMenuLayout.Item item = fixture.parser.parseItem("categories.special.items", "paper", section, 54, fixture.parsers);
+
+        assertNotNull(item);
+        assertEquals(java.util.List.of("say one", "say two"), item.buyCommands());
+    }
+
     private static Fixture fixture() throws IOException {
         Logger logger = Logger.getLogger("ShopPricingItemConfigParserTest");
         Path tempDir = Files.createTempDirectory("shop-pricing-item-parser-test");
