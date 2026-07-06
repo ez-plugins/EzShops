@@ -310,15 +310,23 @@ public class JaloquentPlayerShopRepositoryTest {
         assertEquals(3, restored.getAmount());
     }
 
-    private static String yamlForItem(ItemStack item) throws Exception {
-        return invokeItemToYaml(item);
+    private static String yamlForItem(ItemStack item) {
+        try {
+            return invokeItemToYaml(item);
+        } catch (Exception ex) {
+            throw new IllegalStateException("Failed to serialize test item to YAML", ex);
+        }
     }
 
     @SuppressWarnings("unchecked")
-    private static Map<String, Map<String, String>> getDeferredEntries(JaloquentPlayerShopRepository repo) throws Exception {
-        Field field = JaloquentPlayerShopRepository.class.getDeclaredField("deferredEntries");
-        field.setAccessible(true);
-        return (Map<String, Map<String, String>>) field.get(repo);
+    private static Map<String, Map<String, String>> getDeferredEntries(JaloquentPlayerShopRepository repo) {
+        try {
+            Field field = JaloquentPlayerShopRepository.class.getDeclaredField("deferredEntries");
+            field.setAccessible(true);
+            return (Map<String, Map<String, String>>) field.get(repo);
+        } catch (Exception ex) {
+            throw new IllegalStateException("Failed to access deferredEntries for test", ex);
+        }
     }
 
     private static String invokeItemToYaml(ItemStack item) throws Exception {
