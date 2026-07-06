@@ -3,6 +3,7 @@ package com.skyblockexp.ezshops.shop.command;
 import com.skyblockexp.ezshops.config.ShopMessageConfiguration;
 import com.skyblockexp.ezshops.common.MessageUtil;
 import com.skyblockexp.ezshops.gui.ShopMenu;
+import com.skyblockexp.ezshops.EzShopsPlugin;
 import com.skyblockexp.ezshops.shop.ShopMenuLayout;
 import com.skyblockexp.ezshops.shop.ShopPricingManager;
 import com.skyblockexp.ezshops.shop.ShopTransactionResult;
@@ -26,6 +27,7 @@ import org.bukkit.entity.Player;
  */
 public class ShopCommand implements CommandExecutor, TabCompleter {
 
+    private final EzShopsPlugin plugin;
     private ShopPricingManager pricingManager;
     private ShopTransactionService transactionService;
     private ShopMenu shopMenu;
@@ -34,11 +36,12 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
     private ShopMessageConfiguration.TransactionMessages.ErrorMessages errorMessages;
     private ShopMessageConfiguration.TransactionMessages.RestrictionMessages restrictionMessages;
 
-    public ShopCommand(ShopPricingManager pricingManager, ShopTransactionService transactionService,
+    public ShopCommand(EzShopsPlugin plugin, ShopPricingManager pricingManager, ShopTransactionService transactionService,
             ShopMenu shopMenu, ShopMessageConfiguration.CommandMessages.ShopCommandMessages messages,
             ShopMessageConfiguration.TransactionMessages.ErrorMessages errorMessages,
             ShopMessageConfiguration.TransactionMessages.RestrictionMessages restrictionMessages,
             boolean debug) {
+        this.plugin = plugin;
         this.pricingManager = pricingManager;
         this.transactionService = transactionService;
         this.shopMenu = shopMenu;
@@ -61,7 +64,10 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
             try {
+                plugin.reloadConfig();
                 pricingManager.reload();
+                plugin.reloadFeatures();
+                plugin.getCoreShopComponent().reloadFeatures();
                 if (shopMenu != null) shopMenu.refreshViewers();
                 sender.sendMessage("§aEzShops configuration reloaded successfully.");
             } catch (Exception ex) {

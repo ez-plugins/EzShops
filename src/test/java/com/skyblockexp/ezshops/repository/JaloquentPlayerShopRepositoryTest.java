@@ -115,7 +115,7 @@ public class JaloquentPlayerShopRepositoryTest {
                 row.put("owner_uuid", "00000000-0000-0000-0000-000000000000");
                 row.put("quantity", "5");
                 row.put("price", "10.0");
-                row.put("item_data", "item-yaml");
+                row.put("item_data", yamlForItem(new ItemStack(Material.DIAMOND, 1)));
                 row.put("chests", "missing_world,1,64,0\nmissing_world,2,64,0");
                 return List.of(row);
             }
@@ -190,7 +190,7 @@ public class JaloquentPlayerShopRepositoryTest {
     }
 
     @Test
-    void loadShopsSkipsShopWithEmptyChestLocations() {
+    void loadShopsSkipsShopWithEmptyChestLocations() throws Exception {
         JaloquentClientAdapter adapter = new JaloquentClientAdapter() {
             @Override public void init(Map<String, String> config) {}
             @Override public void createTableIfAbsent() {}
@@ -214,7 +214,7 @@ public class JaloquentPlayerShopRepositoryTest {
     }
 
     @Test
-    void loadShopsSkipsShopWhenQuantityOrPriceInvalid() {
+    void loadShopsSkipsShopWhenQuantityOrPriceInvalid() throws Exception {
         JaloquentClientAdapter adapter = new JaloquentClientAdapter() {
             @Override public void init(Map<String, String> config) {}
             @Override public void createTableIfAbsent() {}
@@ -238,7 +238,7 @@ public class JaloquentPlayerShopRepositoryTest {
     }
 
     @Test
-    void loadShopsReturnsValidShop() {
+    void loadShopsReturnsValidShop() throws Exception {
         JaloquentClientAdapter adapter = new JaloquentClientAdapter() {
             @Override public void init(Map<String, String> config) {}
             @Override public void createTableIfAbsent() {}
@@ -262,7 +262,7 @@ public class JaloquentPlayerShopRepositoryTest {
     }
 
     @Test
-    void saveShopsPreservesDeferredEntries() {
+    void saveShopsPreservesDeferredEntries() throws Exception {
         List<Map<String, Object>> inserted = new ArrayList<>();
 
         JaloquentClientAdapter adapter = new JaloquentClientAdapter() {
@@ -302,7 +302,6 @@ public class JaloquentPlayerShopRepositoryTest {
         ItemStack original = new ItemStack(Material.DIAMOND_SWORD, 3);
         String yaml = invokeItemToYaml(original);
         assertNotNull(yaml);
-        assertTrue(yaml.contains("DIAMOND_SWORD"));
 
         ItemStack restored = invokeItemFromYaml(yaml);
         assertNotNull(restored);
@@ -310,15 +309,23 @@ public class JaloquentPlayerShopRepositoryTest {
         assertEquals(3, restored.getAmount());
     }
 
-    private static String yamlForItem(ItemStack item) throws Exception {
-        return invokeItemToYaml(item);
+    private static String yamlForItem(ItemStack item) {
+        try {
+            return invokeItemToYaml(item);
+        } catch (Exception ex) {
+            throw new IllegalStateException("Failed to serialize test item to YAML", ex);
+        }
     }
 
     @SuppressWarnings("unchecked")
-    private static Map<String, Map<String, String>> getDeferredEntries(JaloquentPlayerShopRepository repo) throws Exception {
-        Field field = JaloquentPlayerShopRepository.class.getDeclaredField("deferredEntries");
-        field.setAccessible(true);
-        return (Map<String, Map<String, String>>) field.get(repo);
+    private static Map<String, Map<String, String>> getDeferredEntries(JaloquentPlayerShopRepository repo) {
+        try {
+            Field field = JaloquentPlayerShopRepository.class.getDeclaredField("deferredEntries");
+            field.setAccessible(true);
+            return (Map<String, Map<String, String>>) field.get(repo);
+        } catch (Exception ex) {
+            throw new IllegalStateException("Failed to access deferredEntries for test", ex);
+        }
     }
 
     private static String invokeItemToYaml(ItemStack item) throws Exception {

@@ -445,9 +445,13 @@ public class ShopPricingManager {
                     continue;
                 }
 
-                CategoryTemplate template = parseCategoryTemplate(categoryId, categorySection);
-                if (template != null) {
-                    templates.add(template);
+                try {
+                    CategoryTemplate template = parseCategoryTemplate(categoryId, categorySection);
+                    if (template != null) {
+                        templates.add(template);
+                    }
+                } catch (RuntimeException ex) {
+                    logger.warning("Failed to parse category '" + categoryId + "': " + ex.getMessage());
                 }
             }
         }
@@ -681,6 +685,12 @@ public class ShopPricingManager {
             configuredPriceId = null;
         }
         String priceKey = configuredPriceId != null ? configuredPriceId : material.name();
+        // Allow multiple entries for the same material (for example splash potion variants)
+        // without silently overriding each other in the price map.
+        if (configuredPriceId == null && priceMap.containsKey(priceKey)
+                && itemId != null && !itemId.isBlank() && !itemId.equalsIgnoreCase(priceKey)) {
+            priceKey = itemId;
+        }
         DynamicSettings dynamicSettings = parseDynamicSettings(section, priceKey);
 
         if (type == ShopMenuLayout.ItemType.MATERIAL || type == ShopMenuLayout.ItemType.MINION_CRATE_KEY
@@ -774,7 +784,7 @@ public class ShopPricingManager {
         DeliveryType delivery = DeliveryType.fromConfig(section.getString("item-type"));
         return new ShopMenuLayout.Item(itemId, material, decoration, slot, page, amount, bulkAmount, price, type,
             spawnerEntity, enchantments, requiredIslandLevel, priceType, buyCommands, sellCommands,
-            buyCommandsRunAsConsole, sellCommandsRunAsConsole, configuredPriceId, delivery);
+            buyCommandsRunAsConsole, sellCommandsRunAsConsole, priceKey, delivery);
     }
 
     private Map<String, Map<String, Object>> readItemData(ConfigurationSection section) {

@@ -49,6 +49,7 @@ public final class SetupShopsGuiListener implements Listener {
     }
 
     private void toggleCoreShops(Player player) {
+        plugin.reloadConfig();
         boolean newState = !gui.isCoreShopsEnabled();
         plugin.getConfig().set("categories.enabled", newState);
         // When disabling categories, also disable single-list mode since it requires categories to be disabled first
@@ -63,6 +64,7 @@ public final class SetupShopsGuiListener implements Listener {
 
     private void toggleQuickSell(Player player) {
         try {
+            plugin.reloadConfig();
             boolean newState = !gui.isQuickSellEnabled();
             plugin.getConfig().set("quick-sell.enabled", newState);
             plugin.saveConfig();
@@ -76,6 +78,7 @@ public final class SetupShopsGuiListener implements Listener {
 
     private void togglePlayerShops(Player player) {
         try {
+            plugin.reloadConfig();
             boolean newState = !gui.isPlayerShopsEnabled();
             plugin.getConfig().set("player-shops.enabled", newState);
             plugin.saveConfig();
@@ -89,6 +92,7 @@ public final class SetupShopsGuiListener implements Listener {
 
     private void toggleStockMarket(Player player) {
         try {
+            plugin.reloadConfig();
             boolean newState = !gui.isStockMarketEnabled();
             plugin.getConfig().set("stock.enabled", newState);
             plugin.saveConfig();
@@ -101,6 +105,7 @@ public final class SetupShopsGuiListener implements Listener {
     }
 
     private void cycleGameMode(Player player) {
+        plugin.reloadConfig();
         String nextMode = gui.nextGameMode();
         plugin.getConfig().set("game-mode", nextMode);
         try {
