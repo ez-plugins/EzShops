@@ -18,6 +18,7 @@ class ShopCommandReloadTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
 
         PlayerMock player = server.addPlayer("reload-no-perm");
+        player.addAttachment(plugin, "ezshops.shop", true);
         boolean dispatched = server.dispatchCommand(player, "shop reload");
 
         assertTrue(dispatched);
@@ -32,6 +33,7 @@ class ShopCommandReloadTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
 
         PlayerMock player = server.addPlayer("reload-admin");
+        player.addAttachment(plugin, "ezshops.shop", true);
         player.addAttachment(plugin, "ezshops.reload", true);
 
         boolean dispatched = server.dispatchCommand(player, "shop reload");
