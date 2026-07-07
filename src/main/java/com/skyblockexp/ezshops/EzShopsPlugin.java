@@ -8,15 +8,20 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class EzShopsPlugin extends JavaPlugin {
 
-    private final EzShopsBootstrap bootstrap = new EzShopsBootstrap(this);
+    private EzShopsBootstrap bootstrap;
 
     @Override
     public void onEnable() {
+        if (bootstrap == null) {
+            bootstrap = new EzShopsBootstrap(this);
+        }
         bootstrap.start();
     }
 
     @Override
     public void onDisable() {
-        bootstrap.stop();
+        if (bootstrap != null) {
+            bootstrap.stop();
+        }
     }
 }
