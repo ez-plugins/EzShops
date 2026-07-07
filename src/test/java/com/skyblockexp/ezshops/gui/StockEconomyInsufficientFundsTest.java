@@ -19,7 +19,7 @@ public class StockEconomyInsufficientFundsTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        StockComponent stockComp = plugin.getStockComponent();
+        StockComponent stockComp = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getStockComponent();
         StockMarketManager manager = stockComp.getStockMarketManager();
         String product = "DIAMOND";
         manager.setPrice(product, 10.0);
@@ -48,7 +48,7 @@ public class StockEconomyInsufficientFundsTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        StockComponent stockComp = plugin.getStockComponent();
+        StockComponent stockComp = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getStockComponent();
         StockMarketManager manager = stockComp.getStockMarketManager();
         String product = "DIAMOND";
         manager.setPrice(product, 5.0);
@@ -73,3 +73,4 @@ public class StockEconomyInsufficientFundsTest extends AbstractEzShopsTest {
         org.mockito.Mockito.verify(econ, org.mockito.Mockito.never()).depositPlayer(org.mockito.Mockito.any(org.bukkit.OfflinePlayer.class), org.mockito.Mockito.anyDouble());
     }
 }
+

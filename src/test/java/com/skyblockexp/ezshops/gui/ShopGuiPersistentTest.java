@@ -18,7 +18,7 @@ public class ShopGuiPersistentTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
 
         java.lang.reflect.Field menuField = CoreShopComponent.class.getDeclaredField("shopMenu");
@@ -65,3 +65,4 @@ public class ShopGuiPersistentTest extends AbstractEzShopsTest {
         assertTrue(foundCategory, "Expected at least one category with persistent category key");
     }
 }
+

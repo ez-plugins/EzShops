@@ -4,6 +4,7 @@ import com.skyblockexp.ezshops.config.ShopMessageConfiguration;
 import com.skyblockexp.ezshops.common.MessageUtil;
 import com.skyblockexp.ezshops.gui.ShopMenu;
 import com.skyblockexp.ezshops.EzShopsPlugin;
+import com.skyblockexp.ezshops.bootstrap.EzShopsRegistry;
 import com.skyblockexp.ezshops.shop.ShopMenuLayout;
 import com.skyblockexp.ezshops.shop.ShopPricingManager;
 import com.skyblockexp.ezshops.shop.ShopTransactionResult;
@@ -66,8 +67,8 @@ public class ShopCommand implements CommandExecutor, TabCompleter {
             try {
                 plugin.reloadConfig();
                 pricingManager.reload();
-                plugin.reloadFeatures();
-                plugin.getCoreShopComponent().reloadFeatures();
+                EzShopsRegistry.current().reloadFeatures();
+                EzShopsRegistry.current().getCoreShopComponent().reloadFeatures();
                 if (shopMenu != null) shopMenu.refreshViewers();
                 sender.sendMessage("§aEzShops configuration reloaded successfully.");
             } catch (Exception ex) {

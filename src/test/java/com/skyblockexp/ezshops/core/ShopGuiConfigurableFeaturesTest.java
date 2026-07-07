@@ -24,7 +24,7 @@ public class ShopGuiConfigurableFeaturesTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
 
         // Build a simple menu layout with one category that has a command
@@ -62,7 +62,7 @@ public class ShopGuiConfigurableFeaturesTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
 
         ShopMenuLayout.ItemDecoration icon = new ShopMenuLayout.ItemDecoration(Material.PAPER, 1, "Cat", List.of());
@@ -110,7 +110,7 @@ public class ShopGuiConfigurableFeaturesTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
 
         // Build minimal category and item to open quantity menu
@@ -149,3 +149,4 @@ public class ShopGuiConfigurableFeaturesTest extends AbstractEzShopsTest {
         assertEquals(ShopInventoryComposer.ACTION_CUSTOM, val);
     }
 }
+

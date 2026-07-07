@@ -33,7 +33,7 @@ public class QuickSellMenuShiftClickTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
 
         Field quickSellField = CoreShopComponent.class.getDeclaredField("quickSellMenu");
@@ -75,7 +75,7 @@ public class QuickSellMenuShiftClickTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         Field quickSellField = CoreShopComponent.class.getDeclaredField("quickSellMenu");
         quickSellField.setAccessible(true);
         QuickSellMenu quickSellMenu = (QuickSellMenu) quickSellField.get(core);
@@ -117,13 +117,13 @@ public class QuickSellMenuShiftClickTest extends AbstractEzShopsTest {
     void confirm_shows_sell_failure_reason_not_nothing_to_sell_when_economy_rejects_deposit() throws Exception {
         Economy econ = mock(Economy.class);
         when(econ.format(anyDouble())).thenReturn("$0.00");
-        // Economy deliberately fails — simulates the deposit being rejected
+        // Economy deliberately fails â€” simulates the deposit being rejected
         when(econ.depositPlayer(any(Player.class), anyDouble()))
                 .thenReturn(new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Bank offline"));
         loadProviderPlugin(econ);
 
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
 
         Field quickSellField = CoreShopComponent.class.getDeclaredField("quickSellMenu");
@@ -146,15 +146,15 @@ public class QuickSellMenuShiftClickTest extends AbstractEzShopsTest {
         handleConfirm.setAccessible(true);
         handleConfirm.invoke(quickSellMenu, player, guiInv);
 
-        // Economy was reached — items in the GUI were found and a sell was attempted
+        // Economy was reached â€” items in the GUI were found and a sell was attempted
         verify(econ, atLeastOnce()).depositPlayer(eq(player), anyDouble());
 
-        // The item must still be in the GUI slot (sell failed → not cleared)
+        // The item must still be in the GUI slot (sell failed â†’ not cleared)
         ItemStack remaining = guiInv.getItem(0);
         assertNotNull(remaining, "GUI slot should still have the item after a failed sell");
         assertNotEquals(Material.AIR, remaining.getType(), "GUI slot should still have the item after a failed sell");
 
-        // The player must NOT see "No items to sell." — that message is only for an actually empty GUI.
+        // The player must NOT see "No items to sell." â€” that message is only for an actually empty GUI.
         // The real failure reason (transaction failed) should be shown instead.
         String message = ((org.mockbukkit.mockbukkit.entity.PlayerMock) player).nextMessage();
         assertNotNull(message, "Player should have received an error message");
@@ -172,3 +172,4 @@ public class QuickSellMenuShiftClickTest extends AbstractEzShopsTest {
         return count;
     }
 }
+

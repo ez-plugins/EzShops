@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.9] - 2026-07-07
+
+### Added
+- **Manual category default reseed command** — added `/shopadmin reseed [mode]` to restore missing bundled category defaults on demand without overwriting existing files. Omitting `mode` reseeds all bundled modes; providing a mode (e.g. `prison`, `smp`) reseeds only that mode.
+
+### Changed
+- **Bootstrap architecture cleanup** — startup and shutdown orchestration now lives in the `bootstrap` package (`EzShopsBootstrap`), while `EzShopsPlugin` is reduced to a thin lifecycle entry point (`onEnable`/`onDisable` delegation).
+- **Runtime component access moved to registry** — component/debug/reseed accessors are now provided by `EzShopsRegistry`, removing lifecycle/state getters from `EzShopsPlugin`.
+
+### Fixed
+- **Default category file persistence across restarts** — bundled category defaults are now seeded per mode directory (`shop/{mode}/categories/*.yml`) and are no longer recreated automatically for existing mode directories when server owners intentionally delete them.
+- **Mode support for default seeding** — bundled shop resource discovery now works across available packaged modes (including future bundled modes), rather than relying on prison-only default category handling.
+
 ## [2.5.8] - 2026-07-06
 
 ### Fixed

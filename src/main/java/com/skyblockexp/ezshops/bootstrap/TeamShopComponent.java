@@ -104,8 +104,8 @@ public final class TeamShopComponent implements PluginComponent {
             }
 
             // ── Wire TeamsData into CoreShopComponent ──────────────────────
-            if (plugin.getCoreComponent() != null) {
-                plugin.getCoreComponent().setTeamsData(teamsIntegration, teamTreasury);
+            if (EzShopsRegistry.current().getCoreShopComponent() != null) {
+                EzShopsRegistry.current().getCoreShopComponent().setTeamsData(teamsIntegration, teamTreasury);
             }
 
             enabled = true;

@@ -1,6 +1,7 @@
 package com.skyblockexp.ezshops.gui.stock;
 
 import com.skyblockexp.ezshops.common.MessageUtil;
+import com.skyblockexp.ezshops.bootstrap.EzShopsRegistry;
 import com.skyblockexp.ezshops.config.ConfigTranslator;
 import com.skyblockexp.ezshops.stock.StockMarketManager;
 import com.skyblockexp.ezshops.config.StockMarketConfig;
@@ -223,9 +224,8 @@ public class AllStocksGui {
         // If there are leftover translate tokens (unresolved), try to resolve them directly
         if (resolved.contains("{translate:")) {
             try {
-                org.bukkit.plugin.Plugin p = org.bukkit.Bukkit.getPluginManager().getPlugin("EzShops");
-                if (p instanceof com.skyblockexp.ezshops.EzShopsPlugin ez) {
-                    var messages = ez.getCoreShopComponent().messageConfiguration();
+                if (EzShopsRegistry.current().getCoreShopComponent() != null) {
+                    var messages = EzShopsRegistry.current().getCoreShopComponent().messageConfiguration();
                     if (messages != null) {
                         java.util.regex.Matcher m = java.util.regex.Pattern.compile("\\{translate:([a-zA-Z0-9_.-]+)\\}").matcher(resolved);
                         StringBuffer sb = new StringBuffer();

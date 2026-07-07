@@ -63,7 +63,8 @@ public final class PlayerShopComponent implements PluginComponent {
     public void enable(EzShopsPlugin plugin) {
         this.plugin = plugin;
 
-        configuration = PlayerShopConfiguration.from(configurationSource, plugin.getLogger(), ((EzShopsPlugin) plugin).getCoreShopComponent().messageConfiguration());
+        configuration = PlayerShopConfiguration.from(configurationSource, plugin.getLogger(),
+            EzShopsRegistry.current().getCoreShopComponent().messageConfiguration());
         PlayerShopMessages messages = configuration.messages();
         disabledMessage = messages.commandDisabled();
 
@@ -72,7 +73,7 @@ public final class PlayerShopComponent implements PluginComponent {
         if (!configuration.enabled()) {
             registerFallbackCommand(pluginCommand);
             registerFallbackCommand(browsePluginCommand);
-            if (plugin.isDebugMode()) {
+            if (EzShopsRegistry.current().isDebugMode()) {
                 plugin.getLogger().info("Player shops are disabled via configuration.");
             }
             enabled = false;
@@ -190,7 +191,8 @@ public final class PlayerShopComponent implements PluginComponent {
 
         if (wasEnabled && !nowEnabled) {
             disable();
-            configuration = PlayerShopConfiguration.from(configurationSource, plugin.getLogger(), plugin.getCoreShopComponent().messageConfiguration());
+                configuration = PlayerShopConfiguration.from(configurationSource, plugin.getLogger(),
+                    EzShopsRegistry.current().getCoreShopComponent().messageConfiguration());
             disabledMessage = configuration.messages().commandDisabled();
             registerFallbackCommand(pluginCommand);
             enabled = false;

@@ -20,7 +20,7 @@ class ShopDynamicPricingMoreTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
 
         ShopPricingManager pricingManager = core.pricingManager();
@@ -49,7 +49,7 @@ class ShopDynamicPricingMoreTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
 
         ShopPricingManager pricingManager = core.pricingManager();
@@ -81,7 +81,7 @@ class ShopDynamicPricingMoreTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
 
         ShopPricingManager pricingManager = core.pricingManager();
@@ -97,3 +97,4 @@ class ShopDynamicPricingMoreTest extends AbstractEzShopsTest {
         assertTrue(pricingManager.resetDynamicPricing(Material.GOLD_INGOT.name()));
     }
 }
+

@@ -6,6 +6,7 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.junit.jupiter.api.Test;
+import org.mockbukkit.mockbukkit.entity.PlayerMock;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -69,5 +70,60 @@ public class ShopAdminCommandTest extends AbstractEzShopsTest {
         var completions = plugin.getCommand("shopadmin").getTabCompleter().onTabComplete(player, plugin.getCommand("shopadmin"), "shopadmin", args);
         assertEquals(1, completions.size());
         assertEquals("browse", completions.get(0));
+    }
+
+    @Test
+    void shopAdminCommand_tabComplete_reseedMode_returnsBundledModes() throws Exception {
+        Economy econ = mock(Economy.class);
+        loadProviderPlugin(econ);
+        EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
+
+        Player player = server.addPlayer("admin-reseed-tab");
+        player.addAttachment(plugin, "ezshops.shop.admin", true);
+
+        String[] args = {"reseed", "s"};
+        var completions = plugin.getCommand("shopadmin").getTabCompleter()
+                .onTabComplete(player, plugin.getCommand("shopadmin"), "shopadmin", args);
+        assertTrue(completions.contains("smp"), "Expected smp mode suggestion for reseed tab completion");
+    }
+
+    @Test
+    void shopAdminCommand_reseed_rejects_unknown_mode() throws Exception {
+        Economy econ = mock(Economy.class);
+        loadProviderPlugin(econ);
+        EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
+
+        PlayerMock player = server.addPlayer("admin-reseed-invalid");
+        player.addAttachment(plugin, "ezshops.shop.admin", true);
+
+        boolean dispatched = server.dispatchCommand(player, "shopadmin reseed unknown-mode");
+        assertTrue(dispatched);
+
+        String first = player.nextMessage();
+        String second = player.nextMessage();
+        assertNotNull(first);
+        assertNotNull(second);
+        assertTrue(first.toLowerCase().contains("unknown shop mode"));
+        assertTrue(second.toLowerCase().contains("available bundled modes"));
+    }
+
+    @Test
+    void shopAdminCommand_reseed_accepts_known_mode() throws Exception {
+        Economy econ = mock(Economy.class);
+        loadProviderPlugin(econ);
+        EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
+
+        PlayerMock player = server.addPlayer("admin-reseed-valid");
+        player.addAttachment(plugin, "ezshops.shop.admin", true);
+
+        boolean dispatched = server.dispatchCommand(player, "shopadmin reseed smp");
+        assertTrue(dispatched);
+
+        String first = player.nextMessage();
+        String second = player.nextMessage();
+        assertNotNull(first);
+        assertNotNull(second);
+        assertTrue(first.toLowerCase().contains("reseed complete"));
+        assertTrue(second.toLowerCase().contains("left unchanged"));
     }
 }

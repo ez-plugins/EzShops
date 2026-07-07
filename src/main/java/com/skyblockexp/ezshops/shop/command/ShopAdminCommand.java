@@ -1,5 +1,6 @@
 package com.skyblockexp.ezshops.shop.command;
 
+import com.skyblockexp.ezshops.bootstrap.EzShopsRegistry;
 import com.skyblockexp.ezshops.gui.admin.ShopAdminBrowseGui;
 import com.skyblockexp.ezshops.gui.admin.ShopAdminBrowseGui.Mode;
 import com.skyblockexp.ezshops.playershop.PlayerShop;
@@ -38,12 +39,17 @@ public final class ShopAdminCommand implements CommandExecutor, TabCompleter, Li
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player player)) {
-            sender.sendMessage(ChatColor.RED + "Only players can use this command.");
+        if (!sender.hasPermission(PERMISSION)) {
+            sender.sendMessage(ChatColor.RED + "You do not have permission to use /shopadmin.");
             return true;
         }
-        if (!player.hasPermission(PERMISSION)) {
-            player.sendMessage(ChatColor.RED + "You do not have permission to use /shopadmin.");
+
+        if (args.length > 0 && args[0].equalsIgnoreCase("reseed")) {
+            return handleReseed(sender, args);
+        }
+
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage(ChatColor.RED + "Only players can open the /shopadmin GUI.");
             return true;
         }
 
@@ -59,11 +65,39 @@ public final class ShopAdminCommand implements CommandExecutor, TabCompleter, Li
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
             String partial = args[0].toLowerCase(Locale.ROOT);
-            return List.of("browse", "market").stream()
+            return List.of("browse", "market", "reseed").stream()
                     .filter(s -> s.startsWith(partial))
                     .toList();
         }
+        if (args.length == 2 && args[0].equalsIgnoreCase("reseed")) {
+            String partial = args[1].toLowerCase(Locale.ROOT);
+            return EzShopsRegistry.current().getBundledShopModes().stream()
+                    .filter(mode -> mode.toLowerCase(Locale.ROOT).startsWith(partial))
+                    .toList();
+        }
         return List.of();
+    }
+
+    private boolean handleReseed(CommandSender sender, String[] args) {
+        String mode = args.length > 1 ? args[1] : null;
+        if (mode != null && mode.isBlank()) {
+            mode = null;
+        }
+
+        String targetMode = mode;
+        Set<String> bundledModes = EzShopsRegistry.current().getBundledShopModes();
+        if (targetMode != null && !bundledModes.stream().anyMatch(m -> m.equalsIgnoreCase(targetMode))) {
+            sender.sendMessage(ChatColor.RED + "Unknown shop mode '" + mode + "'.");
+            sender.sendMessage(ChatColor.YELLOW + "Available bundled modes: " + String.join(", ", bundledModes));
+            return true;
+        }
+
+        int created = EzShopsRegistry.current().reseedCategoryDefaults(targetMode);
+        String scope = targetMode == null ? "all modes" : ("mode '" + targetMode + "'");
+        sender.sendMessage(ChatColor.GREEN + "Reseed complete for " + scope + ": created "
+                + created + " missing category default file(s).");
+        sender.sendMessage(ChatColor.GRAY + "Existing category files were left unchanged.");
+        return true;
     }
 
     // ── GUI listener ──────────────────────────────────────────────────────────

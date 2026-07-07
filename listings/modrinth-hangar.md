@@ -59,6 +59,7 @@ Check our latest project: [PvPIndex]([https://pvpindex.com/](https://modrinth.co
 - `/sellhand`, `/sellinventory` – Quick-sell items or entire inventories.
 - `/price <material>` – Check live buy/sell prices.
 - `/shop reload` – Reload all configs instantly.
+- `/shopadmin reseed [mode]` – Restore missing bundled category defaults (all modes or one mode) without overwriting existing files.
 - `/stock buy <item> <amount>` – Buy stock market items at the current price.
 - `/stock sell <item> <amount>` – Sell your stock market items.
 - `/stock overview` – View all stock market items and their current prices.

@@ -1,6 +1,7 @@
 package com.skyblockexp.ezshops.gui.admin;
 
 import com.skyblockexp.ezshops.EzShopsPlugin;
+import com.skyblockexp.ezshops.bootstrap.EzShopsRegistry;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -57,7 +58,7 @@ public final class SetupShopsGuiListener implements Listener {
             plugin.getConfig().set("categories.single-list-when-disabled", false);
         }
         plugin.saveConfig();
-        plugin.getCoreShopComponent().reloadFeatures();
+        EzShopsRegistry.current().getCoreShopComponent().reloadFeatures();
         gui.open(player);
         player.sendMessage(ChatColor.GREEN + "Toggled core-shops to " + (newState ? "enabled" : "disabled") + ".");
     }
@@ -68,7 +69,7 @@ public final class SetupShopsGuiListener implements Listener {
             boolean newState = !gui.isQuickSellEnabled();
             plugin.getConfig().set("quick-sell.enabled", newState);
             plugin.saveConfig();
-            plugin.getCoreShopComponent().reloadFeatures();
+            EzShopsRegistry.current().getCoreShopComponent().reloadFeatures();
             gui.open(player);
             player.sendMessage(ChatColor.GREEN + "Toggled quick-sell to " + (newState ? "enabled" : "disabled") + ".");
         } catch (Exception e) {
@@ -82,7 +83,7 @@ public final class SetupShopsGuiListener implements Listener {
             boolean newState = !gui.isPlayerShopsEnabled();
             plugin.getConfig().set("player-shops.enabled", newState);
             plugin.saveConfig();
-            plugin.getPlayerShopComponent().reload();
+            EzShopsRegistry.current().getPlayerShopComponent().reload();
             gui.open(player);
             player.sendMessage(ChatColor.GREEN + "Toggled player-shops to " + (newState ? "enabled" : "disabled") + ".");
         } catch (Exception e) {
@@ -96,7 +97,7 @@ public final class SetupShopsGuiListener implements Listener {
             boolean newState = !gui.isStockMarketEnabled();
             plugin.getConfig().set("stock.enabled", newState);
             plugin.saveConfig();
-            plugin.getStockComponent().reload();
+            EzShopsRegistry.current().getStockComponent().reload();
             gui.open(player);
             player.sendMessage(ChatColor.GREEN + "Toggled stock-market to " + (newState ? "enabled" : "disabled") + ".");
         } catch (Exception e) {

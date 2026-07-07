@@ -354,8 +354,8 @@ public class WoodCategoryConfigLoadingTest extends AbstractEzShopsTest {
         Path categoriesDir = tempDir.resolve("shop/categories");
         Files.createDirectories(categoriesDir);
 
-        // OAK_LOG uses the uppercase key (control — this always worked).
-        // birch_log uses the lowercase key — this is what triggered the bug.
+        // OAK_LOG uses the uppercase key (control â€” this always worked).
+        // birch_log uses the lowercase key â€” this is what triggered the bug.
         String legacyShopYml =
                 "OAK_LOG:\n"
                 + "  buy: 24.0\n"
@@ -393,7 +393,7 @@ public class WoodCategoryConfigLoadingTest extends AbstractEzShopsTest {
         // by "birch_log" while getPrice(Material) looks up "BIRCH_LOG".
         assertTrue(pm.getPrice(Material.BIRCH_LOG).isPresent(),
                 "BIRCH_LOG must be found even when the legacy config uses the lowercase "
-                + "key 'birch_log' — loadLegacyEntries must normalise to material.name()");
+                + "key 'birch_log' â€” loadLegacyEntries must normalise to material.name()");
         assertTrue(pm.getPrice(Material.BIRCH_LOG).get().canSell(),
                 "BIRCH_LOG loaded from a lowercase legacy key must have a valid sell price");
     }
@@ -404,7 +404,7 @@ public class WoodCategoryConfigLoadingTest extends AbstractEzShopsTest {
 
     /** Extracts the ShopPricingManager from the plugin via reflection. */
     private ShopPricingManager getPricingManager(EzShopsPlugin plugin) throws Exception {
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core, "CoreShopComponent must not be null");
         Field f = CoreShopComponent.class.getDeclaredField("pricingManager");
         f.setAccessible(true);
@@ -415,7 +415,7 @@ public class WoodCategoryConfigLoadingTest extends AbstractEzShopsTest {
 
     /** Extracts the ShopTransactionService from the plugin via reflection. */
     private ShopTransactionService getTransactionService(EzShopsPlugin plugin) throws Exception {
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core, "CoreShopComponent must not be null");
         Field f = CoreShopComponent.class.getDeclaredField("transactionService");
         f.setAccessible(true);
@@ -472,3 +472,4 @@ public class WoodCategoryConfigLoadingTest extends AbstractEzShopsTest {
         return (sun.misc.Unsafe) field.get(null);
     }
 }
+

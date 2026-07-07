@@ -60,10 +60,11 @@ public class ShopTemplateFeatureTest extends AbstractEzShopsTest {
         assertTrue(hasDiamond, "Player should receive imported diamond items");
 
         // Pricing manager should have reloaded categories including our 'kit' category
-        var core = plugin.getCoreShopComponent();
+        var core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
         var layout = core.pricingManager().getMenuLayout();
         boolean found = layout.categories().stream().anyMatch(c -> c.id().equalsIgnoreCase("kit"));
         assertTrue(found, "Pricing manager menu layout should include 'kit' category after import");
     }
 }
+

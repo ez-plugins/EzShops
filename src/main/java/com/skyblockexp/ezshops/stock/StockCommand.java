@@ -1,6 +1,7 @@
 package com.skyblockexp.ezshops.stock;
 
 import com.skyblockexp.ezshops.EzShopsPlugin;
+import com.skyblockexp.ezshops.bootstrap.EzShopsRegistry;
 import com.skyblockexp.ezshops.config.StockMarketConfig;
 import com.skyblockexp.ezshops.gui.stock.StockOverviewGui;
 import org.bukkit.Bukkit;
@@ -36,7 +37,7 @@ public class StockCommand implements CommandExecutor {
 
         // Load GUI config and create StockOverviewGui
         File guiConfigFile = new java.io.File(plugin.getDataFolder(), "stock-gui.yml");
-        if (plugin.isDebugMode()) {
+        if (EzShopsRegistry.current().isDebugMode()) {
             plugin.getLogger().info("Loading stock-gui.yml from: " + guiConfigFile.getAbsolutePath());
         }
         if (!guiConfigFile.exists()) {
@@ -48,7 +49,7 @@ public class StockCommand implements CommandExecutor {
             stockMarketConfig,
             frozenStore,
             guiConfigFile,
-            plugin.isDebugMode()
+            EzShopsRegistry.current().isDebugMode()
         );
     }
 

@@ -19,7 +19,7 @@ public class ShopPricingManagerResetTest extends AbstractEzShopsTest {
         loadProviderPlugin(mock(Economy.class));
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
         ShopPricingManager pm = core.pricingManager();
         assertNotNull(pm);
@@ -51,7 +51,7 @@ public class ShopPricingManagerResetTest extends AbstractEzShopsTest {
         loadProviderPlugin(mock(Economy.class));
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
         ShopPricingManager pm = core.pricingManager();
         assertNotNull(pm);
@@ -79,3 +79,4 @@ public class ShopPricingManagerResetTest extends AbstractEzShopsTest {
         assertEquals(cInitial, pm.getPrice(carrotKey).get().buyPrice(), 1e-6);
     }
 }
+

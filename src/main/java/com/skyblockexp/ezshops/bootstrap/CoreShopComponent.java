@@ -132,7 +132,7 @@ public CoreShopComponent(Economy economy) {
 
         islandLevelProvider = createIslandLevelProvider(plugin);
         ignoreIslandRequirements = islandLevelProvider == null;
-        if (ignoreIslandRequirements && plugin.isDebugMode()) {
+        if (ignoreIslandRequirements && EzShopsRegistry.current().isDebugMode()) {
             plugin.getLogger().info(
                     "Island level provider not detected; island requirements will be ignored.");
         }
@@ -150,18 +150,18 @@ public CoreShopComponent(Economy economy) {
             shopMenu = new ShopMenu(plugin, pricingManager, transactionService, islandLevelProvider,
                     ignoreIslandRequirements, ShopMenu.DisplayMode.FLAT_LIST, guiMessages,
                     transactionMessages.restrictions());
-            if (plugin.isDebugMode()) {
+            if (EzShopsRegistry.current().isDebugMode()) {
                 plugin.getLogger().info("Shop categories are disabled; displaying all items in a single list.");
             }
         } else {
             shopMenu = null;
-            if (plugin.isDebugMode()) {
+            if (EzShopsRegistry.current().isDebugMode()) {
                 plugin.getLogger().info("Shop categories are disabled; the /shop menu will be unavailable.");
             }
         }
 
         shopCommand = new ShopCommand(plugin, pricingManager, transactionService, shopMenu, commandMessages.shop(),
-                transactionMessages.errors(), transactionMessages.restrictions(), plugin.isDebugMode());
+                transactionMessages.errors(), transactionMessages.restrictions(), EzShopsRegistry.current().isDebugMode());
         sellHandCommand = new SellHandCommand(transactionService, pricingManager, commandMessages.sellHand());
         sellInventoryCommand = new SellInventoryCommand(transactionService, commandMessages.sellInventory());
         priceCommand = new PriceCommand(pricingManager, transactionService, commandMessages.price());

@@ -1,5 +1,6 @@
 package com.skyblockexp.ezshops.config;
 
+import com.skyblockexp.ezshops.bootstrap.EzShopsRegistry;
 import com.skyblockexp.ezshops.common.MessageUtil;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,9 +20,8 @@ public final class ConfigTranslator {
         }
         if (messages == null) {
             try {
-                org.bukkit.plugin.Plugin p = org.bukkit.Bukkit.getPluginManager().getPlugin("EzShops");
-                if (p instanceof com.skyblockexp.ezshops.EzShopsPlugin ez) {
-                    messages = ez.getCoreShopComponent().messageConfiguration();
+                if (EzShopsRegistry.current().getCoreShopComponent() != null) {
+                    messages = EzShopsRegistry.current().getCoreShopComponent().messageConfiguration();
                 }
             } catch (Exception ignored) {
                 // ignore and fallback

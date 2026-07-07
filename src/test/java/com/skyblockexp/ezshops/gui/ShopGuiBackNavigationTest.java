@@ -19,7 +19,7 @@ public class ShopGuiBackNavigationTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
 
         java.lang.reflect.Field menuField = CoreShopComponent.class.getDeclaredField("shopMenu");
@@ -87,3 +87,4 @@ public class ShopGuiBackNavigationTest extends AbstractEzShopsTest {
         assertTrue(finalTop.getHolder() instanceof MainShopMenuHolder, "Expected to be back at main menu");
     }
 }
+

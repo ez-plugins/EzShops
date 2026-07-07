@@ -18,7 +18,7 @@ public class StockConfirmEdgeCasesTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        StockComponent stockComp = plugin.getStockComponent();
+        StockComponent stockComp = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getStockComponent();
         StockMarketManager manager = stockComp.getStockMarketManager();
         String product = "DIAMOND";
         manager.setPrice(product, 5.0);
@@ -45,7 +45,7 @@ public class StockConfirmEdgeCasesTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        StockComponent stockComp = plugin.getStockComponent();
+        StockComponent stockComp = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getStockComponent();
         StockMarketManager manager = stockComp.getStockMarketManager();
         String product = "DIAMOND";
         manager.setPrice(product, 5.0);
@@ -64,3 +64,4 @@ public class StockConfirmEdgeCasesTest extends AbstractEzShopsTest {
         assertEquals(0, owned, "No stock should be added after cancel");
     }
 }
+

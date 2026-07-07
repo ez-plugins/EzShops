@@ -224,6 +224,7 @@ Opens the admin moderation GUI for inspecting and removing any active player sho
 /shopadmin
 /shopadmin browse
 /shopadmin market
+/shopadmin reseed [mode]
 ```
 **Permission:** `ezshops.shop.admin`  
 **Aliases:** None
@@ -241,6 +242,15 @@ Switches the browse GUI to the **Team Market** view, showing all active team mar
 
 **Permission:** `ezshops.shop.admin`  
 **Example:** `/shopadmin market`
+
+##### `/shopadmin reseed [mode]`
+Restores missing bundled category defaults without overwriting existing category files.
+
+- No argument: reseeds all bundled modes.
+- With `mode`: reseeds only that mode (for example `prison` or `smp`).
+
+**Permission:** `ezshops.shop.admin`  
+**Examples:** `/shopadmin reseed`, `/shopadmin reseed smp`
 
 ---
 
