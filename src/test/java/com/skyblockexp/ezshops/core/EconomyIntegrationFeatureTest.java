@@ -26,7 +26,7 @@ public class EconomyIntegrationFeatureTest extends AbstractEzShopsTest {
                 .thenReturn(new EconomyResponse(0.0, 0.0, net.milkbowl.vault.economy.EconomyResponse.ResponseType.SUCCESS, "ok"));
 
         // perform a stock buy via the confirm GUI flow to ensure economy withdraw is called
-        com.skyblockexp.ezshops.bootstrap.StockComponent stockComp = plugin.getStockComponent();
+        com.skyblockexp.ezshops.bootstrap.StockComponent stockComp = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getStockComponent();
         com.skyblockexp.ezshops.stock.StockMarketManager manager = stockComp.getStockMarketManager();
         manager.setPrice("DIAMOND", 5.0);
 
@@ -41,3 +41,4 @@ public class EconomyIntegrationFeatureTest extends AbstractEzShopsTest {
         org.mockito.Mockito.verify(econ, org.mockito.Mockito.atLeastOnce()).withdrawPlayer(org.mockito.Mockito.eq(player), org.mockito.Mockito.anyDouble());
     }
 }
+

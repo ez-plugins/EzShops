@@ -147,4 +147,53 @@ public class ConfigPersistenceTest extends AbstractEzShopsTest {
                 written.getString("categories.my_new_category.name"),
                 "Written file should contain template data");
     }
+
+    // -----------------------------------------------------------------------
+    // startup default category seeding persistence
+    // -----------------------------------------------------------------------
+
+    @Test
+    void startup_bundled_modes_include_multiple_defaults() throws Exception {
+        Economy econ = Mockito.mock(Economy.class);
+        loadProviderPlugin(econ);
+
+        EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
+        assertNotNull(plugin);
+
+        var modes = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getBundledShopModes();
+        assertTrue(modes.contains("prison"),
+                "Bundled resources should include prison mode defaults");
+        assertTrue(modes.contains("smp"),
+                "Bundled resources should include smp mode defaults");
+    }
+
+    @Test
+    void manual_reseed_restores_missing_defaults_without_overwriting_existing_files() throws Exception {
+        Economy econ = Mockito.mock(Economy.class);
+        loadProviderPlugin(econ);
+
+        EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
+        assertNotNull(plugin);
+
+        File categoriesDir = new File(plugin.getDataFolder(), "shop/prison/categories");
+        assertTrue(categoriesDir.exists(), "precondition: prison categories directory should exist after startup");
+
+        File deletedDefault = new File(categoriesDir, "decorations.yml");
+        assertTrue(deletedDefault.exists(), "precondition: expected bundled default file to exist");
+        assertTrue(deletedDefault.delete(), "precondition: failed to delete bundled default file");
+        assertFalse(deletedDefault.exists(), "precondition: deleted file should be absent");
+
+        File existingCustom = new File(categoriesDir, "building.yml");
+        String customContent = "# custom\ncategories:\n  building:\n    name: \"Do Not Overwrite\"\n";
+        Files.writeString(existingCustom.toPath(), customContent, StandardCharsets.UTF_8);
+
+        int created = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().reseedCategoryDefaults("prison");
+        assertTrue(created >= 1, "Manual reseed should create at least one missing default category file");
+        assertTrue(deletedDefault.exists(), "Manual reseed should restore deleted default category files");
+
+        String afterCustom = Files.readString(existingCustom.toPath(), StandardCharsets.UTF_8);
+        assertEquals(customContent, afterCustom,
+                "Manual reseed must not overwrite existing category files");
+    }
 }
+

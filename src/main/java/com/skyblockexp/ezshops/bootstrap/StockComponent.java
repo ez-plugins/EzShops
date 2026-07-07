@@ -41,7 +41,7 @@ public final class StockComponent implements PluginComponent, TabCompleter {
             stockEnabled = config.getBoolean("stock.enabled", true);
         }
         if (!stockEnabled) {
-            if (plugin.isDebugMode()) {
+            if (EzShopsRegistry.current().isDebugMode()) {
                 plugin.getLogger().info("Stock features are disabled via config. Skipping stock system initialization.");
             }
             return;
@@ -76,7 +76,7 @@ public final class StockComponent implements PluginComponent, TabCompleter {
         com.skyblockexp.ezshops.gui.stock.StockOverviewGui stockOverviewGui = new com.skyblockexp.ezshops.gui.stock.StockOverviewGui(
             stockMarketManager, stockMarketConfig, frozenStore,
             stockGuiFile,
-            plugin.isDebugMode()
+            EzShopsRegistry.current().isDebugMode()
         );
         stockOverviewGuiListener = new com.skyblockexp.ezshops.gui.stock.StockOverviewGuiListener(stockMarketManager, stockOverviewGui);
         plugin.getServer().getPluginManager().registerEvents(stockOverviewGuiListener, plugin);

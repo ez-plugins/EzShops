@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 /**
  * Feature tests for the {@code /sellhand} command executor, verifying that
- * the full command pipeline (permission check → pricing lookup → economy
+ * the full command pipeline (permission check â†’ pricing lookup â†’ economy
  * deposit) works correctly end-to-end for birch logs.
  */
 public class SellHandCommandFeatureTest extends AbstractEzShopsTest {
@@ -86,7 +86,7 @@ public class SellHandCommandFeatureTest extends AbstractEzShopsTest {
     // -----------------------------------------------------------------------
 
     private SellHandCommand getSellHandCommand(EzShopsPlugin plugin) throws Exception {
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core, "CoreShopComponent must not be null");
         Field f = CoreShopComponent.class.getDeclaredField("sellHandCommand");
         f.setAccessible(true);
@@ -95,3 +95,4 @@ public class SellHandCommandFeatureTest extends AbstractEzShopsTest {
         return cmd;
     }
 }
+

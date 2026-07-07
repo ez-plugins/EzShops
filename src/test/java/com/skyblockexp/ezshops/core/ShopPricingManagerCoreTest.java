@@ -23,7 +23,7 @@ public class ShopPricingManagerCoreTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
 
         ShopPricingManager pricingManager = core.pricingManager();
@@ -44,3 +44,4 @@ public class ShopPricingManagerCoreTest extends AbstractEzShopsTest {
         assertFalse(pricingManager.setActiveRotationOption("no-such-rotation", "opt"));
     }
 }
+

@@ -17,7 +17,7 @@ public class ShopConfigCategoriesTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
 
         // disable core and change config to disable categories entirely
@@ -43,7 +43,7 @@ public class ShopConfigCategoriesTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
 
         core.disable();
@@ -63,3 +63,4 @@ public class ShopConfigCategoriesTest extends AbstractEzShopsTest {
         assertEquals(ShopMenu.DisplayMode.FLAT_LIST, displayMode, "ShopMenu should be initialized in FLAT_LIST mode");
     }
 }
+

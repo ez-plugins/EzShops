@@ -30,6 +30,7 @@ public class EzShopsPluginFeatureTest extends AbstractEzShopsTest {
         assertNotNull(reg, "ShopPriceService should be registered by CoreShopComponent");
 
         // Check core shop component present
-        assertNotNull(plugin.getCoreShopComponent());
+        assertNotNull(com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent());
     }
 }
+

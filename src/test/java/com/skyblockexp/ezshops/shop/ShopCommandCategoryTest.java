@@ -19,7 +19,7 @@ public class ShopCommandCategoryTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
 
         var layout = core.pricingManager().getMenuLayout();
@@ -53,7 +53,7 @@ public class ShopCommandCategoryTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
 
         var layout = core.pricingManager().getMenuLayout();
@@ -82,3 +82,4 @@ public class ShopCommandCategoryTest extends AbstractEzShopsTest {
         assertEquals(category.id().toLowerCase(), holder.category().id().toLowerCase());
         }
 }
+

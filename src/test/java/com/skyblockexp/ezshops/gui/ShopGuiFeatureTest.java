@@ -17,7 +17,7 @@ public class ShopGuiFeatureTest extends AbstractEzShopsTest {
         assertNotNull(plugin);
 
         // ensure core component is available
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core, "CoreShopComponent should be initialized");
 
         // retrieve the private ShopMenu instance via reflection
@@ -42,3 +42,4 @@ public class ShopGuiFeatureTest extends AbstractEzShopsTest {
         assertTrue(title.toLowerCase().contains(core.pricingManager().getMenuLayout().mainTitle().toLowerCase()) || !core.pricingManager().getMenuLayout().mainTitle().isBlank());
     }
 }
+

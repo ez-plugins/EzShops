@@ -21,7 +21,7 @@ public class ShopDynamicPricingTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         assertNotNull(core);
 
         // Grab pricing manager
@@ -53,3 +53,4 @@ public class ShopDynamicPricingTest extends AbstractEzShopsTest {
         assertTrue(afterBuy > initialBuy, "Expected increased buy price after purchases");
     }
 }
+

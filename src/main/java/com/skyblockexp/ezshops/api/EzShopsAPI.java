@@ -1,6 +1,7 @@
 package com.skyblockexp.ezshops.api;
 
 import com.skyblockexp.ezshops.EzShopsPlugin;
+import com.skyblockexp.ezshops.bootstrap.EzShopsRegistry;
 import com.skyblockexp.ezshops.bootstrap.StockComponent;
 import com.skyblockexp.ezshops.stock.StockMarketManager;
 import com.skyblockexp.ezshops.shop.api.ShopPriceService;
@@ -58,7 +59,7 @@ public class EzShopsAPI {
     private void initializeAPIs() {
         // Initialize StockAPI if the stock component is enabled
         try {
-            StockComponent stockComponent = plugin.getStockComponent();
+            StockComponent stockComponent = EzShopsRegistry.current().getStockComponent();
             if (stockComponent != null) {
                 StockMarketManager stockManager = stockComponent.getStockMarketManager();
                 if (stockManager != null) {

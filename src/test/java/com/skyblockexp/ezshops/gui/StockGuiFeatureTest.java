@@ -15,7 +15,7 @@ public class StockGuiFeatureTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        StockComponent stock = plugin.getStockComponent();
+        StockComponent stock = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getStockComponent();
         assertNotNull(stock, "StockComponent should be initialized when stock is enabled");
 
         org.bukkit.entity.Player player = server.addPlayer("stock-player");
@@ -35,3 +35,4 @@ public class StockGuiFeatureTest extends AbstractEzShopsTest {
         assertTrue(title.toLowerCase().contains("stock") || !title.isBlank());
     }
 }
+

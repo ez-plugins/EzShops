@@ -22,7 +22,7 @@ public class StockAPIIntegrationTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        StockComponent stockComponent = plugin.getStockComponent();
+        StockComponent stockComponent = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getStockComponent();
         assertNotNull(stockComponent);
         StockMarketManager mgr = stockComponent.getStockMarketManager();
         assertNotNull(mgr);
@@ -46,7 +46,7 @@ public class StockAPIIntegrationTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        StockComponent stockComponent = plugin.getStockComponent();
+        StockComponent stockComponent = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getStockComponent();
         assertNotNull(stockComponent);
         StockMarketManager mgr = stockComponent.getStockMarketManager();
         assertNotNull(mgr);
@@ -79,7 +79,7 @@ public class StockAPIIntegrationTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        StockComponent stockComponent = plugin.getStockComponent();
+        StockComponent stockComponent = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getStockComponent();
         assertNotNull(stockComponent);
         StockMarketManager mgr = stockComponent.getStockMarketManager();
         assertNotNull(mgr);
@@ -96,3 +96,4 @@ public class StockAPIIntegrationTest extends AbstractEzShopsTest {
         assertNotEquals(before, after);
     }
 }
+

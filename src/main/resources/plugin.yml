@@ -87,6 +87,7 @@ commands:
       /shopadmin
       /shopadmin browse
       /shopadmin market
+      /shopadmin reseed [mode]
     permission: ezshops.shop.admin
   setupshops:
     description: Admin GUI to configure shop features

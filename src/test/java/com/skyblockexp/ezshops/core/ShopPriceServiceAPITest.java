@@ -29,7 +29,7 @@ class ShopPriceServiceAPITest extends AbstractEzShopsTest {
         var api = com.skyblockexp.ezshops.api.EzShopsAPI.getInstance();
         assertNotNull(api.getShopAPI());
 
-        CoreShopComponent core = plugin.getCoreShopComponent();
+        CoreShopComponent core = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getCoreShopComponent();
         ShopPricingManager pricingManager = core.pricingManager();
         assertNotNull(pricingManager);
 
@@ -67,3 +67,4 @@ class ShopPriceServiceAPITest extends AbstractEzShopsTest {
         assertTrue(service.findSellPrice(stack).isEmpty());
     }
 }
+

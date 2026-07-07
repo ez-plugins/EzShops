@@ -19,7 +19,7 @@ public class StockTransactionConfirmGuiTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        StockComponent stockComp = plugin.getStockComponent();
+        StockComponent stockComp = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getStockComponent();
         assertNotNull(stockComp);
         StockMarketManager manager = stockComp.getStockMarketManager();
         assertNotNull(manager);
@@ -54,7 +54,7 @@ public class StockTransactionConfirmGuiTest extends AbstractEzShopsTest {
         EzShopsPlugin plugin = loadPlugin(EzShopsPlugin.class);
         assertNotNull(plugin);
 
-        StockComponent stockComp = plugin.getStockComponent();
+        StockComponent stockComp = com.skyblockexp.ezshops.bootstrap.EzShopsRegistry.current().getStockComponent();
         StockMarketManager manager = stockComp.getStockMarketManager();
 
         String product = "DIAMOND";
@@ -80,3 +80,4 @@ public class StockTransactionConfirmGuiTest extends AbstractEzShopsTest {
         assertTrue(owned >= 0 && owned < 5, "Player stock should have decreased after sale");
     }
 }
+

@@ -89,7 +89,7 @@ EzShops uses a hierarchical permission system. Permissions are organized into ca
 
 **Details:**
 - `ezshops.reload` - Allows reloading all shop configurations, menus, categories, and pricing without server restart
-- `ezshops.shop.admin` - Opens the admin browse GUI to inspect and remove any player shop or team market listing
+- `ezshops.shop.admin` - Opens the admin browse GUI to inspect and remove any player shop or team market listing, and allows `/shopadmin reseed [mode]` to restore missing bundled category defaults
 - `ezshops.shop.admin.minionhead` - Bypasses normal restrictions on minion heads (usually crate-only items)
 
 ### Sign Shop Management
