@@ -62,6 +62,25 @@ class TeamShopComponentTest {
         assertNull(component.getTeamMarketManager());
     }
 
+    @Test
+    void enable_keeps_component_disabled_when_teams_api_is_unavailable() {
+        Economy economy = mock(Economy.class);
+        TeamShopComponent component = new TeamShopComponent(economy);
+
+        EzShopsPlugin plugin = mock(EzShopsPlugin.class);
+        YamlConfiguration cfg = new YamlConfiguration();
+        when(plugin.getConfig()).thenReturn(cfg);
+        when(plugin.getLogger()).thenReturn(Logger.getLogger("TeamShopComponentTest"));
+
+        component.enable(plugin);
+
+        assertFalse(component.isEnabled());
+        assertNull(component.getTeamsIntegration());
+        assertNull(component.getTeamStockManager());
+        assertNull(component.getTeamTreasury());
+        assertNull(component.getTeamMarketManager());
+    }
+
     private static void setField(Object target, String name, Object value) throws Exception {
         Field field = target.getClass().getDeclaredField(name);
         field.setAccessible(true);
