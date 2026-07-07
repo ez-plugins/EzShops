@@ -224,9 +224,10 @@ public final class EzShopsBootstrap {
         }
 
         List<String> resourcesToSeed = buildDefaultResourceList();
+        Set<String> preExistingCategoryModes = findPreExistingCategoryModes(resourcesToSeed);
         Set<String> skippedCategoryModes = new LinkedHashSet<>();
         for (String resourcePath : resourcesToSeed) {
-            if (shouldSkipCategoryResource(resourcePath, skippedCategoryModes)) {
+            if (shouldSkipCategoryResource(resourcePath, preExistingCategoryModes, skippedCategoryModes)) {
                 continue;
             }
             saveResourceIfAbsent(resourcePath);
@@ -236,6 +237,25 @@ public final class EzShopsBootstrap {
             plugin.getLogger().info("Skipping bundled default category files for existing mode directories: "
                     + String.join(", ", skippedCategoryModes));
         }
+    }
+
+    private Set<String> findPreExistingCategoryModes(List<String> resourcesToSeed) {
+        Set<String> preExistingModes = new LinkedHashSet<>();
+        for (String resourcePath : resourcesToSeed) {
+            if (!isDefaultCategoryResource(resourcePath)) {
+                continue;
+            }
+            String mode = extractModeFromShopResource(resourcePath);
+            if (mode == null) {
+                continue;
+            }
+            File categoriesDir = new File(plugin.getDataFolder(),
+                    ("shop/" + mode + "/categories").replace('/', File.separatorChar));
+            if (categoriesDir.exists()) {
+                preExistingModes.add(mode);
+            }
+        }
+        return preExistingModes;
     }
 
     private void registerEzBoostIntegration() {
@@ -273,7 +293,10 @@ public final class EzShopsBootstrap {
         return new ArrayList<>(resources);
     }
 
-    private boolean shouldSkipCategoryResource(String resourcePath, Set<String> skippedCategoryModes) {
+    private boolean shouldSkipCategoryResource(
+            String resourcePath,
+            Set<String> preExistingCategoryModes,
+            Set<String> skippedCategoryModes) {
         if (!isDefaultCategoryResource(resourcePath)) {
             return false;
         }
@@ -283,9 +306,7 @@ public final class EzShopsBootstrap {
             return false;
         }
 
-        File categoriesDir = new File(plugin.getDataFolder(),
-                ("shop/" + mode + "/categories").replace('/', File.separatorChar));
-        boolean skip = categoriesDir.exists();
+        boolean skip = preExistingCategoryModes.contains(mode);
         if (skip) {
             skippedCategoryModes.add(mode);
         }
