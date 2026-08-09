@@ -118,7 +118,7 @@ public final class PlayerShopComponent implements PluginComponent {
                 plugin.getLogger().info("Player shops: using Jaloquent storage (JDBC adapter).");
                 return repo;
             } catch (Exception ex) {
-                plugin.getLogger().severe("Failed to initialise Jaloquent for player shops; falling back to YAML. " + ex.getMessage());
+                plugin.getLogger().warning("Failed to initialise Jaloquent for player shops; falling back to YAML. " + ex.getMessage());
             }
         }
         if ("mysql".equalsIgnoreCase(type)) {
@@ -136,7 +136,7 @@ public final class PlayerShopComponent implements PluginComponent {
                 plugin.getLogger().info("Player shops: using MySQL storage.");
                 return repo;
             } catch (IllegalStateException ex) {
-                plugin.getLogger().severe("Failed to connect to MySQL for player shops; falling back to YAML. " + ex.getMessage());
+                plugin.getLogger().warning("Failed to connect to MySQL for player shops; falling back to YAML. " + ex.getMessage());
             }
         }
         return new YmlPlayerShopRepository(plugin.getDataFolder(), plugin.getLogger());
