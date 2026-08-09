@@ -101,6 +101,27 @@ public abstract class AbstractEzShopsTest {
         }
     }
 
+    /**
+     * Load a minimal plugin with the given name that registers no services.
+     * Used to simulate an environment where a hard dependency (e.g. Vault) is
+     * present but no economy provider is registered.
+     */
+    protected void loadBarePlugin(String name) {
+        try {
+            PluginDescriptionFile description = new PluginDescriptionFile(
+                    name, "1.0", BarePlugin.class.getName());
+            File dataFolder = Files.createTempDirectory("test-plugin-" + name).toFile();
+            BarePlugin plugin = (BarePlugin) getUnsafe().allocateInstance(BarePlugin.class);
+            plugin.init(server, description, dataFolder, new File(""),
+                    BarePlugin.class.getClassLoader(), description,
+                    Logger.getLogger(name));
+            server.getPluginManager().registerLoadedPlugin(plugin);
+            server.getPluginManager().enablePlugin(plugin);
+        } catch (IOException | InstantiationException e) {
+            throw new RuntimeException("Failed to load bare plugin " + name, e);
+        }
+    }
+
     private static Unsafe getUnsafe() {
         try {
             Field field = Unsafe.class.getDeclaredField("theUnsafe");
@@ -108,6 +129,13 @@ public abstract class AbstractEzShopsTest {
             return (Unsafe) field.get(null);
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException("Cannot access Unsafe", e);
+        }
+    }
+
+    public static class BarePlugin extends JavaPlugin {
+        @Override
+        public void onEnable() {
+            // Intentionally registers no services.
         }
     }
 
