@@ -262,6 +262,7 @@ shop:
     cannot-sell-line: "&7This item cannot be sold."
     buy-only-shift-line: "&7Shift-click {bulk_amount}: &a{buy_bulk_total}"
     spawner-display-name: "&f{spawner}"
+    prices-may-change: "&7Prices may change over time."
   categories:
     building:
       name: "&eBuilding Blocks"
@@ -352,9 +353,6 @@ shop:
       icon-lore: "&7Raw lumber and forestry goods."
       menu:
         title: "&aWood & Nature"
-
-  common:
-    prices-may-change: "&7Prices may change over time."
 
   menu:
     main:
