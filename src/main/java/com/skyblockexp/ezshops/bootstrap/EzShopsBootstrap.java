@@ -208,12 +208,17 @@ public final class EzShopsBootstrap {
     private boolean setupEconomy() {
         RegisteredServiceProvider<Economy> registration =
                 plugin.getServer().getServicesManager().getRegistration(Economy.class);
-        if (registration != null) {
-            economy = registration.getProvider();
-            return economy != null;
+        if (registration == null) {
+            plugin.getLogger().severe("No Vault economy provider is registered. Install an economy "
+                    + "plugin that provides a Vault economy service (e.g. EssentialsX, CMI).");
+            return false;
         }
-
-        return plugin.getServer().getPluginManager().getPlugin("Vault") != null;
+        economy = registration.getProvider();
+        if (economy == null) {
+            plugin.getLogger().severe("Vault registered a null economy provider.");
+            return false;
+        }
+        return true;
     }
 
     private void saveDefaultResources() {
