@@ -425,11 +425,22 @@ shop:
         filter-label: "&eFilter: {filter}"
         no-stocks: "&cNo tradable stocks found."
         item-format: "&e{item} &7- &6{price}"
+        item-price-format: "&7Current Price: &6{price}"
+        item-blocked: "&cBlocked"
+        item-frozen: "&bFrozen"
+        no-items: "&cNo items match the current filter."
+      filters:
+        all: "All Items"
+        blocks: "Blocks"
+        items: "Items"
+      pagination:
+        previous: "&aPrevious Page"
+        next: "&aNext Page"
       see-all:
         display-name: "&bSee All Stocks"
         lore:
-          - "&7View all available stocks in the market."
-          - "&eClick to browse everything!"
+          line1: "&7View all available stocks in the market."
+          line2: "&eClick to browse everything!"
       all-stocks:
         title: "&bAll Stocks"
         back-display-name: "&cBack to My Stocks"
@@ -452,38 +463,37 @@ shop:
           item-frozen: "&bFrozen"
           no-items: "&cNo items match the current filter."
 
-  shop:
-    rotations:
-      daily_specials:
-        farming_frenzy:
-          display-name: "&aDaily Special: Farming Frenzy"
-          lore: "&7Staple crops on sale for islands stocking up."
-          menu-title: "&aDaily Special: Farming Frenzy"
-        monster_madness:
-          display-name: "&cDaily Special: Monster Madness"
-          lore: "&7Overstocked mob drops priced to move."
-          menu-title: "&cDaily Special: Monster Madness"
-          harvest_bundle:
-            display-name: "&cRotten Flesh Bundle"
-            note: "&7Fresh from tonight's mob farm cleanup."
-          seasonal_treats:
-            display-name: "&cExplosive Care Package"
-            note: "&7Perfect for crafting rockets or TNT."
-          premium_pick:
-            display-name: "&cBlaze Rod Stash"
-            note: "&7Stockpile rods for brewing stands and fuel."
-        miner_mania:
-          display-name: "&bDaily Special: Miner Mania"
-          lore: "&7Premium ore shipments delivered overnight."
-          menu-title: "&bDaily Special: Miner Mania"
-          harvest_bundle:
-            display-name: "&bBulk Iron Ingot Shipment"
-            note: "&7Perfect for hoppers, anvils, and tools."
-          seasonal_treats:
-            display-name: "&bRefined Gold Ingot Batch"
-            note: "&7Ideal for beacons, apples, and rails."
-          premium_pick:
-            display-name: "&bShimmering Diamond Parcel"
-            note: "&7Treat yourself or resell at a premium."
+  rotations:
+    daily_specials:
+      farming_frenzy:
+        display-name: "&aDaily Special: Farming Frenzy"
+        lore: "&7Staple crops on sale for islands stocking up."
+        menu-title: "&aDaily Special: Farming Frenzy"
+      monster_madness:
+        display-name: "&cDaily Special: Monster Madness"
+        lore: "&7Overstocked mob drops priced to move."
+        menu-title: "&cDaily Special: Monster Madness"
+        harvest_bundle:
+          display-name: "&cRotten Flesh Bundle"
+          note: "&7Fresh from tonight's mob farm cleanup."
+        seasonal_treats:
+          display-name: "&cExplosive Care Package"
+          note: "&7Perfect for crafting rockets or TNT."
+        premium_pick:
+          display-name: "&cBlaze Rod Stash"
+          note: "&7Stockpile rods for brewing stands and fuel."
+      miner_mania:
+        display-name: "&bDaily Special: Miner Mania"
+        lore: "&7Premium ore shipments delivered overnight."
+        menu-title: "&bDaily Special: Miner Mania"
+        harvest_bundle:
+          display-name: "&bBulk Iron Ingot Shipment"
+          note: "&7Perfect for hoppers, anvils, and tools."
+        seasonal_treats:
+          display-name: "&bRefined Gold Ingot Batch"
+          note: "&7Ideal for beacons, apples, and rails."
+        premium_pick:
+          display-name: "&bShimmering Diamond Parcel"
+          note: "&7Treat yourself or resell at a premium."
 hooks:
   player-lacking-permission-message: "&cJe hebt geen toestemming om winkelhook-commando's uit te voeren."
