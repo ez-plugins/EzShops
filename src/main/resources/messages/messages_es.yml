@@ -228,7 +228,6 @@ player-shops:
     price-suffix: " &7por &6{price}"
     out-of-stock-line: "&cAgotado"
   messages:
-  messages:
     menu:
       inventory-title: "&2Configuración de Player Shop"
       confirm-button:
