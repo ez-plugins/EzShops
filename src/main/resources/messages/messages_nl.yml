@@ -248,6 +248,56 @@ player-shops:
       unknown-item:
         singular: "&bItem"
         plural: "&bItems"
+    # Player shop message keys (Dutch)
+    no-permission-create: "&cJe hebt geen toestemming om winkels te maken."
+    sign-requires-chest: "&cWinkelschilden moeten aan een kist bevestigd zijn."
+    enter-quantity: "&cVoer de hoeveelheid in op de tweede regel."
+    quantity-prompt: "&cAantal?"
+    enter-price: "&cVoer de prijs in op de derde regel."
+    price-prompt: "&cPrijs?"
+    using-saved-settings: "&aGebruikt je opgeslagen /playershop instellingen."
+    chest-access-denied: "&cJe kunt de kist van een andere speler niet openen."
+    break-denied: "&cJe kunt de winkel van iemand anders niet slopen."
+    shop-removed: "&eWinkel verwijderd."
+    creation-invalid-configuration: "&cOngeldige winkelconfiguratie."
+    creation-quantity-positive: "&cHoeveelheid moet groter zijn dan nul."
+    creation-quantity-min: "&cHoeveelheid moet minimaal &b{min}&c zijn."
+    creation-quantity-max: "&cHoeveelheid mag niet meer zijn dan &b{max}&c."
+    creation-price-positive: "&cPrijs moet groter zijn dan nul."
+    creation-price-min: "&cPrijs moet minimaal &6{min}&c zijn."
+    creation-price-max: "&cPrijs mag niet meer zijn dan &6{max}&c."
+    creation-sign-in-use: "&cEr is al een winkel op dit bord."
+    creation-chest-unresolved: "&cWinkelkisten konden niet worden gevonden."
+    creation-chest-in-use: "&cEen winkel gebruikt die kist al."
+    creation-chest-inaccessible: "&cKan geen toegang krijgen tot de kist."
+    creation-selected-item-missing: "&cDe kist bevat het geselecteerde item uit /playershop niet."
+    creation-item-missing: "&cPlaats het item dat je wilt verkopen in de kist."
+    creation-insufficient-stock: "&cDe kist bevat niet genoeg items om de winkel te starten."
+    creation-success: "&aWinkel succesvol aangemaakt!"
+    purchase-invalid: "&cOngeldige winkel aankoop poging."
+    purchase-no-permission: "&cJe hebt geen toestemming om bij winkels te kopen."
+    purchase-no-economy: "&cDe winkel is momenteel niet beschikbaar omdat er geen economyleverancier is geconfigureerd."
+    purchase-own-shop: "&cJe kunt niet bij je eigen winkel kopen."
+    purchase-missing-chest: "&cDe winkelkist ontbreekt. De aanbieding is verwijderd."
+    purchase-out-of-stock: "&cDeze winkel is momenteel uitverkocht."
+    purchase-no-space: "&cJe hebt niet genoeg ruimte in je inventaris."
+    purchase-transaction-failed: "&cTransactie mislukt: {error}"
+    purchase-owner-notify: "&b{buyer} &aheeft &b{item}&a gekocht voor &6{price}&a."
+    purchase-buyer-success: "&a{item}&a gekocht van &b{seller}&a voor &6{price}&a."
+    unknown-seller-name: "de verkoper"
+    setup-open: "&aConfigureer je spelerswinkel instellingen en bevestig om op te slaan."
+    setup-item-selected: "&aGeselecteerd &b{item}&a om te verkopen."
+    setup-item-cleared: "&eGeselecteerd item gewist. De inhoud van de kist bepaalt wat de winkel verkoopt."
+    setup-select-item: "&eKlik op een item in je inventaris om te kiezen wat je wilt verkopen."
+    setup-saved: "&aSpelerswinkel instellingen opgeslagen. Plaats een [playershop] bord op een kist om ze te gebruiken."
+    setup-quantity-chat-prompt: "&eTyp de hoeveelheid om te verkopen in de chat, of typ cancel om te stoppen."
+    setup-price-chat-prompt: "&eTyp de prijs in de chat, of typ cancel om te stoppen."
+    setup-chat-cancelled: "&eInvoer geannuleerd. Vorige waarde behouden."
+    setup-chat-invalid-number: "&cVoer een geldig nummer in."
+    setup-quantity-updated: "&aHoeveelheid ingesteld op &b{amount}&a."
+    setup-price-updated: "&aPrijs ingesteld op &6{price}&a."
+    command-players-only: "&cAlleen spelers kunnen dit commando gebruiken."
+    command-disabled: "&cSpelerswinkels zijn momenteel uitgeschakeld."
 
 # English fallback keys added from messages_en.yml to ensure full key coverage
 # (keep existing translations above; these are used when a translation is missing)
@@ -262,6 +312,7 @@ shop:
     cannot-sell-line: "&7This item cannot be sold."
     buy-only-shift-line: "&7Shift-click {bulk_amount}: &a{buy_bulk_total}"
     spawner-display-name: "&f{spawner}"
+    prices-may-change: "&7Prices may change over time."
   categories:
     building:
       name: "&eBuilding Blocks"
@@ -353,9 +404,6 @@ shop:
       menu:
         title: "&aWood & Nature"
 
-  common:
-    prices-may-change: "&7Prices may change over time."
-
   menu:
     main:
       title: "&aServer Shop"
@@ -377,11 +425,22 @@ shop:
         filter-label: "&eFilter: {filter}"
         no-stocks: "&cNo tradable stocks found."
         item-format: "&e{item} &7- &6{price}"
+        item-price-format: "&7Current Price: &6{price}"
+        item-blocked: "&cBlocked"
+        item-frozen: "&bFrozen"
+        no-items: "&cNo items match the current filter."
+      filters:
+        all: "All Items"
+        blocks: "Blocks"
+        items: "Items"
+      pagination:
+        previous: "&aPrevious Page"
+        next: "&aNext Page"
       see-all:
         display-name: "&bSee All Stocks"
         lore:
-          - "&7View all available stocks in the market."
-          - "&eClick to browse everything!"
+          line1: "&7View all available stocks in the market."
+          line2: "&eClick to browse everything!"
       all-stocks:
         title: "&bAll Stocks"
         back-display-name: "&cBack to My Stocks"
@@ -404,88 +463,37 @@ shop:
           item-frozen: "&bFrozen"
           no-items: "&cNo items match the current filter."
 
-  shop:
-    rotations:
-      daily_specials:
-        farming_frenzy:
-          display-name: "&aDaily Special: Farming Frenzy"
-          lore: "&7Staple crops on sale for islands stocking up."
-          menu-title: "&aDaily Special: Farming Frenzy"
-        monster_madness:
-          display-name: "&cDaily Special: Monster Madness"
-          lore: "&7Overstocked mob drops priced to move."
-          menu-title: "&cDaily Special: Monster Madness"
-          harvest_bundle:
-            display-name: "&cRotten Flesh Bundle"
-            note: "&7Fresh from tonight's mob farm cleanup."
-          seasonal_treats:
-            display-name: "&cExplosive Care Package"
-            note: "&7Perfect for crafting rockets or TNT."
-          premium_pick:
-            display-name: "&cBlaze Rod Stash"
-            note: "&7Stockpile rods for brewing stands and fuel."
-        miner_mania:
-          display-name: "&bDaily Special: Miner Mania"
-          lore: "&7Premium ore shipments delivered overnight."
-          menu-title: "&bDaily Special: Miner Mania"
-          harvest_bundle:
-            display-name: "&bBulk Iron Ingot Shipment"
-            note: "&7Perfect for hoppers, anvils, and tools."
-          seasonal_treats:
-            display-name: "&bRefined Gold Ingot Batch"
-            note: "&7Ideal for beacons, apples, and rails."
-          premium_pick:
-            display-name: "&bShimmering Diamond Parcel"
-            note: "&7Treat yourself or resell at a premium."
+  rotations:
+    daily_specials:
+      farming_frenzy:
+        display-name: "&aDaily Special: Farming Frenzy"
+        lore: "&7Staple crops on sale for islands stocking up."
+        menu-title: "&aDaily Special: Farming Frenzy"
+      monster_madness:
+        display-name: "&cDaily Special: Monster Madness"
+        lore: "&7Overstocked mob drops priced to move."
+        menu-title: "&cDaily Special: Monster Madness"
+        harvest_bundle:
+          display-name: "&cRotten Flesh Bundle"
+          note: "&7Fresh from tonight's mob farm cleanup."
+        seasonal_treats:
+          display-name: "&cExplosive Care Package"
+          note: "&7Perfect for crafting rockets or TNT."
+        premium_pick:
+          display-name: "&cBlaze Rod Stash"
+          note: "&7Stockpile rods for brewing stands and fuel."
+      miner_mania:
+        display-name: "&bDaily Special: Miner Mania"
+        lore: "&7Premium ore shipments delivered overnight."
+        menu-title: "&bDaily Special: Miner Mania"
+        harvest_bundle:
+          display-name: "&bBulk Iron Ingot Shipment"
+          note: "&7Perfect for hoppers, anvils, and tools."
+        seasonal_treats:
+          display-name: "&bRefined Gold Ingot Batch"
+          note: "&7Ideal for beacons, apples, and rails."
+        premium_pick:
+          display-name: "&bShimmering Diamond Parcel"
+          note: "&7Treat yourself or resell at a premium."
 hooks:
   player-lacking-permission-message: "&cJe hebt geen toestemming om winkelhook-commando's uit te voeren."
-    # Player shop message keys (Dutch)
-    no-permission-create: "&cJe hebt geen toestemming om winkels te maken."
-    sign-requires-chest: "&cWinkelschilden moeten aan een kist bevestigd zijn."
-    enter-quantity: "&cVoer de hoeveelheid in op de tweede regel."
-    quantity-prompt: "&cAantal?"
-    enter-price: "&cVoer de prijs in op de derde regel."
-    price-prompt: "&cPrijs?"
-    using-saved-settings: "&aGebruikt je opgeslagen /playershop instellingen."
-    chest-access-denied: "&cJe kunt de kist van een andere speler niet openen."
-    break-denied: "&cJe kunt de winkel van iemand anders niet slopen."
-    shop-removed: "&eWinkel verwijderd."
-    creation-invalid-configuration: "&cOngeldige winkelconfiguratie."
-    creation-quantity-positive: "&cHoeveelheid moet groter zijn dan nul."
-    creation-quantity-min: "&cHoeveelheid moet minimaal &b{min}&c zijn."
-    creation-quantity-max: "&cHoeveelheid mag niet meer zijn dan &b{max}&c."
-    creation-price-positive: "&cPrijs moet groter zijn dan nul."
-    creation-price-min: "&cPrijs moet minimaal &6{min}&c zijn."
-    creation-price-max: "&cPrijs mag niet meer zijn dan &6{max}&c."
-    creation-sign-in-use: "&cEr is al een winkel op dit bord."
-    creation-chest-unresolved: "&cWinkelkisten konden niet worden gevonden."
-    creation-chest-in-use: "&cEen winkel gebruikt die kist al."
-    creation-chest-inaccessible: "&cKan geen toegang krijgen tot de kist."
-    creation-selected-item-missing: "&cDe kist bevat het geselecteerde item uit /playershop niet."
-    creation-item-missing: "&cPlaats het item dat je wilt verkopen in de kist."
-    creation-insufficient-stock: "&cDe kist bevat niet genoeg items om de winkel te starten."
-    creation-success: "&aWinkel succesvol aangemaakt!"
-    purchase-invalid: "&cOngeldige winkel aankoop poging."
-    purchase-no-permission: "&cJe hebt geen toestemming om bij winkels te kopen."
-    purchase-no-economy: "&cDe winkel is momenteel niet beschikbaar omdat er geen economyleverancier is geconfigureerd."
-    purchase-own-shop: "&cJe kunt niet bij je eigen winkel kopen."
-    purchase-missing-chest: "&cDe winkelkist ontbreekt. De aanbieding is verwijderd."
-    purchase-out-of-stock: "&cDeze winkel is momenteel uitverkocht."
-    purchase-no-space: "&cJe hebt niet genoeg ruimte in je inventaris."
-    purchase-transaction-failed: "&cTransactie mislukt: {error}"
-    purchase-owner-notify: "&b{buyer} &aheeft &b{item}&a gekocht voor &6{price}&a."
-    purchase-buyer-success: "&a{item}&a gekocht van &b{seller}&a voor &6{price}&a."
-    unknown-seller-name: "de verkoper"
-    setup-open: "&aConfigureer je spelerswinkel instellingen en bevestig om op te slaan."
-    setup-item-selected: "&aGeselecteerd &b{item}&a om te verkopen."
-    setup-item-cleared: "&eGeselecteerd item gewist. De inhoud van de kist bepaalt wat de winkel verkoopt."
-    setup-select-item: "&eKlik op een item in je inventaris om te kiezen wat je wilt verkopen."
-    setup-saved: "&aSpelerswinkel instellingen opgeslagen. Plaats een [playershop] bord op een kist om ze te gebruiken."
-    setup-quantity-chat-prompt: "&eTyp de hoeveelheid om te verkopen in de chat, of typ cancel om te stoppen."
-    setup-price-chat-prompt: "&eTyp de prijs in de chat, of typ cancel om te stoppen."
-    setup-chat-cancelled: "&eInvoer geannuleerd. Vorige waarde behouden."
-    setup-chat-invalid-number: "&cVoer een geldig nummer in."
-    setup-quantity-updated: "&aHoeveelheid ingesteld op &b{amount}&a."
-    setup-price-updated: "&aPrijs ingesteld op &6{price}&a."
-    command-players-only: "&cAlleen spelers kunnen dit commando gebruiken."
-    command-disabled: "&cSpelerswinkels zijn momenteel uitgeschakeld."
