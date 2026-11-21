@@ -14,8 +14,9 @@ public final class MetricsComponent implements PluginComponent {
     public void enable(EzShopsPlugin plugin) {
         try {
             metrics = new Metrics(plugin, 27734);
-        } catch (IllegalStateException ex) {
-            // bStats may not be relocated or available in test environments (MockBukkit).
+        } catch (Throwable ex) {
+            // bStats may not be relocated, unavailable in test environments (MockBukkit),
+            // or partially shaded (NoClassDefFoundError on chart classes) — never break the server.
             plugin.getLogger().warning("bStats not available; skipping metrics: " + ex.getMessage());
             metrics = null;
         }
