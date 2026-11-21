@@ -309,6 +309,7 @@ public class ShopTransactionService {
         recordSolds(player, amount);
         pricingManager.handleSale(material, amount);
         doTreasurySplit(player, totalGain);
+        org.bukkit.Bukkit.getPluginManager().callEvent(new com.skyblockexp.ezshops.event.ShopSaleEvent(player, new ItemStack(material, Math.max(1, amount)), amount, totalGain));
         ShopTransactionResult result = ShopTransactionResult.success(successMessages.sale(amount,
                 ChatColor.AQUA + friendlyMaterialName(material), formatCurrency(totalGain)));
         return result;
@@ -450,6 +451,8 @@ public class ShopTransactionService {
         recordSolds(player, amount);
         pricingManager.handleSale(material, amount);
         doTreasurySplit(player, totalGain);
+        org.bukkit.Bukkit.getPluginManager().callEvent(new com.skyblockexp.ezshops.event.ShopSaleEvent(player,
+                new org.bukkit.inventory.ItemStack(material, Math.max(1, amount)), amount, totalGain));
         return ShopTransactionResult.success(successMessages.sale(amount,
                 ChatColor.AQUA + friendlyMaterialName(material), formatCurrency(totalGain)));
     }
@@ -536,6 +539,7 @@ public class ShopTransactionService {
 
         PlayerInventory inventory = player.getInventory();
         Map<Material, Integer> soldAmounts = new EnumMap<>(Material.class);
+        Map<Material, Double> soldGains = new EnumMap<>(Material.class);
         double totalGain = 0.0D;
 
         for (ItemStack stack : inventory.getStorageContents()) {
@@ -565,7 +569,9 @@ public class ShopTransactionService {
 
             soldAmounts.merge(material, amount, Integer::sum);
             // use estimator so progressive dynamic pricing is accounted for per material
-            totalGain += pricingManager.estimateBulkTotal(material, amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.SELL);
+            double gain = pricingManager.estimateBulkTotal(material, amount, com.skyblockexp.ezshops.gui.shop.ShopTransactionType.SELL);
+            totalGain += gain;
+            soldGains.merge(material, gain, Double::sum);
         }
 
         if (soldAmounts.isEmpty()) {
@@ -613,6 +619,17 @@ public class ShopTransactionService {
         long totalSold = soldAmounts.values().stream().mapToLong(Integer::longValue).sum();
         recordSolds(player, (int) totalSold);
         doTreasurySplit(player, totalGain);
+
+        // Fire per-material sale events so transaction records cover batch sells too
+        // (matches sell(Material) behaviour — command/batch paths all persist).
+        double sellMultiplier = getSellPriceMultiplier(player) * getTeamSellMultiplier(player);
+        for (Map.Entry<Material, Integer> entry : soldAmounts.entrySet()) {
+            Integer amount = entry.getValue();
+            Double gain = soldGains.getOrDefault(entry.getKey(), 0.0D);
+            org.bukkit.Bukkit.getPluginManager().callEvent(new com.skyblockexp.ezshops.event.ShopSaleEvent(player,
+                    new org.bukkit.inventory.ItemStack(entry.getKey(), Math.max(1, amount)), amount,
+                    EconomyUtils.normalizeCurrency(gain * sellMultiplier)));
+        }
 
         String soldItems = formatSoldInventorySummary(soldAmounts);
         return ShopTransactionResult.success(successMessages.sellInventory(soldItems, formatCurrency(totalGain)));

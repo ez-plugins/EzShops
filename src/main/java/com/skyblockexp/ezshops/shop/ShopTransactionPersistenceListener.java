@@ -7,6 +7,7 @@ import com.skyblockexp.ezshops.repository.transaction.TransactionRepository;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
@@ -23,7 +24,9 @@ public final class ShopTransactionPersistenceListener implements Listener {
     public void onSale(ShopSaleEvent ev) {
         try {
             YamlConfiguration c = new YamlConfiguration();
-            c.set("item", ev.getItem());
+            ItemStack item = ev.getItem().clone();
+            item.setAmount(1);
+            c.set("item", item);
             String yaml = c.saveToString();
             TransactionRecord rec = new TransactionRecord(System.currentTimeMillis(), TransactionRecord.Type.SALE,
                     ev.getPlayer() != null ? ev.getPlayer().getUniqueId() : null,
@@ -38,7 +41,9 @@ public final class ShopTransactionPersistenceListener implements Listener {
     public void onPurchase(ShopPurchaseEvent ev) {
         try {
             YamlConfiguration c = new YamlConfiguration();
-            c.set("item", ev.getItem());
+            ItemStack item = ev.getItem().clone();
+            item.setAmount(1);
+            c.set("item", item);
             String yaml = c.saveToString();
             TransactionRecord rec = new TransactionRecord(System.currentTimeMillis(), TransactionRecord.Type.PURCHASE,
                     ev.getPlayer() != null ? ev.getPlayer().getUniqueId() : null,
